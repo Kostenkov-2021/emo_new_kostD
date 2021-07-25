@@ -16,7 +16,7 @@ module.exports.login = async function(req, res) {
       const token = jwt.sign({
         login: candidate.login,
         userId: candidate._id
-      }, keys.jwt, {expiresIn: 60 * 60 * 2})
+      }, keys.jwt, {expiresIn: 60 * 60 * 7})
 
       if (candidate.levelStatus == 3) {
         const day = moment().format('DD')

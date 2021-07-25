@@ -13,6 +13,7 @@ const institutionsRoutes = require('./routes/institutions')
 const botRoutes = require('./routes/bot')
 const eventsRoutes = require('./routes/events')
 const groupRoutes = require('./routes/group')
+const tableRoutes = require('./routes/table')
 const keys = require('./config/keys')
 
 const app = express()
@@ -76,6 +77,7 @@ app.use('/api/people', peopleRoutes)
 app.use('/api/bot', botRoutes)
 app.use('/api/events', eventsRoutes)
 app.use('/api/group', groupRoutes)
+app.use('/api/table', tableRoutes)
 app.use('/api/manage/pictures', picturesRoutes)
 app.use('/api/manage/users', usersRoutes)
 app.use('/api/manage/institutions', institutionsRoutes)
@@ -93,7 +95,6 @@ if (process.env.NODE_ENV === 'production') {
       '.ico'
     ];
    
-    // Catch all other routes and return the angular index file
     app.get('*', (req, res) => {
        if (allowed.includes(path.extname(req.path))) {
           res.sendFile(path.join(__dirname, `client/dist/client/${req.path}`));

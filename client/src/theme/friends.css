@@ -37,121 +37,121 @@
     object-fit: cover;
 }
   
-  .friendName {
-      display: block;
-      margin: auto;
-      margin-top: 2.5%;
-      border-style: solid;
-      border-radius: 10px;
-      border-width: 3px;
-      width: 70%;
-      height: auto;
-      font-size: 0.7cm;
-      text-align: center;
-      padding-top: 0.2cm;
-      padding-bottom: 0.2cm;
-  }
+.friendName {
+  display: block;
+  margin: auto;
+  margin-top: 2.5%;
+  border-style: solid;
+  border-radius: 10px;
+  border-width: 3px;
+  width: 70%;
+  height: auto;
+  font-size: 1.8vw;
+  text-align: center;
+  padding-top: 0.2cm;
+  padding-bottom: 0.2cm;
+}
   
-  .menuIMG {
-    margin-top: 10px;
-    margin-left: 5%;
-    width: 80%;
-    border-style: solid;
-    border-radius: 10px;
-    border-width: 3px;
-  }
+.menuIMG {
+  margin-top: 10px;
+  margin-left: 5%;
+  width: 80%;
+  border-style: solid;
+  border-radius: 10px;
+  border-width: 3px;
+}
 
-  .menuIMG:after {
-    padding-top: 100%;
-  }
+.menuIMG:after {
+  padding-top: 100%;
+}
 
-  .myPhoto {
-    margin-top: 10px;
-    margin-left: 5%;
-    width: 80%;
-  }
+.myPhoto {
+  margin-top: 10px;
+  margin-left: 5%;
+  width: 80%;
+}
 
-  .exit-friends { 
-    border-style: solid;
-    border-radius: 10px;
-    border-width: 3px;
-    margin-top: 10px;
-    margin-left: 5%;
-    width: 80%;
-    height: auto;
-    font-size: 0.7cm;
-    text-align: center;
-    padding-top: 0.1cm;
-    padding-bottom: 0.1cm;
-    margin-bottom: 3px;
+.exit-friends { 
+  border-style: solid;
+  border-radius: 10px;
+  border-width: 3px;
+  margin-top: 10px;
+  margin-left: 5%;
+  width: 80%;
+  height: auto;
+  font-size: 1.57vw;
+  text-align: center;
+  padding-top: 0.1cm;
+  padding-bottom: 0.1cm;
+  margin-bottom: 3px;
 }
 
 .btn {
   border-style: solid;
   border-radius: 10px;
   border-width: 3px;
-  font-size: 0.85cm;
+  font-size: 2.8vw;
   text-align: center;
   padding-top: 0.1cm;
   padding-bottom: 0.1cm;
 }
 
 .button-friends {
-      height: 2cm;      
-  }
-  
-  #seach {
-      background: url('/images/lupa.png'); 
-      background-size: 100% 100%;
-  } 
-  
-  .letter {
-      position: relative;
-      height: 3rem;
-      width: 6rem;
-      background-image: url('/images/letter.png'); 
-      background-size: 100% 100%;
-      display: inline-block;
-      margin-top: -3rem;
-      float: left;
-      left: 10%;
-      border: 3px solid red;
-      border-radius: 7.5px;
-  }
-  
-  .online {
-      position: relative;
-      height: 3rem;
-      width: 6rem; 
-      display: inline-block;
-      float: right;
-      right: 10%;
-      margin-top: -3rem;
-  }
-  .inchat {
-    background-size: 100% 100%;
-    background-image: url('/images/eye.png'); 
-  }
+    height: 2cm;      
+}
 
-  .notincat {
+#seach {
+    background: url('/images/lupa.png'); 
     background-size: 100% 100%;
-    background-image: url('/images/computer.png');
-  }
-  
-  .letterandnoonline{
-       margin-bottom: -1.5cm;
-  }
-  #online_me {
+} 
+
+.letter {
     position: relative;
-    height: 1.3cm;
-    width: 2.6cm;
-    background-image: url('/images/computer.png'); 
+    height: 4vw;
+    width: 8vw;
+    background-image: url('/images/letter.png'); 
     background-size: 100% 100%;
-    display: block;
-    bottom: 5px;
+    display: inline-block;
+    margin-top: -4vw;
+    float: left;
+    left: 10%;
+    border: 3px solid red;
+    border-radius: 7.5px;
+}
+
+.online {
+    position: relative;
+    height: 4vw;
+    width: 8vw; 
+    display: inline-block;
     float: right;
-    left: 3px;
-    margin-top: -1.3cm;
+    right: 10%;
+    margin-top: -4vw;
+}
+.inchat {
+  background-size: 100% 100%;
+  background-image: url('/images/eye.png'); 
+}
+
+.notincat {
+  background-size: 100% 100%;
+  background-image: url('/images/computer.png');
+}
+
+.letterandnoonline{
+      margin-bottom: -4vw;
+}
+#online_me {
+  position: relative;
+  height: 4vw;
+  width: 8vw;
+  background-image: url('/images/computer.png'); 
+  background-size: 100% 100%;
+  display: block;
+  bottom: 5px;
+  float: right;
+  left: 3px;
+  margin-top: -4vw;
 }
 
 .birthday {
@@ -159,8 +159,8 @@
   margin-left: 2rem;
   bottom: 1rem;
   margin-bottom: -4rem;
-  height: 4rem;
-  width: 4rem;
+  height: 4vw;
+  width: 4vw;
   background-size: 100% 100%;
   background-image: url('/images/present.png');
   z-index: 2;

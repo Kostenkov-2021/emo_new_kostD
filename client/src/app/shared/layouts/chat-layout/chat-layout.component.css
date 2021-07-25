@@ -12,11 +12,11 @@
     margin-bottom: 8px;
 }
 .div-img {
-    max-width: 12rem;
+    max-width: 17vw;
     margin: auto;
 }
 .div-audio {
-    width: 14rem;
+    width: 17vw;
 }
 
 #middle {
@@ -34,7 +34,7 @@
     display: table-cell;
     vertical-align: bottom;
     font-family: Arial, sans-serif;
-    font-size: 0.6cm;
+    font-size: 2vw;
  } 
 
  .message {

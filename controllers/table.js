@@ -9,12 +9,14 @@ module.exports.create = async function(req, res) {
           {_id: req.user.id}, 
           {$set: {last_active_at: now}},
           {new: true})
-
+            
         const item = await new Table({
             item: req.body.item,
             parent: req.body.parent,
             src: req.file ? req.file.location : '/images/clean.png'
         })
+
+        console.log(item)
         res.status(200).json(item)
     } catch (e) {
         errorHandler(e)

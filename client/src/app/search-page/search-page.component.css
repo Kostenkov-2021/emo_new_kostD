@@ -1,6 +1,6 @@
 .header {
     width: 79%;
-    height: 0.9cm;
+    height: 1.5cm;
     top: 0;
     position: fixed;
     padding: 0.2cm;
@@ -11,15 +11,15 @@
     margin-top: 1.1cm;
 }
 .inheader {
-    width: 18%;
+    width: 15vw;
     margin-right: 2%;
     height: 0.8cm;
-    font-size: 0.7cm;
+    font-size: 1.7vw;
     margin-bottom: 1cm;
 }
 select.inheader {
-    font-size: 0.5cm;
-    width: 25%;
+    font-size: 1.5vw;
+    width: 10vw;
 }
 .loader {
     height: 1.5cm;

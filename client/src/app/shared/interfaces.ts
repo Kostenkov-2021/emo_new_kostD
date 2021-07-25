@@ -142,7 +142,14 @@ export interface GroupMessage {
   message: string[]
   read?: string[]
   wait?: string[]
-  _id: string
+  _id?: string
   senderName?: string
   senderPhoto?: string
+}
+
+export interface TBItem {
+  item: string
+  parent?: string
+  src?: string
+  _id?: string
 }

@@ -31,6 +31,7 @@ import { GroupLayoutComponent } from './shared/layouts/group-layout/group-layout
 import { GroupPageComponent } from './group-page/group-page.component';
 import { PicturesStartComponent } from './pictures-page/pictures-start/pictures-start.component';
 import { PhotolikesPageComponent } from './photolikes-page/photolikes-page.component';
+import { AdminTablePageComponent } from './admin-table-page/admin-table-page.component';
 
 const routes: Routes = [
   {
@@ -80,7 +81,8 @@ const routes: Routes = [
       {path: 'manage/emo', component: AdminBotPageComponent},
       {path: 'manage/emo/:id', component: AdminBotFormComponent},
       {path: 'manage/events', component: AdminEventsPageComponent},
-      {path: 'manage/events/:id', component: AdminEventsFormComponent}
+      {path: 'manage/events/:id', component: AdminEventsFormComponent},
+      {path: 'manage/table', component: AdminTablePageComponent}
     ]
   }
 ];

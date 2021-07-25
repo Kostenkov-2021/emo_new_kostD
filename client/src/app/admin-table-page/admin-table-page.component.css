@@ -1,0 +1,18 @@
+.container {
+    position: relative;
+    margin: auto;
+    width: 80%;
+}
+
+.itemsBox {
+    display: inline-block;
+    width: 45%;
+    margin-left: 4%;
+    vertical-align: top;
+}
+
+.itemBox {
+    padding: 20px;
+    border: 2px solid #000;
+    margin-bottom: 20px;
+}

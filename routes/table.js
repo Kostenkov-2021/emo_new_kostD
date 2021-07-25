@@ -8,3 +8,5 @@ router.post('/', passport.authenticate('jwt', {session: false}), upload.single('
 router.patch('/:id', passport.authenticate('jwt', {session: false}), upload.single('image'), controller.update)
 router.get('/', passport.authenticate('jwt', {session: false}), controller.getAll)
 router.delete('/:id', passport.authenticate('jwt', {session: false}), controller.remove)
+
+module.exports = router

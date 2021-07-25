@@ -6,7 +6,7 @@ import { UsersService } from '../shared/services/users.service';
 import { EventsService } from '../shared/services/events.service';
 import { Router } from '@angular/router';
 
-const STEP = 40
+const STEP = 20
 
 @Component({
   selector: 'app-admin-events-page',

@@ -1,0 +1,71 @@
+<div *ngIf="session$ | async as session; else loader" class="container">
+    <div *ngIf="!reloading; else loader">
+        <div class="itemsBox">
+            <form class="itemBox" [formGroup]="rootForm" (ngSubmit)="newRootItem()">
+                <p class="dark-{{session.firstColor}}-color">Текст:</p>
+                <input type="text" formControlName="item"> 
+
+                <p class="in_new_user dark-{{session.firstColor}}-color">Картинка:</p>
+                <input type="file" formControlName="img" (change)="onRootFileUpload($event)"><br>
+                <img 
+                class="now_img" 
+                [src]="rootPreview"
+                *ngIf="rootPreview"
+                >
+                <br><br>
+                <button id="create_root_button" type="submit" hidden></button>
+                <label 
+                for="create_root_button" 
+                class="nav-admin form_picture_button middle-{{session.firstColor}}-bg-hover">
+                    Создать 
+                </label> 
+            </form>
+
+            <div *ngFor="let item of rootItems" class="itemBox" (click)="checkItem(item._id)">
+                <p>{{item.item}}</p>
+                <img 
+                class="now_img" 
+                [src]="item.src"
+                *ngIf="item.src"
+                >
+            </div>
+
+        </div>
+
+        <div class="itemsBox" *ngIf="check">
+            <form class="itemBox" [formGroup]="childForm" (ngSubmit)="newChildItem()">
+                <p class="dark-{{session.firstColor}}-color">Текст:</p>
+                <input type="text" formControlName="item"> 
+
+                <p class="in_new_user dark-{{session.firstColor}}-color">Картинка:</p>
+                <input type="file" formControlName="img" (change)="onChildFileUpload($event)"><br>
+                <img 
+                class="now_img" 
+                [src]="childPreview"
+                *ngIf="childPreview"
+                >
+                <br><br>
+                <button id="create_root_button" type="submit" hidden></button>
+                <label 
+                for="create_root_button" 
+                class="nav-admin form_picture_button middle-{{session.firstColor}}-bg-hover">
+                    Создать 
+                </label> 
+            </form>
+
+            <div *ngFor="let item of childItems" class="itemBox">
+                <p>{{item.item}}</p>
+                <img 
+                class="now_img" 
+                [src]="item.src"
+                *ngIf="item.src"
+                >
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<ng-template #loader>
+    <app-loader></app-loader>
+</ng-template>

@@ -34,8 +34,8 @@ export class UsersPageComponent implements OnInit, OnDestroy {
   login: string
   name: string
   surname: string
-  institution: string
-  sex: string
+  institution: string = 'all'
+  sex: string = '0'
   role1: string
   role2: string
   role3: string

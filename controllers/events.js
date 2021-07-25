@@ -256,7 +256,7 @@ module.exports.deletePhoto = async function(req, res) {
 
         const event = await Event.findOneAndUpdate(
             {_id: req.rarams.eventID},
-            {$pull: { photolikes: req.body.deletePhoto }},
+            {$pullAll: { photolikes: req.body.deletePhoto }},
             {new: true}
         )
             

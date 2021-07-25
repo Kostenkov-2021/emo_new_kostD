@@ -16,11 +16,11 @@ import { SocketioService } from '../shared/services/socketio.service';
     trigger('all', [
       state('nosentence', style({
         width: '98%',
-        fontSize: '0.7cm'
+        fontSize: '2vw'
       })),
       state('sentence', style({
         width: '75%',
-        fontSize: '0.525cm'
+        fontSize: '1.5vw'
       })),
       transition('nosentence <=> sentence', animate(500))
     ]),

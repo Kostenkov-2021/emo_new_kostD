@@ -62,23 +62,25 @@
   }
   
   .exit { 
-    height: 2cm;
-    width: 2cm;
+    height: 10vh;
+    width: 10vh;
     bottom: 2%;
     background-image: url('/images/cross.png'); 
     background-size: 100% 100%;
   }
 
   .chat-menu {
-    width: 2cm;
+    width: 12vh;
     float: right;
     height: auto;
   }
 
   .menu-icon {
-    height: 2cm;
-    width: 2cm;
+    height: 10vh;
+    width: 10vh;
     margin-top: 15px;
+    display: block;
+    float: right;
   }
   
   #header {
