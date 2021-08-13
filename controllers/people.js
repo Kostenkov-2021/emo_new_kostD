@@ -25,7 +25,7 @@ module.exports.friends = async function(req, res) {
 
       const withMessageUsers = await User.find(
         { _id: {$ne: req.user.id, $in: NotRead}}, {name: 1, 
-          surname: 1, photo: 1, birthDate: 1, onlineStatus: 1, last_active_at: 1}
+          surname: 1, photo: 1, birthDate: 1, onlineStatus: 1, last_active_at: 1, sex: 1}
       ).lean()
 
       for (let user of withMessageUsers) {
@@ -56,7 +56,7 @@ module.exports.friends = async function(req, res) {
 
       const withoutMessageUsers = await User.find(
         {_id: {$in: read, $ne: req.user.id, $nin: NotRead}}, 
-        {name: 1, surname: 1, photo: 1, birthDate: 1, onlineStatus: 1, last_active_at: 1}
+        {name: 1, surname: 1, photo: 1, birthDate: 1, onlineStatus: 1, last_active_at: 1, sex: 1}
       ).lean()
 
       for (let user of withoutMessageUsers) {
