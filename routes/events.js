@@ -24,7 +24,7 @@ router.patch('/users/:eventID', passport.authenticate('jwt', {session: false}), 
 router.get('/one/:eventID', passport.authenticate('jwt', {session: false}), controller.getByID)
 router.get('/moderators', passport.authenticate('jwt', {session: false}), stop, controller.getForModerators)
 router.get('/bot', passport.authenticate('jwt', {session: false}), controller.getForBot)
-router.get('/', passport.authenticate('jwt', {session: false}), controller.getForEvents)
+router.get('/events/:online', passport.authenticate('jwt', {session: false}), controller.getForEvents)
 router.get('/photolikes', passport.authenticate('jwt', {session: false}), controller.getForPhotolikes)
 router.get('/emo', passport.authenticate('jwt', {session: false}), controller.emoLetters)
 router.get('/pl/:eventID', passport.authenticate('jwt', {session: false}), controller.pushLike)

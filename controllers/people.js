@@ -8,8 +8,16 @@ module.exports.friends = async function(req, res) {
     const now = new Date();
     await User.updateOne(
       {_id: req.user.id}, 
-      {$set: {onlineStatus: '0', last_active_at: now}},
+      {$set: {last_active_at: now}},
       {new: true}) 
+    
+    if (req.params.online == '0') {
+      await User.updateOne(
+        {_id: req.user.id}, 
+        {$set: {onlineStatus: '0'}},
+        {new: true}
+      ) 
+    }
 
       function compareTime(a, b) {
         if (a.time < b.time) {
@@ -83,8 +91,16 @@ module.exports.search = async function(req, res) {
       const now = new Date();
       await User.updateOne(
         {_id: req.user.id}, 
-        {$set: {onlineStatus: '0', last_active_at: now}},
+        {$set: {last_active_at: now}},
         {new: true}) 
+      
+      if (req.params.online == '0') {
+        await User.updateOne(
+          {_id: req.user.id}, 
+          {$set: {onlineStatus: '0'}},
+          {new: true}
+        ) 
+      }
         
       const users = await User
         .find({institution: req.params.instID, $or: [ { levelStatus: { $ne: 4} }, { onlineStatus: { $ne: '-1'} } ], _id: { $ne: req.user._id } }, 

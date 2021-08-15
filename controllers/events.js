@@ -172,8 +172,16 @@ module.exports.getForEvents = async function (req, res) {
         const now = new Date();
         await User.updateOne(
             {_id: req.user.id}, 
-            {$set: {last_active_at: now, onlineStatus: '0'}},
-            {new: true})
+            {$set: {last_active_at: now}},
+            {new: true}) 
+          
+          if (req.params.online == '0') {
+            await User.updateOne(
+              {_id: req.user.id}, 
+              {$set: {onlineStatus: '0'}},
+              {new: true}
+            ) 
+          }
 
         const events = await Event.find({participants: req.user.id, status: 1}).sort({date: 1}).lean()
 
