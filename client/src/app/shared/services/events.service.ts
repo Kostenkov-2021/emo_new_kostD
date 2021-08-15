@@ -33,7 +33,7 @@ export class EventsService {
   }
 
   fetchForEvents(): Observable<Event[]> {
-    return this.http.get<Event[]>(`/api/events`)
+    return this.http.get<Event[]>(`/api/events/events/0`)
   }
 
   fetchForPhotolikes(): Observable<Event[]> {

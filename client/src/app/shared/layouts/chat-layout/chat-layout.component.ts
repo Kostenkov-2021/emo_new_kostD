@@ -37,40 +37,40 @@ export class ChatLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   withAnswers = []
 
   constructor(private loginService: LoginService,
-              private route: ActivatedRoute,
-              private chatService: ChatService,
-              private navService: NavService,
-              private socketService: SocketioService,
-              private router: Router,
-              private resolver: ComponentFactoryResolver) {
-                this.socMesSub = this.socketService.newMessage.subscribe(message => {
-                  if (message.sender == this.id && message.recipient == this.session._id && !this.newMessages.includes(message)) {
-                    this.newMessages.push(message)
-                    for (let src of message.message) {
-                      this.chatService.getAnswers(src).subscribe(answers => {
-                        if (answers.answers.length !== 0 && !this.withAnswers.includes(src)) this.withAnswers.push(src)
-                      },
-                      error => {
-                        console.log(error.error.message)
-                      })
-                    }
-                    setTimeout(scroll, 200)
-                    function scroll() {
-                      document.getElementById('forScroll').scrollIntoView(false)
-                    } 
-                  }
-                })
-                this.socOnlSub = this.socketService.online.subscribe(online => {
-                  if (online == this.session._id && this.session._id != this.id) {
-                    for (let message of this.letters.messagesRead) {
-                      message.read = true
-                    }
-                    for (let message of this.newMessages) {
-                      message.read = true
-                    }
-                  }
-                })
-               }
+    private route: ActivatedRoute,
+    private chatService: ChatService,
+    private navService: NavService,
+    private socketService: SocketioService,
+    private router: Router,
+    private resolver: ComponentFactoryResolver) {
+      this.socMesSub = this.socketService.newMessage.subscribe(message => {
+        if (message.sender == this.id && message.recipient == this.session._id && !this.newMessages.includes(message)) {
+          this.newMessages.push(message)
+          for (let src of message.message) {
+            this.chatService.getAnswers(src).subscribe(answers => {
+              if (answers.answers.length !== 0 && !this.withAnswers.includes(src)) this.withAnswers.push(src)
+            },
+            error => {
+              console.log(error.error.message)
+            })
+          }
+          setTimeout(scroll, 200)
+          function scroll() {
+            document.getElementById('forScroll').scrollIntoView(false)
+          } 
+        }
+      })
+      this.socOnlSub = this.socketService.online.subscribe(online => {
+        if (online == this.session._id && this.session._id != this.id) {
+          for (let message of this.letters.messagesRead) {
+            message.read = true
+          }
+          for (let message of this.newMessages) {
+            message.read = true
+          }
+        }
+      })
+    }
 
   ngOnInit(): void {
     this.reloading = true

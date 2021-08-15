@@ -53,11 +53,11 @@ export class PeopleService {
   }
 
   fetchAll(id: string): Observable<User[]> {
-    return this.http.get<User[]>(`/api/people/search/${id}`)
+    return this.http.get<User[]>(`/api/people/search/${id}/0`)
   }
 
   fetchFriends(): Observable<Users> {
-    return this.http.get<Users>(`/api/people/friends`)
+    return this.http.get<Users>(`/api/people/friends/0`)
   }
 
   getInstitutions(): Observable<Institution[]> {
