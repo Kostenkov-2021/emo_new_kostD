@@ -43,14 +43,14 @@ export class ChatService {
   }
 
   newVote(blob: Blob): Observable<Picture> {
-    let file = new File([blob], 'vote.mp3', {type: 'audio/mp3'}) 
+    let file = new File([blob], 'vote.mp3', {type: 'audio/mpeg3'}) 
     const fd = new FormData()
     fd.append('file', file, file.name)
     return this.http.post<Picture>(`/api/chat/vote/new`, fd)
   }
 
   newVoteInGroup(blob: Blob): Observable<Picture> {
-    let file = new File([blob], 'vote.mp3', {type: 'audio/mp3'}) 
+    let file = new File([blob], 'vote.mp3', {type: 'audio/mpeg3'}) 
     const fd = new FormData()
     fd.append('file', file, file.name)
     return this.http.post<Picture>(`/api/group/vote/new`, fd)

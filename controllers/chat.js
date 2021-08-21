@@ -294,7 +294,7 @@ module.exports.getAnswers = async function (req, res) {
 }
 
 module.exports.vote = async function (req, res) {
-
+  
   const now = new Date();
     await User.updateOne(
       {_id: req.user.id}, 
