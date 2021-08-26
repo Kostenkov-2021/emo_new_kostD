@@ -18,8 +18,13 @@
                                                   <img [src]="message" class="div-img green-cursor" (click)="openZoom(message)">
                                              </div>
 
-                                             <div *ngIf="letter.type[i] == 2" class="div-in-li" appEasyLang>
-                                                  {{message}}
+                                             <div *ngIf="letter.type[i] == 2" class="div-in-li">
+                                                  <div appEasyLang class="div-text">{{message}}</div>
+                                                  <div class="footer-out">
+                                                       <div class="screenread-btn footer green-cursor" 
+                                                       *ngIf="session.screenreader"
+                                                       (click)="screenRead(message)"></div>
+                                                  </div>
                                              </div>
 
                                              <div *ngIf="letter.type[i] == 3" class="div-in-li">
@@ -61,8 +66,13 @@
                                                   </div>
                                              </div>
 
-                                             <div *ngIf="letter.type[i] == 2" class="div-in-li" appEasyLang>
-                                                  {{message}}
+                                             <div *ngIf="letter.type[i] == 2" class="div-in-li">
+                                                  <div appEasyLang class="div-text">{{message}}</div>
+                                                  <div class="footer-out">
+                                                       <div class="screenread-btn footer green-cursor" 
+                                                       *ngIf="session.screenreader"
+                                                       (click)="screenRead(message)"></div>
+                                                  </div>
                                              </div>
 
                                              <div *ngIf="letter.type[i] == 3" class="div-in-li">
@@ -102,8 +112,13 @@
                                                   </div>
                                              </div>
 
-                                             <div *ngIf="letter.type[i] == 2" class="div-in-li" appEasyLang>
-                                                  {{message}}
+                                             <div *ngIf="letter.type[i] == 2" class="div-in-li">
+                                                  <div appEasyLang class="div-text">{{message}}</div>
+                                                  <div class="footer-out">
+                                                       <div class="screenread-btn footer green-cursor" 
+                                                       *ngIf="session.screenreader"
+                                                       (click)="screenRead(message)"></div>
+                                                  </div>
                                              </div>
 
                                              <div *ngIf="letter.type[i] == 3" class="div-in-li">
@@ -137,8 +152,13 @@
                                                   <img [src]="message" class="div-img green-cursor" (click)="openZoom(message)">
                                              </div>
 
-                                             <div *ngIf="letter.type[i] == 2" class="div-in-li" appEasyLang>
-                                                  {{message}}
+                                             <div *ngIf="letter.type[i] == 2" class="div-in-li">
+                                                  <div appEasyLang class="div-text">{{message}}</div>
+                                                  <div class="footer-out">
+                                                       <div class="screenread-btn footer green-cursor" 
+                                                       *ngIf="session.screenreader"
+                                                       (click)="screenRead(message)"></div>
+                                                  </div>
                                              </div>
 
                                              <div *ngIf="letter.type[i] == 3" class="div-in-li">
@@ -181,8 +201,13 @@
                                                   </div>
                                              </div>
 
-                                             <div *ngIf="letter.type[i] == 2" class="div-in-li" appEasyLang>
-                                                  {{message}}
+                                             <div *ngIf="letter.type[i] == 2" class="div-in-li">
+                                                  <div appEasyLang class="div-text">{{message}}</div>
+                                                  <div class="footer-out">
+                                                       <div class="screenread-btn footer green-cursor" 
+                                                       *ngIf="session.screenreader"
+                                                       (click)="screenRead(message)"></div>
+                                                  </div>
                                              </div>
 
                                              <div *ngIf="letter.type[i] == 3" class="div-in-li">

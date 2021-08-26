@@ -39,7 +39,8 @@ export class SettingsPageComponent implements OnInit, OnDestroy {
         defaultColor: new FormControl(this.session.defaultColor),
         birthdays: new FormControl(this.session.birthdays.toString()),
         first: new FormControl(this.session.firstColor.toString()),
-        second: new FormControl(this.session.secondColor.toString())
+        second: new FormControl(this.session.secondColor.toString()),
+        screenreader: new FormControl(this.session.screenreader.toString())
       }) 
       this.reloading = false
     })
@@ -94,7 +95,8 @@ export class SettingsPageComponent implements OnInit, OnDestroy {
       this.form.value.answers,
       this.form.value.change,
       this.form.value.defaultColor,
-      this.form.value.birthdays
+      this.form.value.birthdays,
+      this.form.value.screenreader
     )
     obs$.subscribe(
       user => {

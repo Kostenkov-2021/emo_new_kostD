@@ -29,18 +29,21 @@
                         <div *ngIf="event.description" appEasyLang>
                             {{event.description}}
                         </div>
+                        <div class="screenread-btn footer green-cursor" 
+                        *ngIf="event.description"
+                        (click)="screenRead(event.description)"></div>
                         <div *ngIf="event.wait.includes(session._id) && event.status == 1">
-                            <button class="btn tc dark-{{session.firstColor}}-border green-cursor" 
+                            <button class="btn dark-{{session.firstColor}}-border green-cursor" 
                             type="button" appEasyLang (click)="want(event._id)" id="w-{{event._id}}">
                                 👍Хочу
                             </button>
-                            <button class="btn tc dark-{{session.firstColor}}-border green-cursor" 
+                            <button class="btn dark-{{session.firstColor}}-border green-cursor" 
                             type="button" appEasyLang (click)="not_want(event._id)" id="n-{{event._id}}">
                                 👎Нет
                             </button>
                         </div>
                         <div *ngIf="event.participants.includes(session._id) && event.status == 1">
-                            <button class="btn tc dark-{{session.firstColor}}-border green-cursor" (click)="toGroup(event._id)" type="button" appEasyLang>
+                            <button class="btn dark-{{session.firstColor}}-border green-cursor" (click)="toGroup(event._id)" type="button" appEasyLang>
                                 В чат
                             </button>
                         </div>
@@ -58,21 +61,24 @@
                         <div *ngIf="event.status == 2" appEasyLang>
                             Завершено
                         </div>
-                        <div *ngIf="event.description" appEasyLang>
+                        <div *ngIf="event.description && session.screenreader" appEasyLang>
                             {{event.description}}
                         </div>
+                        <div class="screenread-btn footer green-cursor" 
+                        *ngIf="event.description && session.screenreader"
+                        (click)="screenRead(event.description)"></div>
                         <div *ngIf="event.wait.includes(session._id) && event.status == 1">
-                            <button class="btn tc dark-{{session.firstColor}}-border green-cursor" 
+                            <button class="btn dark-{{session.firstColor}}-border green-cursor" 
                             type="button" appEasyLang (click)="want(event._id)" id="w-{{event._id}}">
                                 👍Хочу
                             </button>
-                            <button class="btn tc dark-{{session.firstColor}}-border green-cursor" 
+                            <button class="btn dark-{{session.firstColor}}-border green-cursor" 
                             type="button" appEasyLang (click)="not_want(event._id)" id="n-{{event._id}}">
                                 👎Нет
                             </button>
                         </div>
                         <div *ngIf="event.participants.includes(session._id) && event.status == 1">
-                            <button class="btn tc dark-{{session.firstColor}}-border green-cursor" type="button" (click)="toGroup(event._id)" appEasyLang>
+                            <button class="btn dark-{{session.firstColor}}-border green-cursor" type="button" (click)="toGroup(event._id)" appEasyLang>
                                 В чат
                             </button>
                         </div>

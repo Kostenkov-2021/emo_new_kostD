@@ -50,7 +50,8 @@ export class UsersService {
       change?: boolean,
       defaultColor?: string,
       birthdays?: boolean,
-      events?: boolean
+      events?: boolean,
+      screenreader?: boolean
     ): Observable<User> {
 
       const fd = new FormData()
@@ -80,6 +81,7 @@ export class UsersService {
       if (defaultColor) fd.append('defaultColor', defaultColor)
       if (birthdays) fd.append('birthdays', birthdays.toString())
       if (events) fd.append('events', events.toString())
+      if (screenreader) fd.append('screenreader', screenreader.toString())
 
       return this.http.post<User>(`/api/manage/users`, fd)
     }
@@ -112,7 +114,8 @@ export class UsersService {
       change?: boolean,
       defaultColor?: string,
       birthdays?: boolean,
-      events?: boolean
+      events?: boolean,
+      screenreader?: boolean
     ): Observable<User> {
 
       const fd = new FormData()
@@ -143,6 +146,7 @@ export class UsersService {
       if (defaultColor) fd.append('defaultColor', defaultColor)
       if (birthdays) fd.append('birthdays', birthdays.toString())
       if (events) fd.append('events', events.toString())
+      if (screenreader) fd.append('screenreader', screenreader.toString())
 
       return this.http.patch<User>(`/api/manage/users/${id}`, fd)
     }

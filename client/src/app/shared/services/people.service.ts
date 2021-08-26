@@ -22,7 +22,8 @@ export class PeopleService {
     answers?: boolean,
     change?: boolean,
     defaultColor?: string,
-    birthdays?: boolean
+    birthdays?: boolean,
+    screenreader?: boolean
   ): Observable<User> {
     let obj = {
       online,
@@ -36,7 +37,8 @@ export class PeopleService {
       answers,
       change,
       defaultColor,
-      birthdays
+      birthdays,
+      screenreader
     }
     let json = JSON.stringify(obj)
     const myHeaders = new HttpHeaders().set('Content-Type', 'application/json')

@@ -150,6 +150,17 @@
             <input name="birthdays" type="radio" value="false" formControlName="birthdays" hidden>
             <div class="no green-cursor"></div>
         </label>
+
+        <p class="pNotAdmin" appEasyLang>Озвучка текстовых сообщений:</p>
+        <label class="radio" [ngClass]="{checked: form.value.screenreader == 'true'}">
+            <input name="screenreader" type="radio" value="true" formControlName="screenreader" hidden> 
+            <div class="yes green-cursor"></div> 
+        </label>
+        <div class="radio_yes"></div>
+        <label class="radio" [ngClass]="{checked: form.value.screenreader == 'false'}">
+            <input name="screenreader" type="radio" value="false" formControlName="screenreader" hidden>
+            <div class="no green-cursor"></div>
+        </label>
     </div>
     <button class="btn tc dark-{{session.firstColor}}-border green-cursor" type="submit" *ngIf="session.setting != 0" appEasyLang>
         Сохранить

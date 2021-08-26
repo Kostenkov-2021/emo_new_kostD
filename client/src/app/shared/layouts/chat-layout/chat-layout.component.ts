@@ -157,6 +157,12 @@ export class ChatLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     if (result) this.zoom = false
   }
 
+  screenRead(text) {
+    let url = this.chatService.readText(text)
+    let audio = new Audio(url)
+    audio.play()
+  }
+
   openDeleteMessage(data) {
     this.deleteID = data
     this.deleteMessage = true

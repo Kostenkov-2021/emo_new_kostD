@@ -104,7 +104,8 @@ export class UsersFormComponent implements OnInit, OnDestroy {
   
         day: new FormControl('0'),
         month: new FormControl('0'),
-        year: new FormControl('', [Validators.minLength(4), Validators.maxLength(4)])
+        year: new FormControl('', [Validators.minLength(4), Validators.maxLength(4)]),
+        screenreader: new FormControl('false')
       })
 
       this.imagePreview = '/images/boy.png'
@@ -150,7 +151,8 @@ export class UsersFormComponent implements OnInit, OnDestroy {
               birthdays: user.birthdays.toString(),
               first: user.firstColor.toString(),
               second: user.secondColor.toString(),
-              events: user.events.toString()
+              events: user.events.toString(),
+              screenreader: user.screenreader.toString()
             })
             this.startL = user.login
             this.imagePreview = user.photo
@@ -265,7 +267,8 @@ export class UsersFormComponent implements OnInit, OnDestroy {
           this.form.value.change,
           this.form.value.defaultColor,
           this.form.value.birthdays,
-          this.form.value.events
+          this.form.value.events,
+          this.form.value.screenreader
         )
       } else {
         this.endL = this.form.value.login
@@ -301,7 +304,8 @@ export class UsersFormComponent implements OnInit, OnDestroy {
           this.form.value.change,
           this.form.value.defaultColor,
           this.form.value.birthdays,
-          this.form.value.events
+          this.form.value.events,
+          this.form.value.screenreader
         )
       }
       obs$.subscribe(

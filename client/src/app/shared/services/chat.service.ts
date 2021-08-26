@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { User, PictureAndFolder, MessageFromServer, Message, Messages, Answers, Picture, GroupMessage } from '../interfaces';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import * as googleTTS from 'google-tts-api';
 
 @Injectable({
   providedIn: 'root'
@@ -91,5 +92,14 @@ export class ChatService {
     let json = JSON.stringify(fd)
     const myHeaders = new HttpHeaders().set('Content-Type', 'application/json')
     return this.http.post<Answers>(`/api/chat/answers/new`, json, {headers: myHeaders})
+  }
+
+  readText(text: string): string {
+    const url = googleTTS.getAudioUrl(text, {
+      lang: 'ru',
+      slow: false,
+      host: 'https://translate.google.com',
+    });
+    return url
   }
 }

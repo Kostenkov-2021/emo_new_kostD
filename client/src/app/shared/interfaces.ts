@@ -26,6 +26,7 @@ export interface User {
   last_active_at?: Date
   active?: boolean
   events?: boolean
+  screenreader?: boolean
 }
 
 export interface Users {

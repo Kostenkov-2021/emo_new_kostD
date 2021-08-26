@@ -100,6 +100,10 @@ const userSchema = new Schema({
     type: Boolean,
     default: true
   },
+  screenreader: {
+    type: Boolean,
+    default: false
+  },
   events: {          // мероприятия
     type: Boolean,
     default: true

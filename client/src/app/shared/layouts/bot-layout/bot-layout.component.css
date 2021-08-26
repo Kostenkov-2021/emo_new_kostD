@@ -59,7 +59,7 @@
     display: table-cell;
     vertical-align: bottom;
     font-family: Arial, sans-serif;
-    font-size: 2vw;
+    font-size: 1.7vw;
  } 
 
  .btn {
@@ -71,4 +71,11 @@
     width: 100%;
     clear: both;
     height: 1px;
+}
+
+.screenread-btn {
+    background-image: url('/images/screenreader.png');
+    background-size: 100% 100%;
+    width: 3vw;
+    height: 3vw;
 }

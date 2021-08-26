@@ -4,6 +4,7 @@ import { User, Event } from '../../interfaces';
 import { LoginService } from '../../services/login.service';
 import { EventsService } from '../../services/events.service';
 import { Router } from '@angular/router';
+import { ChatService } from '../../services/chat.service';
 
 @Component({
   selector: 'app-bot-layout',
@@ -27,6 +28,7 @@ export class BotLayoutComponent implements OnInit, OnDestroy {
 
   constructor(private loginService: LoginService, 
               private eventsService: EventsService,
+              private chatService: ChatService,
               private router: Router) { }
 
   ngOnInit(): void {
@@ -55,6 +57,12 @@ export class BotLayoutComponent implements OnInit, OnDestroy {
     function scroll() {
       document.getElementById('forScroll').scrollIntoView(false)
     }    
+  }
+
+  screenRead(text) {
+    let url = this.chatService.readText(text)
+    let audio = new Audio(url)
+    audio.play()
   }
 
   openZoom(src) {
