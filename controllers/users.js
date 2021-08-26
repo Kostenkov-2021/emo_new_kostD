@@ -252,3 +252,15 @@ module.exports.createManyUsers = async function (req, res) {
   }
 }
 */
+
+// module.exports.onfunction = async function(req, res) {
+//   try {
+//     await User.updateMany(
+//       {}, 
+//       {$set: req.body},
+//       {new: true})
+//       res.status(200).json({message: "Обновлено"})
+//   } catch (e) {
+//     errorHandler(res, e)
+//   }
+// }

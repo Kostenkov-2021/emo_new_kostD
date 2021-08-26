@@ -18,5 +18,6 @@ router.get('/', passport.authenticate('jwt', {session: false}), stop, controller
 router.get('/:userID', passport.authenticate('jwt', {session: false}), stop, controller.getByUserID)
 router.delete('/:userID', passport.authenticate('jwt', {session: false}), stop, controller.remove)
 //router.post('/createmany', controller.createManyUsers)
+// router.post('/onfunction', controller.onfunction)
 
 module.exports = router
