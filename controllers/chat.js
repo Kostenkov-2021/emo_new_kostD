@@ -5,16 +5,13 @@ const Picture = require('../models/Picture')
 
 module.exports.getAllMessage = async function(req, res) {   
     try {
-      console.log('req', req.headers)
       const friend = req.params.userID
       const me = req.user.id
       const now = new Date();
-      console.log(1, new Date())
       await User.updateOne(
         {_id: req.user.id}, 
         {$set: {onlineStatus: friend, last_active_at: now}},
         {new: true})
-        console.log(2, new Date())
       const messagesRead = await Message
         .find({ $or: [
             {sender: me, recipient: friend},
@@ -30,7 +27,7 @@ module.exports.getAllMessage = async function(req, res) {
         .sort({time: 1})
 
       const message = {messagesRead, messagesNotRead}
-      console.log(3, new Date())
+      
       await Message.updateMany(
         {sender: friend, recipient: me}, 
         {$set: {read: true}},
