@@ -49,6 +49,7 @@ import { EventInGroupFormComponent } from './group-page/event-in-group-form/even
 import { MoneyTableComponent } from './group-page/money-table/money-table.component';
 import { LikesComponent } from './shared/components/likes/likes.component';
 import { AdminTablePageComponent } from './admin-table-page/admin-table-page.component';
+import { PrivacyComponent } from './privacy/privacy.component';
 
 @NgModule({
   declarations: [
@@ -93,7 +94,8 @@ import { AdminTablePageComponent } from './admin-table-page/admin-table-page.com
     EventInGroupFormComponent,
     MoneyTableComponent,
     LikesComponent,
-    AdminTablePageComponent
+    AdminTablePageComponent,
+    PrivacyComponent
   ],
   imports: [
     BrowserModule,

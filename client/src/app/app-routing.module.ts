@@ -32,12 +32,14 @@ import { GroupPageComponent } from './group-page/group-page.component';
 import { PicturesStartComponent } from './pictures-page/pictures-start/pictures-start.component';
 import { PhotolikesPageComponent } from './photolikes-page/photolikes-page.component';
 import { AdminTablePageComponent } from './admin-table-page/admin-table-page.component';
+import { PrivacyComponent } from './privacy/privacy.component';
 
 const routes: Routes = [
   {
     path: '', component: LoginLayoutComponent, children: [
       {path: '', redirectTo: '/login', pathMatch: 'full'},
-      {path: 'login', component: LoginPageComponent}
+      {path: 'login', component: LoginPageComponent},
+      {path: 'privacy', component: PrivacyComponent}
     ]
   },
   {
