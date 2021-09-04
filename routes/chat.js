@@ -4,12 +4,7 @@ const controller = require('../controllers/chat')
 const upload = require('../middleware/uploadAllTypes.js')
 const router = express.Router()
 
-const log = (req, res, next) =>  {
-    console.log('MESSAGE', new Date())
-    next();   
-  }
-
-router.get('/message/:userID', log, passport.authenticate('jwt', {session: false}), controller.getAllMessage)
+router.get('/message/:userID', passport.authenticate('jwt', {session: false}), controller.getAllMessage)
 router.get('/:parentID', passport.authenticate('jwt', {session: false}), controller.getAllPictures)
 router.post('/:friend', passport.authenticate('jwt', {session: false}), controller.send)
 router.delete('/:messageID', passport.authenticate('jwt', {session: false}), controller.remove)
