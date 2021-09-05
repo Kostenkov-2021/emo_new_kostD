@@ -15,7 +15,7 @@
         <br> <br>
         <a class="nav-admin form_picture_button middle-{{session.firstColor}}-bg-hover" [routerLink]="['/manage/emo']">Назад</a>
 
-        <button id="submit_button" type="submit" (click)="onSubmit()" hidden></button>
+        <button id="submit_button" type="submit" (click)="onSubmit()" hidden [disabled]="form.disabled || form.invalid"></button>
         <label for="submit_button" class="new_user_button middle-{{session.firstColor}}-bg-hover">Сохранить</label>
     </form>
 </div>

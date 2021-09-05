@@ -1,65 +1,104 @@
 <div *ngIf="session$ | async as session; else loader" class="container">
     <div *ngIf="!reloading; else loader">
-        <div class="itemsBox">
-            <form class="itemBox" [formGroup]="rootForm" (ngSubmit)="newRootItem()">
+        <div class="itemsBox" id="rootScroll">
+            <form class="itemBox dark-{{session.firstColor}}-border" [formGroup]="rootForm" (ngSubmit)="newRootItem()">
                 <p class="dark-{{session.firstColor}}-color">Текст:</p>
                 <input type="text" formControlName="item"> 
 
                 <p class="in_new_user dark-{{session.firstColor}}-color">Картинка:</p>
-                <input type="file" formControlName="img" (change)="onRootFileUpload($event)"><br>
+                <input type="file" (change)="onRootFileUpload($event)"><br>
                 <img 
                 class="now_img" 
                 [src]="rootPreview"
-                *ngIf="rootPreview"
+                *ngIf="rootPreview && rootPreview !== '/images/clean.png'"
                 >
                 <br><br>
-                <button id="create_root_button" type="submit" hidden></button>
+                <button id="create_root_button" type="submit" hidden [disabled]="rootForm.disabled || rootForm.invalid"></button>
                 <label 
                 for="create_root_button" 
-                class="nav-admin form_picture_button middle-{{session.firstColor}}-bg-hover">
-                    Создать 
+                class="nav-admin form_picture_button middle-{{session.firstColor}}-bg-hover"
+                >
+                {{rootEditId ? 'Сохранить' : 'Создать' }}
                 </label> 
             </form>
 
-            <div *ngFor="let item of rootItems" class="itemBox" (click)="checkItem(item._id)">
+            <div *ngFor="let item of rootItems" class="itemBox dark-{{session.firstColor}}-border" (click)="checkItem(item._id)" 
+            [ngClass]="{width_3: item._id !== check, width_5: item._id === check}">
+                
                 <p>{{item.item}}</p>
                 <img 
                 class="now_img" 
                 [src]="item.src"
-                *ngIf="item.src"
-                >
+                *ngIf="item.src && item.src !== '/images/clean.png'"
+                > <br>
+                <button [id]="item._id+'edit'" type="button" hidden (click)="editRoot(item)"></button>
+                <div class="button_inline_blok">
+                    <label 
+                    [for]="item._id+'edit'" 
+                    class="nav-admin form_picture_button middle-{{session.firstColor}}-bg-hover"
+                    >
+                        Peдактировать 
+                    </label> 
+                </div>
+                <button [id]="item._id+'delete'" type="button" hidden (click)="deleteRoot(item._id, item.item)"></button>
+                <div class="button_inline_blok">
+                    <label 
+                    [for]="item._id+'delete'"  
+                    class="nav-admin form_picture_button middle-{{session.firstColor}}-bg-hover"
+                    >
+                        Удалить 
+                    </label> 
+                </div>
             </div>
 
         </div>
 
-        <div class="itemsBox" *ngIf="check">
-            <form class="itemBox" [formGroup]="childForm" (ngSubmit)="newChildItem()">
+        <div class="itemsBox" *ngIf="check" id="childScroll">
+            <form class="itemBox dark-{{session.firstColor}}-border" [formGroup]="childForm" (ngSubmit)="newChildItem()">
                 <p class="dark-{{session.firstColor}}-color">Текст:</p>
                 <input type="text" formControlName="item"> 
 
                 <p class="in_new_user dark-{{session.firstColor}}-color">Картинка:</p>
-                <input type="file" formControlName="img" (change)="onChildFileUpload($event)"><br>
+                <input type="file" (change)="onChildFileUpload($event)"><br>
                 <img 
                 class="now_img" 
                 [src]="childPreview"
-                *ngIf="childPreview"
+                *ngIf="childPreview && childPreview !== '/images/clean.png'"
                 >
                 <br><br>
-                <button id="create_root_button" type="submit" hidden></button>
+                <button id="create_child_button" type="submit" hidden [disabled]="childForm.disabled || childForm.invalid"></button>
                 <label 
-                for="create_root_button" 
+                for="create_child_button" 
                 class="nav-admin form_picture_button middle-{{session.firstColor}}-bg-hover">
-                    Создать 
+                {{childEditId ? 'Сохранить' : 'Создать' }}
                 </label> 
             </form>
 
-            <div *ngFor="let item of childItems" class="itemBox">
+            <div *ngFor="let item of childItems" class="itemBox dark-{{session.firstColor}}-border">
                 <p>{{item.item}}</p>
                 <img 
                 class="now_img" 
                 [src]="item.src"
-                *ngIf="item.src"
-                >
+                *ngIf="item.src && item.src !== '/images/clean.png'"
+                ><br>
+                <button [id]="item._id+'edit'" type="button" hidden (click)="editChild(item)"></button>
+                <div class="button_inline_blok">
+                    <label 
+                    [for]="item._id+'edit'" 
+                    class="nav-admin form_picture_button middle-{{session.firstColor}}-bg-hover"
+                    >
+                        Peдактировать 
+                    </label> 
+                </div>
+                <button [id]="item._id+'delete'" type="button" hidden (click)="deleteChild(item._id, item.item)"></button>
+                <div class="button_inline_blok">
+                    <label 
+                    [for]="item._id+'delete'"  
+                    class="nav-admin form_picture_button middle-{{session.firstColor}}-bg-hover"
+                    >
+                        Удалить 
+                    </label> 
+                </div>
             </div>
 
         </div>

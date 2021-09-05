@@ -14,9 +14,8 @@ module.exports.create = async function(req, res) {
             item: req.body.item,
             parent: req.body.parent,
             src: req.file ? req.file.location : '/images/clean.png'
-        })
+        }).save()
 
-        console.log(item)
         res.status(200).json(item)
     } catch (e) {
         errorHandler(e)

@@ -13,6 +13,20 @@
 
 .itemBox {
     padding: 20px;
-    border: 2px solid #000;
+    border-style: solid;
     margin-bottom: 20px;
+    border-radius: 10px;
+    border-width: 2px;
+}
+
+.width_5 {
+    border-width: 4px;
+}
+
+.width_3 {
+    border-width: 2px;
+}
+
+.button_inline_blok {
+    display: inline-block;
 }

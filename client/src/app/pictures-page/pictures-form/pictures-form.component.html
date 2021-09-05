@@ -161,7 +161,7 @@ class="dark-{{session.firstColor}}-border"
         Сохранить
     </label>
 
-    <button id="delete_button" type="button" hidden></button>
+    <button id="delete_button" type="button" hidden [disabled]="form.disabled || form.invalid"></button>
     <label 
     *ngIf="(whatDo === 'edittrue' || whatDo === 'editfalse') && !system && session.levelStatus == 1"
     for="delete_button" 

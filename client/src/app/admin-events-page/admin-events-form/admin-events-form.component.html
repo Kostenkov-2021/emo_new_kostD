@@ -130,7 +130,7 @@ class="dark-{{session.firstColor}}-border"
             Отклонить
         </label>
 
-        <button id="submit_button" type="button" hidden></button>
+        <button id="submit_button" type="button" hidden [disabled]="form.disabled || form.invalid"></button>
         <label 
         for="submit_button" 
         class="new_user_button form_picture_button middle-{{session.firstColor}}-bg-hover"

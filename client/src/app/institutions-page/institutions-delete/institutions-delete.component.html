@@ -3,7 +3,7 @@ class="institution dark-{{session.firstColor}}-border"
 [formGroup]="form" 
 (ngSubmit)="onSubmit()"
 *ngIf="session$ | async as session; else loader">
-    <button id="submit_button" type="submit" hidden></button>
+    <button id="submit_button" type="submit" hidden [disabled]="form.disabled || form.invalid"></button>
     <label for="submit_button" class="inst-edit inst-right middle-{{session.firstColor}}-bg-hover">Удалить</label>
 
     <a class="inst-edit inst-right middle-{{session.firstColor}}-bg-hover" routerLink="/manage/institutions">Назад</a>

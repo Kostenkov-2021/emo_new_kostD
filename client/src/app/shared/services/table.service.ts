@@ -27,7 +27,7 @@ export class TableService {
     if (text) fd.append('item', text)
     if (image) fd.append('image', image, image.name)
     if (parent) fd.append('parent', parent)
-    return this.http.post<TBItem>(`/api/table/${id}`, fd)
+    return this.http.patch<TBItem>(`/api/table/${id}`, fd)
   }
 
   delete(id: string): Observable<MessageFromServer> {
