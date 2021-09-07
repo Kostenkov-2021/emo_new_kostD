@@ -50,12 +50,16 @@ export class EventsService {
     chatImage?: File,
     cost?: number,
     chatTitle?: string,
-    photolikes?: File[]
+    photolikes?: File[],
+    institutions?: string[],
+    p_status?: boolean
     ): Observable<Event> {
       const fd = new FormData()
       if (moderator) fd.append('moderator', moderator)
       if (status) fd.append('status', status.toString())
       if (wait) fd.append('wait', wait.toString())
+      if (institutions) fd.append('institutions', institutions.toString())
+      if (p_status) fd.append('p_status', p_status.toString())
       if (date) fd.append('date', date.toString().replace('T',' ').replace('-','/'))
       if (description) fd.append('description', description)
       if (address) fd.append('address', address)

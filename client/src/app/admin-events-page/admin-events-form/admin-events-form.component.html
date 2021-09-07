@@ -34,50 +34,86 @@ class="dark-{{session.firstColor}}-border"
         <input type="datetime-local" [min]="now" formControlName="date" *ngIf="queryS == 'edit'"> 
         <div class="description-input"  *ngIf="queryS == 'view'">{{event.date | date:"dd.MM.yyyy HH:mm"}}</div> <br><br>
 
-        <div *ngIf="event.status != 0 && event.status != -1">
-            <p class="dark-{{session.firstColor}}-color">Показывать:</p>
-            <select formControlName="whomShow" (change)="changeWhomShow()" *ngIf="event.status != 0 && event.status != -1">
-                <option value="0">Не ответили на запрос</option>
-                <option value="1">Отказались</option>
-                <option value="2">Учавствуют</option>
+        <p class="dark-{{session.firstColor}}-color">Уровень мероприятия:</p>
+        <div *ngIf="event.status == 0 && queryS == 'edit'">
+            <input type="radio" formControlName="p_status" value="0"> Публичное мероприятие. 
+            Мероприятие будет доступно всем пользователям, в том числе созданным после рассылки. 
+            Увидеть мероприятие также смогут незарегистрированные пользователи. <br>
+            <input type="radio" formControlName="p_status" value="1"> Пригласить определённые учреждения. 
+            Мероприятие будет доступно всем пользователям из выбранных учреждений, в том числе созданным после рассылки. <br>
+            <input type="radio" formControlName="p_status" value="2"> Пригласить определённых пользователей. <br><br>
+        </div>
+        <div *ngIf="event.status != 0 || queryS == 'view'">
+            <p *ngIf="form.value.p_status == '0'"> Публичное мероприятие. 
+            Мероприятие доступно всем пользователям, в том числе созданным после рассылки. 
+            Увидеть мероприятие также могут незарегистрированные пользователи.</p>
+            <p *ngIf="form.value.p_status == '1'"> Приглашены определённые учреждения. 
+            Мероприятие доступно всем пользователям из выбранных учреждений, в том числе созданным после рассылки. </p>
+            <p *ngIf="form.value.p_status == '2'"> Приглашены определённые пользователи.</p> <br>
+        </div>
+
+        <div *ngIf="form.value.p_status == 1">
+            <div *ngIf="event.status == 0 && queryS == 'edit' && institutions"> 
+                <p class="dark-{{session.firstColor}}-color">Выберите учреждения:</p>
+                <button (click)="checkAll_1()" type="button">Выбрать все</button>
+                <button (click)="checkNobody_1()" type="button">Отменить все</button>
+                <div *ngFor="let institution of institutions">
+                    <button 
+                    (click)="checkInst(institution._id)" 
+                    [ngClass]="{green_button: wait_inst.includes(institution._id), red_button: !wait_inst.includes(institution._id)}" 
+                    type="button">{{wait_inst.includes(institution._id) ? 'Отменить' : 'Выбрать'}}
+                    </button>
+                    {{institution.name}} 
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="form.value.p_status == 2">
+            <div *ngIf="event.status != 0 && event.status != -1">
+                <p class="dark-{{session.firstColor}}-color">Показывать:</p>
+                <select formControlName="whomShow" (change)="changeWhomShow()" *ngIf="event.status != 0 && event.status != -1">
+                    <option value="0">Не ответили на запрос</option>
+                    <option value="1">Отказались</option>
+                    <option value="2">Учавствуют</option>
+                </select>
+                <br><br>
+            </div>
+            <div *ngIf="event.status == 0 || event.status == -1">
+                <p class="dark-{{session.firstColor}}-color">Кому рассылать:</p>   
+            </div>
+            <p class="dark-{{session.firstColor}}-color">Учреждение:</p>
+            <select *ngIf="institutions" formControlName="institution" (change)="changeInstitution()">
+                <option 
+                *ngFor="let institution of institutions" 
+                value="{{institution._id}}"
+                [selected]="(institution._id == session.institution)"
+                >
+                {{institution.name}}</option>
             </select>
-            <br><br>
-        </div>
-        <div *ngIf="event.status == 0 || event.status == -1">
-            <p class="dark-{{session.firstColor}}-color">Кому рассылать:</p>   
-        </div>
-        <p class="dark-{{session.firstColor}}-color">Учреждение:</p>
-        <select *ngIf="institutions$ | async as institutions" formControlName="institution" (change)="changeInstitution()">
-            <option 
-            *ngFor="let institution of institutions" 
-            value="{{institution._id}}"
-            [selected]="(institution._id == session.institution)"
-            >
-            {{institution.name}}</option>
-        </select>
-       
-        <div *ngIf="users">
-            <div *ngIf="event.status == 0 && queryS == 'edit'"> 
-                <button (click)="checkAll()" type="button">Выбрать всех</button>
-                <button (click)="checkNobody()" type="button">Отменить всех</button>
-                <div *ngFor="let user of users">
-                    <button (click)="checkUser(user._id)" [ngClass]="{green_button: wait.includes(user._id), red_button: !wait.includes(user._id)}" type="button">{{wait.includes(user._id) ? 'Отменить' : 'Выбрать'}}</button>
-                    {{user.name}} {{user.surname}}, {{user.login}} 
+        
+            <div *ngIf="users">
+                <div *ngIf="event.status == 0 && queryS == 'edit'"> 
+                    <button (click)="checkAll()" type="button">Выбрать всех</button>
+                    <button (click)="checkNobody()" type="button">Отменить всех</button>
+                    <div *ngFor="let user of users">
+                        <button (click)="checkUser(user._id)" [ngClass]="{green_button: wait.includes(user._id), red_button: !wait.includes(user._id)}" type="button">{{wait.includes(user._id) ? 'Отменить' : 'Выбрать'}}</button>
+                        {{user.name}} {{user.surname}}, {{user.login}} 
+                    </div>
                 </div>
-            </div>
-            <div *ngIf="(event.status != 0 || queryS == 'view')&& whomShow == 0"> 
-                <div *ngFor="let user of users">    
-                    <div *ngIf="wait.includes(user._id)">{{user.name}} {{user.surname}}, {{user.login}} </div>
+                <div *ngIf="(event.status != 0 || queryS == 'view')&& whomShow == 0"> 
+                    <div *ngFor="let user of users">    
+                        <div *ngIf="wait.includes(user._id)">{{user.name}} {{user.surname}}, {{user.login}} </div>
+                    </div>
                 </div>
-            </div>
-            <div *ngIf="whomShow == 1"> 
-                <div *ngFor="let user of users">    
-                    <div *ngIf="event.hide.includes(user._id)">{{user.name}} {{user.surname}}, {{user.login}} </div>
+                <div *ngIf="whomShow == 1"> 
+                    <div *ngFor="let user of users">    
+                        <div *ngIf="event.hide.includes(user._id)">{{user.name}} {{user.surname}}, {{user.login}} </div>
+                    </div>
                 </div>
-            </div>
-            <div *ngIf="whomShow == 2"> 
-                <div *ngFor="let user of users">    
-                    <div *ngIf="event.participants.includes(user._id)">{{user.name}} {{user.surname}}, {{user.login}} </div>
+                <div *ngIf="whomShow == 2"> 
+                    <div *ngFor="let user of users">    
+                        <div *ngIf="event.participants.includes(user._id)">{{user.name}} {{user.surname}}, {{user.login}} </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -99,6 +135,8 @@ class="dark-{{session.firstColor}}-border"
             class="phl_img" 
             [src]="photo"> 
         </div> <br> <br>
+        <p class="dark-{{session.firstColor}}-color" *ngIf="event.status == 0">ПЕРЕД РАССЫЛКОЙ СОХРАНИТЕ МЕРОПРИЯТИЕ!</p>
+        <br><br>
 
         <a 
         class="nav-admin form_picture_button middle-{{session.firstColor}}-bg-hover" 

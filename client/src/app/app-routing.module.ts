@@ -33,6 +33,7 @@ import { PicturesStartComponent } from './pictures-page/pictures-start/pictures-
 import { PhotolikesPageComponent } from './photolikes-page/photolikes-page.component';
 import { AdminTablePageComponent } from './admin-table-page/admin-table-page.component';
 import { PrivacyComponent } from './privacy/privacy.component';
+import { MoneyTableComponent } from './group-page/money-table/money-table.component';
 
 const routes: Routes = [
   {
@@ -63,6 +64,12 @@ const routes: Routes = [
       {path: 'group', redirectTo: '/people/events', pathMatch: 'full'},
       {path: 'group/:id', component: GroupPageComponent}
     ]
+  },
+  {
+    path: 'table', redirectTo: '/people/events', pathMatch: 'full', canActivate: [AuthGuard]
+  },
+  {
+    path: 'table/:id', component: MoneyTableComponent, canActivate: [AuthGuard]
   },
   {
     path: '', component: BotLayoutComponent, canActivate: [AuthGuard], children: [

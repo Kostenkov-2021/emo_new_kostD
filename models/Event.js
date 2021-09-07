@@ -15,6 +15,13 @@ const eventSchema = new Schema({
     ref: 'users',
     type: [Schema.Types.ObjectId]
   },
+  institutions: {     //учреждения
+    ref: 'institutions',
+    type: [Schema.Types.ObjectId]
+  },
+  p_status: {     //публичное
+    type: Boolean
+  },
   hide: {           //отказались участвовать
     ref: 'users',
     type: [Schema.Types.ObjectId]

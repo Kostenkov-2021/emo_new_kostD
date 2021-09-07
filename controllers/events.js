@@ -19,7 +19,6 @@ module.exports.create = async function(req, res) {
         for (let instit of req.body.wait) {
             const users = await User.find({institution: instit}, {_id: 1}).lean()
             for (let user of users) {
-                console.log(wait) 
                 wait.push(user._id)
             }
         }
@@ -50,8 +49,8 @@ module.exports.getForModerators = async function(req, res) {
             {new: true})
 
         q = {}
-        if (req.user.levelStatus != 1 || !req.query.institution) q.institution = req.user.institution
-        else q.institution = req.query.institution 
+        if (req.user.levelStatus != 1) q.institution = req.user.institution
+        else if (req.query.institution) q.institution = req.query.institution 
         
         let events = await Event
             .find(q)
@@ -84,8 +83,38 @@ module.exports.update = async function(req, res) {
             {$set: {last_active_at: now}},
             {new: true})
         
+        //console.log(req.body)
         const updated = req.body
-        if (req.body.status == 1) updated.mailingTime = now
+
+        if (req.body.status == '1') {
+            updated.mailingTime = now
+        }
+        console.log(req.body.p_status)
+        if (req.body.p_status == 'true') {
+            console.log('here')
+            updated.p_status = true
+            updated.wait = []
+            updated.institutions = []
+            updated.institutions = []
+            updated.wait = []
+        }
+        else if (req.body.institutions && req.body.institutions != "") {
+            const array = req.body.institutions.split(',')
+            const set = new Set(array)
+            const uniqeArray = [...set]
+            updated.institutions = uniqeArray
+            updated.wait = []
+            updated.p_status = false
+            updated.wait = []
+        }
+        else if (req.body.wait && req.body.wait != "") {
+            const array = req.body.wait.split(',')
+            const set = new Set(array)
+            const uniqeArray = [...set]
+            updated.wait = uniqeArray
+            updated.p_status = false
+            updated.institutions = []
+        }
         if (req.body.status == 2) updated.closingTime = now
         if (req.files['image']) updated.chatImage = req.files['image'][0].location
         if (req.files['photolikes']) {
@@ -96,21 +125,16 @@ module.exports.update = async function(req, res) {
                 {new: true}
             )
         }
-        if (req.body.wait && req.body.wait != "") {
-            const array = req.body.wait.split(',')
-            const set = new Set(array)
-            const uniqeArray = [...set]
-            updated.wait = uniqeArray
-        }
-        else delete updated.wait
 
         delete updated.photolikes
-
+        
+        //console.log(updated)
         const event = await Event.findOneAndUpdate(
             {_id: req.params.eventID},
             {$set: updated},
             {new: true}
         )
+        //console.log(event)
         res.status(200).json(event)
     } catch (e) {
         errorHandler(res, e)
@@ -147,10 +171,14 @@ module.exports.getForBot = async function (req, res) {
             {new: true})
         
         const events = await Event
-        .find({$or: [
+        .find({
+            hide: {$ne: req.user.id},
+            $or: [
             {autor: req.user.id}, 
             {participants: req.user.id, status: 1},
-            {wait: req.user.id, status: 1}
+            {wait: req.user.id, status: 1},
+            {institutions: req.user.institution, status: 1},
+            {p_status: true, status: 1}
         ]}).lean()
 
         for (let event of events) {
@@ -245,7 +273,11 @@ module.exports.emoLetters = async function(req, res) {
           {$set: {last_active_at: now}},
           {new: true})
 
-        const event = await Event.findOne({wait: req.user.id, status: 1})
+        const event = await Event.findOne({$or: [
+            {wait: req.user.id, status: 1}, 
+            {institutions: req.user.institution, status: 1}, 
+            {p_status: true, status: 1}
+        ]})
 
         res.status(200).json(event)
     } catch (e) {

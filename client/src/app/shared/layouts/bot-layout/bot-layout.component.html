@@ -32,7 +32,13 @@
                         <div class="screenread-btn footer green-cursor" 
                         *ngIf="event.description"
                         (click)="screenRead(event.description)"></div>
-                        <div *ngIf="event.wait.includes(session._id) && event.status == 1">
+                        <div *ngIf="(
+                            (event.wait && event.wait.includes(session._id)) || 
+                            (event.institutions && event.institutions.includes(session.institution)) || 
+                            event.p_status) && event.status == 1
+                            && !event.hide.includes(session._id)
+                            && !event.participants.includes(session._id)"
+                        >
                             <button class="btn dark-{{session.firstColor}}-border green-cursor" 
                             type="button" appEasyLang (click)="want(event._id)" id="w-{{event._id}}">
                                 👍Хочу
@@ -67,7 +73,14 @@
                         <div class="screenread-btn footer green-cursor" 
                         *ngIf="event.description && session.screenreader"
                         (click)="screenRead(event.description)"></div>
-                        <div *ngIf="event.wait.includes(session._id) && event.status == 1">
+                        <div *ngIf="(
+                            (event.wait && event.wait.includes(session._id)) || 
+                            (event.institutions && event.institutions.includes(session.institution)) || 
+                            event.p_status) 
+                            && event.status == 1 
+                            && !event.hide.includes(session._id)
+                            && !event.participants.includes(session._id)"
+                        >
                             <button class="btn dark-{{session.firstColor}}-border green-cursor" 
                             type="button" appEasyLang (click)="want(event._id)" id="w-{{event._id}}">
                                 👍Хочу

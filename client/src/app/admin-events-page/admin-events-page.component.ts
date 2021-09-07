@@ -40,7 +40,7 @@ export class AdminEventsPageComponent implements OnInit, OnDestroy {
 
     this.session$ = this.loginService.getUser().subscribe(user => {
       this.session = user
-      this.institution = this.session.institution
+      this.session.levelStatus === 2 ? this.institution = this.session.institution : this.institution = ''
     })
 
     this.institutions$ = this.usersService.getInstitutions()
