@@ -9,7 +9,7 @@ import { User } from '../../interfaces';
 export class LikesComponent {
 
   @Input() likes: User[]
-  @Input() session: User
+  @Input() session: any
   @Output() result = new EventEmitter<boolean>()
 
   close() {

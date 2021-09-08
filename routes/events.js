@@ -25,10 +25,11 @@ router.get('/one/:eventID', passport.authenticate('jwt', {session: false}), cont
 router.get('/moderators', passport.authenticate('jwt', {session: false}), stop, controller.getForModerators)
 router.get('/bot', passport.authenticate('jwt', {session: false}), controller.getForBot)
 router.get('/events/:online', passport.authenticate('jwt', {session: false}), controller.getForEvents)
-router.get('/photolikes', passport.authenticate('jwt', {session: false}), controller.getForPhotolikes)
+router.get('/photolikes', controller.getForPhotolikes)
+router.get('/public', controller.getPublic)
 router.get('/emo', passport.authenticate('jwt', {session: false}), controller.emoLetters)
 router.get('/pl/:eventID', passport.authenticate('jwt', {session: false}), controller.pushLike)
 router.get('/dl/:eventID', passport.authenticate('jwt', {session: false}), controller.deleteLike)
-router.get('/gl/:eventID', passport.authenticate('jwt', {session: false}), controller.getLikes)
+router.get('/gl/:eventID', controller.getLikes)
 
 module.exports = router

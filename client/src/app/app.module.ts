@@ -50,6 +50,8 @@ import { MoneyTableComponent } from './group-page/money-table/money-table.compon
 import { LikesComponent } from './shared/components/likes/likes.component';
 import { AdminTablePageComponent } from './admin-table-page/admin-table-page.component';
 import { PrivacyComponent } from './privacy/privacy.component';
+import { PublicPhotolikesPageComponent } from './public-photolikes-page/public-photolikes-page.component';
+import { PublicEventsPageComponent } from './public-events-page/public-events-page.component';
 
 @NgModule({
   declarations: [
@@ -95,7 +97,9 @@ import { PrivacyComponent } from './privacy/privacy.component';
     MoneyTableComponent,
     LikesComponent,
     AdminTablePageComponent,
-    PrivacyComponent
+    PrivacyComponent,
+    PublicPhotolikesPageComponent,
+    PublicEventsPageComponent
   ],
   imports: [
     BrowserModule,

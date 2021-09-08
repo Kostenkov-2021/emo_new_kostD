@@ -34,12 +34,16 @@ import { PhotolikesPageComponent } from './photolikes-page/photolikes-page.compo
 import { AdminTablePageComponent } from './admin-table-page/admin-table-page.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { MoneyTableComponent } from './group-page/money-table/money-table.component';
+import { PublicPhotolikesPageComponent } from './public-photolikes-page/public-photolikes-page.component';
+import { PublicEventsPageComponent } from './public-events-page/public-events-page.component';
 
 const routes: Routes = [
   {
     path: '', component: LoginLayoutComponent, children: [
       {path: '', redirectTo: '/login', pathMatch: 'full'},
       {path: 'login', component: LoginPageComponent},
+      {path: 'photolikes', component: PublicPhotolikesPageComponent},
+      {path: 'events', component: PublicEventsPageComponent},
       {path: 'privacy', component: PrivacyComponent}
     ]
   },

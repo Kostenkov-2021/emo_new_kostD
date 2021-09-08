@@ -59,12 +59,6 @@ module.exports.update = async function(req, res) {
 
 module.exports.getAll = async function(req, res) {
 try {
-    const now = new Date();
-    await User.updateOne(
-        {_id: req.user.id}, 
-        {$set: {last_active_at: now}},
-        {new: true})
-
     const buttons = await Bot.find({}).sort({type: 1})
     res.status(200).json(buttons)
 } catch (e) {

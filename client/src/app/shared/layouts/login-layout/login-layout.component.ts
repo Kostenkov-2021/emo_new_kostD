@@ -7,6 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginLayoutComponent implements OnInit {
 
+  links = [
+    {url: '/login', name: 'Вход'},
+    {url: '/events', name: 'Мероприятия'},
+    {url: '/photolikes', name: 'Фотолайки'}
+  ]
+
   constructor() { }
 
   ngOnInit(): void {

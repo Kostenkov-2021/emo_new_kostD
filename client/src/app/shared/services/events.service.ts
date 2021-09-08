@@ -102,6 +102,10 @@ export class EventsService {
   getLikes(id): Observable<User[]> {
     return this.http.get<User[]>(`/api/events/gl/${id}`)
   }
+
+  getPublicEvents(): Observable<Event[]> {
+    return this.http.get<Event[]>(`/api/events/public`)
+  }
 }
 
 

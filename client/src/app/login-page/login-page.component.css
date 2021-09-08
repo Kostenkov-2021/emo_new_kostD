@@ -1,5 +1,9 @@
-.privacy {
+.footer {
     position: fixed;
     left: 15px;
     bottom: 15px;
+}
+
+.market {
+    height: 100px;
 }

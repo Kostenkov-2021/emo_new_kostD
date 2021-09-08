@@ -83,7 +83,6 @@ module.exports.update = async function(req, res) {
             {$set: {last_active_at: now}},
             {new: true})
         
-        //console.log(req.body)
         const updated = req.body
 
         if (req.body.status == '1') {
@@ -128,13 +127,12 @@ module.exports.update = async function(req, res) {
 
         delete updated.photolikes
         
-        //console.log(updated)
         const event = await Event.findOneAndUpdate(
             {_id: req.params.eventID},
             {$set: updated},
             {new: true}
         )
-        //console.log(event)
+
         res.status(200).json(event)
     } catch (e) {
         errorHandler(res, e)
@@ -211,13 +209,23 @@ module.exports.getForEvents = async function (req, res) {
             ) 
           }
 
-        const events = await Event.find({participants: req.user.id, status: 1}).sort({date: 1}).lean()
+
+        function compareFunction(a, b) {
+            if (a.Tpoint < b.Tpoint) return 1;
+            return -1;
+        }
+
+        const events = await Event.find({participants: req.user.id, status: 1}).lean()
 
         for (let event of events) {
-            const message = await GroupMessage.findOne({group: event._id, wait: req.user.id})
-            if (message) event.letter = true
+            const message = await GroupMessage.findOne({group: event._id}).sort({time: -1})
+            if (message && message.wait && message.wait.includes(req.user.id)) event.letter = true
             else event.letter = false
+            if (message) event.Tpoint = message.time 
+            else event.Tpoint = event.mailingTime       
         }
+
+        events.sort(compareFunction)
 
         res.status(200).json(events)
 
@@ -349,12 +357,6 @@ module.exports.deleteLike = async function(req, res) {
 
 module.exports.getForPhotolikes = async function (req, res) {
     try {
-        const now = new Date();
-        await User.updateOne(
-            {_id: req.user.id}, 
-            {$set: {last_active_at: now}},
-            {new: true})
-
         const events = await Event.find(
             {status: 2}
             )
@@ -368,14 +370,23 @@ module.exports.getForPhotolikes = async function (req, res) {
     }
 }
 
+module.exports.getPublic = async function (req, res) {
+    try {
+        const events = await Event.find(
+            {status: 1, p_status: true}
+            )
+            .sort({mailingTime: -1})
+            .lean()
+
+        res.status(200).json(events)
+
+    } catch (e) {
+        errorHandler(res, e)
+    }
+}
+
 module.exports.getLikes = async function (req, res) {
     try {
-        const now = new Date();
-        await User.updateOne(
-            {_id: req.user.id}, 
-            {$set: {last_active_at: now}},
-            {new: true}
-        )
         
         const event = await Event.findOne({_id: req.params.eventID}, {likes: 1})
         

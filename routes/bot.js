@@ -22,7 +22,7 @@ const admin = (req, res, next) =>  {
 
 router.post('/', passport.authenticate('jwt', {session: false}), admin, upload.single('image'), controller.create)
 router.patch('/:buttonID', passport.authenticate('jwt', {session: false}), admin, upload.single('image'), controller.update)
-router.get('/', passport.authenticate('jwt', {session: false}), controller.getAll)
+router.get('/', controller.getAll)
 router.get('/:buttonID', passport.authenticate('jwt', {session: false}), stop, controller.getByButtonID)
 
 module.exports = router
