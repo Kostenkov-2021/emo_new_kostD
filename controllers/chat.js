@@ -85,14 +85,14 @@ module.exports.send = async function(req, res) {
       {$set: {last_active_at: now}},
       {new: true})
       
-    const status = await User.findOne({_id: req.params.friend}, {onlineStatus: 1, _id: 0})
+    const status = await User.findOne({_id: req.params.friend}, {onlineStatus: 1, last_active_at: 1, _id: 0})
 
     const message = await new Message({
       sender: req.user.id,
       recipient: req.params.friend,
       message: req.body.message,
       type: req.body.type,
-      read: status.onlineStatus == req.user.id ? true : false
+      read: (status.onlineStatus == req.user.id && (new Date().getTime() - new Date(status.last_active_at).getTime()) < 300000) ? true : false
     }).save()
     res.status(201).json(message)
   } catch (e) {

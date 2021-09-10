@@ -20,8 +20,8 @@ module.exports.send = async function(req, res) {
 
         const event =  await Event.findOne({_id: group})
         for (let participant of event.participants) {
-            const status = await User.findOne({_id: participant._id}, {onlineStatus: 1, _id: 0})
-            if (status.onlineStatus == group && !read.includes(participant._id)) read.push(participant._id)
+            const status = await User.findOne({_id: participant._id}, {onlineStatus: 1, last_active_at: 1, _id: 0})
+            if (status.onlineStatus == group && (new Date().getTime() - new Date(status.last_active_at).getTime()) < 300000 && !read.includes(participant._id)) read.push(participant._id)
             else if (!wait.includes(participant._id)) wait.push(participant._id)
         }
 
