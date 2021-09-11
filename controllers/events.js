@@ -283,8 +283,8 @@ module.exports.emoLetters = async function(req, res) {
 
         const event = await Event.findOne({$or: [
             {wait: req.user.id, status: 1}, 
-            {institutions: req.user.institution, status: 1}, 
-            {p_status: true, status: 1}
+            {institutions: req.user.institution, status: 1, hide: {$ne: req.user.id}, participants: {$ne: req.user.id}}, 
+            {p_status: true, status: 1, hide: {$ne: req.user.id}, participants: {$ne: req.user.id}}
         ]})
 
         res.status(200).json(event)
