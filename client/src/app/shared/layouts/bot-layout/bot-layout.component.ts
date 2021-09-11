@@ -35,9 +35,9 @@ export class BotLayoutComponent implements OnInit, OnDestroy {
     this.reloading = true
     this.oSub = this.loginService.getUser().subscribe(user =>{
       this.session = user
+      this.events$ = this.eventsService.fetchForBot().subscribe(events => this.events = events)
       this.reloading = false
     })
-    this.events$ = this.eventsService.fetchForBot().subscribe(events => this.events = events)
   }
 
   ngAfterViewInit() {

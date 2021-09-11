@@ -30,8 +30,9 @@
                             {{event.description}}
                         </div>
                         <div class="screenread-btn footer green-cursor" 
-                        *ngIf="event.description"
+                        *ngIf="event.description && session.screenreader"
                         (click)="screenRead(event.description)"></div>
+                        
                         <div *ngIf="(
                             (event.wait && event.wait.includes(session._id)) || 
                             (event.institutions && event.institutions.includes(session.institution)) || 
@@ -67,7 +68,7 @@
                         <div *ngIf="event.status == 2" appEasyLang>
                             Завершено
                         </div>
-                        <div *ngIf="event.description && session.screenreader" appEasyLang>
+                        <div *ngIf="event.description" appEasyLang>
                             {{event.description}}
                         </div>
                         <div class="screenread-btn footer green-cursor" 
