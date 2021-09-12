@@ -14,19 +14,11 @@ module.exports.create = async function(req, res) {
           {new: true})
 
         const bot = await Bot.findOne({type: req.body.type}).lean()
-
-        var wait = []
-        for (let instit of req.body.wait) {
-            const users = await User.find({institution: instit}, {_id: 1}).lean()
-            for (let user of users) {
-                wait.push(user._id)
-            }
-        }
-        wait.push(req.user.id)
         
         const event = await new Event({
             autor: req.user.id,
-            wait,
+            wait: [],
+            institutions: req.body.wait,
             type: req.body.type,
             description: req.body.description,
             status: 0,
@@ -218,7 +210,7 @@ module.exports.getForEvents = async function (req, res) {
         const events = await Event.find({participants: req.user.id, status: 1}).lean()
 
         for (let event of events) {
-            const message = await GroupMessage.findOne({group: event._id}).sort({time: -1})
+            const message = await GroupMessage.findOne({group: event._id}, {wait: 1, time: 1}).sort({time: -1}).lean()
             if (message && message.wait && message.wait.includes(req.user.id)) event.letter = true
             else event.letter = false
             if (message) event.Tpoint = message.time 

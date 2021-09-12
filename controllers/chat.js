@@ -19,12 +19,14 @@ module.exports.getAllMessage = async function(req, res) {
           ]
         })
         .sort({time: 1})
+        .lean()
         
         const messagesNotRead = await Message
         .find(
           {sender: friend, recipient: me, read: false}
         )
         .sort({time: 1})
+        .lean()
 
       const message = {messagesRead, messagesNotRead}
       

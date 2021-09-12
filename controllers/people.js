@@ -38,7 +38,7 @@ module.exports.friends = async function(req, res) {
 
       for (let user of withMessageUsers) {
         const message = await Message
-          .findOne({sender: user._id, recipient: req.user.id, read: false}).sort({time: -1})
+          .findOne({sender: user._id, recipient: req.user.id, read: false}, {time: 1}).sort({time: -1})
         user.time = message.time
       }
 
@@ -72,7 +72,7 @@ module.exports.friends = async function(req, res) {
           .findOne({$or: [
             {sender: user._id, recipient: req.user.id}, 
             {sender: req.user.id, recipient: user._id}
-          ]}).sort({time: -1})
+          ]}, {time: 1}).sort({time: -1})
         user.time = message.time
       }
 
@@ -104,12 +104,12 @@ module.exports.search = async function(req, res) {
         
       const users = await User
         .find({institution: req.params.instID, $or: [ { levelStatus: { $ne: 4} }, { onlineStatus: { $ne: '-1'} } ], _id: { $ne: req.user._id } }, 
-          {name: 1, surname: 1, birthDate: 1, onlineStatus: 1, photo: 1, last_active_at: 1})
+          {name: 1, surname: 1, birthDate: 1, onlineStatus: 1, photo: 1, last_active_at: 1, sex: 1})
         .sort({name: 1, surname: 1}).lean()
       
       for (let user of users) {
         const message = await Message
-          .findOne({sender: user._id, recipient: req.user.id, read: false})
+          .findOne({sender: user._id, recipient: req.user.id, read: false}, {_id: 1}).lean()
         if (message) user.letter = true
         else user.letter = false
       }

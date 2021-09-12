@@ -82,7 +82,7 @@ module.exports.getAll = async function(req, res) {
         {$set: {last_active_at: now}},
         {new: true})
 
-    const pictures = await Picture.find({parent: req.params.folderID}).sort({p_sort: 1})
+    const pictures = await Picture.find({parent: req.params.folderID}).sort({p_sort: 1}).lean()
     const folder = await Picture.findOne({_id: req.params.folderID}, {many: 1, parent:1, text: 1})
     const picturesAndFolder = {"pictures": pictures, "folder": folder}
     res.status(200).json(picturesAndFolder)

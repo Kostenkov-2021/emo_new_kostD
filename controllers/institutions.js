@@ -67,10 +67,10 @@ module.exports.getAllAdmin = async function(req, res) {
       {new: true})
 
       if (req.user.levelStatus == 1) {
-        const institutions = await Institution.find().sort({name: 1})
+        const institutions = await Institution.find().sort({name: 1}).lean()
         res.status(200).json(institutions)
       } else {
-        const institution = await Institution.find({_id: req.user.institution})
+        const institution = await Institution.find({_id: req.user.institution}).lean()
         res.status(200).json(institution)
       }
       
@@ -87,7 +87,7 @@ module.exports.getAllAdmin = async function(req, res) {
       {$set: {last_active_at: now}},
       {new: true}) 
 
-      const institution = await Institution.find().sort({name: 1})
+      const institution = await Institution.find().sort({name: 1}).lean()
       res.status(200).json(institution)
     } catch (e) {
       errorHandler(res, e)

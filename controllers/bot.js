@@ -59,7 +59,7 @@ module.exports.update = async function(req, res) {
 
 module.exports.getAll = async function(req, res) {
 try {
-    const buttons = await Bot.find({}).sort({type: 1})
+    const buttons = await Bot.find({}).sort({type: 1}).lean()
     res.status(200).json(buttons)
 } catch (e) {
     errorHandler(res, e)

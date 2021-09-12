@@ -67,7 +67,7 @@ module.exports.getAll = async function(req, res) {
           {$set: {last_active_at: now}},
           {new: true})
 
-        const items = await Table.find({})
+        const items = await Table.find({}).lean()
         res.status(200).json(items)
     } catch (e) {
         errorHandler(e)
