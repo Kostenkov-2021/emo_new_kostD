@@ -187,6 +187,8 @@ module.exports.getForBot = async function (req, res) {
 
 module.exports.getForEvents = async function (req, res) {
     try {
+        //const id = mongoose.Types.ObjectId(req.user.id); 
+        
         const now = new Date();
         await User.updateOne(
             {_id: req.user.id}, 
@@ -210,8 +212,9 @@ module.exports.getForEvents = async function (req, res) {
         const events = await Event.find({participants: req.user.id, status: 1}).lean()
 
         for (let event of events) {
-            const message = await GroupMessage.findOne({group: event._id}, {wait: 1, time: 1}).sort({time: -1}).lean()
-            if (message && message.wait && message.wait.includes(req.user.id)) event.letter = true
+            const message = await GroupMessage.findOne({group: event._id}, {time: 1}).sort({time: -1}).lean()
+            const notReadMessage = await GroupMessage.findOne({group: event._id, wait: req.user.id}, {_id: 1}).lean()
+            if (notReadMessage) event.letter = true
             else event.letter = false
             if (message) event.Tpoint = message.time 
             else event.Tpoint = event.mailingTime       
