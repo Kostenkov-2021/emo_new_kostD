@@ -108,6 +108,7 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
             if (event.date) this.form.patchValue({date: formatDate(event.date, 'yyyy-MM-ddTHH:mm', 'en')})
             this.imagePreview = event.chatImage
             this.wait = event.wait
+            this.wait_inst = event.institutions
             if (event.photolikes) this.photolikesPreview = event.photolikes
           }
           this.form.enable()
