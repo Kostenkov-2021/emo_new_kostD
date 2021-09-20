@@ -5,5 +5,15 @@
 }
 
 .market {
-    height: 100px;
+    width: 10vw;
+    min-width: 80px;
+    margin-top: 2vw;
+}
+
+
+.emo_pt {
+    display: inline-block;
+    vertical-align: top;
+    margin: 5vw;
+    width: 30vw;
 }

@@ -5,16 +5,8 @@ body {
     word-wrap: break-word;
 }
 
-.form {
-    left: 5%;
-    width: 40%;  
-    display: inline-block; 
-    position: relative;
-    vertical-align: top;
- }
-
 .pNotAdmin {
-    font-size: 2vw;
+    font-size: calc(1.8vw + 10px);
     font-family: Arial, sans-serif;
 }
 
@@ -119,7 +111,3 @@ audio, video {
     outline: none !important;
 }
 
-.emo_pt {
-    display: inline-block;
-    margin-left: 25vw;
-}
