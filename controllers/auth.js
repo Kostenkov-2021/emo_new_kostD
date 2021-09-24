@@ -18,16 +18,15 @@ module.exports.login = async function(req, res) {
         userId: candidate._id
       }, keys.jwt, {expiresIn: 60 * 60 * 7})
 
-      if (candidate.levelStatus == 3) {
-        const day = moment().format('DD')
-        const month = moment().format('MM')
-        const year = moment().format('YYYY')
-        await User.updateOne(
-          {_id: candidate._id},
-          {$addToSet: {loginDates: new Date(year, month - 1, day)}},
-          {new: true}
-        )
-      }
+      const day = moment().format('DD')
+      const month = moment().format('MM')
+      const year = moment().format('YYYY')
+      await User.updateOne(
+        {_id: candidate._id},
+        {$addToSet: {loginDates: new Date(year, month - 1, day)}},
+        {new: true}
+      )
+      
       
 
       res.status(200).json({
