@@ -59,14 +59,9 @@
                     <div *ngIf="event.autor != session._id" 
                     class="inter-message message dark-{{session.firstColor}}-border middle-{{session.firstColor}}-bg"
                     id="{{event._id}}">
+                        <span appEasyLang>{{'Приглашает' + ' ' + event.autorName + (session.surnameView ? (' ' + event.autorSurname) : '')}}</span><br>
                         <div class="div-in-li">
                             <img [src]="event.chatImage" class="div-img green-cursor" (click)="openZoom(event.chatImage)">
-                        </div>
-                        <div *ngIf="event.status == 1" appEasyLang>
-                            Активное
-                        </div>
-                        <div *ngIf="event.status == 2" appEasyLang>
-                            Завершено
                         </div>
                         <div *ngIf="event.description" appEasyLang>
                             {{event.description}}

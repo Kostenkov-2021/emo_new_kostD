@@ -174,6 +174,9 @@ module.exports.getForBot = async function (req, res) {
         for (let event of events) {
             if (event.status > 0) event.Tpoint = event.mailingTime
             else event.Tpoint = event.createTime
+            const user = await User.findOne({_id: event.autor}, {surname: 1, name: 1, _id: 0}).lean()
+            event.autorName = user.name
+            event.autorSurname = user.surname
         }
 
         events.sort(compareFunction)
@@ -357,6 +360,13 @@ module.exports.getForPhotolikes = async function (req, res) {
             )
             .sort({closingTime: -1})
             .lean()
+        
+        for (let event of events) {
+            const user = await User.findOne({_id: event.autor}, {surname: 1, name: 1, sex: 1, _id: 0}).lean()
+            event.autorName = user.name
+            event.autorSex = user.sex
+            event.autorSurname = user.surname
+        }
 
         res.status(200).json(events)
 
@@ -372,6 +382,12 @@ module.exports.getPublic = async function (req, res) {
             )
             .sort({mailingTime: -1})
             .lean()
+
+        for (let event of events) {
+            const user = await User.findOne({_id: event.autor}, {surname: 1, name: 1, _id: 0}).lean()
+            event.autorName = user.name
+            event.autorSurname = user.surname
+        }
 
         res.status(200).json(events)
 

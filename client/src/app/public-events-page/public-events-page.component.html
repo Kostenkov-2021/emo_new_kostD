@@ -1,6 +1,8 @@
 <div *ngIf="!reloading; else reloader">
     <div *ngFor="let event of events">
         <div class="phlevent dark-1-border">
+            <span appEasyLang  class="pNotAdmin">{{'Приглашает' + ' ' + event.autorName + ' ' + event.autorSurname}}</span><br>
+            <hr noshade color="black">
             <div *ngIf="!event.chatTitle">
                 <div *ngIf="buttons$ | async as buttons">
                     <span *ngFor="let button of buttons">
