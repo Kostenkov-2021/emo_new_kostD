@@ -84,7 +84,7 @@ export class AdminTablePageComponent implements OnInit, OnDestroy {
           this.rootForm.enable()
         },
         error => {
-          console.log(error.error.message)
+          alert(error.error.message)
           this.rootForm.enable()
         }
       )
@@ -99,7 +99,7 @@ export class AdminTablePageComponent implements OnInit, OnDestroy {
           this.rootForm.enable()
         },
         error => {
-          console.log(error.error.message)
+          alert(error.error.message)
           this.rootForm.enable()
         }
       )

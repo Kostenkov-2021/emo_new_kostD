@@ -56,7 +56,7 @@ export class InstitutionsDeleteComponent implements OnInit {
     this.institutionsService.delete(this.thisID, this.form.value.newID)
       .subscribe(
         response => {},
-        error => {console.log(error.error.message)},
+        error => {alert(error.error.message)},
         () => this.router.navigate([`/manage/institutions`])
       )
   }

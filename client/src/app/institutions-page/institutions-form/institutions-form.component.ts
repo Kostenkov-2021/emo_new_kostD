@@ -86,7 +86,7 @@ export class InstitutionsFormComponent implements OnInit {
         this.router.navigate([`/manage/institutions`])
       },
       error => {
-        console.log(error.error.message)
+        alert(error.error.message)
         this.form.enable()
       }
     )  

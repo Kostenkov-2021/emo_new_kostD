@@ -318,14 +318,14 @@ export class UsersFormComponent implements OnInit, OnDestroy {
           this.router.navigate([`/manage/users`])
         },
         error => {
-          console.log(error.error.message)
+          alert(error.error.message)
           this.form.enable()
         },
         () => {this.form.enable()}
       )
     }
     else {
-      console.log('Неверная дата')
+      alert('Неверная дата')
       this.form.enable()
     }
   }
