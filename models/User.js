@@ -109,7 +109,7 @@ const userSchema = new Schema({
     default: true
   },
   loginDates: {
-    type: [Date]
+    type: [String]
   }
     
   

@@ -23,7 +23,7 @@ module.exports.login = async function(req, res) {
       const year = moment().format('YYYY')
       await User.updateOne(
         {_id: candidate._id},
-        {$addToSet: {loginDates: new Date(year, month - 1, day).toISOString()}},
+        {$addToSet: {loginDates: `${day}.${month}.${year}`}},
         {new: true}
       )
       
