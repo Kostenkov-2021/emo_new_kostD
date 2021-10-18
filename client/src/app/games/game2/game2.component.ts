@@ -51,6 +51,7 @@ export class Game2Component implements AfterViewInit, OnDestroy {
   createRandomCircle() {
     const circle = this.renderer.createElement('div')
     this.renderer.addClass(circle, 'circle')
+    this.renderer.addClass(circle, 'green-cursor')
 
     const size = this.getRandomNumber(30, 100)
     const {width, height} = this.board.nativeElement.getBoundingClientRect()
