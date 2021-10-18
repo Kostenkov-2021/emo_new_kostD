@@ -80,6 +80,7 @@ export class Game1Component implements OnDestroy{
   }
 
   newStart() {
+    this.score = 0
     this.gameProgress = 0
     this.pictures = []
   }
