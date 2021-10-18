@@ -76,7 +76,7 @@ export class Game1Component implements OnDestroy{
     if (this.answer.trim().toLocaleLowerCase() === this.pictures[this.gameProgress - 1].textInHTML.toLocaleLowerCase()) this.score += 1
     this.answer = ''
     this.gameProgress += 1
-    this.peopleService.newScore(this.score).subscribe()
+    if (this.gameProgress > this.pictures.length) this.peopleService.newScore(this.score).subscribe()
   }
 
   newStart() {
