@@ -26,6 +26,10 @@ export class UsersService {
       return this.http.get<User>(`/api/manage/users/${id}`)
     }
 
+    getRating(): Observable<User[]> {
+      return this.http.get<User[]>(`/api/manage/users/rating/all`)
+    }
+
     create(
       login: string,
       name: string,
@@ -51,7 +55,8 @@ export class UsersService {
       defaultColor?: string,
       birthdays?: boolean,
       events?: boolean,
-      screenreader?: boolean
+      screenreader?: boolean,
+      games?: boolean
     ): Observable<User> {
 
       const fd = new FormData()
@@ -81,6 +86,7 @@ export class UsersService {
       if (defaultColor) fd.append('defaultColor', defaultColor)
       if (birthdays) fd.append('birthdays', birthdays.toString())
       if (events) fd.append('events', events.toString())
+      if (games) fd.append('games', games.toString())
       if (screenreader) fd.append('screenreader', screenreader.toString())
 
       return this.http.post<User>(`/api/manage/users`, fd)
@@ -115,7 +121,8 @@ export class UsersService {
       defaultColor?: string,
       birthdays?: boolean,
       events?: boolean,
-      screenreader?: boolean
+      screenreader?: boolean,
+      games?: boolean
     ): Observable<User> {
 
       const fd = new FormData()
@@ -147,6 +154,7 @@ export class UsersService {
       if (birthdays) fd.append('birthdays', birthdays.toString())
       if (events) fd.append('events', events.toString())
       if (screenreader) fd.append('screenreader', screenreader.toString())
+      if (games) fd.append('games', games.toString())
 
       return this.http.patch<User>(`/api/manage/users/${id}`, fd)
     }

@@ -10,7 +10,7 @@ module.exports.create = async function(req, res) {
         const now = new Date();
         await User.updateOne(
           {_id: req.user.id}, 
-          {$set: {last_active_at: now}},
+          {$set: {last_active_at: now}, $inc: {score: 10}},
           {new: true})
 
         const bot = await Bot.findOne({type: req.body.type}).lean()
@@ -157,7 +157,7 @@ module.exports.getForBot = async function (req, res) {
         const now = new Date();
         await User.updateOne(
             {_id: req.user.id}, 
-            {$set: {last_active_at: now}},
+            {$set: {last_active_at: now}, $inc: {score: 1}},
             {new: true})
         
         const events = await Event
@@ -237,7 +237,7 @@ module.exports.changeUserStatus = async function (req, res) {
         const now = new Date();
         await User.updateOne(
             {_id: req.user.id}, 
-            {$set: {last_active_at: now}},
+            {$set: {last_active_at: now}, $inc: {score: 3}},
             {new: true})
 
         const id = mongoose.Types.ObjectId(req.user.id);
@@ -317,7 +317,7 @@ module.exports.pushLike = async function(req, res) {
         const now = new Date()
         await User.updateOne(
             {_id: req.user.id}, 
-            {$set: {last_active_at: now}},
+            {$set: {last_active_at: now}, $inc: {score: 1}},
             {new: true}
         )
 
@@ -338,7 +338,7 @@ module.exports.deleteLike = async function(req, res) {
         const now = new Date()
         await User.updateOne(
             {_id: req.user.id}, 
-            {$set: {last_active_at: now}},
+            {$set: {last_active_at: now}, $inc: {score: -1}},
             {new: true})
 
         const event = await Event.findOneAndUpdate(

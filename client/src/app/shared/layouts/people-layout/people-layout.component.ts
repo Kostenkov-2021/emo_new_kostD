@@ -25,6 +25,7 @@ export class PeopleLayoutComponent implements OnInit{
   name: string
   color: string
   events: boolean
+  games: boolean
 
   constructor(
     private router: Router,
@@ -56,6 +57,7 @@ export class PeopleLayoutComponent implements OnInit{
       this.color = user.defaultColor
       this.reloading = false
       this.events = user.events
+      this.games = user.games
     })
   }
 

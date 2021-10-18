@@ -10,5 +10,6 @@ router.patch('/', passport.authenticate('jwt', {session: false}), controller.upd
 router.delete('/', passport.authenticate('jwt', {session: false}), controller.exitDelete)
 router.get('/logout', passport.authenticate('jwt', {session: false}), controller.exitLogout)
 router.get('/', passport.authenticate('jwt', {session: false}), controller.getUser)
+router.post('/score', passport.authenticate('jwt', {session: false}), controller.score)
 
 module.exports = router

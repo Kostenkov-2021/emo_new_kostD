@@ -1,0 +1,35 @@
+.page {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    overflow: auto;
+}
+
+.ratingBox {
+    background: #fff;
+    padding: 5px;
+    border-style: solid;
+    border-radius: 10px;
+    border-width: 3px;
+    width: 80%;
+    margin: auto;
+    margin-top: 15px;
+}
+
+.exit {
+    right: 2%;
+    position: fixed;
+}
+
+.ratingPhoto {
+    height: calc(0.5cm + 2vw);
+    width: calc(0.5cm + 2vw);
+    margin-left: 10px;
+    margin-right: 10px;
+    object-fit: cover;
+}
+
+.inline-block {
+    display: inline-block;
+}
+

@@ -36,6 +36,11 @@ import { PrivacyComponent } from './privacy/privacy.component';
 import { MoneyTableComponent } from './group-page/money-table/money-table.component';
 import { PublicPhotolikesPageComponent } from './public-photolikes-page/public-photolikes-page.component';
 import { PublicEventsPageComponent } from './public-events-page/public-events-page.component';
+import { GamesComponent } from './games/games.component';
+import { GameLayoutComponent } from './games/game-layout/game-layout.component';
+import { Game1Component } from './games/game1/game1.component';
+import { Game2Component } from './games/game2/game2.component';
+import { RatingComponent } from './games/rating/rating.component';
 
 const routes: Routes = [
   {
@@ -54,6 +59,7 @@ const routes: Routes = [
       {path: 'people/search', component: SearchPageComponent},
       {path: 'people/settings', component: SettingsPageComponent},
       {path: 'people/photolikes', component: PhotolikesPageComponent},
+      {path: 'people/games', component: GamesComponent},
       {path: 'people/events', component: EventsPageComponent}
     ]
   },
@@ -69,6 +75,14 @@ const routes: Routes = [
       {path: 'group/:id', component: GroupPageComponent}
     ]
   },
+  {
+    path: '', component: GameLayoutComponent, canActivate: [AuthGuard], children: [
+      {path: 'game', redirectTo: '/people/games', pathMatch: 'full'},
+      {path: 'game/1', component: Game1Component},
+      {path: 'game/2', component: Game2Component},
+    ]
+  },
+  {path: 'rating', component: RatingComponent},
   {
     path: 'table', redirectTo: '/people/events', pathMatch: 'full', canActivate: [AuthGuard]
   },

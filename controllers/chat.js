@@ -10,7 +10,7 @@ module.exports.getAllMessage = async function(req, res) {
       const now = new Date();
       await User.updateOne(
         {_id: req.user.id}, 
-        {$set: {onlineStatus: friend, last_active_at: now}},
+        {$set: {onlineStatus: friend, last_active_at: now}, $inc: {score: 1}},
         {new: true})
       const messagesRead = await Message
         .find({ $or: [
@@ -84,7 +84,7 @@ module.exports.send = async function(req, res) {
     const now = new Date();
     await User.updateOne(
       {_id: req.user.id}, 
-      {$set: {last_active_at: now}},
+      {$set: {last_active_at: now}, $inc: {score: 1}},
       {new: true})
       
     const status = await User.findOne({_id: req.params.friend}, {onlineStatus: 1, last_active_at: 1, _id: 0})

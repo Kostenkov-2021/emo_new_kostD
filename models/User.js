@@ -110,9 +110,9 @@ const userSchema = new Schema({
   },
   loginDates: {
     type: [String]
-  }
-    
-  
+  },
+  score: Number,
+  games: Boolean
 })
 
 module.exports = mongoose.model('users', userSchema)

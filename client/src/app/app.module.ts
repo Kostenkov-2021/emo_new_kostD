@@ -52,6 +52,11 @@ import { AdminTablePageComponent } from './admin-table-page/admin-table-page.com
 import { PrivacyComponent } from './privacy/privacy.component';
 import { PublicPhotolikesPageComponent } from './public-photolikes-page/public-photolikes-page.component';
 import { PublicEventsPageComponent } from './public-events-page/public-events-page.component';
+import { GamesComponent } from './games/games.component';
+import { GameLayoutComponent } from './games/game-layout/game-layout.component';
+import { Game1Component } from './games/game1/game1.component';
+import { Game2Component } from './games/game2/game2.component';
+import { RatingComponent } from './games/rating/rating.component';
 
 @NgModule({
   declarations: [
@@ -99,7 +104,12 @@ import { PublicEventsPageComponent } from './public-events-page/public-events-pa
     AdminTablePageComponent,
     PrivacyComponent,
     PublicPhotolikesPageComponent,
-    PublicEventsPageComponent
+    PublicEventsPageComponent,
+    GamesComponent,
+    GameLayoutComponent,
+    Game1Component,
+    Game2Component,
+    RatingComponent
   ],
   imports: [
     BrowserModule,

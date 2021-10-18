@@ -1,0 +1,32 @@
+.time-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+  }
+  
+  .time-list li {
+    margin: 10px;
+  }
+  
+  .time-btn {
+    background-color: transparent;
+    border: 2px solid #000;
+    color: black;
+    cursor: pointer;
+    font-family: inherit;
+    padding: .5rem 1rem;
+    font-size: 1.5rem;
+  }
+  
+  .time-btn:hover {
+    border: 2px solid red;
+    color: red;
+  }
+
+  .circle {
+    position: absolute;
+    border-radius: 50%;
+    cursor: pointer;
+  }

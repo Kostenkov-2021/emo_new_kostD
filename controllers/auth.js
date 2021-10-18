@@ -23,11 +23,9 @@ module.exports.login = async function(req, res) {
       const year = moment().format('YYYY')
       await User.updateOne(
         {_id: candidate._id},
-        {$addToSet: {loginDates: `${day}.${month}.${year}`}},
+        {$addToSet: {loginDates: `${day}.${month}.${year}`}, $inc: {score: 1}},
         {new: true}
       )
-      
-      
 
       res.status(200).json({
         token: `Bearer ${token}`

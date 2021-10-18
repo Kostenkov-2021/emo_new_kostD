@@ -1,6 +1,7 @@
 const errorHandler = require('../utils/errorHandler')
 const Picture = require('../models/Picture');
 const User = require('../models/User');
+const mongoose = require('mongoose')
 
 module.exports.create = async function(req, res) {
     try {
@@ -133,6 +134,39 @@ module.exports.remove = async function(req, res) {
         await Picture.deleteOne(deletePicture)
         res.status(200).json({message})
   }
+  } catch (e) {
+    errorHandler(res, e)
+  }
+}
+
+module.exports.game1 = async function (req, res) {
+  try {
+    const now = new Date();
+    await User.updateOne(
+      {_id: req.user.id}, 
+      {$set: {last_active_at: now}},
+      {new: true})
+    
+    const game = await Picture.aggregate([
+      {$match: {text: {$ne: '', $exists: true}, parent: {$nin: 
+        [
+          mongoose.Types.ObjectId('5f1309e3962c2f062467f854'), 
+          mongoose.Types.ObjectId('5f1309f1962c2f062467f855'), 
+          mongoose.Types.ObjectId('5f130a00962c2f062467f856'), 
+          mongoose.Types.ObjectId('5f130a0d962c2f062467f857'), 
+          mongoose.Types.ObjectId('5f5486f982194ca1fb21ff6d'), 
+          mongoose.Types.ObjectId('603e1ae80c54fc9b6e417951'),
+          mongoose.Types.ObjectId('603e1b0c0c54fc9b6e417952'),
+          mongoose.Types.ObjectId('603e1b430c54fc9b6e417953'), 
+          mongoose.Types.ObjectId('603e1b630c54fc9b6e417954'),
+          mongoose.Types.ObjectId('603e1ba10c54fc9b6e417955')
+        ]}, folder: false}
+      }, 
+      {$sample: {size: +req.params.count}} 
+    ])
+
+    res.status(200).json(game)
+
   } catch (e) {
     errorHandler(res, e)
   }

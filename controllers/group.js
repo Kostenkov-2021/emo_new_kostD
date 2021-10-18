@@ -10,7 +10,7 @@ module.exports.send = async function(req, res) {
         const now = new Date();
         await User.updateOne(
         {_id: req.user.id}, 
-        {$set: {last_active_at: now}},
+        {$set: {last_active_at: now}, $inc: {score: 1}},
         {new: true})
 
         const group = req.params.groupID
@@ -74,7 +74,7 @@ module.exports.getAll = async function(req, res) {
         const now = new Date();
         await User.updateOne(
         {_id: req.user.id}, 
-        {$set: {last_active_at: now, onlineStatus: req.params.groupID}},
+        {$set: {last_active_at: now, onlineStatus: req.params.groupID}, $inc: {score: 1}},
         {new: true})
 
         const messages = await GroupMessage.find({group: req.params.groupID}).lean()

@@ -27,6 +27,8 @@ export interface User {
   active?: boolean
   events?: boolean
   screenreader?: boolean
+  games?: boolean
+  score?: number
 }
 
 export interface Users {

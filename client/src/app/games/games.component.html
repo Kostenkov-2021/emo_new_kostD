@@ -1,0 +1,37 @@
+<div *ngIf="!reloading; else reloader">
+
+    <div class="box-friend">
+        <img 
+        class="friendAvatar dark-{{session.firstColor}}-border green-cursor" 
+        src="/images/rating.png"
+        (click)="goToRating()">
+        <div class="friendName tc dark-{{session.firstColor}}-border green-cursor" (click)="goToRating()">
+            <span appEasyLang>Рейтинг</span><br>
+        </div>                                             	 
+   </div>
+
+   <div class="box-friend">
+        <img 
+        class="friendAvatar dark-{{session.firstColor}}-border green-cursor" 
+        src="/images/writing.png"
+        (click)="goToGame(1)">
+        <div class="friendName tc dark-{{session.firstColor}}-border green-cursor" (click)="goToGame(1)">
+            <span appEasyLang>Письмо</span><br>
+        </div>                                             	 
+    </div>
+
+    <div class="box-friend">
+        <img 
+        class="friendAvatar dark-{{session.firstColor}}-border green-cursor" 
+        src="/images/tir.png"
+        (click)="goToGame(2)">
+        <div class="friendName tc dark-{{session.firstColor}}-border green-cursor" (click)="goToGame(2)">
+            <span appEasyLang>Тир</span><br>
+        </div>                                             	 
+    </div>
+                                         	 
+</div>
+
+<ng-template #reloader>
+    <app-loader></app-loader>
+</ng-template>

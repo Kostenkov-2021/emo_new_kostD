@@ -190,13 +190,26 @@ module.exports.search = async function(req, res) {
         {_id: req.user.id}, 
         {$set: {last_active_at: now}},
         {new: true})
+      
+      const updated = req.body
+      delete updated.score
 
       const user = await User.findOneAndUpdate(
         {_id: req.user.id},
-        {$set: req.body},
+        {$set: updated},
         {new: true})
       res.status(200).json(user)
     } catch {
       errorHandler(res, e)
     }
   }
+
+module.exports.score = async function(req, res) {
+  const now = new Date();
+  await User.updateOne(
+    {_id: req.user.id}, 
+    {$set: {last_active_at: now}, $inc: {score: req.body.score}},
+    {new: true})
+
+  res.status(201).json({message: 'Обновлено.'})
+}

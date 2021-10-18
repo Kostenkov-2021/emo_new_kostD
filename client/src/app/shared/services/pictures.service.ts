@@ -14,6 +14,11 @@ export class PicturesService {
     return this.http.get<Picture>(`/api/manage/pictures/one/${_id}`)
   }
 
+  getGame1(count: number): Observable<Picture[]> {
+    return this.http.get<Picture[]>(`/api/manage/pictures/game1/${count}`)
+  }
+
+
   fetch(_id: string): Observable<PictureAndFolder> {
     return this.http.get<PictureAndFolder>(`/api/manage/pictures/${_id}`)
   }

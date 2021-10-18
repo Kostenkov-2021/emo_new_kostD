@@ -48,7 +48,8 @@ module.exports.create = async function(req, res) {
         defaultColor: req.body.defaultColor,
         birthdays: req.body.birthdays,
         events: req.body.events,
-        screenreader: req.body.screenreader
+        screenreader: req.body.screenreader,
+        games: req.body.games
       })
   
       try {
@@ -62,11 +63,12 @@ module.exports.create = async function(req, res) {
   }
 
 module.exports.update = async function(req, res) {
-  console.log(req.file)
+  
   try {
     if ((req.user.levelStatus == 2 && req.body.institution == req.user.institution && req.body.levelStatus != 1) || req.user.levelStatus == 1) {
       if (!req.body.login) {
         const updated = req.body
+        delete updated.score
 
         if (req.body.password) {
           const salt = bcrypt.genSaltSync(10)
@@ -96,7 +98,7 @@ module.exports.update = async function(req, res) {
         } 
         else {
           const updated = req.body
-
+          delete updated.score
           if (req.body.password) {
             const salt = bcrypt.genSaltSync(10)
             const password = req.body.password
@@ -211,6 +213,24 @@ module.exports.remove = async function(req, res) {
       })
     }
     
+  } catch (e) {
+    errorHandler(res, e)
+  }
+}
+
+module.exports.getRating = async function(req, res) {
+  try {
+    const users = await User
+    .find({score: {$gte: 0}}, {name: 1, surname: 1, photo: 1, institution: 1, score: 1, levelStatus: 1})
+    .sort({score: -1, last_active_at: -1})
+    .lean()
+
+    for (const user of users) {
+      const institution = await Institution.findOne({_id: user.institution}, {_id: 0})
+      user.institutionName = institution.name
+    }
+    
+    res.status(200).json(users)
   } catch (e) {
     errorHandler(res, e)
   }

@@ -33,6 +33,10 @@
         <a routerLink="/people/photolikes" routerLinkActive="people-active" *ngIf="events">
             <img class="menuIMG dark-{{color2}}-border green-cursor" src="/images/photolike.png">
         </a>
+
+        <a routerLink="/people/games" routerLinkActive="people-active" *ngIf="games">
+            <img class="menuIMG dark-{{color2}}-border green-cursor" src="/images/games.png">
+        </a>
         <a href="#" (click)="logout($event)">
             <div class="exit-friends tc dark-{{color2}}-border green-cursor" appEasyLang>Выход</div>
         </a>

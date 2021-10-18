@@ -1,0 +1,13 @@
+<div *ngIf="!reloading; else reloader" class="light-{{session.firstColor}}-bg page">
+
+    <div class="game dark-{{session.firstColor}}-border">
+        <router-outlet></router-outlet>
+    </div>
+
+    <div class="exit green-cursor" (click)="cross()"></div>
+
+</div>
+
+<ng-template #reloader>
+    <app-loader></app-loader>
+</ng-template>

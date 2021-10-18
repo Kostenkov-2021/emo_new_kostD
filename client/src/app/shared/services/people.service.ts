@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User, Institution, Users } from '../interfaces';
+import { User, Institution, Users, MessageFromServer } from '../interfaces';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -64,5 +64,12 @@ export class PeopleService {
 
   getInstitutions(): Observable<Institution[]> {
     return this.http.get<Institution[]>(`/api/manage/institutions/search`)
+  }
+
+  newScore(score: number): Observable<MessageFromServer> {
+    const obj = {score}
+    let json = JSON.stringify(obj)
+    const myHeaders = new HttpHeaders().set('Content-Type', 'application/json')
+    return this.http.post<MessageFromServer>(`/api/people/score`, json, {headers: myHeaders})
   }
 }

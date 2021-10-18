@@ -1,0 +1,51 @@
+
+    <div *ngIf="gameProgress == 0" class="gameBox">
+
+        <div class="pNotAdmin" appEasyLang>Вам надо кликать по шарикам. Сколько времени вы хотите играть?</div>
+        <ul class="time-list" id="time-list">
+            <li>
+            <button class="time-btn" (click)="start(15)">
+                15 секунд
+            </button>
+            </li>
+            <li>
+            <button class="time-btn" (click)="start(30)">
+                30 секунд
+            </button>
+            </li>
+            <li>
+            <button class="time-btn" (click)="start(60)">
+                1 минута
+            </button>
+            </li>
+            <li>
+            <button class="time-btn" (click)="start(120)">
+                2 минуты
+            </button>
+            </li>
+        </ul>
+    </div>
+
+    <div [hidden]="gameProgress != 1" class="gameBox" #board>
+        
+    </div>
+
+    <div *ngIf="gameProgress == 2" class="gameBox">
+
+        <div class="pNotAdmin" appEasyLang>Убито шариков: {{balls}}.</div>
+        <div class="pNotAdmin" appEasyLang>Набрано очков: {{score}}.</div>
+        <div class="pNotAdmin" appEasyLang>Хотите сыграть ещё?</div>
+        <ul class="time-list" id="time-list">
+            <li>
+            <button class="time-btn" (click)="newStart()">
+                Да
+            </button>
+            </li>
+            <li>
+            <button class="time-btn" (click)="exit()">
+                Нет
+            </button>
+            </li>
+
+        </ul>
+    </div>
