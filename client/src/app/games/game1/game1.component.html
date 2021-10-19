@@ -3,17 +3,17 @@
     <div class="pNotAdmin" appEasyLang>Вам надо будет печатать надписи, как они напечатаны на пиктограммах. Сколько карточек вы хотите?</div>
     <ul class="time-list" id="time-list">
         <li>
-          <button class="time-btn" (click)="start(1)">
+          <button class="time-btn green-cursor" (click)="start(1)">
             1 карточка
           </button>
         </li>
         <li>
-          <button class="time-btn" (click)="start(5)">
+          <button class="time-btn green-cursor" (click)="start(5)">
             5 карточек
           </button>
         </li>
         <li>
-          <button class="time-btn" (click)="start(10)">
+          <button class="time-btn green-cursor" (click)="start(10)">
             10 карточек
           </button>
         </li>
@@ -26,7 +26,7 @@
    <img [src]="pictures[gameProgress - 1].src" class="game1-image">
 
    <div class="game1-box">
-        <input type="text" [(ngModel)]="answer" class="game1-answer">
+        <input type="text" [(ngModel)]="answer" class="game1-answer text-cursor">
         <img class="game1-icon green-cursor" 
         src="/images/tick.png" 
         (click)="nextPicture()">
@@ -39,12 +39,12 @@
     <div class="pNotAdmin" appEasyLang>Хотите сыграть ещё?</div>
     <ul class="time-list" id="time-list">
         <li>
-          <button class="time-btn" (click)="newStart()">
+          <button class="time-btn green-cursor" (click)="newStart()">
             Да
           </button>
         </li>
         <li>
-          <button class="time-btn" (click)="exit()">
+          <button class="time-btn green-cursor" (click)="exit()">
             Нет
           </button>
         </li>

@@ -57,6 +57,9 @@ import { GameLayoutComponent } from './games/game-layout/game-layout.component';
 import { Game1Component } from './games/game1/game1.component';
 import { Game2Component } from './games/game2/game2.component';
 import { RatingComponent } from './games/rating/rating.component';
+import { Game3Component } from './games/game3/game3.component';
+import { Game4Component } from './games/game4/game4.component';
+import { Game5Component } from './games/game5/game5.component';
 
 @NgModule({
   declarations: [
@@ -109,7 +112,10 @@ import { RatingComponent } from './games/rating/rating.component';
     GameLayoutComponent,
     Game1Component,
     Game2Component,
-    RatingComponent
+    RatingComponent,
+    Game3Component,
+    Game4Component,
+    Game5Component
   ],
   imports: [
     BrowserModule,

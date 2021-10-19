@@ -41,6 +41,9 @@ import { GameLayoutComponent } from './games/game-layout/game-layout.component';
 import { Game1Component } from './games/game1/game1.component';
 import { Game2Component } from './games/game2/game2.component';
 import { RatingComponent } from './games/rating/rating.component';
+import { Game3Component } from './games/game3/game3.component';
+import { Game4Component } from './games/game4/game4.component';
+import { Game5Component } from './games/game5/game5.component';
 
 const routes: Routes = [
   {
@@ -80,6 +83,9 @@ const routes: Routes = [
       {path: 'game', redirectTo: '/people/games', pathMatch: 'full'},
       {path: 'game/1', component: Game1Component},
       {path: 'game/2', component: Game2Component},
+      {path: 'game/3', component: Game3Component},
+      //{path: 'game/4', component: Game4Component},
+      //{path: 'game/5', component: Game5Component},
     ]
   },
   {path: 'rating', component: RatingComponent},

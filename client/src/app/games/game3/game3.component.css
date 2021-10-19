@@ -24,7 +24,32 @@
     color: red;
   }
 
-  .circle {
-    position: absolute;
-    border-radius: 50%;
-  }
+
+.game3-box {
+    display: inline-block;
+    margin-left: 5%;
+    width: 40%;
+    margin-top: 2.5%;
+    margin-bottom: 2.5%;
+    height: auto;
+}
+
+span, input {
+    font-size: calc(1.5vw + 10px);
+}
+
+input {
+    width: calc((1.5vw + 10px) * 3);
+}
+
+
+.game3-example {
+    margin-top: 15px;
+}
+
+.game3-icon {
+    height: 2cm;
+    width: 2cm;
+    display: inline-block;
+    float: right;
+}
