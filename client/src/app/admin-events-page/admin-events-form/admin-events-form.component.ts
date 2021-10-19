@@ -35,7 +35,6 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
   wait: string[]
   now: Date
   photolikesPreview: string[] = []
-  queryS: string = 'view'
   wait_inst: string[] = []
 
 
@@ -58,7 +57,6 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
         this.users = users
       })
       this.queryI = queryParam.institution
-      this.queryS = queryParam.status
     }) 
 
     this.institutions$ = this.usersService.getInstitutions().subscribe(value => {
@@ -78,7 +76,7 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
       whomShow: new FormControl(0),
       chatTitle: new FormControl(null),
       photolikesImage: new FormControl(null),
-      p_status: new FormControl('2')
+      p_status: new FormControl('1')
     })
 
     this.form.disable()
@@ -103,7 +101,7 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
               address: event.address,
               cost: event.cost,
               chatTitle: event.chatTitle,
-              p_status: event.p_status ? '0' : (event.institutions && event.institutions.length) ? '1' : '2'
+              p_status: event.p_status ? '0' : (event.wait && event.wait.length) ? '2' : '1'
             })
             if (event.date) this.form.patchValue({date: formatDate(event.date, 'yyyy-MM-ddTHH:mm', 'en')})
             this.imagePreview = event.chatImage
@@ -119,7 +117,7 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
 
   changeInstitution() {
     let id = this.form.value.institution
-    this.router.navigate([], {queryParams: { 'institution': id, 'status': this.queryS}})
+    this.router.navigate([], {queryParams: { 'institution': id}})
     this.queryI = id
   }
 

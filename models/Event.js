@@ -7,10 +7,6 @@ const eventSchema = new Schema({
     type: Schema.Types.ObjectId,
     required: true
   },
-  moderator: {
-    ref: 'users',
-    type: Schema.Types.ObjectId
-  },
   participants: {     //участники
     ref: 'users',
     type: [Schema.Types.ObjectId]

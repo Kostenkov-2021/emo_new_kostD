@@ -13,29 +13,24 @@ class="dark-{{session.firstColor}}-border"
         </div> <br>
 
         <p class="dark-{{session.firstColor}}-color">Название чата:</p>
-        <input type="text" formControlName="chatTitle" class="description-input" *ngIf="queryS == 'edit'"> 
-        <div class="description-input" *ngIf="queryS == 'view'">{{event.chatTitle}}</div>
+        <input type="text" formControlName="chatTitle" class="description-input"> 
         <br><br>
 
         <p class="dark-{{session.firstColor}}-color">Описание:</p>
-        <textarea type="text" formControlName="description" class="description-input" *ngIf="queryS == 'edit'"></textarea>
-        <div class="description-input"  *ngIf="queryS == 'view'">{{event.description}}</div> 
+        <textarea type="text" formControlName="description" class="description-input"></textarea>
         <br><br>
 
         <p class="dark-{{session.firstColor}}-color">Адрес:</p>
-        <input type="text" formControlName="address" class="description-input" *ngIf="queryS == 'edit'"> 
-        <div class="description-input"  *ngIf="queryS == 'view'">{{event.address}}</div> <br><br>
+        <input type="text" formControlName="address" class="description-input"> <br><br>
 
         <p class="dark-{{session.firstColor}}-color">Стоимость:</p>
-        <input type="number" min="0" formControlName="cost" class="text-input" *ngIf="queryS == 'edit'"> 
-        <div class="description-input"  *ngIf="queryS == 'view'">{{event.cost}}</div> <br><br>
+        <input type="number" min="0" formControlName="cost" class="text-input"> <br><br>
 
         <p class="dark-{{session.firstColor}}-color">Дата и время:</p>
-        <input type="datetime-local" [min]="now" formControlName="date" *ngIf="queryS == 'edit'"> 
-        <div class="description-input"  *ngIf="queryS == 'view'">{{event.date | date:"dd.MM.yyyy HH:mm"}}</div> <br><br>
+        <input type="datetime-local" [min]="now" formControlName="date">  <br><br>
 
         <p class="dark-{{session.firstColor}}-color">Уровень мероприятия:</p>
-        <div *ngIf="event.status == 0 && queryS == 'edit'">
+        <div *ngIf="event.status == 0">
             <input type="radio" formControlName="p_status" value="0"> Публичное мероприятие. 
             Мероприятие будет доступно всем пользователям, в том числе созданным после рассылки. 
             Увидеть мероприятие также смогут незарегистрированные пользователи. <br>
@@ -43,17 +38,17 @@ class="dark-{{session.firstColor}}-border"
             Мероприятие будет доступно всем пользователям из выбранных учреждений, в том числе созданным после рассылки. <br>
             <input type="radio" formControlName="p_status" value="2"> Пригласить определённых пользователей. <br><br>
         </div>
-        <div *ngIf="event.status != 0 || queryS == 'view'">
+        <div *ngIf="event.status != 0">
             <p *ngIf="form.value.p_status == '0'"> Публичное мероприятие. 
             Мероприятие доступно всем пользователям, в том числе созданным после рассылки. 
             Увидеть мероприятие также могут незарегистрированные пользователи.</p>
             <p *ngIf="form.value.p_status == '1'"> Приглашены определённые учреждения. 
             Мероприятие доступно всем пользователям из выбранных учреждений, в том числе созданным после рассылки. </p>
-            <p *ngIf="form.value.p_status == '2'"> Приглашены определённые пользователи.</p> <br>
+            <p *ngIf="form.value.p_status == '2'"> Приглашены определённые пользователи.</p> 
         </div>
 
         <div *ngIf="form.value.p_status == 1">
-            <div *ngIf="event.status == 0 && queryS == 'edit' && institutions"> 
+            <div *ngIf="event.status == 0 && institutions"> 
                 <p class="dark-{{session.firstColor}}-color">Выберите учреждения:</p>
                 <button (click)="checkAll_1()" type="button">Выбрать все</button>
                 <button (click)="checkNobody_1()" type="button">Отменить все</button>
@@ -92,7 +87,7 @@ class="dark-{{session.firstColor}}-border"
             </select>
         
             <div *ngIf="users">
-                <div *ngIf="event.status == 0 && queryS == 'edit'"> 
+                <div *ngIf="event.status == 0"> 
                     <button (click)="checkAll()" type="button">Выбрать всех</button>
                     <button (click)="checkNobody()" type="button">Отменить всех</button>
                     <div *ngFor="let user of users">
@@ -100,7 +95,7 @@ class="dark-{{session.firstColor}}-border"
                         {{user.name}} {{user.surname}}, {{user.login}} 
                     </div>
                 </div>
-                <div *ngIf="(event.status != 0 || queryS == 'view')&& whomShow == 0"> 
+                <div *ngIf="(event.status != 0) && whomShow == 0"> 
                     <div *ngFor="let user of users">    
                         <div *ngIf="wait.includes(user._id)">{{user.name}} {{user.surname}}, {{user.login}} </div>
                     </div>
@@ -120,7 +115,7 @@ class="dark-{{session.firstColor}}-border"
         <br>
 
         <p class="dark-{{session.firstColor}}-color">Картинка чата (рекомендуется квадратное изображение):</p>
-        <input type="file" formControlName="chatImage"  (change)="onFileUpload($event)" *ngIf="queryS == 'edit'"><br>
+        <input type="file" formControlName="chatImage"  (change)="onFileUpload($event)"><br>
         <img 
         class="now_img" 
         [src]="imagePreview"
@@ -128,7 +123,7 @@ class="dark-{{session.firstColor}}-border"
         > <br> <br>
     
         <p class="dark-{{session.firstColor}}-color">Фотолайки:</p>
-        <input type="file"  formControlName="photolikesImage"  (change)="onPhotolikesUpload($event)" multiple *ngIf="queryS == 'edit'"><br>
+        <input type="file"  formControlName="photolikesImage"  (change)="onPhotolikesUpload($event)" multiple><br>
         <div *ngIf="photolikesPreview.length > 0">
             <img 
             *ngFor="let photo of photolikesPreview"
@@ -136,6 +131,7 @@ class="dark-{{session.firstColor}}-border"
             [src]="photo"> 
         </div> <br> <br>
         <p class="dark-{{session.firstColor}}-color" *ngIf="event.status == 0">ПЕРЕД РАССЫЛКОЙ СОХРАНИТЕ МЕРОПРИЯТИЕ!</p>
+        <p class="dark-{{session.firstColor}}-color" *ngIf="event.status == 1">ПЕРЕД ЗАВЕРШЕНИЕМ СОХРАНИТЕ МЕРОПРИЯТИЕ!</p>
         <br><br>
 
         <a 
@@ -144,7 +140,6 @@ class="dark-{{session.firstColor}}-border"
 
         <button id="submit_button" type="submit" hidden></button>
         <label 
-        *ngIf="queryS == 'edit'"
         for="submit_button" 
         class="new_user_button form_picture_button middle-{{session.firstColor}}-bg-hover">
             Сохранить
@@ -155,7 +150,7 @@ class="dark-{{session.firstColor}}-border"
         for="submit_button" 
         class="new_user_button form_picture_button middle-{{session.firstColor}}-bg-hover"
         (click)="mailing()"
-        *ngIf="event.status == 0 && queryS == 'edit'">
+        *ngIf="event.status == 0">
             Сделать рассылку
         </label>
 
@@ -164,7 +159,7 @@ class="dark-{{session.firstColor}}-border"
         for="submit_button" 
         class="new_user_button form_picture_button middle-{{session.firstColor}}-bg-hover"
         (click)="reject()"
-        *ngIf="event.status == 0 && queryS == 'edit'">
+        *ngIf="event.status == 0">
             Отклонить
         </label>
 
@@ -173,7 +168,7 @@ class="dark-{{session.firstColor}}-border"
         for="submit_button" 
         class="new_user_button form_picture_button middle-{{session.firstColor}}-bg-hover"
         (click)="complate()"
-        *ngIf="event.status == 1 && queryS == 'edit'">
+        *ngIf="event.status == 1">
             Завершить
         </label>
     </div>

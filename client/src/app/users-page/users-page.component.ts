@@ -92,7 +92,7 @@ export class UsersPageComponent implements OnInit, OnDestroy {
             let box = document.getElementById(id)
             box.remove()
           },
-          error => {console.log(error.error.message)}
+          error => {alert(error.error.message)}
         )
     }
   }

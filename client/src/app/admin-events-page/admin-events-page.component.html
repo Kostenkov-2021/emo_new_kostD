@@ -20,31 +20,28 @@
                     <span class="dark-{{session.firstColor}}-color">Автор:</span> {{event.autorName}}
                 </p><br>
                 <p class="user_info">
-                    <span class="dark-{{session.firstColor}}-color">Модератор:</span> {{event.moderatorName ? event.moderatorName : "Нет модератора"}}
-                </p><br>
-                <p class="user_info">
                     <span class="dark-{{session.firstColor}}-color">Описание:</span> {{event.description}}
                 </p> <br>
 
-                <div *ngIf="!event.moderator"  
-                class="nav-admin form_picture_button middle-{{session.firstColor}}-bg-hover" 
-                (click)="becomeModerator(event._id)">
-                    Стать модератором   
-                </div>
-                <div *ngIf="event.moderator == session._id"
-                    
+                <p class="user_info">
+                    <span class="dark-{{session.firstColor}}-color">Статус:</span> {{event.status == -1 ? "Отклонено" : event.status == 1 ? "Активно" : event.status == 0 ? "На рассмотрении" : event.status == 2 ? "Завершено" : "Неизвестен" }}
+                </p> <br>
+
+                <a 
                 class="nav-admin form_picture_button middle-{{session.firstColor}}-bg-hover" 
                 [routerLink]="['/manage/events', event._id]"
-                [queryParams]="{'institution': this.session.institution, 'status': 'edit'}">
-                    Модерировать
-                    
-                </div>
-                <div       
-                class="nav-admin form_picture_button middle-{{session.firstColor}}-bg-hover" 
-                [routerLink]="['/manage/events', event._id]"
-                [queryParams]="{'institution': this.session.institution, 'status': 'view'}">
-                    Смотреть информацию     
-                </div>
+                [queryParams]="{'institution': this.session.institution}">
+                    Редактировать
+                </a>
+                <button id="delete_button" type="button" hidden></button>
+                <label
+                *ngIf="event.status == 0 || event.status == -1"
+                for="delete_button" 
+                class="new_user_button form_picture_button middle-{{session.firstColor}}-bg-hover"
+                (click)="deleteEvent(event._id, event.autorName)">
+                    Удалить
+                </label>
+                
             </div>
         </div>
         <br>

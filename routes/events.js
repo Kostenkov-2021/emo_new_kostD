@@ -18,6 +18,7 @@ fields = [
 ]
 
 router.post('/', passport.authenticate('jwt', {session: false}), controller.create)
+router.delete('/:id', passport.authenticate('jwt', {session: false}), controller.remove)
 router.patch('/:eventID', passport.authenticate('jwt', {session: false}), upload.fields(fields), controller.update)
 router.patch('/dph', passport.authenticate('jwt', {session: false}), controller.deletePhoto)
 router.patch('/users/:eventID', passport.authenticate('jwt', {session: false}), controller.changeUserStatus)

@@ -118,7 +118,6 @@ export interface BotButton {
 
 export interface Event {
   autor: string
-  moderator: string
   participants?: string[] 
   hide?: string[]
   wait?: string[] 

@@ -76,11 +76,19 @@ export class AdminEventsPageComponent implements OnInit, OnDestroy {
     this.fetch()
   }
 
-  becomeModerator(id) {
-    this.eventsService.update(id, this.session._id).subscribe(event => {
-      this.router.navigate([`/manage/events/${id}`], {queryParams: {institution: this.session.institution, status: 'edit'}})
-    },
-    error => console.log(error))
+  deleteEvent(id, authorName) {
+    const decision = window.confirm(`Вы уверены, что хотите удалить мероприятие? Автор: ${authorName}`)
+
+    if (decision) {
+      this.eventsService.deleteById(id)
+        .subscribe(
+          response => {
+            let box = document.getElementById(id)
+            box.remove()
+          },
+          error => {alert(error.error.message)}
+        )
+    }
   }
 
   ngOnDestroy() {

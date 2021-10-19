@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Event, User } from '../interfaces';
+import { Event, MessageFromServer, User } from '../interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -55,7 +55,6 @@ export class EventsService {
     p_status?: boolean
     ): Observable<Event> {
       const fd = new FormData()
-      if (moderator) fd.append('moderator', moderator)
       if (status) fd.append('status', status.toString())
       if (wait) fd.append('wait', wait.toString())
       if (institutions) fd.append('institutions', institutions.toString())
@@ -85,6 +84,10 @@ export class EventsService {
 
   getById(id): Observable<Event>  {
     return this.http.get<Event>(`/api/events/one/${id}`)
+  }
+
+  deleteById(id): Observable<MessageFromServer>  {
+    return this.http.delete<MessageFromServer>(`/api/events/${id}`)
   }
 
   emoLetters(): Observable<Event> {

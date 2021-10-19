@@ -56,10 +56,6 @@ module.exports.getForModerators = async function(req, res) {
             event.text = text.text
             const autorName = await User.findOne({_id: event.autor}, {name: 1, surname: 1, login: 1})
             event.autorName = autorName.name + ' ' + autorName.surname + ', ' + autorName.login
-            if (event.moderator) {
-                const moderatorName = await User.findOne({_id: event.moderator})
-                event.moderatorName = moderatorName.name + ' ' + moderatorName.surname + ', ' + moderatorName.login
-            }
         }
         res.status(200).json(events)
     } catch (e) {
@@ -410,6 +406,27 @@ module.exports.getLikes = async function (req, res) {
         
         res.status(200).json(users)
         
+    } catch (e) {
+        errorHandler(res, e)
+    }
+}
+
+module.exports.remove = async function (req, res) {
+    try {
+        const event = await Event.findOne({_id: req.params.id}, {autor: 1, status: 1, institution: 1}) 
+        if ((event.status == 0 || event.status == -1) && 
+        (event.autor == req.user.id || req.user.levelStatus == 1 || 
+        (req.user.levelStatus == 2 && event.institution === req.user.institution))) {
+            await Event.deleteOne({_id: req.params.id})
+            res.status(200).json({
+                message: 'Мероприятие удалено.'
+              })
+        }
+        else {
+            res.status(403).json({
+              message: 'Недостаточно прав для совершения действия.'
+            })
+          }
     } catch (e) {
         errorHandler(res, e)
     }
