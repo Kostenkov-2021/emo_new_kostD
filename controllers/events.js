@@ -3,6 +3,7 @@ const errorHandler = require('../utils/errorHandler')
 const User = require('../models/User');
 const Event = require('../models/Event');
 const Bot = require('../models/Bot');
+const Institution = require('../models/Institution');
 const GroupMessage = require('../models/GroupMessage');
 
 module.exports.create = async function(req, res) {
@@ -136,7 +137,25 @@ module.exports.getByID = async function(req, res) {
             {new: true}
         )
 
-        const event = await Event.findOne({_id: req.params.eventID})
+        const event = await Event.findOne({_id: req.params.eventID}).lean()
+
+        const participantsNames = []
+        const hideNames = []
+
+        for (let participant of event.participants) {
+            const user = await User.findOne({_id: participant._id}, {name: 1, surname: 1, login: 1, institution: 1}).lean()
+            const institution = await Institution.findOne({_id: user.institution}, {name: 1}).lean()
+            participantsNames.push(`${user.name} ${user.surname}, ${user.login}, ${institution.name}`)
+        }
+        for (let hide of event.hide) {
+            const user = await User.findOne({_id: hide._id}, {name: 1, surname: 1, login: 1, institution: 1}).lean()
+            const institution = await Institution.findOne({_id: user.institution}, {name: 1}).lean()
+            hideNames.push(`${user.name} ${user.surname}, ${user.login}, ${institution.name}`)
+        }
+
+        event.participantsNames = participantsNames
+        event.hideNames = hideNames
+
         res.status(200).json(event)
     } catch (e) {
         errorHandler(res, e)

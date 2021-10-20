@@ -45,10 +45,11 @@ class="dark-{{session.firstColor}}-border"
             <p *ngIf="form.value.p_status == '1'"> Приглашены определённые учреждения. 
             Мероприятие доступно всем пользователям из выбранных учреждений, в том числе созданным после рассылки. </p>
             <p *ngIf="form.value.p_status == '2'"> Приглашены определённые пользователи.</p> 
+            <br>
         </div>
 
-        <div *ngIf="form.value.p_status == 1">
-            <div *ngIf="event.status == 0 && institutions"> 
+        <div *ngIf="event.status == 0">
+            <div *ngIf="form.value.p_status == 1 && institutions"> 
                 <p class="dark-{{session.firstColor}}-color">Выберите учреждения:</p>
                 <button (click)="checkAll_1()" type="button">Выбрать все</button>
                 <button (click)="checkNobody_1()" type="button">Отменить все</button>
@@ -61,33 +62,21 @@ class="dark-{{session.firstColor}}-border"
                     {{institution.name}} 
                 </div>
             </div>
-        </div>
 
-        <div *ngIf="form.value.p_status == 2">
-            <div *ngIf="event.status != 0 && event.status != -1">
-                <p class="dark-{{session.firstColor}}-color">Показывать:</p>
-                <select formControlName="whomShow" (change)="changeWhomShow()" *ngIf="event.status != 0 && event.status != -1">
-                    <option value="0">Не ответили на запрос</option>
-                    <option value="1">Отказались</option>
-                    <option value="2">Учавствуют</option>
-                </select>
-                <br><br>
-            </div>
-            <div *ngIf="event.status == 0 || event.status == -1">
+            <div *ngIf="form.value.p_status == 2">
                 <p class="dark-{{session.firstColor}}-color">Кому рассылать:</p>   
-            </div>
-            <p class="dark-{{session.firstColor}}-color">Учреждение:</p>
-            <select *ngIf="institutions" formControlName="institution" (change)="changeInstitution()">
-                <option 
-                *ngFor="let institution of institutions" 
-                value="{{institution._id}}"
-                [selected]="(institution._id == session.institution)"
-                >
-                {{institution.name}}</option>
-            </select>
-        
-            <div *ngIf="users">
-                <div *ngIf="event.status == 0"> 
+            
+                <p class="dark-{{session.firstColor}}-color">Учреждение:</p>
+                <select *ngIf="institutions" formControlName="institution" (change)="changeInstitution()">
+                    <option 
+                    *ngFor="let institution of institutions" 
+                    value="{{institution._id}}"
+                    [selected]="(institution._id == session.institution)"
+                    >
+                    {{institution.name}}</option>
+                </select>
+
+                <div *ngIf="users">
                     <button (click)="checkAll()" type="button">Выбрать всех</button>
                     <button (click)="checkNobody()" type="button">Отменить всех</button>
                     <div *ngFor="let user of users">
@@ -95,24 +84,28 @@ class="dark-{{session.firstColor}}-border"
                         {{user.name}} {{user.surname}}, {{user.login}} 
                     </div>
                 </div>
-                <div *ngIf="(event.status != 0) && whomShow == 0"> 
-                    <div *ngFor="let user of users">    
-                        <div *ngIf="wait.includes(user._id)">{{user.name}} {{user.surname}}, {{user.login}} </div>
-                    </div>
-                </div>
-                <div *ngIf="whomShow == 1"> 
-                    <div *ngFor="let user of users">    
-                        <div *ngIf="event.hide.includes(user._id)">{{user.name}} {{user.surname}}, {{user.login}} </div>
-                    </div>
-                </div>
-                <div *ngIf="whomShow == 2"> 
-                    <div *ngFor="let user of users">    
-                        <div *ngIf="event.participants.includes(user._id)">{{user.name}} {{user.surname}}, {{user.login}} </div>
-                    </div>
+            </div>
+            <br>
+        </div>
+        <div *ngIf="event.status == 1 || event.status == 2">
+            <p class="dark-{{session.firstColor}}-color">Показывать:</p>
+            <select formControlName="whomShow" (change)="changeWhomShow()">
+                <option value="1">Отказались</option>
+                <option value="2">Учавствуют</option>
+            </select>
+            <div *ngIf="form.value.whomShow == 1">
+                <div *ngFor="let user of event.hideNames">         
+                    {{user}}
                 </div>
             </div>
+            <div *ngIf="form.value.whomShow == 2">
+                <div *ngFor="let user of event.participantsNames">
+                    {{user}}
+                </div>
+            </div>
+            <br>
         </div>
-        <br>
+        
 
         <p class="dark-{{session.firstColor}}-color">Картинка чата (рекомендуется квадратное изображение):</p>
         <input type="file" formControlName="chatImage"  (change)="onFileUpload($event)"><br>

@@ -73,7 +73,7 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
       cost: new FormControl(null),
       chatImage: new FormControl(null),
       institution: new FormControl(null),
-      whomShow: new FormControl(0),
+      whomShow: new FormControl(2),
       chatTitle: new FormControl(null),
       photolikesImage: new FormControl(null),
       p_status: new FormControl('1')
@@ -108,6 +108,7 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
             this.wait = event.wait
             this.wait_inst = event.institutions
             if (event.photolikes) this.photolikesPreview = event.photolikes
+            console.log(event)
           }
           this.form.enable()
         },
