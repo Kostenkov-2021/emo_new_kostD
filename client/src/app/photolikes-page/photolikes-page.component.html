@@ -24,6 +24,7 @@
             *ngFor="let photo of event.photolikes"
             class="phl_img green-cursor" 
             [src]="photo"
+            loading="lazy"
             (click)="openZoom(photo)">
 
             <br>

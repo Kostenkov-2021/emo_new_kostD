@@ -9,12 +9,17 @@
             <div class="pNotAdmin" appEasyLang>{{i + 1}}</div> 
         </div>
         <div class="inline-block">
-            <img [src]="user.photo" class="ratingPhoto green-cursor" (click)="openZoom(user.photo)">
+            <img [src]="user.photo" class="ratingPhoto green-cursor" (click)="openZoom(user.photo)" loading="lazy">
         </div>
         <div class="inline-block">
             <div class="pNotAdmin" appEasyLang>{{user.name}} {{session.surnameView ? user.surname : ''}}</div>
+        </div> <br>
+        <div class="inline-block">
+            <div class="pNotAdmin" appEasyLang>{{user.institutionName}}</div>
         </div>
-        <div class="pNotAdmin" appEasyLang>{{user.institutionName}}</div>
+        
+        <img src="/images/letter.png" class="ratingLetter green-cursor" (click)="goToChat(user._id, session.defaultColor)">
+        
         <div class="pNotAdmin" appEasyLang>Балл: {{user.score}}</div>
     </div>
 

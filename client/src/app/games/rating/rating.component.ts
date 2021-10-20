@@ -4,6 +4,7 @@ import { User } from 'src/app/shared/interfaces';
 import { LoginService } from 'src/app/shared/services/login.service';
 import { UsersService } from 'src/app/shared/services/users.service';
 import { Router } from '@angular/router';
+import { ChatService } from 'src/app/shared/services/chat.service';
 
 @Component({
   selector: 'app-rating',
@@ -21,7 +22,10 @@ export class RatingComponent implements OnInit, OnDestroy {
   zoom = false
   image = ''
 
-  constructor(private loginService: LoginService, private usersService: UsersService, private router: Router) { }
+  constructor(private loginService: LoginService, 
+    private usersService: UsersService, 
+    private router: Router,
+    private chatService: ChatService) { }
 
   ngOnInit(): void {
     this.reloading = true
@@ -46,6 +50,10 @@ export class RatingComponent implements OnInit, OnDestroy {
 
   closeZoom(result) {
     if (result) this.zoom = false
+  }
+
+  goToChat(id: string, color: string) {
+    this.chatService.goToChat(id, color)
   }
 
   ngOnDestroy() {

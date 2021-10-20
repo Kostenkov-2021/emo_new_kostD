@@ -33,3 +33,15 @@
     display: inline-block;
 }
 
+.ratingLetter {
+    position: relative;
+    height: calc(0.5cm + 2vw);
+    width: calc(1cm + 4vw);
+    background-image: url('/images/letter.png'); 
+    background-size: 100% 100%;
+    display: inline-block;
+    float: right;
+    margin-right: 1vw;
+    border: 3px solid red;
+    border-radius: 7.5px;
+}

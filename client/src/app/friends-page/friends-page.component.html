@@ -5,6 +5,7 @@
         (click)="goToChat(user._id, session.defaultColor, '5f3bfe9255ba364d9f2edfac')"></div>
             <img 
             class="friendAvatar dark-{{session.firstColor}}-border green-cursor" 
+            loading="lazy"
             [src]="user.photo"
             (click)="goToChat(user._id, session.defaultColor)">
         <div class="letter green-cursor"
