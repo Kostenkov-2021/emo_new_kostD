@@ -112,7 +112,8 @@ const userSchema = new Schema({
     type: [String]
   },
   score: Number,
-  games: Boolean
+  games: Boolean,
+  expoPushToken: String
 })
 
 module.exports = mongoose.model('users', userSchema)
