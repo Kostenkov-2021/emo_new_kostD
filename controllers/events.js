@@ -5,7 +5,7 @@ const Event = require('../models/Event');
 const Bot = require('../models/Bot');
 const Institution = require('../models/Institution');
 const GroupMessage = require('../models/GroupMessage');
-const { Expo } = require('expo-server-sdk')
+// const { Expo } = require('expo-server-sdk')
 
 module.exports.create = async function(req, res) {
     try {

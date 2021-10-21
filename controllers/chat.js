@@ -2,7 +2,7 @@ const errorHandler = require('../utils/errorHandler')
 const User = require('../models/User')
 const Message = require('../models/Message')
 const Picture = require('../models/Picture')
-const { Expo } = require('expo-server-sdk')
+// const { Expo } = require('expo-server-sdk')
 
 module.exports.getAllMessage = async function(req, res) {   
     try {
@@ -99,29 +99,27 @@ module.exports.send = async function(req, res) {
     }).save()
 
     const recipient = await User.findOne({_id: req.user.id}, {expoPushToken: 1, _id: 0}).lean()
-
     
-    
-    if (Expo.isExpoPushToken(recipient.expoPushToken)) {
-      let notification = {
-        to: recipient.expoPushToken,
-        sound: 'default',
-        title: 'Личное сообщение',
-        body: `${sender.name} прислал${sender.sex == 2 ? 'а' : ''} вам личное сообщение`,
-        badge: 1,
-      }
+    // if (Expo.isExpoPushToken(recipient.expoPushToken)) {
+    //   let notification = {
+    //     to: recipient.expoPushToken,
+    //     sound: 'default',
+    //     title: 'Личное сообщение',
+    //     body: `${sender.name} прислал${sender.sex == 2 ? 'а' : ''} вам личное сообщение`,
+    //     badge: 1,
+    //   }
 
-      let chunks = expo.chunkPushNotifications([notification]);
-      (async () => {
-        for (let chunk of chunks) {
-          try {
-            await expo.sendPushNotificationsAsync(chunk);
-          } catch (error) {
-            console.error(error);
-          }
-        }
-      })();
-    }
+    //   let chunks = expo.chunkPushNotifications([notification]);
+    //   (async () => {
+    //     for (let chunk of chunks) {
+    //       try {
+    //         await expo.sendPushNotificationsAsync(chunk);
+    //       } catch (error) {
+    //         console.error(error);
+    //       }
+    //     }
+    //   })();
+    // }
     
 
     res.status(201).json(message)
