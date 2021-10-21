@@ -4,6 +4,7 @@ const User = require('../models/User');
 const Picture = require('../models/Picture');
 const GroupMessage = require('../models/GroupMessage');
 const Event = require('../models/Event');
+const { Expo } = require('expo-server-sdk')
 
 module.exports.send = async function(req, res) {
     try {
@@ -34,14 +35,47 @@ module.exports.send = async function(req, res) {
             wait
         }).save()
 
-        const user = await User.findOne({_id: req.user.id}, {name: 1, photo: 1})
+        const user = await User.findOne({_id: req.user.id}, {name: 1, photo: 1, sex: 1})
 
         const messageInBD = await GroupMessage.findOne({_id: message._id}).lean()
 
         messageInBD.senderName = user.name
         messageInBD.senderPhoto = user.photo
 
-        console.log(message)
+        let messages = [];
+
+        let somePushTokens = []
+
+        for (let us of wait) {
+          let getUser = await User.findOne({_id: us}, {expoPushToken: 1, _id: 0}).lean()
+          if (getUser.expoPushToken) somePushTokens.push(getUser.expoPushToken)
+        }
+
+        for (let pushToken of somePushTokens) {
+          if (!Expo.isExpoPushToken(pushToken)) {
+            console.error(`Push token ${pushToken} is not a valid Expo push token`);
+            continue;
+          }
+
+          messages.push({
+            to: pushToken,
+            sound: 'default',
+            title: 'Групповое сообщение',
+            body: `${user.name} прислал${user.sex == 2 ? 'а' : ''} новое групповое сообщение`,
+            badge: 1,
+          })
+        }
+
+        let chunks = expo.chunkPushNotifications(messages);
+        (async () => {
+          for (let chunk of chunks) {
+            try {
+              await expo.sendPushNotificationsAsync(chunk);
+            } catch (error) {
+              console.error(error);
+            }
+          }
+        })();
 
         res.status(201).json(messageInBD)
 
