@@ -113,12 +113,14 @@ module.exports.send = async function(req, res) {
         }
   
         let chunks = expo.chunkPushNotifications([notification]);
+        
         (async () => {
           for (let chunk of chunks) {
             try {
               await expo.sendPushNotificationsAsync(chunk);
+              
             } catch (error) {
-              console.error(error);
+              console.error('sendPushNotificationsAsync', error);
             }
           }
         })();
