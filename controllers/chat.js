@@ -2,7 +2,9 @@ const errorHandler = require('../utils/errorHandler')
 const User = require('../models/User')
 const Message = require('../models/Message')
 const Picture = require('../models/Picture')
-// const { Expo } = require('expo-server-sdk')
+const { Expo } = require('expo-server-sdk')
+
+const expo = new Expo();
 
 module.exports.getAllMessage = async function(req, res) {   
     try {
@@ -88,38 +90,44 @@ module.exports.send = async function(req, res) {
       {$set: {last_active_at: now}, $inc: {score: 1}},
       {new: true})
       
-    const sender = await User.findOne({_id: req.params.friend}, {onlineStatus: 1, last_active_at: 1, name: 1, sex: 1, _id: 0}).lean()
-
+    const recipient = await User.findOne({_id: req.params.friend}, {onlineStatus: 1, last_active_at: 1, expoPushToken: 1, _id: 0}).lean()
+    const read = (recipient.onlineStatus == req.user.id && (new Date().getTime() - new Date(recipient.last_active_at).getTime()) < 300000) ? true : false
+    
     const message = await new Message({
       sender: req.user.id,
       recipient: req.params.friend,
       message: req.body.message,
       type: req.body.type,
-      read: (sender.onlineStatus == req.user.id && (new Date().getTime() - new Date(sender.last_active_at).getTime()) < 300000) ? true : false
+      read
     }).save()
 
-    const recipient = await User.findOne({_id: req.user.id}, {expoPushToken: 1, _id: 0}).lean()
-    
-    // if (Expo.isExpoPushToken(recipient.expoPushToken)) {
-    //   let notification = {
-    //     to: recipient.expoPushToken,
-    //     sound: 'default',
-    //     title: 'Личное сообщение',
-    //     body: `${sender.name} прислал${sender.sex == 2 ? 'а' : ''} вам личное сообщение`,
-    //     badge: 1,
-    //   }
+    const sender = await User.findOne({_id: req.params.id}, {name: 1, sex: 1, _id: 0}).lean()
 
-    //   let chunks = expo.chunkPushNotifications([notification]);
-    //   (async () => {
-    //     for (let chunk of chunks) {
-    //       try {
-    //         await expo.sendPushNotificationsAsync(chunk);
-    //       } catch (error) {
-    //         console.error(error);
-    //       }
-    //     }
-    //   })();
-    // }
+    try {
+      if (Expo.isExpoPushToken(recipient.expoPushToken) && !read) {
+        let notification = {
+          to: recipient.expoPushToken,
+          sound: 'default',
+          title: 'Личное сообщение',
+          body: `${sender.name} прислал${sender.sex == 2 ? 'а' : ''} вам личное сообщение`,
+          badge: 1,
+        }
+  
+        let chunks = expo.chunkPushNotifications([notification]);
+        (async () => {
+          for (let chunk of chunks) {
+            try {
+              await expo.sendPushNotificationsAsync(chunk);
+            } catch (error) {
+              console.error(error);
+            }
+          }
+        })();
+      }
+    } catch (e) {
+      console.log(e)
+    }
+    
     
 
     res.status(201).json(message)
