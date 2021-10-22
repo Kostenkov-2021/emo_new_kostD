@@ -101,7 +101,7 @@ module.exports.send = async function(req, res) {
       read
     }).save()
 
-    const sender = await User.findOne({_id: req.params.id}, {name: 1, sex: 1, _id: 0}).lean()
+    const sender = await User.findOne({_id: req.user.id}, {name: 1, sex: 1, _id: 0}).lean()
 
     try {
       if (Expo.isExpoPushToken(recipient.expoPushToken) && !read) {
