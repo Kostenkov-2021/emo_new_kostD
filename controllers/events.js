@@ -304,7 +304,7 @@ module.exports.changeUserStatus = async function (req, res) {
             )
         }
 
-        const user = await User.findOne({_id: event.autor}, {surname: 1, name: 1, sex: 1, _id: 0}).lean()
+        const user = await User.findOne({_id: new_event.autor}, {surname: 1, name: 1, sex: 1, _id: 0}).lean()
         new_event.autorName = user.name
         new_event.autorSurname = user.surname
         new_event.autorSex = user.sex
