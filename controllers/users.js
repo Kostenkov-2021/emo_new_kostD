@@ -221,7 +221,7 @@ module.exports.remove = async function(req, res) {
 module.exports.getRating = async function(req, res) {
   try {
     const users = await User
-    .find({score: {$gte: 0}}, {name: 1, surname: 1, photo: 1, institution: 1, score: 1, levelStatus: 1})
+    .find({score: {$gte: 0}}, {name: 1, surname: 1, photo: 1, institution: 1, score: 1, levelStatus: 1, sex: 1})
     .sort({score: -1, last_active_at: -1})
     .lean()
 
