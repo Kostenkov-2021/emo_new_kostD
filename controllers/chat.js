@@ -37,7 +37,7 @@ module.exports.getAllMessage = async function(req, res) {
         {sender: friend, recipient: me}, 
         {$set: {read: true}},
         {new: true})
-        console.log(4, new Date())
+        
       res.status(200).json(message)
       
     } catch (e) {

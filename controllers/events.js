@@ -78,9 +78,8 @@ module.exports.update = async function(req, res) {
         if (req.body.status == '1') {
             updated.mailingTime = now
         }
-        console.log(req.body.p_status)
+
         if (req.body.p_status == 'true') {
-            console.log('here')
             updated.p_status = true
             updated.wait = []
             updated.institutions = []
@@ -121,7 +120,7 @@ module.exports.update = async function(req, res) {
             {_id: req.params.eventID},
             {$set: updated},
             {new: true}
-        )
+        ).lean()
 
         const participantsNames = []
         const hideNames = []
@@ -294,14 +293,14 @@ module.exports.changeUserStatus = async function (req, res) {
                 {_id: req.params.eventID},
                 {$addToSet: {participants: id}},
                 {new: true}
-            )
+            ).lean()
         }
         else {
             new_event = await Event.findOneAndUpdate(
                 {_id: req.params.eventID},
                 {$addToSet: {hide: id}},
                 {new: true}
-            )
+            ).lean()
         }
 
         const user = await User.findOne({_id: new_event.autor}, {surname: 1, name: 1, sex: 1, _id: 0}).lean()
@@ -348,8 +347,8 @@ module.exports.deletePhoto = async function(req, res) {
             {_id: req.rarams.eventID},
             {$pullAll: { photolikes: req.body.deletePhoto }},
             {new: true}
-        )
-            
+        ).lean()
+        
         res.status(200).json(event)
     } catch (e) {
         errorHandler(res, e)
@@ -369,13 +368,13 @@ module.exports.pushLike = async function(req, res) {
             {_id: req.params.eventID},
             {$addToSet: {likes: req.user.id}},
             {new: true}
-        )
+        ).lean()
 
         const user = await User.findOne({_id: event.autor}, {surname: 1, name: 1, sex: 1, _id: 0}).lean()
         event.autorName = user.name
         event.autorSurname = user.surname
         event.autorSex = user.sex
-            
+        
         res.status(200).json(event)
     } catch (e) {
         errorHandler(res, e)
@@ -394,7 +393,7 @@ module.exports.deleteLike = async function(req, res) {
             {_id: req.params.eventID},
             {$pull: {likes: req.user.id}},
             {new: true}
-        )
+        ).lean()
 
         const user = await User.findOne({_id: event.autor}, {surname: 1, name: 1, sex: 1, _id: 0}).lean()
         event.autorName = user.name
