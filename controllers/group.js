@@ -65,7 +65,6 @@ module.exports.send = async function(req, res) {
               sound: 'default',
               title: 'Групповое сообщение',
               body: `${user.name} прислал${user.sex == 2 ? 'а' : ''} новое групповое сообщение`,
-              badge: 1,
             })
           }
 

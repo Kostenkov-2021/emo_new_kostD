@@ -110,7 +110,6 @@ module.exports.send = async function(req, res) {
           sound: 'default',
           title: 'Личное сообщение',
           body: `${sender.name} прислал${sender.sex == 2 ? 'а' : ''} вам личное сообщение`,
-          badge: 1,
         }
   
         let chunks = expo.chunkPushNotifications([notification]);
