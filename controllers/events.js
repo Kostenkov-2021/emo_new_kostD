@@ -349,11 +349,6 @@ module.exports.deletePhoto = async function(req, res) {
             {$pullAll: { photolikes: req.body.deletePhoto }},
             {new: true}
         )
-
-        const user = await User.findOne({_id: event.autor}, {surname: 1, name: 1, sex: 1, _id: 0}).lean()
-        event.autorName = user.name
-        event.autorSurname = user.surname
-        event.autorSex = user.sex
             
         res.status(200).json(event)
     } catch (e) {
@@ -400,6 +395,11 @@ module.exports.deleteLike = async function(req, res) {
             {$pull: {likes: req.user.id}},
             {new: true}
         )
+
+        const user = await User.findOne({_id: event.autor}, {surname: 1, name: 1, sex: 1, _id: 0}).lean()
+        event.autorName = user.name
+        event.autorSurname = user.surname
+        event.autorSex = user.sex
             
         res.status(200).json(event)
     } catch (e) {
