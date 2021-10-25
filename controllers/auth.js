@@ -6,7 +6,7 @@ const keys = require('../config/keys')
 
 
 module.exports.login = async function(req, res) {
-  const candidate = await User.findOne({login: req.body.login}).lean()
+  const candidate = await User.findOne({login: req.body.login}, {login: 1, password: 1, levelStatus: 1, institution: 1}).lean()
 
   if (candidate) {
     // Проверка пароля, пользователь существует
