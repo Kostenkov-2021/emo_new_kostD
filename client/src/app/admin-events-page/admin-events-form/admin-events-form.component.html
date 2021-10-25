@@ -1,7 +1,7 @@
 <form 
 id="edit_picture_or_folder" 
 [formGroup]="form" 
-(ngSubmit)="onSubmit()"
+(ngSubmit)="onSubmit(null)"
 class="dark-{{session.firstColor}}-border"
 *ngIf="session$ | async as session; else loader">
     <div *ngIf="event; else loader">
@@ -123,8 +123,6 @@ class="dark-{{session.firstColor}}-border"
             class="phl_img" 
             [src]="photo"> 
         </div> <br> <br>
-        <p class="dark-{{session.firstColor}}-color" *ngIf="event.status == 0">ПЕРЕД РАССЫЛКОЙ СОХРАНИТЕ МЕРОПРИЯТИЕ!</p>
-        <p class="dark-{{session.firstColor}}-color" *ngIf="event.status == 1">ПЕРЕД ЗАВЕРШЕНИЕМ СОХРАНИТЕ МЕРОПРИЯТИЕ!</p>
         <br><br>
 
         <a 
@@ -142,7 +140,7 @@ class="dark-{{session.firstColor}}-border"
         <label 
         for="submit_button" 
         class="new_user_button form_picture_button middle-{{session.firstColor}}-bg-hover"
-        (click)="mailing()"
+        (click)="onSubmit(1)"
         *ngIf="event.status == 0">
             Сделать рассылку
         </label>
@@ -151,7 +149,7 @@ class="dark-{{session.firstColor}}-border"
         <label 
         for="submit_button" 
         class="new_user_button form_picture_button middle-{{session.firstColor}}-bg-hover"
-        (click)="reject()"
+        (click)="onSubmit(-1)"
         *ngIf="event.status == 0">
             Отклонить
         </label>
@@ -160,9 +158,9 @@ class="dark-{{session.firstColor}}-border"
         <label 
         for="submit_button" 
         class="new_user_button form_picture_button middle-{{session.firstColor}}-bg-hover"
-        (click)="complate()"
+        (click)="onSubmit(2)"
         *ngIf="event.status == 1">
-            Завершить
+            Отправить в фотолайки
         </label>
     </div>
 </form>

@@ -183,45 +183,12 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
     reader.readAsDataURL(file)
   }
 
-  mailing() {
-    this.form.disable()
-
-    this.eventsService.update(this.id, null, 1)
-    .subscribe(event => {
-      this.event = event
-      this.form.enable()
-    },
-    error => console.log(error))
-  }
-
-  complate() {
-    this.form.disable()
-
-    this.eventsService.update(this.id, null, 2)
-    .subscribe(event => {
-      this.event = event
-      this.form.enable()
-    },
-    error => console.log(error))
-  }
-
-  reject() {
-    this.form.disable()
-
-    this.eventsService.update(this.id, null, -1)
-    .subscribe(event => {
-      this.event = event
-      this.form.enable()
-    },
-    error => console.log(error))
-  }
-
-  onSubmit() {
+  onSubmit(newStatus?: number) {
     this.form.disable()
 
     this.eventsService.update(this.id, 
       null, 
-      null, 
+      newStatus ? newStatus : null, 
       this.form.value.p_status == '2' ? this.wait : null, 
       this.form.value.date ? (new Date(this.form.value.date)).toISOString() : null,
       this.form.value.description,
