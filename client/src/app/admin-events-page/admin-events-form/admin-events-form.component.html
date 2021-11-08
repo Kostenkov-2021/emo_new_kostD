@@ -60,6 +60,48 @@ class="dark-{{session.firstColor}}-border"
                     type="button">{{wait_inst.includes(institution._id) ? 'Отменить' : 'Выбрать'}}
                     </button>
                     {{institution.name}} 
+                </div><br>
+
+                <p class="dark-{{session.firstColor}}-color">Выберите роли:</p>
+                <div>
+                    <button 
+                    (click)="checkRole(1)" 
+                    [ngClass]="{green_button: roles.includes(1), red_button: !roles.includes(1)}" 
+                    type="button">{{roles.includes(1) ? 'Отменить' : 'Выбрать'}}
+                    </button>
+                    Администраторы
+                </div>
+                <div>
+                    <button 
+                    (click)="checkRole(2)"
+                    [ngClass]="{green_button: roles.includes(2), red_button: !roles.includes(2)}" 
+                    type="button">{{roles.includes(2) ? 'Отменить' : 'Выбрать'}}
+                    </button>
+                    Модераторы 
+                </div>
+                <div>
+                    <button 
+                    (click)="checkRole(3)"
+                    [ngClass]="{green_button: roles.includes(3), red_button: !roles.includes(3)}" 
+                    type="button">{{roles.includes(3) ? 'Отменить' : 'Выбрать'}}
+                    </button>
+                    Подопечные
+                </div>
+                <div>
+                    <button 
+                    (click)="checkRole(5)"
+                    [ngClass]="{green_button: roles.includes(5), red_button: !roles.includes(5)}" 
+                    type="button">{{roles.includes(5) ? 'Отменить' : 'Выбрать'}}
+                    </button>
+                    Взрослые
+                </div>
+                <div>
+                    <button 
+                    (click)="checkRole(4)" 
+                    [ngClass]="{green_button: roles.includes(4), red_button: !roles.includes(4)}" 
+                    type="button">{{roles.includes(4) ? 'Отменить' : 'Выбрать'}}
+                    </button>
+                    Гости 
                 </div>
             </div>
 

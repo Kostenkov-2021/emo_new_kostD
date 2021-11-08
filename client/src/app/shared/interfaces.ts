@@ -136,6 +136,7 @@ export interface Event {
   likes?: string[]
   p_status?: boolean
   institutions?: string[]
+  roles?: number[]
 }
 
 export interface GroupMessage {

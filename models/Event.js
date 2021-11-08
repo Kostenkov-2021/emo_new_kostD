@@ -15,6 +15,9 @@ const eventSchema = new Schema({
     ref: 'institutions',
     type: [Schema.Types.ObjectId]
   },
+  roles: {     
+    type: [Number]
+  },
   p_status: {     //публичное
     type: Boolean
   },

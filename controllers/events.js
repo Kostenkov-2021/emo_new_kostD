@@ -83,15 +83,17 @@ module.exports.update = async function(req, res) {
             updated.p_status = true
             updated.wait = []
             updated.institutions = []
-            updated.institutions = []
-            updated.wait = []
+            updated.roles = []
         }
         else if (req.body.institutions && req.body.institutions != "") {
             const array = req.body.institutions.split(',')
             const set = new Set(array)
             const uniqeArray = [...set]
+            const arrayR = req.body.roles.split(',')
+            const setR = new Set(arrayR)
+            const uniqeArrayR = [...setR]
             updated.institutions = uniqeArray
-            updated.wait = []
+            updated.roles = uniqeArrayR
             updated.p_status = false
             updated.wait = []
         }
@@ -102,6 +104,7 @@ module.exports.update = async function(req, res) {
             updated.wait = uniqeArray
             updated.p_status = false
             updated.institutions = []
+            updated.roles = []
         }
         if (req.body.status == 2) updated.closingTime = now
         if (req.files['image']) updated.chatImage = req.files['image'][0].location
@@ -205,7 +208,11 @@ module.exports.getForBot = async function (req, res) {
             {autor: req.user.id}, 
             {participants: req.user.id, status: 1},
             {wait: req.user.id, status: 1},
-            {institutions: req.user.institution, status: 1},
+            {
+                institutions: req.user.institution, 
+                $or: [{roles: req.user.levelStatus}, {roles: {$exists: false}}, {"roles.0": {$exists: false}}], 
+                status: 1
+            },
             {p_status: true, status: 1}
         ]}).lean()
 

@@ -36,6 +36,7 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
   now: Date
   photolikesPreview: string[] = []
   wait_inst: string[] = []
+  roles: number[] = [1, 2, 3, 4, 5]
 
 
 
@@ -106,6 +107,7 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
             if (event.date) this.form.patchValue({date: formatDate(event.date, 'yyyy-MM-ddTHH:mm', 'en')})
             this.imagePreview = event.chatImage
             this.wait = event.wait
+            if (event.roles) this.roles = event.roles
             this.wait_inst = event.institutions
             if (event.photolikes) this.photolikesPreview = event.photolikes
             console.log(event)
@@ -168,6 +170,16 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
       this.wait_inst.push(id)
     }
   }
+  checkRole(role) {
+    if (this.roles.includes(role)) {
+      let index = this.roles.indexOf(role, 0)
+      this.roles.splice(index, 1)
+    }
+    else {
+      this.roles.push(role)
+    }
+  }
+
   onPhotolikesUpload(event: any) {
     const files = event.target.files
     this.photolikes = files
@@ -185,11 +197,10 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
 
   onSubmit(newStatus?: number) {
     this.form.disable()
-
     this.eventsService.update(this.id, 
       null, 
       newStatus ? newStatus : null, 
-      this.form.value.p_status == '2' ? this.wait : null, 
+      (this.form.value.p_status == '2' && this.wait.length) ? this.wait : null, 
       this.form.value.date ? (new Date(this.form.value.date)).toISOString() : null,
       this.form.value.description,
       this.form.value.address,
@@ -197,15 +208,15 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
       this.form.value.cost,
       this.form.value.chatTitle,
       this.photolikes,
-      this.form.value.p_status == '1' ? this.wait_inst : null,
-      this.form.value.p_status == '0' ? true : false)
+      (this.form.value.p_status == '1' && this.wait_inst.length) ? this.wait_inst : null,
+      this.form.value.p_status == '0' ? true : false,
+      (this.form.value.p_status == '1' && this.roles.length) ? this.roles : null)
     .subscribe(event => {
       this.event = event
       this.photolikesPreview = event.photolikes
       this.photolikes = []
-      this.form.enable()
     },
-    error => console.log(error))
+    error => alert(error.error.message))
   }
 
   ngOnDestroy() {
