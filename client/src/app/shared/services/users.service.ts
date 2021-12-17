@@ -30,6 +30,14 @@ export class UsersService {
       return this.http.get<User[]>(`/api/manage/users/rating/all`)
     }
 
+    getAnalytics(institution: string, params: any): Observable<User[]> {
+      return this.http.get<User[]>(`/api/manage/users/analytics/${institution}`, {
+        params: new HttpParams({
+          fromObject: params
+        })
+      })
+    }
+
     create(
       login: string,
       name: string,

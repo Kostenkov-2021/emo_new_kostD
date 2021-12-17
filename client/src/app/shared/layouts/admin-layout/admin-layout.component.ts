@@ -19,8 +19,7 @@ export class AdminLayoutComponent implements OnInit {
     {url: '/manage/institutions', name: 'Учреждения'},
     {url: '/manage/pictures', name: 'Пиктограммы'},
     {url: '/manage/events', name: 'Мероприятия'},
-    {url: '/manage/emo', name: 'Бот ЭМО'},
-    {url: '/manage/table', name: 'Таблица бюджета'}
+    {url: '/manage/analytics', name: 'Аналитика'}
   ]
   color: string
   reloading: boolean = false

@@ -68,7 +68,6 @@
             id="add_picture" 
             >
                 <a 
-                *ngIf="session.levelStatus == 1"
                 class="nav-admin middle-{{session.firstColor}}-bg-hover" 
                 [routerLink]="['/manage/pictures', 'newpicture', pictureAndFolder.folder.many, pictureAndFolder.folder._id, 'null']"
                 [queryParams]="{'folder': queryA, 'institution': session.institution}">
@@ -82,7 +81,6 @@
             for="folder_picture_button" 
             id="add_folder">
                 <a 
-                *ngIf="session.levelStatus == 1"
                 class="nav-admin middle-{{session.firstColor}}-bg-hover" 
                 [routerLink]="['/manage/pictures', 'newfolder', pictureAndFolder.folder.many, pictureAndFolder.folder._id, 'null']"
                 [queryParams]="{'folder': queryA, 'institution': session.institution}">

@@ -48,16 +48,12 @@ module.exports.friends = async function(req, res) {
       const readRecipients = await Message.distinct("recipient", {sender: req.user.id})
 
       function union_arr(arr1, arr2) {
-        // объединяем массивы
-        let arr3 = arr1.concat(arr2);
-        // формируем новый массив без повторяющихся элементов
-        var arr = [arr3[0]]; 
-        for (var i = 1; i < arr3.length; i++) {
-          if (arr3[i] != arr3[i-1]) {
-              arr.push(arr3[i]);
-          }
+        for (let i = 0; i < arr1.length; i++) arr1[i] = arr1[i].toString()
+        for (let i = 0; i < arr2.length; i++) arr2[i] = arr2[i].toString()
+        for (let el of arr2) {
+          if (!arr1.includes(el)) arr1.push(el);
         }
-        return arr;
+        return arr1;
       }
 
       const read = union_arr(readSenders, readRecipients)
@@ -211,5 +207,5 @@ module.exports.score = async function(req, res) {
     {$set: {last_active_at: now}, $inc: {score: req.body.score}},
     {new: true})
 
-  res.status(201).json({message: 'Обновлено.'})
+  res.status(200).json({message: 'Обновлено.'})
 }

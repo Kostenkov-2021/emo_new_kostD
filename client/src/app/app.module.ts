@@ -60,6 +60,7 @@ import { RatingComponent } from './games/rating/rating.component';
 import { Game3Component } from './games/game3/game3.component';
 import { Game4Component } from './games/game4/game4.component';
 import { Game5Component } from './games/game5/game5.component';
+import { AnalyticsComponent } from './analytics/analytics.component';
 
 @NgModule({
   declarations: [
@@ -115,7 +116,8 @@ import { Game5Component } from './games/game5/game5.component';
     RatingComponent,
     Game3Component,
     Game4Component,
-    Game5Component
+    Game5Component,
+    AnalyticsComponent
   ],
   imports: [
     BrowserModule,

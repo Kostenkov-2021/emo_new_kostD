@@ -1,0 +1,31 @@
+.table {
+	width: 70%;
+    margin: 30px;
+    margin-top: 60px;
+	border: none;
+	border-collapse: collapse; 
+    overflow-x: scroll;
+}
+.table th {
+	font-weight: bold;
+	padding: 5px;
+}
+.table td {
+	border-width: 1px; 
+    border-style: solid;
+	padding: 5px;
+}
+
+.table thead tr th:first-child {
+	border-radius: 10px 0 0 0;
+}
+.table thead tr th:last-child {
+	border-radius: 0 10px 0 0;
+}
+
+.table tbody tr:last-child td:first-child {
+	border-radius: 0 0 0 10px;
+}
+.table tbody tr:last-child td:last-child {
+	border-radius: 0 0 10px 0;
+}

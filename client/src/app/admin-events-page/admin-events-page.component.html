@@ -60,6 +60,30 @@
         </ng-template>
     </div>
 
+    <button id="bot-emo" hidden></button>
+    <label 
+    *ngIf="session.levelStatus == 1"
+    for="bot-emo" 
+    id="add_folder">
+        <a 
+        class="nav-admin middle-{{session.firstColor}}-bg-hover" 
+        [routerLink]="['/manage/emo']">
+            Бот ЭМО
+        </a>
+    </label>
+
+    <button id="event-table" hidden></button>
+    <label 
+    *ngIf="session.levelStatus == 1"
+    for="event-table" 
+    id="add_picture">
+        <a 
+        class="nav-admin middle-{{session.firstColor}}-bg-hover" 
+        [routerLink]="['/manage/table']">
+            Таблица бюджета
+        </a>
+    </label>
+
 </div>
 
 <ng-template #reloader>

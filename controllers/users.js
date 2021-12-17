@@ -4,6 +4,8 @@ const errorHandler = require('../utils/errorHandler')
 const { query } = require('express')
 const Institution = require('../models/Institution')
 const Message = require('../models/Message')
+const GroupMessage = require('../models/GroupMessage')
+const Event = require('../models/Event')
 const moment = require('moment')
 
 module.exports.create = async function(req, res) {
@@ -230,6 +232,60 @@ module.exports.getRating = async function(req, res) {
       user.institutionName = institution.name
     }
     
+    res.status(200).json(users)
+  } catch (e) {
+    errorHandler(res, e)
+  }
+}
+
+module.exports.getAnalytics = async function (req, res) {
+  try {
+    const users = await User.find({institution: req.params.instID, levelStatus: {$ne: 4}}, {name: 1, surname: 1, score: 1, loginDates: 1, expoPushToken: 1, last_active_at: 1, birthDate: 1, levelStatus: 1}).sort({name: 1, surname: 1}).skip(+req.query.offset).limit(+req.query.limit).lean()
+    for (let user of users) {
+      user.send_messages = await Message.count({sender: user._id})
+      user.send_messages_read = await Message.count({sender: user._id, read: true})
+      user.get_messages = await Message.count({recipient: user._id})
+      user.get_messages_read = await Message.count({recipient: user._id, read: true})
+
+      user.send_group_messages = await GroupMessage.count({sender: user._id})
+      user.send_group_messages_read = await GroupMessage.count({sender: user._id, "read.1": {$exists: true}})
+      user.get_group_messages_not_read = await GroupMessage.count({wait: user._id})
+      user.get_group_messages_read = await GroupMessage.count({read: user._id, sender: {$ne: user._id}})
+
+      user.event_hide = await Event.count({hide: user._id})
+      user.event_participant = await Event.count({participants: user._id})
+      user.event_author = await Event.count({autor: user._id})
+      user.likes = await Event.count({likes: user._id})
+
+      let him_recipient = await Message.distinct("sender", {recipient: user._id})
+      let him_sender = await Message.distinct("recipient", {sender: user._id})
+      
+      for (let i = 0; i < him_sender.length; i++) him_sender[i] = him_sender[i].toString()
+      for (let i = 0; i < him_recipient.length; i++) him_recipient[i] = him_recipient[i].toString()
+
+      function union_arr(arr1, arr2) {
+        let arr = [...arr1]
+        for (let el of arr2) {
+          if (!arr1.includes(el)) arr.push(el);
+        }
+        return arr.length;
+      }
+
+      function only_function(arr1, arr2) {
+        let arr = []
+        for (let el of arr1) {
+          if (!arr2.includes(el)) arr.push(el)
+        }
+        return arr.length
+      }
+
+      user.all_chats = union_arr(him_recipient, him_sender)
+      user.only_get_chats = only_function(him_recipient, him_sender)
+      user.only_send_chats = only_function(him_sender, him_recipient)
+      user.self_chat = await Message.findOne({sender: user._id, recipient: user._id}).lean() ? true : false
+      user.send_and_get_chats = user.all_chats - (user.only_get_chats + user.only_send_chats)
+    }
+
     res.status(200).json(users)
   } catch (e) {
     errorHandler(res, e)

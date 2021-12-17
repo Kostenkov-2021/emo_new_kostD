@@ -102,4 +102,13 @@ export class ChatService {
     });
     return url
   }
+
+  readLongText(text: string): { shortText: string; url: string; }[] {
+    const urls = googleTTS.getAllAudioUrls(text, {
+      lang: 'ru',
+      slow: false,
+      host: 'https://translate.google.com',
+    });
+    return urls
+  }
 }

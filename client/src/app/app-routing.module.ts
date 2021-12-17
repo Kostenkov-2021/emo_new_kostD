@@ -44,6 +44,7 @@ import { RatingComponent } from './games/rating/rating.component';
 import { Game3Component } from './games/game3/game3.component';
 import { Game4Component } from './games/game4/game4.component';
 import { Game5Component } from './games/game5/game5.component';
+import { AnalyticsComponent } from './analytics/analytics.component';
 
 const routes: Routes = [
   {
@@ -115,7 +116,8 @@ const routes: Routes = [
       {path: 'manage/emo/:id', component: AdminBotFormComponent},
       {path: 'manage/events', component: AdminEventsPageComponent},
       {path: 'manage/events/:id', component: AdminEventsFormComponent},
-      {path: 'manage/table', component: AdminTablePageComponent}
+      {path: 'manage/table', component: AdminTablePageComponent},
+      {path: 'manage/analytics', component: AnalyticsComponent}
     ]
   }
 ];

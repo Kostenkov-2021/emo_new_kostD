@@ -66,7 +66,7 @@ export class UsersPageComponent implements OnInit, OnDestroy {
     
     this.oSub = this.usersService.fetch(params).subscribe(users => {
       this.users = this.users.concat(users)
-      this.noMore = users.length < STEP
+      this.noMore = users.length < this.limit
       this.loading = false
       this.reloading = false
     })
@@ -77,7 +77,7 @@ export class UsersPageComponent implements OnInit, OnDestroy {
   }
 
   loadMore() {
-    this.offset += STEP
+    this.offset += this.limit
     this.loading = true
     this.fetch()
   }

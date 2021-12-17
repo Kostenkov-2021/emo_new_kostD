@@ -16,6 +16,7 @@ router.post('/', passport.authenticate('jwt', {session: false}), stop, upload.si
 router.patch('/:userID', passport.authenticate('jwt', {session: false}), stop, upload.single('image'), controller.update)
 router.get('/', passport.authenticate('jwt', {session: false}), stop, controller.getAll)
 router.get('/rating/all', controller.getRating)
+router.get('/analytics/:instID', controller.getAnalytics)
 router.get('/:userID', passport.authenticate('jwt', {session: false}), stop, controller.getByUserID)
 router.delete('/:userID', passport.authenticate('jwt', {session: false}), stop, controller.remove)
 //router.post('/createmany', controller.createManyUsers)

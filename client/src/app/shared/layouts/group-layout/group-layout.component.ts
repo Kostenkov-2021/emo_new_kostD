@@ -137,9 +137,13 @@ export class GroupLayoutComponent implements OnInit, OnDestroy {
   }
 
   screenRead(text) {
-    let url = this.chatService.readText(text)
-    let audio = new Audio(url)
-    audio.play()
+    let urls = this.chatService.readLongText(text)
+    playUrls(0)
+    function playUrls(i) {
+      let audio = new Audio(urls[i].url)
+      audio.play()
+      audio.addEventListener("ended", function () {if (i < urls.length -1) playUrls(i+1)}) 
+    }
   }
 
   newEvent(event) {
