@@ -54,7 +54,7 @@
                 <td class="dark-{{session.firstColor}}-border">{{countAge(user.birthDate)}}</td>
                 <td class="dark-{{session.firstColor}}-border">{{getRole(user.levelStatus)}}</td>
                 <td class="dark-{{session.firstColor}}-border">{{user.loginDates.length}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.last_active_at | date:"dd.MM.yyyy hh:mm"}}</td>
+                <td class="dark-{{session.firstColor}}-border">{{user.last_active_at | date:"dd.MM.yyyy HH:mm"}}</td>
                 <td class="dark-{{session.firstColor}}-border">{{user.expoPushToken || user.expoPushToken === '' ? 'Да' : 'Нет'}}</td>
                 <td class="dark-{{session.firstColor}}-border">{{user.score}}</td>
                 <td class="dark-{{session.firstColor}}-border">{{user.all_chats}}</td>
