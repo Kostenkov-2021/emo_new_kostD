@@ -66,10 +66,10 @@ export class Game3Component  {
     }
     switch (this.count) {
       case 10:
-        this.score = Math.floor(this.right / 2)
+        this.score = Math.ceil(this.right / 2)
         break;
       case 100:
-        this.score = Math.floor(this.right / 1.5)
+        this.score = Math.ceil(this.right / 1.5)
         break;
       case 1000:
         this.score = this.right

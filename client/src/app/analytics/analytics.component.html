@@ -25,7 +25,7 @@
                 <th class="dark-{{session.firstColor}}-border">Исходящие чаты</th>
                 <th class="dark-{{session.firstColor}}-border">Входящие чаты</th>
                 <th class="dark-{{session.firstColor}}-border">Чаты с сообщениями от обоих участников</th>
-                <th class="dark-{{session.firstColor}}-border">Отправлено себе сообщений</th>
+                <th class="dark-{{session.firstColor}}-border">Отправлено сообщений себе</th>
                 <th class="dark-{{session.firstColor}}-border">Отправлено личных сообщений</th>
                 <th class="dark-{{session.firstColor}}-border">Из них прочитано</th>
                 <th class="dark-{{session.firstColor}}-border">Из них непрочитано</th>
@@ -63,58 +63,62 @@
         </thead>
         <tbody>
             <tr *ngFor="let user of users; let i = index">
-                <td class="dark-{{session.firstColor}}-border">{{i + 1}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.name}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.surname}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.birthDate | date:"dd.MM.yyyy"}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{countAge(user.birthDate)}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{getRole(user.levelStatus)}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.loginDates.length}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.last_active_at | date:"dd.MM.yyyy HH:mm"}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.expoPushToken || user.expoPushToken === '' ? 'Да' : 'Нет'}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.score}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.all_chats}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.only_send_chats}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.only_get_chats}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.send_and_get_chats}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.self_chat}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.send_messages}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.send_messages_read}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.send_messages - user.send_messages_read}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.get_messages}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.get_messages_read}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.get_messages - user.get_messages_read}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.send_group_messages}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.send_group_messages_read}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.send_group_messages - user.send_group_messages_read}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.get_group_messages_read + user.get_group_messages_not_read}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.get_group_messages_read}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.get_group_messages_not_read}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.event_author}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.event_participant}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.event_hide}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.likes}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Номер'])">{{i + 1}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Имя'])">{{user.name}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Фамилия'])">{{user.surname}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Дата рождения'])">{{user.birthDate | date:"dd.MM.yyyy"}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Возраст'])">{{countAge(user.birthDate)}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Роль'])">{{getRole(user.levelStatus)}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Входы:'].concat(user.loginDates))">{{user.loginDates.length}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Последняя активность'])">{{user.last_active_at | date:"dd.MM.yyyy HH:mm"}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Заходил ли пользователь в мобильное приложение ЭМО (будет ДА только если он получает уведомления)'])">{{user.expoPushToken || user.expoPushToken === '' ? 'Да' : 'Нет'}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Баллы начисляются за активность в web и мобильном приложении: по 1 за каждый вход в систему, вход в чат, отправку каждого сообщения, лайк; 3 за реакцию на мероприятие, как согласие, так и отказ; 10 за создание мероприятия; различное количество баллов можно получить в играх'])">{{user.score}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Всего личных чатов, в том числе чат с собой, если он есть'])">{{user.all_chats}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Личные чаты, куда пользователь отправил сообщение, но ответа не получил (собеседник не прислал ни одного сообщения)'])">{{user.only_send_chats}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Столько людей написали пользователю, но ответа не получили'])">{{user.only_get_chats}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Личные чаты, в которых есть сообщения от обоих собеседников (если есть чат с собой, он входит сюда)'])">{{user.send_and_get_chats}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Столько сообщений пользователь отправил сам себе'])">{{user.self_chat}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Столько всего отправлено личных сообщений'])">{{user.send_messages}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Отправленные пользователем и прочитанные личные сообщения'])">{{user.send_messages_read}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Отправленные пользователем непрочитанные личные сообщения'])">{{user.send_messages - user.send_messages_read}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Столько всего получено личных сообщений'])">{{user.get_messages}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Столько полученных личных сообщений пользователь прочитал'])">{{user.get_messages_read}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Столько полученных личных сообщений пользователь не прочитал'])">{{user.get_messages - user.get_messages_read}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Всего отправлено групповых сообщений'])">{{user.send_group_messages}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Отправленные групповые сообщения, прочитанные хотя бы одним пользователем'])">{{user.send_group_messages_read}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Отправленные групповые сообщения, которые никто не прочитал'])">{{user.send_group_messages - user.send_group_messages_read}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Всего получено групповых сообщений'])">{{user.get_group_messages_read + user.get_group_messages_not_read}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Полученные групповые сообщения, которые пользователь прочитал'])">{{user.get_group_messages_read}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Полученные групповые сообщения, которые пользователь не прочитал'])">{{user.get_group_messages_not_read}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Создано мероприятий'])">{{user.event_author}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Участник мероприятий'])">{{user.event_participant}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Отказался от мероприятий'])">{{user.event_hide}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Количество лайков'])">{{user.likes}}</td>
 
-                <td class="dark-{{session.firstColor}}-border">{{user.pictures}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.videos}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.music}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.documents}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.vote}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.send_pictures}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.send_videos}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.send_text}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.send_documents}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.send_audios}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.get_pictures}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.get_videos}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.get_text}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.get_documents}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.get_audios}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Загружено картинок в личные папки'])">{{user.pictures}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Загружено видео в личные папки'])">{{user.videos}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Загружено музыкальных файлов в личные папки'])">{{user.music}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Загружено документов в личные папки'])">{{user.documents}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Записано голосовых сообщений'])">{{user.vote}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Отправлено картинок'])">{{user.send_pictures}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Отправлено видео'])">{{user.send_videos}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Отправлено текстовых сообщений'])">{{user.send_text}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Отправлено документов'])">{{user.send_documents}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Отправлено аудиофайлов (музыка и голосовые сообщения)'])">{{user.send_audios}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Получено картинок'])">{{user.get_pictures}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Получено видео'])">{{user.get_videos}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Получено текстовых сообщений'])">{{user.get_text}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Получено документов'])">{{user.get_documents}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Получено аудиофайлов (музыка и групповые сообщения)'])">{{user.get_audios}}</td>
                 
             </tr>
             
         </tbody>
     </table>
+
+    <div class="info_window dark-{{session.firstColor}}-border" [hidden]="!show_info">
+        {{info}}
+    </div>
     
     <app-loader *ngIf="loading"></app-loader>
     

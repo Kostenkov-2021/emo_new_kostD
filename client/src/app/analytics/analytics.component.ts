@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { Institution, User, Filter } from '../shared/interfaces';
@@ -26,6 +26,8 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
   institutions$: Observable<Institution[]>
   institution: string
   users: User[] = []
+  info: string = ''
+  show_info = false
 
   constructor(private loginService: LoginService,
               private usersService: UsersService,
@@ -70,6 +72,18 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
     this.offset += STEP
     this.loading = true
     this.fetch(false)
+  }
+
+  toggleInfo(event, arr) {
+    const wind: any = document.querySelector('.info_window')
+    if (this.show_info) this.show_info = false
+    else {
+      this.info = ''
+      for (let text of arr) this.info += (text + ' ')
+      wind.style.top = `${event.layerY}px`
+      wind.style.left = `${event.layerX}px`
+      this.show_info = true
+    }
   }
 
   countAge(bd) {

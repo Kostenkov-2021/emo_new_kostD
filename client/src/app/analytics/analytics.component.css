@@ -29,3 +29,14 @@
 .table tbody tr:last-child td:last-child {
 	border-radius: 0 0 10px 0;
 }
+
+.info_window {
+	border-width: 3px;
+	border-style: solid;
+	border-radius: 10px;
+	width: 250px;
+	height: auto;
+	padding: 20px;
+	position: absolute;
+	background: white;
+}
