@@ -137,7 +137,7 @@ module.exports.search2 = async function(req, res) {
       
     const users = await User
       .find(q, {name: 1, surname: 1, birthDate: 1, onlineStatus: 1, photo: 1, last_active_at: 1, sex: 1})
-      .sort({score: -1,last_active_at: -1, _id: 1})
+      .sort({last_active_at: -1,score: -1, _id: 1})
       .skip(+req.query.offset)
       .limit(+req.query.limit)
       .lean()
