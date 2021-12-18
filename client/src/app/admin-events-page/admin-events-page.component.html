@@ -46,7 +46,7 @@
         </div>
         <br>
         <button id="more_button" type="button" hidden></button>
-        <div *ngIf="!noMore">
+        <div *ngIf="!noMore" class="noMore">
             <label 
             *ngIf="!loading; else loader"
             for="more_button" 
@@ -55,9 +55,7 @@
                 Загрузить ещё
             </label>
         </div>
-        <ng-template #loader>
-            <app-loader></app-loader>
-        </ng-template>
+        <app-loader *ngIf="loading"></app-loader>
     </div>
 
     <button id="bot-emo" hidden></button>
@@ -91,5 +89,5 @@
 </ng-template>
 
 <ng-template #empty>
-    <div class="empty center">Мероприятия не найдены. Попробуйте применить другие фильтры.</div>
+    <div class="empty">Мероприятия не найдены. Попробуйте применить другие фильтры.</div>
 </ng-template>

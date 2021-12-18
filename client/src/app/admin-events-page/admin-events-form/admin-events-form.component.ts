@@ -110,11 +110,10 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
             if (event.roles) this.roles = event.roles
             this.wait_inst = event.institutions
             if (event.photolikes) this.photolikesPreview = event.photolikes
-            console.log(event)
           }
           this.form.enable()
         },
-        error => console.log(error)
+        error => alert(error.error.message)
       )
   }
 
@@ -215,8 +214,12 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
       this.event = event
       this.photolikesPreview = event.photolikes
       this.photolikes = []
+      this.form.enable()
     },
-    error => alert(error.error.message))
+    error => {
+      alert(error.error.message)
+      this.form.enable()
+    })
   }
 
   ngOnDestroy() {

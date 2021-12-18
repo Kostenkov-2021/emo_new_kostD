@@ -120,7 +120,7 @@ export class AdminTablePageComponent implements OnInit, OnDestroy {
           this.childForm.enable()
         },
         error => {
-          console.log(error.error.message)
+          alert(error.error.message)
           this.rootForm.enable()
         }
       )
@@ -135,7 +135,7 @@ export class AdminTablePageComponent implements OnInit, OnDestroy {
           this.childForm.enable()
         },
         error => {
-          console.log(error.error.message)
+          alert(error.error.message)
           this.rootForm.enable()
         }
       )
@@ -166,7 +166,7 @@ export class AdminTablePageComponent implements OnInit, OnDestroy {
             this.rootItems = this.rootItems.filter(item => item._id !== id)
             this.check = null
           },
-          error => {console.log(error.error.message)}
+          error => {alert(error.error.message)}
         )
     }
   }
@@ -180,7 +180,7 @@ export class AdminTablePageComponent implements OnInit, OnDestroy {
           response => {
             this.childItems = this.childItems.filter(item => item._id !== id)
           },
-          error => {console.log(error.error.message)}
+          error => {alert(error.error.message)}
         )
     }
   }

@@ -1,7 +1,7 @@
 body { 
     margin: 0;
     background: WHITE;
-    overflow: scroll;
+    overflow: auto;
     word-wrap: break-word;
 }
 

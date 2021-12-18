@@ -9,6 +9,7 @@
     padding-right: 3px;
     z-index: 2;
 }
+
 .manage-active {
     border: 3px solid #fff;
 }
@@ -35,6 +36,7 @@
     transition: all 0.3s 0.01s ease; /*делаем плавный переход*/
     text-align: center;
 }
+
 .nav-admin-li {
     float:left; /*Размещаем список горизонтально для реализации меню*/
     margin-right:3px; /*Добавляем отступ у пунктов меню*/  

@@ -178,7 +178,7 @@ export class UsersFormComponent implements OnInit, OnDestroy {
 
           this.form.enable()
         },
-        error => {console.log(error)}
+        error => {alert(error.error.message)}
       )
     })
   }

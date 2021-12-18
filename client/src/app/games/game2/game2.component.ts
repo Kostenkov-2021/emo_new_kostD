@@ -88,7 +88,7 @@ export class Game2Component implements AfterViewInit, OnDestroy {
 
   finishGame() {
     document.getElementsByClassName('circle')[0].remove()
-    this.score = Math.floor(this.balls / 4)
+    this.score = Math.ceil(this.balls / 4)
     this.peopleService.newScore(this.score).subscribe()
     this.gameProgress = 2
   }

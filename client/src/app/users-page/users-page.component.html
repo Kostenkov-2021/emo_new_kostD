@@ -93,9 +93,7 @@
                 Загрузить ещё
             </label>
         </div>
-        <ng-template #loader>
-            <app-loader></app-loader>
-        </ng-template>
+        <app-loader *ngIf="loading"></app-loader>
     </div>
     <a id="add_user" 
     [routerLink]="['/manage/users', 'new']" 

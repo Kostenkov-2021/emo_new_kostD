@@ -7,15 +7,16 @@ import { User } from '../interfaces';
 export class FilterPipe implements PipeTransform {
 
   transform(users: User[], search: string = '', field: string): User[] {
-    if (!search.trim()) {
+    search = search.trim().toLowerCase()
+    if (!search) {
       return users
     }
     return users.filter(user => {
       if (field == 'surname') {
-        return user.surname.toLowerCase().includes(search.toLowerCase())
+        return user.surname.toLowerCase().slice(0, search.length) === search
       }
       else {
-        return user.name.toLowerCase().includes(search.toLowerCase())
+        return user.name.toLowerCase().slice(0, search.length) === search
       }
     })
   }
