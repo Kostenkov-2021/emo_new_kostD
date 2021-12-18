@@ -12,5 +12,6 @@ router.delete('/', passport.authenticate('jwt', {session: false}), controller.ex
 router.get('/logout', passport.authenticate('jwt', {session: false}), controller.exitLogout)
 router.get('/', passport.authenticate('jwt', {session: false}), controller.getUser)
 router.post('/score', passport.authenticate('jwt', {session: false}), controller.score)
+router.post('/game', passport.authenticate('jwt', {session: false}), controller.played_game)
 
 module.exports = router

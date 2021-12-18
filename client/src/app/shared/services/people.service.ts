@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User, Institution, Users, MessageFromServer } from '../interfaces';
+import { User, Institution, Users, MessageFromServer, GameSession } from '../interfaces';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable({
@@ -79,5 +79,11 @@ export class PeopleService {
     let json = JSON.stringify(obj)
     const myHeaders = new HttpHeaders().set('Content-Type', 'application/json')
     return this.http.post<MessageFromServer>(`/api/people/score`, json, {headers: myHeaders})
+  }
+
+  playedGame(session: GameSession): Observable<MessageFromServer> {
+    let json = JSON.stringify(session)
+    const myHeaders = new HttpHeaders().set('Content-Type', 'application/json')
+    return this.http.post<MessageFromServer>(`/api/people/game`, json, {headers: myHeaders})
   }
 }

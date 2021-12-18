@@ -23,6 +23,7 @@ export class Game2Component implements AfterViewInit, OnDestroy {
   balls: number = 0
   timeStr: string
   t: any
+  levelName: string
 
 
   constructor(
@@ -41,7 +42,8 @@ export class Game2Component implements AfterViewInit, OnDestroy {
     })
   }
 
-  start(count) {
+  start(count, name) {
+    this.levelName = name
     this.gameProgress = 1
     this.time = count
     this.createRandomCircle()
@@ -53,7 +55,7 @@ export class Game2Component implements AfterViewInit, OnDestroy {
     this.renderer.addClass(circle, 'circle')
     this.renderer.addClass(circle, 'green-cursor')
 
-    const size = this.getRandomNumber(30, 100)
+    const size = this.getRandomNumber(50, 150)
     const {width, height} = this.board.nativeElement.getBoundingClientRect()
     const x = this.getRandomNumber(size, width - size)
     const y = this.getRandomNumber(size, height - size)
@@ -89,7 +91,7 @@ export class Game2Component implements AfterViewInit, OnDestroy {
   finishGame() {
     document.getElementsByClassName('circle')[0].remove()
     this.score = Math.ceil(this.balls / 4)
-    this.peopleService.newScore(this.score).subscribe()
+    this.peopleService.playedGame({game: 2, score: this.score, level: this.levelName}).subscribe()
     this.gameProgress = 2
   }
 

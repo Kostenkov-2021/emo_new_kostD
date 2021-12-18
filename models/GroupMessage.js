@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const groupmessageSchema = new Schema({
+const groupMessageSchema = new Schema({
   sender: {
     ref: 'users',
     type: Schema.Types.ObjectId,
@@ -34,4 +34,4 @@ const groupmessageSchema = new Schema({
   }
 })
 
-module.exports = mongoose.model('group_messages', groupmessageSchema)
+module.exports = mongoose.model('group_messages', groupMessageSchema)

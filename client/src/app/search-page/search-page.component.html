@@ -5,10 +5,10 @@
         *ngIf="institutions$ | async as institutions" 
         (change)="newInstitution()"
         [(ngModel)]="institution">
-            <option value="">Любое</option>
+            <option value="">Все</option>
             <option *ngFor="let institution of institutions" value="{{institution._id}}">{{institution.name}}</option>
         </select>
-        <span><input type="text" class="inheader text-cursor" [(ngModel)]="name"></span>
+        <span><input type="text" class="inheader text-cursor" [(ngModel)]="name" placeholder="ИМЯ ИЛИ ФАМИЛИЯ"></span>
         <span><img *ngIf="session.online" class="img_filter green-cursor" [ngClass]="{checked: online}" src="/images/computer.png"(click)="changeOnline()"></span>
         <span><img *ngIf="session.birthdays" class="img_filter green-cursor" [ngClass]="{checked: birthday}" src="/images/present.png" (click)="changeBirthday()"></span>
     </div>

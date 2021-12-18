@@ -17,12 +17,14 @@ export class Game3Component  {
   subtraction: any[] = []
   form: FormGroup
   count = 10
+  levelName: string
 
   constructor(
     private router: Router,
     private peopleService: PeopleService) { }
 
-  start(count) {
+  start(count, name) {
+    this.levelName = name
     function randomInteger(min, max) {
       // случайное число от min до (max)
       let rand = min + Math.random() * (max + 1 - min);
@@ -73,7 +75,7 @@ export class Game3Component  {
         this.score = this.right
         break;
     }
-    this.peopleService.newScore(this.score).subscribe()
+    this.peopleService.playedGame({game: 3, score: this.score, level: this.levelName}).subscribe()
     this.gameProgress += 1   
   }
 

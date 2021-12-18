@@ -17,27 +17,24 @@ export class Game1Component implements OnDestroy{
   pictures: Picture[]
   score: number = 0
   answer: string = ''
+  levelName: string
 
 
   constructor(private picturesService: PicturesService,
     private router: Router,
     private peopleService: PeopleService) { }
 
-  start(count) {
-    function randomInteger(min, max) {
-      // случайное число от min до (max)
-      let rand = min + Math.random() * (max + 1 - min);
-      return Math.floor(rand);
-    }
+  start(count, name) {
 
+    this.levelName = name
     this.pSub = this.picturesService.getGame1(count).subscribe(pictures => {
       this.pictures = pictures
       for (let picture of this.pictures) {
-        if (randomInteger(1, 2) == 1) {
+        if (Math.random() < 0.5) {
           if (picture.text) picture.textInHTML = picture.text.trim()
           else if (picture.textForGirls) picture.textInHTML = picture.textForGirls.trim()
 
-          if (randomInteger(1, 2) == 1) {
+          if (Math.random() < 0.5) {
             if (picture.boysGreyPicture) picture.src = picture.boysGreyPicture
             else if (picture.girlsGreyPicture) picture.src = picture.girlsGreyPicture
             else if (picture.boysColorPicture) picture.src = picture.boysColorPicture
@@ -54,7 +51,7 @@ export class Game1Component implements OnDestroy{
           if (picture.textForGirls) picture.textInHTML = picture.textForGirls.trim()
           else if (picture.text) picture.textInHTML = picture.text.trim()
 
-          if (randomInteger(1, 2) == 1) {
+          if (Math.random() < 0.5) {
             if (picture.girlsGreyPicture) picture.src = picture.girlsGreyPicture
             else if (picture.boysGreyPicture) picture.src = picture.boysGreyPicture
             else if (picture.girlsColorPicture) picture.src = picture.girlsColorPicture
@@ -76,7 +73,7 @@ export class Game1Component implements OnDestroy{
     if (this.answer.trim().toLocaleLowerCase() === this.pictures[this.gameProgress - 1].textInHTML.toLocaleLowerCase()) this.score += 1
     this.answer = ''
     this.gameProgress += 1
-    if (this.gameProgress > this.pictures.length) this.peopleService.newScore(this.score).subscribe()
+    if (this.gameProgress > this.pictures.length) this.peopleService.playedGame({game: 1, score: this.score, level: this.levelName}).subscribe()
   }
 
   newStart() {

@@ -159,3 +159,12 @@ export interface TBItem {
   src?: string
   _id?: string
 }
+
+export interface GameSession {
+  user?: string,
+  level: string,
+  game: number,
+  time?: Date,
+  score: number,
+  _id?: string
+}

@@ -1,10 +1,11 @@
 import { Observable, Subscription } from 'rxjs';
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { User } from 'src/app/shared/interfaces';
+import { Component, OnDestroy, OnInit} from '@angular/core';
+import { Institution, User } from 'src/app/shared/interfaces';
 import { LoginService } from 'src/app/shared/services/login.service';
 import { UsersService } from 'src/app/shared/services/users.service';
 import { Router } from '@angular/router';
 import { ChatService } from 'src/app/shared/services/chat.service';
+import { PeopleService } from 'src/app/shared/services/people.service';
 
 const STEP = 10
 
@@ -14,8 +15,6 @@ const STEP = 10
   styleUrls: ['./rating.component.css'],
 })
 export class RatingComponent implements OnInit, OnDestroy {
-
-  @ViewChild('page') page: ElementRef<HTMLDivElement>;
 
   limit = STEP
   offset = 0
@@ -27,46 +26,37 @@ export class RatingComponent implements OnInit, OnDestroy {
   obs$: Subscription
   rSub$: Subscription
   pSub$: Subscription
+  institutions$: Observable<Institution[]>
+  institution: string = ''
   position: number
   users: User[] = []
+  num_users: User[] = []
   myPlace: Number
   zoom = false
   image = ''
+  scrollFunction: any
+  checkScroll: any
+  name: string = ''
 
   constructor(private loginService: LoginService, 
     private usersService: UsersService, 
     private router: Router,
-    private chatService: ChatService) { }
+    private chatService: ChatService,
+    private peopleService: PeopleService
+    ) { 
+    }
 
   ngOnInit(): void {
     this.reloading = true
     this.obs$ = this.loginService.getUser().subscribe(user => {
       this.session = user
+      this.institutions$ = this.peopleService.getInstitutions()
       this.pSub$ = this.usersService.getPosition().subscribe(p => {
         this.position = p.position
       })
-
-      this.page.nativeElement.addEventListener("scroll", this.checkScroll.bind(this));
-
       this.fetch()
       
     })     
-  }
-
-  checkScroll() { 
-    var contentHeight = this.page.nativeElement.offsetHeight;      // 1) высота блока контента вместе с границами
-    var yOffset       = window.pageYOffset;      // 2) текущее положение скролбара
-    var window_height = window.innerHeight;      // 3) высота внутренней области окна документа
-    var y             = yOffset + window_height;
-   
-    
-    if (y >= contentHeight)
-    {
-        //загружаем новое содержимое в элемент
-        this.offset += this.limit
-        this.loading = true
-        this.fetch()
-    }
   }
 
   fetch() {
@@ -77,30 +67,20 @@ export class RatingComponent implements OnInit, OnDestroy {
 
     this.rSub$ = this.usersService.getRating2(params).subscribe(users => {
       this.users = this.users.concat(users)
+      this.num_users = this.users
       this.noMore = users.length < this.limit
-      if (this.noMore) window.removeEventListener('scroll', this.checkScroll)
+      this.noMore = users.length < this.limit
+      if (!this.noMore) this.loadMore()
       this.loading = false
       this.reloading = false
     })
   }
 
-
-  throttle(callee, timeout) {
-    let timer = null
-
-    return function perform(...args) {
-      if (timer) return
-
-      timer = setTimeout(() => {
-        callee(...args)
-
-        clearTimeout(timer)
-        timer = null
-      }, timeout)
-    }
+  loadMore() {
+    this.offset += this.limit
+    this.loading = true
+    this.fetch()
   }
-
-  
 
   cross() {
     this.router.navigate(['/people/games'])

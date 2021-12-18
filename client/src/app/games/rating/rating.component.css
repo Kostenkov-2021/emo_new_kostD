@@ -1,8 +1,8 @@
 .page {
-    height: 100%;
-    width: 100%;
-    position: absolute;
+    min-height: 100vh;
+    position: relative;
     overflow: auto;
+    padding: 20px;
 }
 
 .ratingBox {
@@ -13,7 +13,7 @@
     border-width: 3px;
     width: 80%;
     margin: auto;
-    /* margin-top: 15px; */
+    margin-top: 1.5cm; 
 }
 
 .exit {
@@ -48,4 +48,27 @@
 
 .section {
     margin-top: 15px;
+}
+
+.header {
+    width: 100%;
+    height: 1cm;
+    top: 0;
+    position: fixed;
+    padding: 0.2cm;
+    z-index: 3;
+    overflow: hidden;
+}
+.search {
+    margin-top: 1.5cm;
+}
+.inheader {
+    width: 20vw;
+    margin-right: 2%;
+    height: 0.8cm;
+    font-size: 1.7vw;
+}
+select.inheader {
+    font-size: 1.5vw;
+    width: 15vw;
 }

@@ -1,12 +1,12 @@
 const bcrypt = require('bcryptjs')
 const User = require('../models/User')
 const errorHandler = require('../utils/errorHandler')
-const { query } = require('express')
 const Institution = require('../models/Institution')
 const Message = require('../models/Message')
 const GroupMessage = require('../models/GroupMessage')
 const Event = require('../models/Event')
-const moment = require('moment')
+const Picture = require('../models/Picture')
+const GameSession = require('../models/GameSessions')
 
 module.exports.create = async function(req, res) {
 
@@ -320,8 +320,26 @@ module.exports.getAnalytics = async function (req, res) {
       user.all_chats = union_arr(him_recipient, him_sender)
       user.only_get_chats = only_function(him_recipient, him_sender)
       user.only_send_chats = only_function(him_sender, him_recipient)
-      user.self_chat = await Message.findOne({sender: user._id, recipient: user._id}).lean() ? true : false
+      user.self_chat = await Message.count({sender: user._id, recipient: user._id})
       user.send_and_get_chats = user.all_chats - (user.only_get_chats + user.only_send_chats)
+
+      user.pictures = await Picture.count({parent: {$in: ['5f1309e3962c2f062467f854', '603e1ae80c54fc9b6e417951']}, user: user._id})
+      user.videos = await Picture.count({parent: {$in: ['5f1309f1962c2f062467f855','603e1b0c0c54fc9b6e417952']}, user: user._id})
+      user.music = await Picture.count({parent: {$in: ['5f130a00962c2f062467f856','603e1b430c54fc9b6e417953']}, user: user._id})
+      user.documents = await Picture.count({parent: {$in: ['5f130a0d962c2f062467f857','603e1b630c54fc9b6e417954']}, user: user._id})
+      user.vote = await Picture.count({parent: {$in: ['5f5486f982194ca1fb21ff6d', '603e1ba10c54fc9b6e417955']}, user: user._id})
+
+      user.send_pictures = await Message.count({sender: user._id, type: 1}) + await GroupMessage.count({sender: user._id, type: 1})
+      user.send_text = await Message.count({sender: user._id, type: 2}) + await GroupMessage.count({sender: user._id, type: 2})
+      user.send_audios = await Message.count({sender: user._id, type: 3}) + await GroupMessage.count({sender: user._id, type: 3})
+      user.send_videos = await Message.count({sender: user._id, type: 4}) + await GroupMessage.count({sender: user._id, type: 4})
+      user.send_documents = await Message.count({sender: user._id, type: 5}) + await GroupMessage.count({sender: user._id, type: 5})
+
+      user.get_pictures = await Message.count({recipient: user._id, type: 1}) + await GroupMessage.count({$or: [{wait: user._id}, {read: user._id}], type: 1})
+      user.get_text = await Message.count({recipient: user._id, type: 2}) + await GroupMessage.count({$or: [{wait: user._id}, {read: user._id}], type: 2})
+      user.get_audios = await Message.count({recipient: user._id, type: 3}) + await GroupMessage.count({$or: [{wait: user._id}, {read: user._id}], type: 3})
+      user.get_videos = await Message.count({recipient: user._id, type: 4}) + await GroupMessage.count({$or: [{wait: user._id}, {read: user._id}], type: 4})
+      user.get_documents = await Message.count({recipient: user._id, type: 5}) + await GroupMessage.count({$or: [{wait: user._id}, {read: user._id}], type: 5})
     }
 
     res.status(200).json(users)

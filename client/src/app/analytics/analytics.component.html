@@ -25,7 +25,7 @@
                 <th class="dark-{{session.firstColor}}-border">Исходящие чаты</th>
                 <th class="dark-{{session.firstColor}}-border">Входящие чаты</th>
                 <th class="dark-{{session.firstColor}}-border">Чаты с сообщениями от обоих участников</th>
-                <th class="dark-{{session.firstColor}}-border">Чат с собой</th>
+                <th class="dark-{{session.firstColor}}-border">Отправлено себе сообщений</th>
                 <th class="dark-{{session.firstColor}}-border">Отправлено личных сообщений</th>
                 <th class="dark-{{session.firstColor}}-border">Из них прочитано</th>
                 <th class="dark-{{session.firstColor}}-border">Из них непрочитано</th>
@@ -43,6 +43,22 @@
                 <th class="dark-{{session.firstColor}}-border">Отказался от мероприятий</th>
                 <th class="dark-{{session.firstColor}}-border">Поставлено лайков</th>
 
+
+                <th class="dark-{{session.firstColor}}-border">Загружено картинок</th>
+                <th class="dark-{{session.firstColor}}-border">Загружено видео</th>
+                <th class="dark-{{session.firstColor}}-border">Загружено музыки</th>
+                <th class="dark-{{session.firstColor}}-border">Загружено документов</th>
+                <th class="dark-{{session.firstColor}}-border">Записано голосовых</th>
+                <th class="dark-{{session.firstColor}}-border">Отправлено картинок</th>
+                <th class="dark-{{session.firstColor}}-border">Отправлено видео</th>
+                <th class="dark-{{session.firstColor}}-border">Отправлено текста</th>
+                <th class="dark-{{session.firstColor}}-border">Отправлено документов</th>
+                <th class="dark-{{session.firstColor}}-border">Отправлено аудио</th> 
+                <th class="dark-{{session.firstColor}}-border">Получено картинок</th>
+                <th class="dark-{{session.firstColor}}-border">Получено видео</th>
+                <th class="dark-{{session.firstColor}}-border">Получено текста</th>
+                <th class="dark-{{session.firstColor}}-border">Получено документов</th>
+                <th class="dark-{{session.firstColor}}-border">Получено аудио</th>
             </tr>
         </thead>
         <tbody>
@@ -61,7 +77,7 @@
                 <td class="dark-{{session.firstColor}}-border">{{user.only_send_chats}}</td>
                 <td class="dark-{{session.firstColor}}-border">{{user.only_get_chats}}</td>
                 <td class="dark-{{session.firstColor}}-border">{{user.send_and_get_chats}}</td>
-                <td class="dark-{{session.firstColor}}-border">{{user.self_chat ? 'Да' : 'Нет'}}</td>
+                <td class="dark-{{session.firstColor}}-border">{{user.self_chat}}</td>
                 <td class="dark-{{session.firstColor}}-border">{{user.send_messages}}</td>
                 <td class="dark-{{session.firstColor}}-border">{{user.send_messages_read}}</td>
                 <td class="dark-{{session.firstColor}}-border">{{user.send_messages - user.send_messages_read}}</td>
@@ -78,6 +94,22 @@
                 <td class="dark-{{session.firstColor}}-border">{{user.event_participant}}</td>
                 <td class="dark-{{session.firstColor}}-border">{{user.event_hide}}</td>
                 <td class="dark-{{session.firstColor}}-border">{{user.likes}}</td>
+
+                <td class="dark-{{session.firstColor}}-border">{{user.pictures}}</td>
+                <td class="dark-{{session.firstColor}}-border">{{user.videos}}</td>
+                <td class="dark-{{session.firstColor}}-border">{{user.music}}</td>
+                <td class="dark-{{session.firstColor}}-border">{{user.documents}}</td>
+                <td class="dark-{{session.firstColor}}-border">{{user.vote}}</td>
+                <td class="dark-{{session.firstColor}}-border">{{user.send_pictures}}</td>
+                <td class="dark-{{session.firstColor}}-border">{{user.send_videos}}</td>
+                <td class="dark-{{session.firstColor}}-border">{{user.send_text}}</td>
+                <td class="dark-{{session.firstColor}}-border">{{user.send_documents}}</td>
+                <td class="dark-{{session.firstColor}}-border">{{user.send_audios}}</td>
+                <td class="dark-{{session.firstColor}}-border">{{user.get_pictures}}</td>
+                <td class="dark-{{session.firstColor}}-border">{{user.get_videos}}</td>
+                <td class="dark-{{session.firstColor}}-border">{{user.get_text}}</td>
+                <td class="dark-{{session.firstColor}}-border">{{user.get_documents}}</td>
+                <td class="dark-{{session.firstColor}}-border">{{user.get_audios}}</td>
                 
             </tr>
             
