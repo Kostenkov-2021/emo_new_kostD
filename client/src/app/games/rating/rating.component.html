@@ -1,29 +1,31 @@
-<div *ngIf="!reloading; else reloader" class="light-{{session.firstColor}}-bg page">
+<div #page class="page">
+    <div *ngIf="!reloading; else reloader" class="light-{{session.firstColor}}-bg">
 
-    <div class="ratingBox dark-{{session.firstColor}}-border">
-        <div class="pNotAdmin" appEasyLang>Вы на {{myPlace}} месте.</div> <div class="pNotAdmin" appEasyLang>Пользуйтесь ЭМО и играйте в игры, чтобы заработать больше баллов.</div>
+        <div class="ratingBox dark-{{session.firstColor}}-border">
+            <div class="pNotAdmin" appEasyLang>Вы на {{position}} месте.</div> <div class="pNotAdmin" appEasyLang>Пользуйтесь ЭМО и играйте в игры, чтобы заработать больше баллов.</div>
+        </div>
+
+        <div *ngFor="let user of users; let i = index" class="ratingBox dark-{{session.firstColor}}-border section">
+            <div class="inline-block">
+                <div class="pNotAdmin" appEasyLang>{{i + 1}}</div> 
+            </div>
+            <div class="inline-block">
+                <img [src]="user.photo" class="ratingPhoto green-cursor" (click)="openZoom(user.photo)" loading="lazy">
+            </div>
+            <div class="inline-block">
+                <div class="pNotAdmin" appEasyLang>{{user.name}} {{session.surnameView ? user.surname : ''}}</div>
+            </div> <br>
+            <div class="inline-block">
+                <div class="pNotAdmin" appEasyLang>{{user.institutionName}}</div>
+            </div>
+            
+            <img src="/images/letter.png" class="ratingLetter green-cursor" (click)="goToChat(user._id, session.defaultColor)">
+            
+            <div class="pNotAdmin" appEasyLang>Балл: {{user.score}}</div>
+        </div>
+
+        <div class="exit green-cursor" (click)="cross()"></div>
     </div>
-
-    <div *ngFor="let user of users; let i = index" class="ratingBox dark-{{session.firstColor}}-border">
-        <div class="inline-block">
-            <div class="pNotAdmin" appEasyLang>{{i + 1}}</div> 
-        </div>
-        <div class="inline-block">
-            <img [src]="user.photo" class="ratingPhoto green-cursor" (click)="openZoom(user.photo)" loading="lazy">
-        </div>
-        <div class="inline-block">
-            <div class="pNotAdmin" appEasyLang>{{user.name}} {{session.surnameView ? user.surname : ''}}</div>
-        </div> <br>
-        <div class="inline-block">
-            <div class="pNotAdmin" appEasyLang>{{user.institutionName}}</div>
-        </div>
-        
-        <img src="/images/letter.png" class="ratingLetter green-cursor" (click)="goToChat(user._id, session.defaultColor)">
-        
-        <div class="pNotAdmin" appEasyLang>Балл: {{user.score}}</div>
-    </div>
-
-    <div class="exit green-cursor" (click)="cross()"></div>
 </div>
 
 <app-picture-zoom *ngIf="zoom" [image]="image" (result)="closeZoom($event)"></app-picture-zoom>

@@ -114,7 +114,46 @@ module.exports.search = async function(req, res) {
     } catch (e) {
       errorHandler(res, e)
     }
+}
+
+module.exports.search2 = async function(req, res) {
+  try {
+    const now = new Date();
+
+    q = {$or: [ { levelStatus: { $ne: 4} }, { onlineStatus: { $ne: '-1'} } ], _id: { $ne: req.user._id }}
+
+    if (req.query.institution) {
+      q.institution =  req.query.institution
+    }
+
+    if (req.query.birthday === 'true') q = {...q,
+      $expr: { 
+        $and: [
+             { "$eq": [ { "$dayOfMonth": "$birthDate" }, { "$dayOfMonth": now } ] },
+             { "$eq": [ { "$month"     : "$birthDate" }, { "$month"     : now } ] }
+        ]
+     }
+    }
+      
+    const users = await User
+      .find(q, {name: 1, surname: 1, birthDate: 1, onlineStatus: 1, photo: 1, last_active_at: 1, sex: 1})
+      .sort({score: -1,last_active_at: -1, _id: 1})
+      .skip(+req.query.offset)
+      .limit(+req.query.limit)
+      .lean()
+    
+    for (let user of users) {
+      const message = await Message
+        .findOne({sender: user._id, recipient: req.user.id, read: false}, {_id: 1}).lean()
+      if (message) user.letter = true
+      else user.letter = false
+    }
+
+    res.status(200).json(users)
+  } catch (e) {
+    errorHandler(res, e)
   }
+}
 
   module.exports.toPictures = async function(req, res) {
     try {       

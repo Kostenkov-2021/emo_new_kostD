@@ -1,6 +1,6 @@
 .header {
     width: 79%;
-    height: 'auto';
+    height: auto;
     top: 0;
     position: fixed;
     padding: 0.2cm;
@@ -8,18 +8,28 @@
     overflow: hidden;
 }
 .search {
-    margin-top: 1.1cm;
+    margin-top: 1.5cm;
 }
 .inheader {
-    width: 15vw;
+    width: 20vw;
     margin-right: 2%;
     height: 0.8cm;
     font-size: 1.7vw;
 }
 select.inheader {
     font-size: 1.5vw;
-    width: 10vw;
+    width: 15vw;
 }
 .loader {
     height: 1.5cm;
+}
+
+.img_filter {
+    height: 1.2cm;
+    margin-bottom: -0.35cm;
+    margin-right: 2%;
+}
+
+.checked{
+    outline: 3px black solid;
 }

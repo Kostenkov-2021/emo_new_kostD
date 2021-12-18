@@ -30,6 +30,18 @@ export class UsersService {
       return this.http.get<User[]>(`/api/manage/users/rating/all`)
     }
 
+    getRating2(params: any): Observable<User[]> {
+      return this.http.get<User[]>(`/api/manage/users/rating2/all`, {
+        params: new HttpParams({
+          fromObject: params
+        })
+      })
+    }
+
+    getPosition(): Observable<{position: number}> {
+      return this.http.get<{position: number}>(`/api/manage/users/rating/position`)
+    }
+
     getAnalytics(institution: string, params: any): Observable<User[]> {
       return this.http.get<User[]>(`/api/manage/users/analytics/${institution}`, {
         params: new HttpParams({

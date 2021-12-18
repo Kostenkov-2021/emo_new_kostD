@@ -5,14 +5,16 @@
         *ngIf="institutions$ | async as institutions" 
         (change)="newInstitution()"
         [(ngModel)]="institution">
+            <option value="">Любое</option>
             <option *ngFor="let institution of institutions" value="{{institution._id}}">{{institution.name}}</option>
         </select>
-        <span class="pNotAdmin"><span appEasyLang>ИМЯ:</span> <input type="text" class="inheader text-cursor" [(ngModel)]="name"></span>
-        <span class="pNotAdmin" *ngIf="session.surnameView"><span appEasyLang>ФАМИЛИЯ:</span> <input type="text" class="inheader text-cursor" [(ngModel)]="surname"></span>
+        <span><input type="text" class="inheader text-cursor" [(ngModel)]="name"></span>
+        <span><img *ngIf="session.online" class="img_filter green-cursor" [ngClass]="{checked: online}" src="/images/computer.png"(click)="changeOnline()"></span>
+        <span><img *ngIf="session.birthdays" class="img_filter green-cursor" [ngClass]="{checked: birthday}" src="/images/present.png" (click)="changeBirthday()"></span>
     </div>
 
     <div class="search">
-        <div class="box-friend" *ngFor="let user of users | filter:name:'name' | filter:surname:'surname'">
+        <div class="box-friend" *ngFor="let user of users | filter:name:online:birthday">
             <div class="birthday green-cursor" *ngIf="(user.birthDate | date:'MM.dd') == (today | date:'MM.dd') && session.birthdays"
             (click)="goToChat(user._id, session.defaultColor, '5f3bfe9255ba364d9f2edfac')"></div>
             <img 
@@ -34,10 +36,7 @@
        </div>
     </div>
 
-    <ng-template #loader>
-        <div class="loader"></div>
-        <app-loader></app-loader>
-    </ng-template>
+    <app-loader *ngIf="loading"></app-loader>
 </div>
 
 <ng-template #reloader>

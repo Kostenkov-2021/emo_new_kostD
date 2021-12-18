@@ -29,6 +29,7 @@ export interface User {
   screenreader?: boolean
   games?: boolean
   score?: number
+  bd?: boolean
 }
 
 export interface Users {

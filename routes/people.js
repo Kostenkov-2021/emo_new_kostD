@@ -5,6 +5,7 @@ const router = express.Router()
 
 router.get('/friends/:online', passport.authenticate('jwt', {session: false}), controller.friends)
 router.get('/search/:instID/:online', passport.authenticate('jwt', {session: false}), controller.search)
+router.get('/search2', passport.authenticate('jwt', {session: false}), controller.search2)
 router.get('/toPictures/:instID', passport.authenticate('jwt', {session: false}), controller.toPictures)
 router.patch('/', passport.authenticate('jwt', {session: false}), controller.update)
 router.delete('/', passport.authenticate('jwt', {session: false}), controller.exitDelete)

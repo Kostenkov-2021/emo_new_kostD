@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User, Institution, Users, MessageFromServer } from '../interfaces';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -56,6 +56,14 @@ export class PeopleService {
 
   fetchAll(id: string): Observable<User[]> {
     return this.http.get<User[]>(`/api/people/search/${id}/0`)
+  }
+
+  fetchAll2(params: any): Observable<User[]> {
+    return this.http.get<User[]>(`/api/people/search2`, {
+      params: new HttpParams({
+        fromObject: params
+      })
+    })
   }
 
   fetchFriends(): Observable<Users> {

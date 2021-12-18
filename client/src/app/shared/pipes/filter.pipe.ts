@@ -1,3 +1,4 @@
+
 import { Pipe, PipeTransform } from '@angular/core';
 import { User } from '../interfaces';
 
@@ -6,18 +7,26 @@ import { User } from '../interfaces';
 })
 export class FilterPipe implements PipeTransform {
 
-  transform(users: User[], search: string = '', field: string): User[] {
+
+  transform(users: User[], search: string = '', online: boolean = false, birthday: boolean = false): User[] {
+    
     search = search.trim().toLowerCase()
-    if (!search) {
+    
+    if (!search && !online && !birthday) {
       return users
     }
+    let arrName = search.split(' ')
+    
     return users.filter(user => {
-      if (field == 'surname') {
-        return user.surname.toLowerCase().slice(0, search.length) === search
+      
+      if (birthday && !user.bd) return false
+      if (online && !user.active) return false
+      let i = 0    
+      for (let word of arrName) {
+        if (user.surname.toLowerCase().slice(0, word.length) === word || user.name.toLowerCase().slice(0, word.length) === word) i++
       }
-      else {
-        return user.name.toLowerCase().slice(0, search.length) === search
-      }
+      if (i === arrName.length) return true
+      return false
     })
   }
 }
