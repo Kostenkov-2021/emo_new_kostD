@@ -212,7 +212,7 @@ module.exports.getForBot = async function (req, res) {
         const now = new Date();
         const user = await User.findOneAndUpdate(
             {_id: req.user.id}, 
-            {$set: {last_active_at: now}, $inc: {score: 1}},
+            {$set: {last_active_at: now}},
             {new: true})
 
         let events

@@ -55,7 +55,7 @@
                          <div *ngIf="letter.sender != session._id"  
                          class="inter-message message dark-{{session.firstColor}}-border"
                          id="{{letter._id}}">
-                              <img [src]="letter.senderPhoto" (click)="openZoom(letter.senderPhoto)" class="footer green-cursor cover"/>
+                              <img [src]="letter.senderPhoto" (click)="openZoom(letter.senderPhoto)" class="footer green-cursor cover inline-block"/>
                               <div class="div-in-li inline-block senderName" appEasyLang>
                                    <b>{{letter.senderName}}</b>
                               </div>

@@ -84,6 +84,10 @@
     float: right;
  }
 
+ .inline-block {
+     display: inline-block;
+ }
+
  .footer {
     width: 2.5vw;
     height: 2.5vw;
