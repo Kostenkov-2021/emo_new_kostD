@@ -3,7 +3,7 @@ id="edit_picture_or_folder"
 [formGroup]="form" 
 (ngSubmit)="onSubmit(null)"
 class="dark-{{session.firstColor}}-border"
-*ngIf="session$ | async as session; else loader">
+*ngIf="session; else loader">
     <div *ngIf="event; else loader">
         <p class="dark-{{session.firstColor}}-color">Мероприятие:</p>
         <div *ngIf="buttons$ | async as buttons">
@@ -34,16 +34,16 @@ class="dark-{{session.firstColor}}-border"
             <input type="radio" formControlName="p_status" value="0"> Публичное мероприятие. 
             Мероприятие будет доступно всем пользователям, в том числе созданным после рассылки. 
             Увидеть мероприятие также смогут незарегистрированные пользователи. <br>
-            <input type="radio" formControlName="p_status" value="1"> Пригласить определённые учреждения. 
-            Мероприятие будет доступно всем пользователям из выбранных учреждений, в том числе созданным после рассылки. <br>
+            <input type="radio" formControlName="p_status" value="1"> Пригласить определённые группы пользователей. 
+            Мероприятие будет доступно всем пользователям, подходящим под фильтры, в том числе созданным после рассылки. <br>
             <input type="radio" formControlName="p_status" value="2"> Пригласить определённых пользователей. <br><br>
         </div>
         <div *ngIf="event.status != 0">
             <p *ngIf="form.value.p_status == '0'"> Публичное мероприятие. 
             Мероприятие доступно всем пользователям, в том числе созданным после рассылки. 
             Увидеть мероприятие также могут незарегистрированные пользователи.</p>
-            <p *ngIf="form.value.p_status == '1'"> Приглашены определённые учреждения. 
-            Мероприятие доступно всем пользователям из выбранных учреждений, в том числе созданным после рассылки. </p>
+            <p *ngIf="form.value.p_status == '1'"> Приглашены определённые группы пользователей. 
+            Мероприятие доступно всем пользователям, подходящим под фильтры, в том числе созданным после рассылки. </p>
             <p *ngIf="form.value.p_status == '2'"> Приглашены определённые пользователи.</p> 
             <br>
         </div>
@@ -65,45 +65,50 @@ class="dark-{{session.firstColor}}-border"
                 <p class="dark-{{session.firstColor}}-color">Выберите роли:</p>
                 <div>
                     <button 
-                    (click)="checkRole(1)" 
-                    [ngClass]="{green_button: roles.includes(1), red_button: !roles.includes(1)}" 
-                    type="button">{{roles.includes(1) ? 'Отменить' : 'Выбрать'}}
+                    (click)="checkRole('1')" 
+                    [ngClass]="{green_button: roles.includes('1'), red_button: !roles.includes('1')}" 
+                    type="button">{{roles.includes('1') ? 'Отменить' : 'Выбрать'}}
                     </button>
                     Администраторы
                 </div>
                 <div>
                     <button 
-                    (click)="checkRole(2)"
-                    [ngClass]="{green_button: roles.includes(2), red_button: !roles.includes(2)}" 
-                    type="button">{{roles.includes(2) ? 'Отменить' : 'Выбрать'}}
+                    (click)="checkRole('2')"
+                    [ngClass]="{green_button: roles.includes('2'), red_button: !roles.includes('2')}" 
+                    type="button">{{roles.includes('2') ? 'Отменить' : 'Выбрать'}}
                     </button>
                     Модераторы 
                 </div>
                 <div>
                     <button 
-                    (click)="checkRole(3)"
-                    [ngClass]="{green_button: roles.includes(3), red_button: !roles.includes(3)}" 
-                    type="button">{{roles.includes(3) ? 'Отменить' : 'Выбрать'}}
+                    (click)="checkRole('3')"
+                    [ngClass]="{green_button: roles.includes('3'), red_button: !roles.includes('3')}" 
+                    type="button">{{roles.includes('3') ? 'Отменить' : 'Выбрать'}}
                     </button>
                     Подопечные
                 </div>
                 <div>
                     <button 
-                    (click)="checkRole(5)"
-                    [ngClass]="{green_button: roles.includes(5), red_button: !roles.includes(5)}" 
-                    type="button">{{roles.includes(5) ? 'Отменить' : 'Выбрать'}}
+                    (click)="checkRole('5')"
+                    [ngClass]="{green_button: roles.includes('5'), red_button: !roles.includes('5')}" 
+                    type="button">{{roles.includes('5') ? 'Отменить' : 'Выбрать'}}
                     </button>
                     Взрослые
                 </div>
                 <div>
                     <button 
-                    (click)="checkRole(4)" 
-                    [ngClass]="{green_button: roles.includes(4), red_button: !roles.includes(4)}" 
-                    type="button">{{roles.includes(4) ? 'Отменить' : 'Выбрать'}}
+                    (click)="checkRole('4')" 
+                    [ngClass]="{green_button: roles.includes('4'), red_button: !roles.includes('4')}" 
+                    type="button">{{roles.includes('4') ? 'Отменить' : 'Выбрать'}}
                     </button>
                     Гости 
-                </div>
-            </div>
+                </div> <br>
+
+                <p class="dark-{{session.firstColor}}-color">Выберите пол:</p>
+                <input name="sex" type="radio" value="0" formControlName="sex"> Все <br>
+                <input name="sex" type="radio" value="1" formControlName="sex"> Только мужчины <br>
+                <input name="sex" type="radio" value="2" formControlName="sex"> Только женщины <br>
+            </div> 
 
             <div *ngIf="form.value.p_status == 2">
                 <p class="dark-{{session.firstColor}}-color">Кому рассылать:</p>   
@@ -113,7 +118,6 @@ class="dark-{{session.firstColor}}-border"
                     <option 
                     *ngFor="let institution of institutions" 
                     value="{{institution._id}}"
-                    [selected]="(institution._id == session.institution)"
                     >
                     {{institution.name}}</option>
                 </select>
@@ -137,12 +141,12 @@ class="dark-{{session.firstColor}}-border"
             </select>
             <div *ngIf="form.value.whomShow == 1">
                 <div *ngFor="let user of event.hideNames">         
-                    {{user}}
+                    {{user.name}} {{user.surname}}, {{user.login}}, {{user.institutionName}}
                 </div>
             </div>
             <div *ngIf="form.value.whomShow == 2">
                 <div *ngFor="let user of event.participantsNames">
-                    {{user}}
+                    {{user.name}} {{user.surname}}, {{user.login}}, {{user.institutionName}}
                 </div>
             </div>
             <br>

@@ -15,6 +15,7 @@
     margin-right: 2%;
     height: 0.8cm;
     font-size: 1.7vw;
+    position: relative;
 }
 select.inheader {
     font-size: 1.5vw;
@@ -25,9 +26,10 @@ select.inheader {
 }
 
 .img_filter {
-    height: 1.2cm;
-    margin-bottom: -0.35cm;
-    margin-right: 2%;
+    height: 0.8cm;
+    margin-right: 0.5cm;
+    position: relative;
+    top: 10px;
 }
 
 .checked{

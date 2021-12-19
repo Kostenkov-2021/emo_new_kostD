@@ -34,8 +34,6 @@ export class RatingComponent implements OnInit, OnDestroy {
   myPlace: Number
   zoom = false
   image = ''
-  scrollFunction: any
-  checkScroll: any
   name: string = ''
 
   constructor(private loginService: LoginService, 
@@ -68,7 +66,6 @@ export class RatingComponent implements OnInit, OnDestroy {
     this.rSub$ = this.usersService.getRating2(params).subscribe(users => {
       this.users = this.users.concat(users)
       this.num_users = this.users
-      this.noMore = users.length < this.limit
       this.noMore = users.length < this.limit
       if (!this.noMore) this.loadMore()
       this.loading = false

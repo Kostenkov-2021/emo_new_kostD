@@ -24,7 +24,8 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
   photolikes: File[] = []
   imagePreview = ''
   event: Event
-  session$: Observable<User>
+  session$: Subscription
+  session: User
   users$: Subscription
   users: User[]
   institutions$: Subscription
@@ -36,7 +37,7 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
   now: Date
   photolikesPreview: string[] = []
   wait_inst: string[] = []
-  roles: number[] = [1, 2, 3, 4, 5]
+  roles: string[] = ['1', '2', '3', '4', '5']
 
 
 
@@ -51,7 +52,66 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.now = new Date()
 
-    this.session$ = this.loginService.getUser()
+    this.session$ = this.loginService.getUser().subscribe(user => {
+      this.session = user
+
+      this.form = new FormGroup({
+        date: new FormControl(null),
+        type: new FormControl(null, [Validators.required]),
+        description: new FormControl(null),
+        address: new FormControl(null),
+        cost: new FormControl(null),
+        chatImage: new FormControl(null),
+        institution: new FormControl(this.session.institution),
+        whomShow: new FormControl(2),
+        chatTitle: new FormControl(null),
+        photolikesImage: new FormControl(null),
+        p_status: new FormControl('1'),
+        sex: new FormControl('0')
+      })
+  
+      this.form.disable()
+  
+      this.route.params
+        .pipe(
+          switchMap(
+            (params: Params) => {
+              this.id = params['id']
+              if (this.id) return this.eventsService.getById(this.id)
+              return of(null)
+            }
+          )
+        )
+        .subscribe(
+          (event: Event) => {
+            if (event) {
+              this.event = event
+              this.form.patchValue({
+                type: event.type,
+                description: event.description,
+                address: event.address,
+                cost: event.cost,
+                chatTitle: event.chatTitle,
+                sex: event.sex ? event.sex.toString() : '0',
+                p_status: event.p_status ? '0' : (event.wait && event.wait.length) ? '2' : '1'
+              })
+              if (event.date) this.form.patchValue({date: formatDate(event.date, 'yyyy-MM-ddTHH:mm', 'en')})
+              this.imagePreview = event.chatImage
+              if (event.wait) this.wait = event.wait
+              if (event.roles) {
+                this.roles = []
+                for (let role of event.roles) {
+                  this.roles.push(role.toString())
+                }
+              }
+              if (event.institutions) this.wait_inst = event.institutions
+              if (event.photolikes) this.photolikesPreview = event.photolikes
+            }
+            this.form.enable()
+          },
+          error => alert(error.error.message)
+        )
+    })
 
     this.route.queryParams.subscribe((queryParam: any) => {
       this.users$ = this.picturesService.users(queryParam.institution).subscribe(users => {
@@ -65,56 +125,6 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
     })
 
     this.buttons$ = this.botService.fetch()
-
-    this.form = new FormGroup({
-      date: new FormControl(null),
-      type: new FormControl(null, [Validators.required]),
-      description: new FormControl(null),
-      address: new FormControl(null),
-      cost: new FormControl(null),
-      chatImage: new FormControl(null),
-      institution: new FormControl(null),
-      whomShow: new FormControl(2),
-      chatTitle: new FormControl(null),
-      photolikesImage: new FormControl(null),
-      p_status: new FormControl('1')
-    })
-
-    this.form.disable()
-
-    this.route.params
-      .pipe(
-        switchMap(
-          (params: Params) => {
-            this.id = params['id']
-            if (this.id) return this.eventsService.getById(this.id)
-            return of(null)
-          }
-        )
-      )
-      .subscribe(
-        (event: Event) => {
-          if (event) {
-            this.event = event
-            this.form.patchValue({
-              type: event.type,
-              description: event.description,
-              address: event.address,
-              cost: event.cost,
-              chatTitle: event.chatTitle,
-              p_status: event.p_status ? '0' : (event.wait && event.wait.length) ? '2' : '1'
-            })
-            if (event.date) this.form.patchValue({date: formatDate(event.date, 'yyyy-MM-ddTHH:mm', 'en')})
-            this.imagePreview = event.chatImage
-            this.wait = event.wait
-            if (event.roles) this.roles = event.roles
-            this.wait_inst = event.institutions
-            if (event.photolikes) this.photolikesPreview = event.photolikes
-          }
-          this.form.enable()
-        },
-        error => alert(error.error.message)
-      )
   }
 
   changeInstitution() {
@@ -209,7 +219,9 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
       this.photolikes,
       (this.form.value.p_status == '1' && this.wait_inst.length) ? this.wait_inst : null,
       this.form.value.p_status == '0' ? true : false,
-      (this.form.value.p_status == '1' && this.roles.length) ? this.roles : null)
+      (this.form.value.p_status == '1' && this.roles.length) ? this.roles : null,
+      (this.form.value.p_status == '1' ? this.form.value.sex : '0'))
+
     .subscribe(event => {
       this.event = event
       this.photolikesPreview = event.photolikes
@@ -224,5 +236,6 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.users$.unsubscribe()
+    this.session$.unsubscribe()
   }
 }

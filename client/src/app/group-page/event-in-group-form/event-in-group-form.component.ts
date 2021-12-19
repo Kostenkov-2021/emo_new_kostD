@@ -22,12 +22,9 @@ export class EventInGroupFormComponent implements OnInit {
   form: FormGroup
   imagePreview = ''
   buttons$: Observable<BotButton[]>
-  users$: Observable<User[]>
-  institutions$: Observable<Institution[]>
   image: File
 
   constructor(private botService: BotService,
-    private peopleService: PeopleService,
     private eventsService: EventsService) { }
 
   ngOnInit(): void {
@@ -45,20 +42,12 @@ export class EventInGroupFormComponent implements OnInit {
 
     this.imagePreview = this.group.chatImage
 
-    this.institutions$ = this.peopleService.getInstitutions()
-
     this.buttons$ = this.botService.fetch()
-
-    this.users$ = this.peopleService.fetchAll(this.session.institution)
 
   }
 
   close() {
     this.result.emit(true)
-  }
-
-  changeInstitution() {
-    this.users$ = this.peopleService.fetchAll(this.form.value.institution)
   }
 
   onFileUpload(event: any) {

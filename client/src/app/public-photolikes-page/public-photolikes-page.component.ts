@@ -4,6 +4,8 @@ import { BotButton, Event, User } from '../shared/interfaces';
 import { BotService } from '../shared/services/bot.service';
 import { EventsService } from '../shared/services/events.service';
 
+const STEP = 5
+
 @Component({
   selector: 'app-public-photolikes-page',
   templateUrl: './public-photolikes-page.component.html',
@@ -11,10 +13,16 @@ import { EventsService } from '../shared/services/events.service';
 })
 export class PublicPhotolikesPageComponent implements OnInit {
 
-  buttons$: Observable<BotButton[]>
-  events: Event[]
-  events$: Subscription
+  limit = STEP
+  offset = 0
+
+  loading = false
   reloading = false
+  noMore = false
+
+  buttons$: Observable<BotButton[]>
+  events: Event[] = []
+  events$: Subscription
   zoom = false
   image = ''
   openlikes = false
@@ -26,12 +34,30 @@ export class PublicPhotolikesPageComponent implements OnInit {
   ngOnInit(): void {
     this.reloading = true
 
-    this.events$ = this.eventsService.fetchForPhotolikes().subscribe(events => {
-      this.events = events
-      this.reloading = false
+    this.buttons$ = this.botService.fetch() 
+
+    this.fetch()
+  }
+
+  fetch() {
+    const params = Object.assign({}, {
+      offset: this.offset,
+      limit: this.limit
     })
 
-    this.buttons$ = this.botService.fetch() 
+    this.events$ = this.eventsService.fetchForPhotolikes(params).subscribe(events => {
+      this.events = this.events.concat(events)
+      this.noMore = events.length < this.limit
+      if (!this.noMore) this.loadMore()
+      this.reloading = false
+      this.loading = false
+    })
+  }
+
+  loadMore() {
+    this.offset += this.limit
+    this.loading = true
+    this.fetch()
   }
 
   openLikes(id) {

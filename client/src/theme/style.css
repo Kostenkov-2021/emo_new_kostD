@@ -116,3 +116,13 @@ audio, video {
     height: 100%;
 }
 
+.screenread-btn {
+    background-image: url('/images/screenreader.png');
+    background-size: 100% 100%;
+    width: 2.8vw;
+    height: 2.8vw;
+}
+
+.message_time {
+    font-size: 16px;
+}

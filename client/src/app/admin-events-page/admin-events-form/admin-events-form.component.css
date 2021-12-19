@@ -1,5 +1,6 @@
 .description-input {
     width: 80%;
+    resize: vertical;
 }
 
 .red_button {

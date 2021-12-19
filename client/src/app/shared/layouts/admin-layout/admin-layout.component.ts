@@ -28,7 +28,7 @@ export class AdminLayoutComponent implements OnInit {
     private auth: LoginService,
     private router: Router,
     private navService: NavService) {
-      this.navService.newColor.subscribe(color => this.color = color)
+      this.navService.newSettings.subscribe(user => this.color = user.firstColor)
     }
 
   ngOnInit(): void {

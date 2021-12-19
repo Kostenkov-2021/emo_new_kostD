@@ -1,44 +1,49 @@
 <div class="body" *ngIf="!reloading; else loader">
-    <div class="friends light-{{color1}}-bg">
+    <div class="friends light-{{session.firstColor}}-bg">
         <router-outlet></router-outlet>
     </div>
 
-    <div class="menu light-{{color2}}-bg dark-{{color2}}-border">
-        <a routerLink="/manage" *ngIf="levelStatus == 1 || levelStatus == 2">
-            <div class="exit-friends tc dark-{{color2}}-border green-cursor" appEasyLang>Управлять</div>
+    <div class="menu light-{{session.secondColor}}-bg dark-{{session.secondColor}}-border">
+        <a routerLink="/manage" *ngIf="session.levelStatus == 1 || session.levelStatus == 2">
+            <div class="exit-friends tc dark-{{session.secondColor}}-border green-cursor" appEasyLang>Управлять</div>
         </a>
 
-        <div class="myPhoto green-cursor" (click)="goToChat(id, color)">
-            <img class="myPhotoIMG dark-{{color2}}-border" src="{{photo}}">
-            <div *ngIf="online" id="online_me"></div>
+        <div class="myPhoto green-cursor" (click)="goToChat(session.defaultColor)">
+            <div class="birthday green-cursor" *ngIf="(session.birthDate | date:'MM.dd') == (today | date:'MM.dd') && session.birthdays"
+            (click)="goToChat(session.defaultColor, '5f3bfe9255ba364d9f2edfac')"></div>
+            <img class="myPhotoIMG dark-{{session.secondColor}}-border" [src]="session.photo">
+            <div *ngIf="session.online" id="online_me"></div>
         </div>           
-        <p class="exit-friends tc dark-{{color2}}-border myName green-cursor"  (click)="goToChat(id, color)" appEasyLang>{{name}}</p>              
+        <div class="exit-friends tc dark-{{session.secondColor}}-border myName green-cursor"  (click)="goToChat(session._id, session.defaultColor)">
+            <div appEasyLang>{{session.name}}</div>
+            <div *ngIf="session.surnameView" appEasyLang>{{session.surname}}</div>
+        </div>              
 
         <a routerLink="/people/friends" routerLinkActive="people-active">
-            <img class="menuIMG dark-{{color2}}-border green-cursor" src="/images/dialog.png">
+            <img class="menuIMG dark-{{session.secondColor}}-border green-cursor" src="/images/dialog.png">
         </a>
         
         <a routerLink="/people/search" routerLinkActive="people-active">
-            <img class="menuIMG dark-{{color2}}-border green-cursor" src="/images/lupa.png">
+            <img class="menuIMG dark-{{session.secondColor}}-border green-cursor" src="/images/lupa.png">
         </a>
 
-        <a routerLink="/people/settings" routerLinkActive="people-active" *ngIf="levelStatus == 4 || setting != 0">
-            <img class="menuIMG dark-{{color2}}-border green-cursor" src="/images/settings.jpg">
+        <a routerLink="/people/settings" routerLinkActive="people-active" *ngIf="session.levelStatus == 4 || session.setting != 0">
+            <img class="menuIMG dark-{{session.secondColor}}-border green-cursor" src="/images/settings.jpg">
         </a>
         
-        <a routerLink="/people/events" routerLinkActive="people-active" *ngIf="events">
-            <img class="menuIMG dark-{{color2}}-border green-cursor" src="/images/people.png">
+        <a routerLink="/people/events" routerLinkActive="people-active" *ngIf="session.events">
+            <img class="menuIMG dark-{{session.secondColor}}-border green-cursor" src="/images/people.png">
         </a>
 
-        <a routerLink="/people/photolikes" routerLinkActive="people-active" *ngIf="events">
-            <img class="menuIMG dark-{{color2}}-border green-cursor" src="/images/photolike.png">
+        <a routerLink="/people/photolikes" routerLinkActive="people-active" *ngIf="session.events">
+            <img class="menuIMG dark-{{session.secondColor}}-border green-cursor" src="/images/photolike.png">
         </a>
 
-        <a routerLink="/people/games" routerLinkActive="people-active" *ngIf="games">
-            <img class="menuIMG dark-{{color2}}-border green-cursor" src="/images/games.png">
+        <a routerLink="/people/games" routerLinkActive="people-active" *ngIf="session.games">
+            <img class="menuIMG dark-{{session.secondColor}}-border green-cursor" src="/images/games.png">
         </a>
         <a href="#" (click)="logout($event)">
-            <div class="exit-friends tc dark-{{color2}}-border green-cursor" appEasyLang>Выход</div>
+            <div class="exit-friends tc dark-{{session.secondColor}}-border green-cursor" appEasyLang>Выход</div>
         </a>
         <br>
     </div>

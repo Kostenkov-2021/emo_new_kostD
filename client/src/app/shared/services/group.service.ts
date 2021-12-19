@@ -28,6 +28,14 @@ export class GroupService {
     return this.http.get<GroupMessage[]>(`/api/group/${group}`)
   }
 
+  getMessages(group: string, params: any): Observable<GroupMessage[]> {
+    return this.http.get<GroupMessage[]>(`/api/group/messages/${group}`, {
+      params: new HttpParams({
+        fromObject: params
+      })
+    })
+  }
+
   fetchById(id: string): Observable<GroupMessage[]> {
     return this.http.get<GroupMessage[]>(`/api/group/one/${id}`)
   }

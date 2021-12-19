@@ -61,6 +61,7 @@ import { Game3Component } from './games/game3/game3.component';
 import { Game4Component } from './games/game4/game4.component';
 import { Game5Component } from './games/game5/game5.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -133,6 +134,7 @@ import { AnalyticsComponent } from './analytics/analytics.component';
       multi: true,
       useClass: TokenInterceptor
     },
+    DatePipe,
     SocketioService
   ],
   entryComponents: [AnswersComponent],

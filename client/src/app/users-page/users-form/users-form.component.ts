@@ -87,22 +87,23 @@ export class UsersFormComponent implements OnInit, OnDestroy {
         photo: new FormControl(null),
         institution: new FormControl(this.session.institution, Validators.required),
   
-        online: new FormControl('false'),
-        Text: new FormControl('false'),
-        read: new FormControl('false'),
-        surnameView: new FormControl('false'),
+        online: new FormControl('true'),
+        Text: new FormControl('true'),
+        read: new FormControl('true'),
+        surnameView: new FormControl('true'),
         setting: new FormControl('1'),
-        vote: new FormControl('false'),
-        sentence: new FormControl('false'),
-        answers: new FormControl('false'),
+        vote: new FormControl('true'),
+        sentence: new FormControl('true'),
+        answers: new FormControl('true'),
         change: new FormControl('true'),
-        defaultColor: new FormControl('grey'),
+        defaultColor: new FormControl('color'),
         birthdays: new FormControl('true'),
         first: new FormControl('5'),
         second: new FormControl('1'),
         events: new FormControl('true'),
         games: new FormControl('true'),
         screenreader: new FormControl('true'),
+        time: new FormControl('true'),
   
         day: new FormControl('0'),
         month: new FormControl('0'),
@@ -154,7 +155,8 @@ export class UsersFormComponent implements OnInit, OnDestroy {
               second: user.secondColor.toString(),
               events: user.events.toString(),
               screenreader: user.screenreader.toString(),
-              games: user.games.toString()  
+              games: user.games.toString(),  
+              time: typeof user['time'] !== "undefined" ? user.time.toString() : false
             })
             this.startL = user.login
             this.imagePreview = user.photo
@@ -230,8 +232,8 @@ export class UsersFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  sendToParent(color: string) {
-    this.navService.sendColor(color)
+  sendToParent(user) {
+    this.navService.sendToPeople(user)
   }
 
   onSubmit() {
@@ -271,7 +273,8 @@ export class UsersFormComponent implements OnInit, OnDestroy {
           this.form.value.birthdays,
           this.form.value.events,
           this.form.value.screenreader,
-          this.form.value.games
+          this.form.value.games,
+          this.form.value.time
         )
       } else {
         this.endL = this.form.value.login
@@ -309,7 +312,8 @@ export class UsersFormComponent implements OnInit, OnDestroy {
           this.form.value.birthdays,
           this.form.value.events,
           this.form.value.screenreader,
-          this.form.value.games
+          this.form.value.games,
+          this.form.value.time
         )
       }
       obs$.subscribe(
@@ -317,7 +321,7 @@ export class UsersFormComponent implements OnInit, OnDestroy {
           this.user = user
           this.form.enable()
           if (this.first != +this.form.value.first && this.id == this.whatDo) {
-            this.sendToParent(this.form.value.first)
+            this.navService.sendToPeople(user)
           }
           this.router.navigate([`/manage/users`])
         },

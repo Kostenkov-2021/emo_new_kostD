@@ -100,9 +100,13 @@
     <input name="birthdays" type="radio" value="true" formControlName="birthdays"> Да <br>
     <input name="birthdays" type="radio" value="false" formControlName="birthdays"> Нет <br>
 
-    <p class="in_new_user dark-{{session.firstColor}}-color">Доступна ли озвучка текстовых сообщений:</p>
+    <p class="in_new_user dark-{{session.firstColor}}-color">Доступна озвучка текстовых сообщений:</p>
     <input name="screenreader" type="radio" value="true" formControlName="screenreader"> Да <br>
     <input name="screenreader" type="radio" value="false" formControlName="screenreader"> Нет <br>
+
+    <p class="in_new_user dark-{{session.firstColor}}-color">Показывается время отправки сообщений:</p>
+    <input name="time" type="radio" value="true" formControlName="time"> Да <br>
+    <input name="time" type="radio" value="false" formControlName="time"> Нет <br>
 
     <p class="in_new_user dark-{{session.firstColor}}-color">Доступена ли страница "Мероприятия":</p>
     <input name="events" type="radio" value="true" formControlName="events"> Да <br>

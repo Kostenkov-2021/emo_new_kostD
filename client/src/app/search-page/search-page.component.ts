@@ -11,8 +11,7 @@ const STEP = 6
 @Component({
   selector: 'app-search-page',
   templateUrl: './search-page.component.html',
-  styleUrls: ['./search-page.component.css'],
-  providers:[DatePipe]
+  styleUrls: ['./search-page.component.css']
 })
 export class SearchPageComponent implements OnInit, OnDestroy {
 
@@ -34,7 +33,6 @@ export class SearchPageComponent implements OnInit, OnDestroy {
 
   constructor(private loginService: LoginService,
               private peopleService: PeopleService,
-              public datePipe : DatePipe,
               private chatService: ChatService) { }
 
   ngOnInit(): void {
@@ -61,12 +59,6 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         }
         else {
           user.active = false
-        }
-        if (this.datePipe.transform(user.birthDate, "dd,MM") == this.datePipe.transform(this.today, "dd,MM")) {
-          user.bd = true
-        }
-        else {
-          user.bd = false
         }
       }
       if (isNew) this.users = users
@@ -95,11 +87,6 @@ export class SearchPageComponent implements OnInit, OnDestroy {
 
   changeBirthday() {
     this.birthday = !this.birthday
-    this.filter.birthday = this.birthday
-    this.offset = 0
-    this.users = []
-    this.loading = true
-    this.fetch(true)
   }
 
   changeOnline() {

@@ -1,4 +1,5 @@
 
+import { DatePipe } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
 import { User } from '../interfaces';
 
@@ -7,10 +8,12 @@ import { User } from '../interfaces';
 })
 export class FilterPipe implements PipeTransform {
 
+  constructor(private datePipe: DatePipe) {}
 
   transform(users: User[], search: string = '', online: boolean = false, birthday: boolean = false, institution: string = ''): User[] {
     
     search = search.trim().toLowerCase()
+    const today = new Date()
     
     if (!search && !online && !birthday && !institution) {
       return users
@@ -20,7 +23,7 @@ export class FilterPipe implements PipeTransform {
     return users.filter(user => {
       
       if (institution && user.institution !== institution) return false
-      if (birthday && !user.bd) return false
+      if (birthday && this.datePipe.transform(user.birthDate, 'dd.MM') != this.datePipe.transform(today, 'dd.MM')) return false
       if (online && !user.active) return false
       let i = 0    
       for (let word of arrName) {

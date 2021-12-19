@@ -100,6 +100,7 @@
       position: absolute;
       top: 2px;
       z-index: 4;
+      object-fit: cover;
   }
   
   #friend {left: 2px;}

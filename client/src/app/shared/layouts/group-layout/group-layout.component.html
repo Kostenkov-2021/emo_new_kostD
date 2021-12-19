@@ -7,6 +7,7 @@
 
           <div id="section" class="light-{{session.secondColor}}-bg">
                <div id="middle" *ngIf="!mesloading; else mesloader">
+                    <app-loader *ngIf="loading"></app-loader>
                     <div *ngFor="let letter of messages; let j = index">
                          <div *ngIf="messages[j-1] && messages[j-1].read.includes(session._id) && !letter.read.includes(session._id)" class="separator" id="separator"></div>
                          <div *ngIf="letter.sender == session._id" 
@@ -19,11 +20,9 @@
 
                                    <div *ngIf="letter.type[i] == 2" class="div-in-li">
                                         <div appEasyLang class="div-text">{{message}}</div>
-                                        <div class="footer-out">
-                                             <div class="screenread-btn footer green-cursor" 
-                                             *ngIf="session.screenreader"
-                                             (click)="screenRead(message)"></div>
-                                        </div>
+                                        <div class="screenread-btn green-cursor" 
+                                        *ngIf="session.screenreader"
+                                        (click)="screenRead(message)"></div>
                                    </div>
 
                                    <div *ngIf="letter.type[i] == 3" class="div-in-li">
@@ -50,12 +49,13 @@
                                    <div *ngIf="letter.read.length <= 1 && session.read" class="notsee-message footer"></div>
                                    <div class="delete-message-btn footer green-cursor" (click)="openDeleteMessage(letter)"></div>
                               </div>
+                              <div *ngIf="session.time" class="message_time">{{getDateString(letter.time)}}</div>
                          </div>
 
                          <div *ngIf="letter.sender != session._id"  
                          class="inter-message message dark-{{session.firstColor}}-border"
                          id="{{letter._id}}">
-                              <img [src]="letter.senderPhoto" (click)="openZoom(letter.senderPhoto)" class="footer green-cursor inline-block"/>
+                              <img [src]="letter.senderPhoto" (click)="openZoom(letter.senderPhoto)" class="footer green-cursor cover"/>
                               <div class="div-in-li inline-block senderName" appEasyLang>
                                    <b>{{letter.senderName}}</b>
                               </div>
@@ -71,11 +71,9 @@
 
                                    <div *ngIf="letter.type[i] == 2" class="div-in-li">
                                         <div appEasyLang class="div-text">{{message}}</div>
-                                        <div class="footer-out">
-                                             <div class="screenread-btn footer green-cursor" 
-                                             *ngIf="session.screenreader"
-                                             (click)="screenRead(message)"></div>
-                                        </div>
+                                        <div class="screenread-btn green-cursor" 
+                                        *ngIf="session.screenreader"
+                                        (click)="screenRead(message)"></div>
                                    </div>
 
                                    <div *ngIf="letter.type[i] == 3" class="div-in-li">
@@ -97,6 +95,7 @@
                                         </a>
                                    </div>
                               </div>
+                              <div *ngIf="session.time" class="message_time">{{getDateString(letter.time)}}</div>
                          </div>
                     </div>
                     <div class="forScroll" id="forScroll"></div>

@@ -1,3 +1,8 @@
 .center {
     margin-left: 45%;
 }
+
+.empty {
+    width: 100%;
+    text-align: center;
+}

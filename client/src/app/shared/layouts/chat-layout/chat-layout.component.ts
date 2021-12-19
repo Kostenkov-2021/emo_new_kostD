@@ -9,6 +9,8 @@ import { SocketioService } from '../../services/socketio.service';
 import { AnswersComponent } from '../../components/answers/answers.component';
 import { RefDirective } from '../../directive/ref.directive';
 
+const STEP = 5
+
 @Component({
   selector: 'app-chat-layout',
   templateUrl: './chat-layout.component.html',
@@ -18,7 +20,13 @@ export class ChatLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild(RefDirective) refDir: RefDirective
 
+  limit = STEP
+  offset = 0
+
+  loading = false
   reloading = false
+  noMore = false
+
   oSub: Subscription
   socMesSub: any
   socOnlSub: any
@@ -27,12 +35,11 @@ export class ChatLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   messages$: Subscription
   id: string
   textarea = ''
-  newMessages: Message[] = []
   zoom = false
   image = ''
   deleteMessage = false
   deleteID: Message
-  letters: Messages
+  letters: Message[] = []
   mesloading = false
   withAnswers = []
 
@@ -44,9 +51,10 @@ export class ChatLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     private router: Router,
     private resolver: ComponentFactoryResolver) {
       this.socMesSub = this.socketService.newMessage.subscribe(message => {
-        if (message.sender == this.id && message.recipient == this.session._id && !this.newMessages.includes(message)) {
-          this.newMessages.push(message)
-          for (let src of message.message) {
+        if (message.sender == this.id && message.recipient == this.session._id && !this.letters.includes(message)) {
+          this.letters.push(message)
+          this.offset += 1
+          for (const src of message.message) {
             this.chatService.getAnswers(src).subscribe(answers => {
               if (answers.answers.length !== 0 && !this.withAnswers.includes(src)) this.withAnswers.push(src)
             },
@@ -62,10 +70,7 @@ export class ChatLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       })
       this.socOnlSub = this.socketService.online.subscribe(online => {
         if (online == this.session._id && this.session._id != this.id) {
-          for (let message of this.letters.messagesRead) {
-            message.read = true
-          }
-          for (let message of this.newMessages) {
+          for (let message of this.letters) {
             message.read = true
           }
         }
@@ -79,30 +84,7 @@ export class ChatLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     this.route.firstChild.params.subscribe((params: Params) => {
       this.id = params.id
       this.user$ = this.chatService.getInterlocutor(this.id)
-      this.messages$ = this.chatService.getMessages(this.id).subscribe(messages => {
-        this.letters = messages
-        for (let message of messages.messagesRead) {
-          for (let src of message.message) {
-            this.chatService.getAnswers(src).subscribe(answers => {
-              if (answers.answers.length !== 0 && !this.withAnswers.includes(src)) this.withAnswers.push(src)
-            },
-            error => {
-              console.log(error.error.message)
-            })
-          }
-        }
-        for (let message of messages.messagesNotRead) {
-          for (let src of message.message) {    
-            this.chatService.getAnswers(src).subscribe(answers => {
-              if (answers.answers.length !== 0 && !this.withAnswers.includes(src)) this.withAnswers.push(src)
-            },
-            error => {
-              console.log(error)
-            })
-          }
-        }
-        this.mesloading = false
-      })
+      this.fetch()
     }) 
 
     this.oSub = this.loginService.getUser().subscribe(user =>{
@@ -125,6 +107,37 @@ export class ChatLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  fetch() {
+    const params = Object.assign({}, {
+      offset: this.offset,
+      limit: this.limit
+    })
+
+    this.messages$ = this.chatService.getMessages2(this.id, params).subscribe(letters => {
+      for (const letter of letters) {
+        for (const src of letter.message) {
+          this.chatService.getAnswers(src).subscribe(answers => {
+            if (answers.answers.length !== 0 && !this.withAnswers.includes(src)) this.withAnswers.push(src)
+          },
+          error => {
+            console.log(error.error.message)
+          })
+        }
+      }
+      this.letters = letters.concat(this.letters)
+      this.noMore = letters.length < this.limit
+      if (!this.noMore) this.loadMore()
+      this.mesloading = false
+      this.loading = false
+    })
+  }
+
+  loadMore() {
+    this.offset += this.limit
+    this.loading = true
+    this.fetch()
+  }
+
   newText() {
     if (this.textarea.trim()) {
       this.navService.sendTextMessage(this.textarea, 2)
@@ -133,7 +146,9 @@ export class ChatLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   newMessageFromMe(message) {
-    this.newMessages.push(message)
+    this.letters.push(message)
+    this.offset += 1
+
     setTimeout(scroll, 500)
     function scroll() {
       document.getElementById('forScroll').scrollIntoView(false)
@@ -142,9 +157,7 @@ export class ChatLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
 
   clearChat(clear) {
     if (clear) {
-      this.letters.messagesRead = []
-      this.letters.messagesNotRead = []
-      this.newMessages = []
+      this.letters = []
     }
   }
 
@@ -165,6 +178,10 @@ export class ChatLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       audio.play()
       audio.addEventListener("ended", function () {if (i < urls.length -1) playUrls(i+1)}) 
     }
+  }
+
+  getDateString(date) {
+    return this.chatService.timeString(date)
   }
 
   openDeleteMessage(data) {

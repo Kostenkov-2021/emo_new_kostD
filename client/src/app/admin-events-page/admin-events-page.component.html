@@ -1,14 +1,23 @@
-<div *ngIf="!reloading; else reloader">
-    <div class="user_filtr">
-        <div *ngIf="session.levelStatus == 1">
-            <p class="in_user_filtr dark-{{session.firstColor}}-color">Учреждение:</p>
-            <select *ngIf="institutions$ | async as institutions" [(ngModel)]="institution" (change)="onFilter()">
-                <option  value="">Любое</option>
-                <option *ngFor="let institution of institutions" value="{{institution._id}}">{{institution.name}}</option>
-            </select>
-        </div>
-    </div>
 
+<div class="user_filtr" *ngIf="session">
+    <div *ngIf="session.levelStatus == 1">
+        <p class="in_user_filtr dark-{{session.firstColor}}-color">Учреждение:</p>
+        <select *ngIf="institutions$ | async as institutions" [(ngModel)]="institution" (change)="onFilter()">
+            <option  value="">Любое</option>
+            <option *ngFor="let institution of institutions" value="{{institution._id}}">{{institution.name}}</option>
+        </select>
+    </div>
+    <p class="in_user_filtr dark-{{session.firstColor}}-color">Статус:</p>
+    <select [(ngModel)]="filter_status" (change)="onFilter()">
+        <option value="">Любой</option>
+        <option value="0">На рассмотрении</option>
+        <option value="1">Активно</option>
+        <option value="2">Завершено</option>
+        <option value="-1">Отклонено</option>
+    </select>
+</div>
+
+<div *ngIf="!reloading; else reloader">
     <div *ngIf="events.length > 0; else empty">
         <div 
         class="user dark-{{session.firstColor}}-border"

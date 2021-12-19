@@ -4,28 +4,21 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { NavService } from '../../services/nav.service';
 import { ChatService } from '../../services/chat.service';
+import { User } from '../../interfaces';
 
 @Component({
   selector: 'app-people-layout',
   templateUrl: './people-layout.component.html',
   styleUrls: ['./people-layout.component.css']
 })
-export class PeopleLayoutComponent implements OnInit{
+export class PeopleLayoutComponent implements OnInit {
 
   oSub: Subscription
   logSub: Subscription
-  color1: string
-  color2: string
-  online: boolean
+  navSub: Subscription
   reloading: boolean = false
-  photo: string
-  id: string
-  setting: number
-  levelStatus: number
-  name: string
-  color: string
-  events: boolean
-  games: boolean
+  session: User
+  today = new Date()
 
   constructor(
     private router: Router,
@@ -33,41 +26,26 @@ export class PeopleLayoutComponent implements OnInit{
     private auth: LoginService,
     private navService: NavService,
     private chatService: ChatService) {
-      this.navService.fColor.subscribe(color => this.color1 = color)
-      this.navService.sColor.subscribe(color => this.color2 = color)
-      this.navService.newDefColor.subscribe(color => this.color = color)
-      this.navService.newOnlane.subscribe(online => {
-        this.online = online
-        if (online == 'false') this.online = false
-        else this.online = true
-      })
+      this.navSub = this.navService.newSettings.subscribe(user => this.session = user)
      }
 
   ngOnInit(): void {
     this.reloading = true
     this.oSub = this.auth.getUser().subscribe(user => {
-      this.color1 = user.firstColor
-      this.color2 = user.secondColor
-      this.online = user.online
-      this.photo = user.photo
-      this.setting = user.setting
-      this.levelStatus = user.levelStatus
-      this.name = user.name
-      this.id = user._id
-      this.color = user.defaultColor
-      this.reloading = false
-      this.events = user.events
-      this.games = user.games
+      this.session = user
+      this.reloading = false     
     })
   }
 
-  goToChat(id: string, color: string) {
-    this.chatService.goToChat(id, color)
+  goToChat(color: string, folder?: string) {
+    this.chatService.goToChat(this.session._id, color, folder)
   }
 
   logout(event: Event) {
     this.logSub = this.loginService.exit().subscribe()
     this.logSub.unsubscribe()
+    this.navSub.unsubscribe()
+    this.oSub.unsubscribe()
     event.preventDefault()
     this.loginService.logout()
     this.router.navigate(['/login'])

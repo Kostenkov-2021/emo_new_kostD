@@ -1,4 +1,5 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Event } from '../../interfaces';
 
 @Component({
   selector: 'app-delete-all-message',
@@ -7,6 +8,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 })
 export class DeleteAllMessageComponent {
 
+  @Input() event: Event 
   @Output() result = new EventEmitter<boolean>()
 
   checked(ans) {

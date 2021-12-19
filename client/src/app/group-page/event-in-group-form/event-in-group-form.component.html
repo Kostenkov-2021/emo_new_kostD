@@ -14,7 +14,7 @@
         <textarea formControlName="description" class="textarea text-cursor"></textarea> <br>
 
         <p class="pNotAdmin" appEasyLang>Адрес:</p>
-        <input type="text" formControlName="address" class="text-input text-cursor"> <br>
+        <textarea formControlName="address" class="textarea text-cursor"></textarea> <br>
 
         <p class="pNotAdmin" appEasyLang>Стоимость:</p>
         <input type="number" min="0" formControlName="cost" class="number-input text-cursor"> <br>
@@ -33,25 +33,13 @@
         </label>
         <br>
 
-        <div *ngIf="users$ | async as users">
-            <p class="pNotAdmin" appEasyLang>Участники:</p>
-            <select *ngIf="institutions$ | async as institutions" formControlName="institution" (change)="changeInstitution()" class="select green-cursor">
-                <option 
-                *ngFor="let institution of institutions" 
-                value="{{institution._id}}"
-                >
-                {{institution.name}}</option>
-            </select>
-
-            <div *ngIf="form.value.institution == session.institution" class="pNotAdmin" appEasyLang>
-                {{session.name}} <span *ngIf="session.surname">{{session.surname}} </span>(ВЫ)
-            </div>
-            <div *ngFor="let user of users">    
-                <div *ngIf="group.participants.includes(user._id)" class="pNotAdmin" appEasyLang>
-                    {{user.name}} <span *ngIf="session.surnameView">{{user.surname}} </span>
-                </div>
-            </div>
+        
+        <p class="pNotAdmin" appEasyLang>Участники:</p>
+       
+        <div *ngFor="let user of group.participantsNames" appEasyLang class="pNotAdmin">                
+            {{user.name}}{{session.surnameView ? ' ' + user.surname : ''}}{{session.login === user.login ? ' (ВЫ),' : ','}} {{user.institutionName}}
         </div>
+       
 
     </form>
     <div id="cross_pict" (click)="close()" class="green-cursor"></div>

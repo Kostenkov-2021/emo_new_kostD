@@ -11,6 +11,8 @@ import { NavService } from '../../services/nav.service';
 import { RefDirective } from '../../directive/ref.directive';
 import { AnswersComponent } from '../../components/answers/answers.component';
 
+const STEP = 5
+
 @Component({
   selector: 'app-group-layout',
   templateUrl: './group-layout.component.html',
@@ -20,7 +22,14 @@ export class GroupLayoutComponent implements OnInit, OnDestroy {
 
   @ViewChild(RefDirective) refDir: RefDirective
 
+  limit = STEP
+  offset = 0
+
+  loading = false
   reloading = false
+  mesloading = false
+  noMore = false
+
   oSub: Subscription
   socMesSub: Subscription
   socOnlSub: Subscription
@@ -35,7 +44,7 @@ export class GroupLayoutComponent implements OnInit, OnDestroy {
   image = ''
   deleteMessage = false
   deleteID: GroupMessage
-  mesloading = false
+  
   withAnswers = []
   eventForm = false
 
@@ -50,6 +59,7 @@ export class GroupLayoutComponent implements OnInit, OnDestroy {
     private resolver: ComponentFactoryResolver) { 
       this.socMesSub = this.socketService.newGroupMessage.subscribe(message => {
         if (message.sender != this.session._id && message.group == this.id && !this.messages.includes(message)) {
+          this.offset += 1
           this.messages.push(message)
           for (let src of message.message) {
             this.chatService.getAnswers(src).subscribe(answers => {
@@ -76,24 +86,6 @@ export class GroupLayoutComponent implements OnInit, OnDestroy {
     this.mesloading = true
     this.reloading = true
 
-    this.route.firstChild.params.subscribe((params: Params) => {
-      this.id = params.id
-      this.messages$ = this.groupService.fetch(this.id).subscribe(messages => {
-        this.messages = messages
-        for (let message of messages) {
-          for (let src of message.message) {
-            this.chatService.getAnswers(src).subscribe(answers => {
-              if (answers.answers.length !== 0 && !this.withAnswers.includes(src)) this.withAnswers.push(src)
-            },
-            error => {
-              console.log(error.error.message)
-            })
-          }
-        }
-        this.mesloading = false
-      })     
-    }) 
-
     this.oSub = this.loginService.getUser().subscribe(user => {
       this.session = user
       this.socketService.setupSocketConnectionGroup(user._id, this.id)
@@ -102,6 +94,11 @@ export class GroupLayoutComponent implements OnInit, OnDestroy {
         this.reloading = false
       })
     })
+
+    this.route.firstChild.params.subscribe((params: Params) => {
+      this.id = params.id
+      this.fetch()      
+    }) 
   }
 
   ngAfterViewInit() {
@@ -115,6 +112,37 @@ export class GroupLayoutComponent implements OnInit, OnDestroy {
         else document.getElementById('forScroll').scrollIntoView(false)
       }
     }
+  }
+
+  fetch() {
+    const params = Object.assign({}, {
+      offset: this.offset,
+      limit: this.limit
+    })
+
+    this.messages$ = this.groupService.getMessages(this.id, params).subscribe(letters => {
+      for (const letter of letters) {
+        for (const src of letter.message) {
+          this.chatService.getAnswers(src).subscribe(answers => {
+            if (answers.answers.length !== 0 && !this.withAnswers.includes(src)) this.withAnswers.push(src)
+          },
+          error => {
+            console.log(error.error.message)
+          })
+        }
+      }
+      this.messages = letters.concat(this.messages)
+      this.noMore = letters.length < this.limit
+      if (!this.noMore) this.loadMore()
+      this.mesloading = false
+      this.loading = false
+    })
+  }
+
+  loadMore() {
+    this.offset += this.limit
+    this.loading = true
+    this.fetch()
   }
 
   openZoom(src) {
@@ -146,6 +174,10 @@ export class GroupLayoutComponent implements OnInit, OnDestroy {
     }
   }
 
+  getDateString(date) {
+    return this.chatService.timeString(date)
+  }
+
   newEvent(event) {
     this.group = event
   }
@@ -158,11 +190,14 @@ export class GroupLayoutComponent implements OnInit, OnDestroy {
   }
 
   newMessageFromMe(message) {
-    if (!this.messages.includes(message)) this.messages.push(message)
-    setTimeout(scroll, 500)
-    function scroll() {
-      document.getElementById('forScroll').scrollIntoView(false)
-    }    
+    if (!this.messages.includes(message)) {
+      this.messages.push(message)
+      this.offset += 1
+      setTimeout(scroll, 500)
+      function scroll() {
+        document.getElementById('forScroll').scrollIntoView(false)
+      }   
+    } 
   }
 
   openDeleteMessage(data) {

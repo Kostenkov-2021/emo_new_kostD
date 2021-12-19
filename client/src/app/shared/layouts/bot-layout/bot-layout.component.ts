@@ -6,6 +6,8 @@ import { EventsService } from '../../services/events.service';
 import { Router } from '@angular/router';
 import { ChatService } from '../../services/chat.service';
 
+const STEP = 5
+
 @Component({
   selector: 'app-bot-layout',
   templateUrl: './bot-layout.component.html',
@@ -13,18 +15,26 @@ import { ChatService } from '../../services/chat.service';
 })
 export class BotLayoutComponent implements OnInit, OnDestroy {
 
+  limit = STEP
+  offset = 0
+
+  loading = false
   reloading = false
+  noMore = false
   oSub: Subscription
   session: User
   user$: Observable<User>
   events$: Subscription
-  events: Event[]
+  events: Event[] = []
   messages$: Subscription
   id: string
   textarea = ''
   zoom = false
   mesloading = false
   image = ''
+  mystatus = 'wait'
+  deletingEvent = false
+  eventWantDelete: Event
 
   constructor(private loginService: LoginService, 
               private eventsService: EventsService,
@@ -35,13 +45,43 @@ export class BotLayoutComponent implements OnInit, OnDestroy {
     this.reloading = true
     this.oSub = this.loginService.getUser().subscribe(user =>{
       this.session = user
-      this.events$ = this.eventsService.fetchForBot().subscribe(events => this.events = events)
       this.reloading = false
+      this.fetch()
     })
   }
 
-  ngAfterViewInit() {
-    let TimerId = setInterval(scroll, 500)
+  fetch() {
+    const params = Object.assign({}, {
+      offset: this.offset,
+      limit: this.limit,
+      mystatus: this.mystatus
+    })
+
+    this.events$ = this.eventsService.fetchForBot(params).subscribe(events => { 
+      
+      this.events = events.concat(this.events)
+      this.noMore = events.length < this.limit
+      if (!this.noMore) this.loadMore()
+      this.loading = false
+      this.scroll()
+    })
+  }
+
+  loadMore() {
+    this.offset += this.limit
+    this.loading = true
+    this.fetch()
+  }
+
+  changeMyStatus() {
+    this.offset = 0
+    this.events = []
+    this.loading = true
+    this.fetch()
+  }
+
+  scroll() {
+    let TimerId = setInterval(scroll, 200)
 
     function scroll() {
       if (document.getElementById('forScroll')) {
@@ -69,6 +109,11 @@ export class BotLayoutComponent implements OnInit, OnDestroy {
     }
   }
 
+  openDeleteEvent(event) {
+    this.eventWantDelete = event
+    this.deletingEvent = true
+  }
+
   openZoom(src) {
     this.image = src
     this.zoom = true
@@ -78,29 +123,31 @@ export class BotLayoutComponent implements OnInit, OnDestroy {
     if (result) this.zoom = false
   }
 
+  fromDeleteEvent(result) {
+    if (result) {
+      this.eventsService.deleteById(this.eventWantDelete._id).subscribe(message => {
+        if (message) {
+          this.events = this.events.filter(event => event._id !== this.eventWantDelete._id)
+          this.eventWantDelete = null
+        }
+      })
+    }
+    this.deletingEvent = false
+  }
+
   newMessageFromMe(event) {
     this.events.push(event)   
   }
 
-  want(id) {
-    this.eventsService.changeUserStatus(id, 1).subscribe(new_event => {
+  newStatus(id, status) {
+    this.eventsService.changeUserStatus(id, status).subscribe(new_event => {
       for (let event of this.events) {
         if (event._id == new_event._id) {
           event.wait = new_event.wait
+          event.hide = new_event.hide
           event.participants = new_event.participants
-          let nbox = document.getElementById(`n-${event._id}`)
-          nbox.remove()
-          let wbox = document.getElementById(`w-${event._id}`)
-          wbox.remove()
         }
       }
-    })
-  }
-
-  not_want(id) {
-    this.eventsService.changeUserStatus(id, -1).subscribe(event => {
-      let box = document.getElementById(event._id)
-      box.remove()
     })
   }
 

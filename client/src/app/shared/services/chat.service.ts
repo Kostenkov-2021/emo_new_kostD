@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { User, PictureAndFolder, MessageFromServer, Message, Messages, Answers, Picture, GroupMessage } from '../interfaces';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import * as googleTTS from 'google-tts-api';
+import { DatePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ import * as googleTTS from 'google-tts-api';
 export class ChatService {
 
   constructor(private router: Router,
-              private http: HttpClient) { }
+              private http: HttpClient,
+              private datePipe: DatePipe) { }
 
   goToChat(id: string, color: string, folder?: string) {
     var fold = '5f12ff8cc06cd105437d84e3'
@@ -79,6 +81,14 @@ export class ChatService {
     return this.http.get<Messages>(`/api/chat/message/${friend}`)
   }
 
+  getMessages2(friend: string, params: any): Observable<Message[]> {
+    return this.http.get<Message[]>(`/api/chat/message2/${friend}`, {
+      params: new HttpParams({
+        fromObject: params
+      })
+    })
+  }
+
   deleteOneMessage (id: string): Observable<MessageFromServer> {
     return this.http.delete<MessageFromServer>(`/api/chat/${id}`) 
   }
@@ -110,5 +120,13 @@ export class ChatService {
       host: 'https://translate.google.com',
     });
     return urls
+  }
+
+  timeString(date: Date): string {
+    const time = new Date(date)
+    const now = new Date()
+    if (time.getFullYear() !== now.getFullYear()) return this.datePipe.transform(time, 'dd.MM.yyyy, HH:mm')
+    if (time.getMonth() !== now.getMonth() || time.getDate() !== now.getDate()) return this.datePipe.transform(time, 'dd.MM, HH:mm')
+    return this.datePipe.transform(time, 'HH:mm')
   }
 }

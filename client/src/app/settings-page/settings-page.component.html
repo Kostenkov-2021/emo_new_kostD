@@ -8,12 +8,12 @@
                     <input 
                     id="f{{color}}" 
                     class="inline-blok" 
-                    name="first" 
+                    name="firstColor" 
                     type="radio" 
                     value="{{color}}" 
-                    formControlName="first" hidden>
+                    formControlName="firstColor" hidden>
                     <label for="f{{color}}">
-                        <div class="color-div light-{{color}}-bg green-cursor" [ngClass]="{checkedColor: form.value.first == color}"></div>
+                        <div class="color-div light-{{color}}-bg green-cursor" [ngClass]="{checkedColor: form.value.firstColor == color}"></div>
                     </label>
                 </td>
             </tr> 
@@ -26,12 +26,12 @@
                     <input 
                     id="s{{color}}" 
                     class="inline-blok" 
-                    name="second" 
+                    name="secondColor" 
                     type="radio" 
                     value="{{color}}" 
-                    formControlName="second" hidden> 
+                    formControlName="secondColor" hidden> 
                     <label for="s{{color}}">
-                        <div class="color-div light-{{color}}-bg green-cursor" [ngClass]="{checkedColor: form.value.second == color}"></div>
+                        <div class="color-div light-{{color}}-bg green-cursor" [ngClass]="{checkedColor: form.value.secondColor == color}"></div>
                     </label>
                 </td>
             </tr> 
@@ -53,13 +53,13 @@
 
         <p class="pNotAdmin" appEasyLang>Отправляемые подписи:</p>
 
-        <label class="radio"  [ngClass]="{checked: form.value.Text == 'true'}">
-            <input name="Text" type="radio" value="true" formControlName="Text" hidden> 
+        <label class="radio"  [ngClass]="{checked: form.value.text == 'true'}">
+            <input name="text" type="radio" value="true" formControlName="text" hidden> 
             <div class="yes green-cursor"></div> 
         </label>
         <div class="radio_yes"></div>
-        <label class="radio" [ngClass]="{checked: form.value.Text == 'false'}">
-            <input name="Text" type="radio" value="false" formControlName="Text" hidden>
+        <label class="radio" [ngClass]="{checked: form.value.text == 'false'}">
+            <input name="text" type="radio" value="false" formControlName="text" hidden>
             <div class="no green-cursor"></div>
         </label>
 
@@ -151,7 +151,7 @@
             <div class="no green-cursor"></div>
         </label>
 
-        <p class="pNotAdmin" appEasyLang>Озвучка текстовых сообщений:</p>
+        <p class="pNotAdmin" appEasyLang>Озвучка текста:</p>
         <label class="radio" [ngClass]="{checked: form.value.screenreader == 'true'}">
             <input name="screenreader" type="radio" value="true" formControlName="screenreader" hidden> 
             <div class="yes green-cursor"></div> 
@@ -159,6 +159,17 @@
         <div class="radio_yes"></div>
         <label class="radio" [ngClass]="{checked: form.value.screenreader == 'false'}">
             <input name="screenreader" type="radio" value="false" formControlName="screenreader" hidden>
+            <div class="no green-cursor"></div>
+        </label>
+
+        <p class="pNotAdmin" appEasyLang>Время сообщений:</p>
+        <label class="radio" [ngClass]="{checked: form.value.time == 'true'}">
+            <input name="time" type="radio" value="true" formControlName="time" hidden> 
+            <div class="yes green-cursor"></div> 
+        </label>
+        <div class="radio_yes"></div>
+        <label class="radio" [ngClass]="{checked: form.value.time == 'false'}">
+            <input name="time" type="radio" value="false" formControlName="time" hidden>
             <div class="no green-cursor"></div>
         </label>
     </div>

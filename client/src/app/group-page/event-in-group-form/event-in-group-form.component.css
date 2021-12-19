@@ -7,11 +7,11 @@
 }
 
 .textarea {
-    height: 3cm;
+    height: auto;
     width: 97%;
     font-size: 1cm;
     margin: auto;
-    resize: none;
+    resize: vertical;
     display: block;
     overflow: hidden;
 }

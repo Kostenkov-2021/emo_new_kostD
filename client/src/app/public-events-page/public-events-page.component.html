@@ -23,15 +23,18 @@
             <img 
             *ngIf="event.chatImage"
             class="phl_img green-cursor" 
+            (click)="openZoom(event.chatImage)"
             [src]="event.chatImage">
-
+            
             <br>
 
             <div class="pNotAdmin countlike">ЧТОБЫ УЧАСТВОВАТЬ, ВОЙДИТЕ</div>
             
         </div>
     </div>
+    <app-loader *ngIf="loading"></app-loader>
 </div>
+<app-picture-zoom *ngIf="zoom" [image]="image" (result)="closeZoom($event)"></app-picture-zoom>
 
 <ng-template #reloader>
     <app-loader></app-loader>

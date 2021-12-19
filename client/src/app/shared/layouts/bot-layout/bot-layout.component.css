@@ -22,6 +22,15 @@
     margin: 0;
 }
 
+.inheader {
+    position: relative;
+    width: 50%;
+    margin-left: 25%;
+    height: 1cm;
+    margin-top: 0.5cm;
+    font-size: 0.7cm;
+}
+
 .sender-message {
     float: right;
     clear: both;
@@ -73,9 +82,16 @@
     height: 1px;
 }
 
-.screenread-btn {
-    background-image: url('/images/screenreader.png');
-    background-size: 100% 100%;
-    width: 3vw;
-    height: 3vw;
-}
+.footer {
+    width: 2.5vw;
+    height: 2.5vw;
+    margin-left: 5px;
+    margin-right: 5px;
+    display: inline-block;
+    float: right;
+ }
+
+ .delete-message-btn {
+     background-image: url('/images/musorka.png');
+     background-size: 100% 100%;
+ }

@@ -29,7 +29,7 @@ export class SettingsPageComponent implements OnInit, OnDestroy {
       this.session = user
       this.form = new FormGroup({
         online: new FormControl(this.session.online.toString()),
-        Text: new FormControl(this.session.text.toString()),
+        text: new FormControl(this.session.text.toString()),
         read: new FormControl(this.session.read.toString()),
         surnameView: new FormControl(this.session.surnameView.toString()),
         vote: new FormControl(this.session.vote.toString()),
@@ -38,9 +38,10 @@ export class SettingsPageComponent implements OnInit, OnDestroy {
         change: new FormControl(this.session.change.toString()),
         defaultColor: new FormControl(this.session.defaultColor),
         birthdays: new FormControl(this.session.birthdays.toString()),
-        first: new FormControl(this.session.firstColor.toString()),
-        second: new FormControl(this.session.secondColor.toString()),
-        screenreader: new FormControl(this.session.screenreader.toString())
+        firstColor: new FormControl(this.session.firstColor.toString()),
+        secondColor: new FormControl(this.session.secondColor.toString()),
+        screenreader: new FormControl(this.session.screenreader.toString()),
+        time: new FormControl(typeof this.session['time'] !== "undefined" ? this.session.time.toString() : false)
       }) 
       this.reloading = false
     })
@@ -55,8 +56,8 @@ export class SettingsPageComponent implements OnInit, OnDestroy {
     this.oSub.unsubscribe()
   }
 
-  sendToParent(color1: string, color2: string, online: string, color: string) {
-    this.navService.sendToPeople(color1, color2, online, color)
+  sendToParent(user) {
+    this.navService.sendToPeople(user)
   }
 
   newRole(role: string) {
@@ -66,7 +67,7 @@ export class SettingsPageComponent implements OnInit, OnDestroy {
     const decision = window.confirm(`Вы уверены, что хотите стать ${str}?`)
 
     if (decision) {
-      this.peopleService.newRole(role)
+      this.peopleService.update({levelStatus: +role})
         .subscribe(
           user => {
             this.session = user
@@ -84,24 +85,12 @@ export class SettingsPageComponent implements OnInit, OnDestroy {
     this.form.disable()
     let obs$
     obs$ = this.peopleService.update(
-      this.form.value.online,
-      this.form.value.Text,
-      this.form.value.read,
-      this.form.value.first,
-      this.form.value.second,
-      this.form.value.surnameView,
-      this.form.value.vote,
-      this.form.value.sentence,
-      this.form.value.answers,
-      this.form.value.change,
-      this.form.value.defaultColor,
-      this.form.value.birthdays,
-      this.form.value.screenreader
+      this.form.value
     )
     obs$.subscribe(
       user => {
         this.session = user
-        this.sendToParent(this.form.value.first, this.form.value.second, this.form.value.online, this.form.value.defaultColor)
+        this.sendToParent(user)
         this.form.enable()
       },
       error => {

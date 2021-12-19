@@ -28,7 +28,8 @@ export class AdminEventsPageComponent implements OnInit, OnDestroy {
   institutions$: Observable<Institution[]>
   filter: Filter = {}
   events: Event[] = []
-  institution: string
+  institution: string = ''
+  filter_status: string = ''
 
   constructor(private loginService: LoginService,
               private usersService: UsersService,
@@ -72,6 +73,7 @@ export class AdminEventsPageComponent implements OnInit, OnDestroy {
     this.events = []
     this.offset = 0
     this.filter.institution = this.institution
+    this.filter.status = this.filter_status
     this.reloading = true
     this.fetch()
   }

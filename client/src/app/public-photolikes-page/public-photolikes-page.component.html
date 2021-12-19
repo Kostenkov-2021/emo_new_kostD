@@ -36,6 +36,8 @@
             
         </div>
     </div>
+
+    <app-loader *ngIf="loading"></app-loader>
 </div>
 <app-picture-zoom *ngIf="zoom" [image]="image" (result)="closeZoom($event)"></app-picture-zoom>
 <app-likes *ngIf="openlikes" [likes]="likes" (result)="closeLikes($event)"></app-likes>

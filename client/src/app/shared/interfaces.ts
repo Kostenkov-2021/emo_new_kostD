@@ -21,6 +21,7 @@ export interface User {
   change?: boolean
   defaultColor?: string
   birthdays?: boolean
+  time?: boolean
   firstColor?: string
   secondColor?: string
   last_active_at?: Date
@@ -29,7 +30,7 @@ export interface User {
   screenreader?: boolean
   games?: boolean
   score?: number
-  bd?: boolean
+  
 }
 
 export interface Users {
@@ -104,6 +105,7 @@ export interface Filter {
   institution?: string
   sex?: string
   levelStatus?: string
+  status?: string
 }
 
 export interface Answers {
@@ -138,6 +140,9 @@ export interface Event {
   p_status?: boolean
   institutions?: string[]
   roles?: number[]
+  sex?: number
+  participantsNames?: User[]
+  hideNames?: User[]
 }
 
 export interface GroupMessage {

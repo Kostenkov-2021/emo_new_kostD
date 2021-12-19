@@ -14,11 +14,17 @@
             <div *ngIf="event.chatTitle">
                 <span appEasyLang  class="pNotAdmin">{{event.chatTitle}}</span><br>
                 <span *ngIf="event.date"  class="pNotAdmin">{{event.date | date:"dd.MM.yyyy HH:mm"}}</span>
+                
             </div>
             <hr noshade color="black">
             <div *ngIf="event.description" appEasyLang class="pNotAdmin">
                 {{event.description}}
             </div>
+            <div class="screenread-btn green-cursor" 
+                *ngIf="event.description && session.screenreader"
+                (click)="screenRead(event.autorSex, event.autorName, event.autorSurname, event.chatTitle, event.description)"></div>
+            
+
             <hr noshade color="black">
             <img 
             *ngFor="let photo of event.photolikes"
@@ -39,6 +45,9 @@
             
         </div>
     </div>
+
+    <app-loader *ngIf="loading"></app-loader>
+
 </div>
 <app-picture-zoom *ngIf="zoom" [image]="image" (result)="closeZoom($event)"></app-picture-zoom>
 <app-likes *ngIf="openlikes" [likes]="likes" [session]="session" (result)="closeLikes($event)"></app-likes>

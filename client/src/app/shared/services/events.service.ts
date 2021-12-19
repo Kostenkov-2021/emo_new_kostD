@@ -28,16 +28,24 @@ export class EventsService {
     })
   }
 
-  fetchForBot(): Observable<Event[]> {
-    return this.http.get<Event[]>(`/api/events/bot`)
+  fetchForBot(params: any): Observable<Event[]> {
+    return this.http.get<Event[]>(`/api/events/bot`, {
+      params: new HttpParams({
+        fromObject: params
+      })
+    })
   }
 
   fetchForEvents(): Observable<Event[]> {
     return this.http.get<Event[]>(`/api/events/events/0`)
   }
 
-  fetchForPhotolikes(): Observable<Event[]> {
-    return this.http.get<Event[]>(`/api/events/photolikes`)
+  fetchForPhotolikes(params: any): Observable<Event[]> {
+    return this.http.get<Event[]>(`/api/events/photolikes`, {
+      params: new HttpParams({
+        fromObject: params
+      })
+    })
   }
 
   update(id: string,
@@ -53,13 +61,24 @@ export class EventsService {
     photolikes?: File[],
     institutions?: string[],
     p_status?: boolean,
-    roles?: number[]
+    roles?: string[],
+    sex?: string
     ): Observable<Event> {
       const fd = new FormData()
+      function arrToString(arr: string[]) {
+        let str = ''
+        if (!arr.length) return str
+        for (let el of arr) {
+          str += el
+          str += ','
+        }
+        return str.slice(0, -1)
+      }
+      if (sex) fd.append('sex', sex)
       if (status) fd.append('status', status.toString())
-      if (wait) fd.append('wait', wait.toString())
-      if (roles) fd.append('roles', roles.toString())
-      if (institutions) fd.append('institutions', institutions.toString())
+      if (wait) fd.append('wait', arrToString(wait))
+      if (roles) fd.append('roles', arrToString(roles))
+      if (institutions) fd.append('institutions', arrToString(institutions))
       if (p_status) fd.append('p_status', p_status.toString())
       if (date) fd.append('date', date.toString().replace('T',' ').replace('-','/'))
       if (description) fd.append('description', description)
@@ -108,8 +127,12 @@ export class EventsService {
     return this.http.get<User[]>(`/api/events/gl/${id}`)
   }
 
-  getPublicEvents(): Observable<Event[]> {
-    return this.http.get<Event[]>(`/api/events/public`)
+  getPublicEvents(params: any): Observable<Event[]> {
+    return this.http.get<Event[]>(`/api/events/public`, {
+      params: new HttpParams({
+        fromObject: params
+      })
+    })
   }
 }
 

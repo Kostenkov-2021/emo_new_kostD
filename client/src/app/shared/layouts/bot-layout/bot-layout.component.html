@@ -2,11 +2,20 @@
     <div class="chat light-{{session.firstColor}}-bg">
         <div id="header" class="light-{{session.secondColor}}-bg dark-{{session.secondColor}}-border">
             <img class="avatar green-cursor" id="friend" src="/images/emo.png" (click)="openZoom('/images/emo.png')">
+            <select 
+            class="inheader green-cursor" 
+            (change)="changeMyStatus()"
+            [(ngModel)]="mystatus">
+                <option value="wait">Я {{session.sex == 1 ? 'приглашён' : 'приглашена'}}</option>
+                <option value="participant">Я учавствую</option>
+                <option value="hide">Я {{session.sex == 1 ? 'отказался' : 'отказалась'}}</option>
+            </select>
             <img class="avatar green-cursor" id="me" [src]="session.photo" (click)="openZoom(session.photo)">
         </div>
 
         <div id="section">
             <div id="middle" *ngIf="events; else loader">
+                <app-loader *ngIf="loading"></app-loader>
                 <div *ngFor="let event of events">
                     <div *ngIf="event.autor == session._id" 
                     class="sender-message message dark-{{session.firstColor}}-border middle-{{session.firstColor}}-bg"
@@ -26,9 +35,27 @@
                         <div *ngIf="event.status == 2" appEasyLang>
                             Завершено
                         </div>
-                        <div *ngIf="event.description" appEasyLang>
-                            {{event.description}}
+                        <hr noshade color="black">
+                        
+                        <div *ngIf="event.description">
+                            <div appEasyLang>{{event.description}}</div>
+                            <hr noshade color="black">
                         </div>
+                        <div *ngIf="event.address">
+                            <div appEasyLang>Адрес: {{event.address}}</div>
+                            <hr noshade color="black">
+                        </div>
+                        <div *ngIf="event.date">
+                            <div appEasyLang>Дата: {{event.date | date:"dd.MM.yyyy"}}</div>
+                            <div appEasyLang>Время: {{event.date | date:"HH:mm"}}</div>
+                            <hr noshade color="black">
+                        </div>
+                        <div *ngIf="event.cost">
+                            <div appEasyLang>Стоимость: {{event.cost}}</div>
+                            <hr noshade color="black">
+                        </div>
+                        <div *ngIf="event.status == 0 || event.status == -1" class="delete-message-btn footer green-cursor" (click)="openDeleteEvent(event)"></div>
+
                         <div class="screenread-btn footer green-cursor" 
                         *ngIf="event.description && session.screenreader"
                         (click)="screenRead(event.description)"></div>
@@ -36,22 +63,33 @@
                         <div *ngIf="(
                             (event.wait && event.wait.includes(session._id)) || 
                             (event.institutions && event.institutions.includes(session.institution)) || 
-                            event.p_status) && event.status == 1
+                            event.p_status) 
+                            && event.status == 1 
                             && !event.hide.includes(session._id)
                             && !event.participants.includes(session._id)"
                         >
                             <button class="btn dark-{{session.firstColor}}-border green-cursor" 
-                            type="button" appEasyLang (click)="want(event._id)" id="w-{{event._id}}">
+                            type="button" appEasyLang (click)="newStatus(event._id, 1)">
                                 👍Хочу
                             </button>
                             <button class="btn dark-{{session.firstColor}}-border green-cursor" 
-                            type="button" appEasyLang (click)="not_want(event._id)" id="n-{{event._id}}">
-                                👎Нет
+                            type="button" appEasyLang (click)="newStatus(event._id, -1)">
+                                👎Не хочу
                             </button>
                         </div>
                         <div *ngIf="event.participants.includes(session._id) && event.status == 1">
-                            <button class="btn dark-{{session.firstColor}}-border green-cursor" (click)="toGroup(event._id)" type="button" appEasyLang>
-                                В чат
+                            <button class="btn dark-{{session.firstColor}}-border green-cursor" type="button" (click)="toGroup(event._id)" appEasyLang>
+                                👨‍👩‍👧‍👦В чат
+                            </button>
+                            <button class="btn dark-{{session.firstColor}}-border green-cursor" 
+                            type="button" appEasyLang (click)="newStatus(event._id, -1)">
+                                👎Не хочу
+                            </button>
+                        </div>
+                        <div *ngIf="event.hide.includes(session._id) && event.status == 1">
+                            <button class="btn dark-{{session.firstColor}}-border green-cursor" 
+                            type="button" appEasyLang (click)="newStatus(event._id, 1)">
+                                👍Хочу
                             </button>
                         </div>
                     </div>
@@ -63,8 +101,22 @@
                         <div class="div-in-li">
                             <img [src]="event.chatImage" class="div-img green-cursor" (click)="openZoom(event.chatImage)">
                         </div>
-                        <div *ngIf="event.description" appEasyLang>
-                            {{event.description}}
+                        <div *ngIf="event.description">
+                            <div appEasyLang>{{event.description}}</div>
+                            <hr noshade color="black">
+                        </div>
+                        <div *ngIf="event.address">
+                            <div appEasyLang>Адрес: {{event.address}}</div>
+                            <hr noshade color="black">
+                        </div>
+                        <div *ngIf="event.date">
+                            <div appEasyLang>Дата: {{event.date | date:"dd.MM.yyyy"}}</div>
+                            <div appEasyLang>Время: {{event.date | date:"HH:mm"}}</div>
+                            <hr noshade color="black">
+                        </div>
+                        <div *ngIf="event.cost">
+                            <div appEasyLang>Стоимость: {{event.cost}}</div>
+                            <hr noshade color="black">
                         </div>
                         <div class="screenread-btn footer green-cursor" 
                         *ngIf="event.description && session.screenreader"
@@ -78,17 +130,27 @@
                             && !event.participants.includes(session._id)"
                         >
                             <button class="btn dark-{{session.firstColor}}-border green-cursor" 
-                            type="button" appEasyLang (click)="want(event._id)" id="w-{{event._id}}">
+                            type="button" appEasyLang (click)="newStatus(event._id, 1)">
                                 👍Хочу
                             </button>
                             <button class="btn dark-{{session.firstColor}}-border green-cursor" 
-                            type="button" appEasyLang (click)="not_want(event._id)" id="n-{{event._id}}">
-                                👎Нет
+                            type="button" appEasyLang (click)="newStatus(event._id, -1)">
+                                👎Не хочу
                             </button>
                         </div>
                         <div *ngIf="event.participants.includes(session._id) && event.status == 1">
                             <button class="btn dark-{{session.firstColor}}-border green-cursor" type="button" (click)="toGroup(event._id)" appEasyLang>
-                                В чат
+                                👨‍👩‍👧‍👦В чат
+                            </button>
+                            <button class="btn dark-{{session.firstColor}}-border green-cursor" 
+                            type="button" appEasyLang (click)="newStatus(event._id, -1)">
+                                👎Не хочу
+                            </button>
+                        </div>
+                        <div *ngIf="event.hide.includes(session._id) && event.status == 1">
+                            <button class="btn dark-{{session.firstColor}}-border green-cursor" 
+                            type="button" appEasyLang (click)="newStatus(event._id, 1)">
+                                👍Хочу
                             </button>
                         </div>
                     </div>
@@ -107,6 +169,7 @@
     </div>
 
     <app-picture-zoom *ngIf="zoom" [image]="image" (result)="closeZoom($event)"></app-picture-zoom>
+    <app-delete-all-message *ngIf="deletingEvent" [event]="eventWantDelete" (result)="fromDeleteEvent($event)"></app-delete-all-message>
 
 </div>   
 <ng-template #reloader>

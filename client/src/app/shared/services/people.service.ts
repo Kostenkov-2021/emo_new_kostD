@@ -11,51 +11,11 @@ export class PeopleService {
   constructor(private http: HttpClient) { }
 
   update(
-    online?: boolean,
-    text?: boolean,
-    read?: boolean,
-    firstColor?: number,
-    secondColor?: number,
-    surnameView?: boolean,
-    vote?: boolean,
-    sentence?: boolean,
-    answers?: boolean,
-    change?: boolean,
-    defaultColor?: string,
-    birthdays?: boolean,
-    screenreader?: boolean
+    user: User | any
   ): Observable<User> {
-    let obj = {
-      online,
-      text,
-      read,
-      firstColor,
-      secondColor,
-      surnameView,
-      vote,
-      sentence,
-      answers,
-      change,
-      defaultColor,
-      birthdays,
-      screenreader
-    }
-    let json = JSON.stringify(obj)
+    let json = JSON.stringify(user)
     const myHeaders = new HttpHeaders().set('Content-Type', 'application/json')
     return this.http.patch<User>(`/api/people`, json, {headers: myHeaders})
-  }
-
-  newRole(levelStatus: string) {
-    let obj = {
-      levelStatus
-    }
-    let json = JSON.stringify(obj)
-    const myHeaders = new HttpHeaders().set('Content-Type', 'application/json')
-    return this.http.patch<User>(`/api/people`, json, {headers: myHeaders})
-  }
-
-  fetchAll(id: string): Observable<User[]> {
-    return this.http.get<User[]>(`/api/people/search/${id}/0`)
   }
 
   fetchAll2(params: any): Observable<User[]> {
@@ -64,6 +24,10 @@ export class PeopleService {
         fromObject: params
       })
     })
+  }
+
+  fetchAll(id: string): Observable<User[]> {
+    return this.http.get<User[]>(`/api/people/search/${id}/0`)
   }
 
   fetchFriends(): Observable<Users> {
