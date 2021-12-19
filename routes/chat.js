@@ -5,6 +5,7 @@ const upload = require('../middleware/uploadAllTypes.js')
 const router = express.Router()
 
 router.get('/message/:userID', passport.authenticate('jwt', {session: false}), controller.getAllMessage)
+router.get('/message2/:userID', passport.authenticate('jwt', {session: false}), controller.getAllMessage2)
 router.get('/:parentID', passport.authenticate('jwt', {session: false}), controller.getAllPictures)
 router.post('/:friend', passport.authenticate('jwt', {session: false}), controller.send)
 router.delete('/:messageID', passport.authenticate('jwt', {session: false}), controller.remove)

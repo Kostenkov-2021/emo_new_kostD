@@ -18,12 +18,10 @@ module.exports.login = async function(req, res) {
         userId: candidate._id
       }, keys.jwt, {expiresIn: 60 * 60 * 7})
 
-      const day = moment().format('DD')
-      const month = moment().format('MM')
-      const year = moment().format('YYYY')
+      const date = moment().format('DD.MM.YYYY')
       await User.updateOne(
         {_id: candidate._id},
-        {$addToSet: {loginDates: `${day}.${month}.${year}`}, $inc: {score: 1}},
+        {$addToSet: {loginDates: date}, $inc: {score: 1}},
         {new: true}
       )
 

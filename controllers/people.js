@@ -3,6 +3,7 @@ const User = require('../models/User')
 const Picture = require('../models/Picture')
 const Message = require('../models/Message')
 const GameSession = require('../models/GameSessions')
+const moment = require('moment')
 
 module.exports.friends = async function(req, res) {
   try {
@@ -119,21 +120,11 @@ module.exports.search = async function(req, res) {
 
 module.exports.search2 = async function(req, res) {
   try {
-    const now = new Date();
 
     q = {$or: [ { levelStatus: { $ne: 4} }, { onlineStatus: { $ne: '-1'} } ], _id: { $ne: req.user._id }}
 
     if (req.query.institution) {
       q.institution =  req.query.institution
-    }
-
-    if (req.query.birthday === 'true') q = {...q,
-      $expr: { 
-        $and: [
-             { "$eq": [ { "$dayOfMonth": "$birthDate" }, { "$dayOfMonth": now } ] },
-             { "$eq": [ { "$month"     : "$birthDate" }, { "$month"     : now } ] }
-        ]
-     }
     }
       
     const users = await User

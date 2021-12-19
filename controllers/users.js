@@ -51,7 +51,8 @@ module.exports.create = async function(req, res) {
         birthdays: req.body.birthdays,
         events: req.body.events,
         screenreader: req.body.screenreader,
-        games: req.body.games
+        games: req.body.games,
+        time: req.body.time
       })
   
       try {

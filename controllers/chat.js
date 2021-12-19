@@ -45,6 +45,40 @@ module.exports.getAllMessage = async function(req, res) {
     }
   }
 
+module.exports.getAllMessage2 = async function(req, res) {   
+  try {
+    const friend = req.params.userID
+    const me = req.user.id
+    const now = new Date();
+    await User.updateOne(
+      {_id: req.user.id}, 
+      {$set: {onlineStatus: friend, last_active_at: now}, $inc: {score: +req.query.offset === 0 ? 1 : 0}},
+      {new: true})
+    const messages = await Message
+      .find({ $or: [
+          {sender: me, recipient: friend},
+          {sender: friend, recipient: me}
+        ]
+      })
+      .skip(+req.query.offset)
+      .limit(+req.query.limit)
+      .sort({time: -1})
+      .lean()
+     
+      messages.reverse()
+    
+    await Message.updateMany(
+      {sender: friend, recipient: me}, 
+      {$set: {read: true}},
+      {new: true})
+      
+    res.status(200).json(messages)
+    
+  } catch (e) {
+    errorHandler(res, e)
+  }
+}
+
 module.exports.getAllPictures = async function(req, res) {
     try {
       const now = new Date();

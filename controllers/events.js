@@ -12,7 +12,7 @@ module.exports.create = async function(req, res) {
         const now = new Date();
         await User.updateOne(
           {_id: req.user.id}, 
-          {$set: {last_active_at: now}, $inc: {score: 10}},
+          {$set: {last_active_at: now}},
           {new: true})
 
         const bot = await Bot.findOne({type: req.body.type}).lean()
@@ -20,6 +20,8 @@ module.exports.create = async function(req, res) {
         const event = await new Event({
             autor: req.user.id,
             wait: [],
+            roles: [1, 2, 3, 4, 5],
+            sex: 0,
             institutions: req.body.wait,
             type: req.body.type,
             description: req.body.description,
@@ -44,7 +46,8 @@ module.exports.getForModerators = async function(req, res) {
 
         q = {}
         if (req.user.levelStatus != 1) q.institution = req.user.institution
-        else if (req.query.institution) q.institution = req.query.institution 
+        else if (req.query.institution) q.institution = req.query.institution
+        if (req.query.status) q.status = req.query.status
         
         let events = await Event
             .find(q)
@@ -75,29 +78,18 @@ module.exports.update = async function(req, res) {
         
         const updated = req.body
 
-        if (req.body.status == '1') {
+        if (req.body.status == 1) {
             updated.mailingTime = now
         }
 
         if (req.body.p_status == 'true') {
             updated.p_status = true
+            updated.sex = 0
             updated.wait = []
             updated.institutions = []
             updated.roles = []
         }
-        else if (req.body.institutions && req.body.institutions != "") {
-            const array = req.body.institutions.split(',')
-            const set = new Set(array)
-            const uniqeArray = [...set]
-            const arrayR = req.body.roles.split(',')
-            const setR = new Set(arrayR)
-            const uniqeArrayR = [...setR]
-            updated.institutions = uniqeArray
-            updated.roles = uniqeArrayR
-            updated.p_status = false
-            updated.wait = []
-        }
-        else if (req.body.wait && req.body.wait != "") {
+        else if (req.body.wait) {
             const array = req.body.wait.split(',')
             const set = new Set(array)
             const uniqeArray = [...set]
@@ -105,6 +97,19 @@ module.exports.update = async function(req, res) {
             updated.p_status = false
             updated.institutions = []
             updated.roles = []
+            updated.sex = 0
+        }
+        else {
+            const array = req.body.institutions ? req.body.institutions.split(',') : []
+            const set = new Set(array)
+            const uniqeArray = [...set]
+            const arrayR = req.body.roles ? req.body.roles.split(',') : []
+            const setR = new Set(arrayR)
+            const uniqeArrayR = [...setR]
+            updated.institutions = uniqeArray
+            updated.roles = uniqeArrayR
+            updated.p_status = false
+            updated.wait = []
         }
         if (req.body.status == 2) updated.closingTime = now
         if (req.files['image']) updated.chatImage = req.files['image'][0].location
@@ -125,18 +130,25 @@ module.exports.update = async function(req, res) {
             {new: true}
         ).lean()
 
+        if (req.body.status == 1) {
+            await User.updateOne(
+                {_id: event.autor}, 
+                {$inc: {score: 10}},
+                {new: true})
+        }
+
         const participantsNames = []
         const hideNames = []
 
         for (let participant of event.participants) {
             const user = await User.findOne({_id: participant._id}, {name: 1, surname: 1, login: 1, institution: 1}).lean()
             const institution = await Institution.findOne({_id: user.institution}, {name: 1}).lean()
-            participantsNames.push(`${user.name} ${user.surname}, ${user.login}, ${institution.name}`)
+            participantsNames.push({...user, institutionName: institution.name})
         }
         for (let hide of event.hide) {
             const user = await User.findOne({_id: hide._id}, {name: 1, surname: 1, login: 1, institution: 1}).lean()
             const institution = await Institution.findOne({_id: user.institution}, {name: 1}).lean()
-            hideNames.push(`${user.name} ${user.surname}, ${user.login}, ${institution.name}`)
+            hideNames.push({...user, institutionName: institution.name})
         }
 
         event.participantsNames = participantsNames
@@ -171,12 +183,12 @@ module.exports.getByID = async function(req, res) {
         for (let participant of event.participants) {
             const user = await User.findOne({_id: participant._id}, {name: 1, surname: 1, login: 1, institution: 1}).lean()
             const institution = await Institution.findOne({_id: user.institution}, {name: 1}).lean()
-            participantsNames.push(`${user.name} ${user.surname}, ${user.login}, ${institution.name}`)
+            participantsNames.push({...user, institutionName: institution.name})
         }
         for (let hide of event.hide) {
             const user = await User.findOne({_id: hide._id}, {name: 1, surname: 1, login: 1, institution: 1}).lean()
             const institution = await Institution.findOne({_id: user.institution}, {name: 1}).lean()
-            hideNames.push(`${user.name} ${user.surname}, ${user.login}, ${institution.name}`)
+            hideNames.push({...user, institutionName: institution.name})
         }
 
         event.participantsNames = participantsNames
@@ -188,6 +200,8 @@ module.exports.getByID = async function(req, res) {
     }
 }
 
+
+
 module.exports.getForBot = async function (req, res) {
     try {
         function compareFunction(a, b) {
@@ -196,25 +210,97 @@ module.exports.getForBot = async function (req, res) {
         }
 
         const now = new Date();
-        await User.updateOne(
+        const user = await User.findOneAndUpdate(
             {_id: req.user.id}, 
             {$set: {last_active_at: now}, $inc: {score: 1}},
             {new: true})
-        
-        const events = await Event
-        .find({
-            hide: {$ne: req.user.id},
-            $or: [
-            {autor: req.user.id}, 
-            {participants: req.user.id, status: 1},
-            {wait: req.user.id, status: 1},
-            {
-                institutions: req.user.institution, 
-                $or: [{roles: req.user.levelStatus}, {roles: {$exists: false}}, {"roles.0": {$exists: false}}], 
-                status: 1
-            },
-            {p_status: true, status: 1}
-        ]}).lean()
+
+        let events
+        if (!req.query.mystatus) {
+            events = await Event
+            .find({
+                hide: {$ne: req.user.id},
+                $or: [
+                    {autor: req.user.id}, 
+                    {participants: req.user.id, status: 1},
+                    {wait: req.user.id, status: 1},
+                    {
+                        institutions: req.user.institution, 
+                        $or: [{sex: {$in: [0, user.sex]}}, {sex: {$exists: false}}],
+                        $or: [{roles: req.user.levelStatus}, {roles: {$exists: false}}, {"roles.0": {$exists: false}}], 
+                        status: 1
+                    },
+                    {p_status: true, status: 1}
+                ]
+            }, 
+            {autor: 1, description: 1, type: 1, chatImage: 1, institutions: 1, p_status: 1, roles: 1, sex: 1,
+            chatTitle: 1, participants: 1, hide: 1, wait: 1, status: 1, date: 1, address: 1, cost: 1})
+            .sort({createTime: -1})
+            .skip(+req.query.offset)
+            .limit(+req.query.limit)
+            .lean()
+        }
+
+        if (req.query.mystatus == 'hide') {
+            events = await Event
+            .find({
+                hide: req.user.id,
+                $or: [
+                    {autor: req.user.id}, 
+                    {status: 1},
+                ]
+            }, 
+            {autor: 1, description: 1, type: 1, chatImage: 1, institutions: 1, p_status: 1, roles: 1, sex: 1,
+            chatTitle: 1, participants: 1, hide: 1, wait: 1, status: 1, date: 1, address: 1, cost: 1})
+            .sort({createTime: -1})
+            .skip(+req.query.offset)
+            .limit(+req.query.limit)
+            .lean()
+        }
+
+        if (req.query.mystatus == 'participant') {
+            events = await Event
+            .find({
+                participants: req.user.id,
+                $or: [
+                    {autor: req.user.id}, 
+                    {status: 1},
+                ]
+            }, 
+            {autor: 1, description: 1, type: 1, chatImage: 1, institutions: 1, p_status: 1, roles: 1, sex: 1,
+            chatTitle: 1, participants: 1, hide: 1, wait: 1, status: 1, date: 1, address: 1, cost: 1})
+            .sort({createTime: -1})
+            .skip(+req.query.offset)
+            .limit(+req.query.limit)
+            .lean()
+        }
+
+        if (req.query.mystatus == 'wait') {
+            events = await Event
+            .find({
+                hide: {$ne: req.user.id},
+                participants: {$ne: req.user.id},
+                $or: [
+                    {autor: req.user.id}, 
+                    {wait: req.user.id, status: 1},
+                    {
+                        institutions: req.user.institution, 
+                        $or: [{sex: {$in: [0, user.sex]}}, {sex: {$exists: false}}],
+                        $or: [{roles: req.user.levelStatus}, {roles: {$exists: false}}, {"roles.0": {$exists: false}}], 
+                        status: 1
+                    },
+                    {p_status: true, status: 1}
+                ]
+            }, 
+            {autor: 1, description: 1, type: 1, chatImage: 1, institutions: 1, p_status: 1, roles: 1, sex: 1,
+            chatTitle: 1, participants: 1, hide: 1, wait: 1, status: 1, date: 1, address: 1, cost: 1})
+            .sort({createTime: -1})
+            .skip(+req.query.offset)
+            .limit(+req.query.limit)
+            .lean()
+        }
+
+        events.reverse()
 
         for (let event of events) {
             if (event.status > 0) event.Tpoint = event.mailingTime
@@ -289,7 +375,7 @@ module.exports.changeUserStatus = async function (req, res) {
 
         await Event.findOneAndUpdate(
             {_id: req.params.eventID},
-            {$pull: {wait: id}},
+            {$pull: {wait: id, hide: id, participants: id}},
             {new: true}
         )
 
@@ -324,16 +410,23 @@ module.exports.changeUserStatus = async function (req, res) {
 module.exports.emoLetters = async function(req, res) {
     try {
         const now = new Date();
-        await User.updateOne(
+        const user = await User.findOneAndUpdate(
           {_id: req.user.id}, 
           {$set: {last_active_at: now}},
           {new: true})
 
-        const event = await Event.findOne({$or: [
-            {wait: req.user.id, status: 1}, 
-            {institutions: req.user.institution, status: 1, hide: {$ne: req.user.id}, participants: {$ne: req.user.id}}, 
-            {p_status: true, status: 1, hide: {$ne: req.user.id}, participants: {$ne: req.user.id}}
-        ]})
+        const event = await Event.findOne({
+            status: 1,
+            $or: [
+            {wait: req.user.id}, 
+            {
+                institutions: req.user.institution, 
+                $or: [{sex: {$in: [0, user.sex]}}, {sex: {$exists: false}}],
+                $or: [{roles: req.user.levelStatus}, {roles: {$exists: false}}, {"roles.0": {$exists: false}}], 
+                hide: {$ne: req.user.id}, participants: {$ne: req.user.id}
+            }, 
+            {p_status: true, hide: {$ne: req.user.id}, participants: {$ne: req.user.id}}
+        ]}, {_id: 1}).lean()
 
         res.status(200).json(event)
     } catch (e) {
@@ -419,6 +512,8 @@ module.exports.getForPhotolikes = async function (req, res) {
             {status: 2}
             )
             .sort({closingTime: -1})
+            .skip(+req.query.offset)
+            .limit(+req.query.limit)
             .lean()
         
         for (let event of events) {
@@ -441,6 +536,8 @@ module.exports.getPublic = async function (req, res) {
             {status: 1, p_status: true}
             )
             .sort({mailingTime: -1})
+            .skip(+req.query.offset)
+            .limit(+req.query.limit)
             .lean()
 
         for (let event of events) {

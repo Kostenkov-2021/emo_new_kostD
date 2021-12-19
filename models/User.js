@@ -104,6 +104,10 @@ const userSchema = new Schema({
     type: Boolean,
     default: false
   },
+  time: {   //время сообщения
+    type: Boolean,
+    default: false
+  },
   events: {          // мероприятия
     type: Boolean,
     default: true

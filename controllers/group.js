@@ -143,6 +143,49 @@ module.exports.getAll = async function(req, res) {
     }
 }
 
+module.exports.getAll2 = async function(req, res) {
+  try {
+      const id = mongoose.Types.ObjectId(req.user.id);
+      const now = new Date();
+      await User.updateOne(
+      {_id: req.user.id}, 
+      {$set: {last_active_at: now, onlineStatus: req.params.groupID}, $inc: {score: +req.query.offset === 0 ? 1 : 0}},
+      {new: true})
+
+      const messages = await GroupMessage
+      .find({group: req.params.groupID})
+      .skip(+req.query.offset)
+      .limit(+req.query.limit)
+      .sort({time: -1})
+      .lean()
+
+      messages.reverse()
+
+      for (let message of messages) {
+          const sender = await User.findOne({_id: message.sender}, {name: 1, photo: 1})
+          message.senderName = sender.name
+          message.senderPhoto = sender.photo 
+      }
+
+      await GroupMessage.updateMany(
+        {group: req.params.groupID},
+        {$pull: {wait: id}},
+        {new: true}
+      )
+
+      await GroupMessage.updateMany(
+        {group: req.params.groupID},
+        {$addToSet: {read: id}},
+        {new: true}
+      )
+
+      res.status(200).json(messages)
+
+  } catch (e) {
+      errorHandler(res, e) 
+  }
+}
+
 module.exports.getById = async function(req, res) {
     try {
         const now = new Date();

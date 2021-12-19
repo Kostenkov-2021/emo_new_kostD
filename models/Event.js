@@ -18,6 +18,7 @@ const eventSchema = new Schema({
   roles: {     
     type: [Number]
   },
+  sex: Number,
   p_status: {     //публичное
     type: Boolean
   },
