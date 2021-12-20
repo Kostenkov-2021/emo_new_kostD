@@ -100,7 +100,7 @@ if (process.env.NODE_ENV === 'production') {
    
     app.get('*', (req, res) => {
       if (files.includes(path.extname(req.path))) {
-        res.sendFile(path.join(__dirname, `${req.path}`));
+        res.sendFile(path.join(__dirname, `client/dist/client/${req.path}`));
       } else if (client.includes(path.extname(req.path))) {
         res.sendFile(path.join(__dirname, `client/dist/client/${req.path}`));
       } else {
