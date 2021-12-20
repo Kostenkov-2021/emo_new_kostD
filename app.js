@@ -84,23 +84,29 @@ app.use('/api/manage/institutions', institutionsRoutes)
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/dist/client'))
+    app.use(express.static(''))
   
-    const allowed = [
+    const client = [
       '.js',
       '.css',
+      '.ico'
+    ];
+
+    const files = [
       '.png',
       '.jpg',
       '.jpeg',
-      '.cur',
-      '.ico'
+      '.cur'
     ];
    
     app.get('*', (req, res) => {
-       if (allowed.includes(path.extname(req.path))) {
-          res.sendFile(path.join(__dirname, `client/dist/client/${req.path}`));
-       } else {
-          res.sendFile(path.join(__dirname, 'client/dist/client/index.html'));
-       }
+      if (files.includes(path.extname(req.path))) {
+        res.sendFile(path.join(__dirname, req.path));
+      } else if (client.includes(path.extname(req.path))) {
+        res.sendFile(path.join(__dirname, `client/dist/client/${req.path}`));
+      } else {
+        res.sendFile(path.join(__dirname, 'client/dist/client/index.html'));
+      }
     })
   }
 
