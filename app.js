@@ -91,7 +91,7 @@ if (process.env.NODE_ENV === 'production') {
       '.ico'
     ];
 
-    const allowed = [
+    const files = [
       '.png',
       '.jpg',
       '.jpeg',
@@ -99,8 +99,8 @@ if (process.env.NODE_ENV === 'production') {
     ];
    
     app.get('*', (req, res) => {
-      if (allowed.includes(path.extname(req.path))) {
-        res.sendFile(path.join(__dirname, `client/dist/client/${req.path}`));
+      if (files.includes(path.extname(req.path))) {
+        res.sendFile(path.join(__dirname, `${req.path}`));
       } else if (client.includes(path.extname(req.path))) {
         res.sendFile(path.join(__dirname, `client/dist/client/${req.path}`));
       } else {
