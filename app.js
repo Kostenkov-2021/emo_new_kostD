@@ -82,8 +82,9 @@ app.use('/api/manage/pictures', picturesRoutes)
 app.use('/api/manage/users', usersRoutes)
 app.use('/api/manage/institutions', institutionsRoutes)
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production' || true) {
     app.use(express.static('client/dist/client'))
+    app.use(express.static(__dirname))
   
     const client = [
       '.js',
@@ -100,7 +101,7 @@ if (process.env.NODE_ENV === 'production') {
    
     app.get('*', (req, res) => {
       if (files.includes(path.extname(req.path))) {
-        res.sendFile(path.join(__dirname, `client/dist/client/${req.path}`));
+        res.sendFile(path.join(__dirname, `${req.path}`));
       } else if (client.includes(path.extname(req.path))) {
         res.sendFile(path.join(__dirname, `client/dist/client/${req.path}`));
       } else {
