@@ -223,8 +223,10 @@ module.exports.remove = async function(req, res) {
 
 module.exports.getRating = async function(req, res) {
   try {
+    let q = {score: {$gte: 0}}
+    if (req.query.institution) q.institution = req.query.institution
     const users = await User
-    .find({score: {$gte: 0}}, {name: 1, surname: 1, photo: 1, institution: 1, score: 1, levelStatus: 1, sex: 1})
+    .find(q, {name: 1, surname: 1, photo: 1, institution: 1, score: 1, levelStatus: 1, sex: 1})
     .sort({score: -1, last_active_at: -1})
     .skip(+req.query.offset)
     .limit(+req.query.limit)
