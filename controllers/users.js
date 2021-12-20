@@ -226,24 +226,6 @@ module.exports.getRating = async function(req, res) {
     const users = await User
     .find({score: {$gte: 0}}, {name: 1, surname: 1, photo: 1, institution: 1, score: 1, levelStatus: 1, sex: 1})
     .sort({score: -1, last_active_at: -1})
-    .lean()
-
-    for (const user of users) {
-      const institution = await Institution.findOne({_id: user.institution}, {_id: 0})
-      user.institutionName = institution.name
-    }
-    
-    res.status(200).json(users)
-  } catch (e) {
-    errorHandler(res, e)
-  }
-}
-
-module.exports.getRating2 = async function(req, res) {
-  try {
-    const users = await User
-    .find({score: {$gte: 0}}, {name: 1, surname: 1, photo: 1, institution: 1, score: 1, levelStatus: 1, sex: 1})
-    .sort({score: -1, last_active_at: -1})
     .skip(+req.query.offset)
     .limit(+req.query.limit)
     .lean()

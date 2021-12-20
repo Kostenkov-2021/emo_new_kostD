@@ -63,7 +63,7 @@ export class RatingComponent implements OnInit, OnDestroy {
       limit: this.limit
     })
 
-    this.rSub$ = this.usersService.getRating2(params).subscribe(users => {
+    this.rSub$ = this.usersService.getRating(params).subscribe(users => {
       this.users = this.users.concat(users)
       this.num_users = this.users
       this.noMore = users.length < this.limit

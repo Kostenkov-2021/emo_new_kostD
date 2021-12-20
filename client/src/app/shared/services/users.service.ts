@@ -26,12 +26,8 @@ export class UsersService {
       return this.http.get<User>(`/api/manage/users/${id}`)
     }
 
-    getRating(): Observable<User[]> {
-      return this.http.get<User[]>(`/api/manage/users/rating/all`)
-    }
-
-    getRating2(params: any): Observable<User[]> {
-      return this.http.get<User[]>(`/api/manage/users/rating2/all`, {
+    getRating(params: any): Observable<User[]> {
+      return this.http.get<User[]>(`/api/manage/users/rating/all`, {
         params: new HttpParams({
           fromObject: params
         })

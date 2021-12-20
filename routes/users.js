@@ -16,7 +16,6 @@ router.post('/', passport.authenticate('jwt', {session: false}), stop, upload.si
 router.patch('/:userID', passport.authenticate('jwt', {session: false}), stop, upload.single('image'), controller.update)
 router.get('/', passport.authenticate('jwt', {session: false}), stop, controller.getAll)
 router.get('/rating/all', controller.getRating)
-router.get('/rating2/all', controller.getRating2)
 router.get('/rating/position', passport.authenticate('jwt', {session: false}), controller.getRatingPosition)
 router.get('/analytics/:instID', passport.authenticate('jwt', {session: false}), stop, controller.getAnalytics)
 router.get('/:userID', passport.authenticate('jwt', {session: false}), stop, controller.getByUserID)
