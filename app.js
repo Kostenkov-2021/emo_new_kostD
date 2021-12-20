@@ -84,7 +84,6 @@ app.use('/api/manage/institutions', institutionsRoutes)
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/dist/client'))
-    app.use(express.static(''))
   
     const client = [
       '.js',
