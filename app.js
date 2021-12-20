@@ -82,7 +82,7 @@ app.use('/api/manage/pictures', picturesRoutes)
 app.use('/api/manage/users', usersRoutes)
 app.use('/api/manage/institutions', institutionsRoutes)
 
-if (process.env.NODE_ENV === 'production' || true) {
+if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/dist/client'))
     app.use(express.static(__dirname))
   
