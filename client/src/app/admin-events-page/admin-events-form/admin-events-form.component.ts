@@ -10,6 +10,7 @@ import { UsersService } from 'src/app/shared/services/users.service';
 import { formatDate } from '@angular/common';
 import { switchMap } from 'rxjs/operators';
 import { BotService } from 'src/app/shared/services/bot.service';
+import { PeopleService } from 'src/app/shared/services/people.service';
 
 @Component({
   selector: 'app-admin-events-form',
@@ -44,10 +45,10 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
   constructor(private loginService: LoginService,
               private eventsService: EventsService,
               private picturesService: PicturesService,
+              private peopleService: PeopleService,
               private route: ActivatedRoute,
               private router: Router,
-              private botService: BotService,
-              private usersService: UsersService) { }
+              private botService: BotService) { }
 
   ngOnInit(): void {
     this.now = new Date()
@@ -120,7 +121,7 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
       this.queryI = queryParam.institution
     }) 
 
-    this.institutions$ = this.usersService.getInstitutions().subscribe(value => {
+    this.institutions$ = this.peopleService.getInstitutions().subscribe(value => {
       this.institutions = value
     })
 
