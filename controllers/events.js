@@ -293,7 +293,8 @@ module.exports.getForBot = async function (req, res) {
                 ]
             }, 
             {autor: 1, description: 1, type: 1, chatImage: 1, institutions: 1, p_status: 1, roles: 1, sex: 1,
-            chatTitle: 1, participants: 1, hide: 1, wait: 1, status: 1, date: 1, address: 1, cost: 1})
+            chatTitle: 1, participants: 1, hide: 1, wait: 1, status: 1, date: 1, address: 1, cost: 1, mailingTime: 1,
+            createTime: 1})
             .sort({createTime: -1})
             .skip(+req.query.offset)
             .limit(+req.query.limit)
