@@ -57,8 +57,7 @@ export class BotLayoutComponent implements OnInit, OnDestroy {
       mystatus: this.mystatus
     })
 
-    this.events$ = this.eventsService.fetchForBot(params).subscribe(events => { 
-      
+    this.events$ = this.eventsService.fetchForBot(params).subscribe(events => {
       this.events = events.concat(this.events)
       this.noMore = events.length < this.limit
       if (!this.noMore) this.loadMore()

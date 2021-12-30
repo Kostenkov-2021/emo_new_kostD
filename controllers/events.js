@@ -229,8 +229,7 @@ module.exports.getForBot = async function (req, res) {
                     {p_status: true, status: 1}
                 ]
             }, 
-            {autor: 1, description: 1, type: 1, chatImage: 1, institutions: 1, p_status: 1, roles: 1, sex: 1,
-            chatTitle: 1, participants: 1, hide: 1, wait: 1, status: 1, date: 1, address: 1, cost: 1})
+            {likes: 0, photolikes: 0})
             .sort({createTime: -1})
             .skip(+req.query.offset)
             .limit(+req.query.limit)
@@ -246,8 +245,7 @@ module.exports.getForBot = async function (req, res) {
                     {status: 1},
                 ]
             }, 
-            {autor: 1, description: 1, type: 1, chatImage: 1, institutions: 1, p_status: 1, roles: 1, sex: 1,
-            chatTitle: 1, participants: 1, hide: 1, wait: 1, status: 1, date: 1, address: 1, cost: 1})
+            {likes: 0, photolikes: 0})
             .sort({createTime: -1})
             .skip(+req.query.offset)
             .limit(+req.query.limit)
@@ -263,8 +261,7 @@ module.exports.getForBot = async function (req, res) {
                     {status: 1},
                 ]
             }, 
-            {autor: 1, description: 1, type: 1, chatImage: 1, institutions: 1, p_status: 1, roles: 1, sex: 1,
-            chatTitle: 1, participants: 1, hide: 1, wait: 1, status: 1, date: 1, address: 1, cost: 1})
+            {likes: 0, photolikes: 0})
             .sort({createTime: -1})
             .skip(+req.query.offset)
             .limit(+req.query.limit)
@@ -302,7 +299,7 @@ module.exports.getForBot = async function (req, res) {
             event.autorName = user.name
             event.autorSurname = user.surname
         }
-
+        
         res.status(200).json(events)
 
     } catch (e) {
