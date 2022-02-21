@@ -80,6 +80,10 @@ module.exports.update = async function(req, res) {
 
         if (req.body.status == 1) {
             updated.mailingTime = now
+            await User.updateOne(
+                {_id: event.autor}, 
+                {$inc: {score: 10}},
+                {new: true})
         }
 
         if (req.body.p_status == 'true') {
@@ -115,7 +119,7 @@ module.exports.update = async function(req, res) {
         if (req.files['image']) updated.chatImage = req.files['image'][0].location
         if (req.files['photolikes']) {
             let paths = req.files['photolikes'].map(file => file.location)
-            await Event.findOneAndUpdate(
+            await Event.updateOne(
                 {_id: req.params.eventID},
                 {$addToSet: {photolikes: { $each: paths}}},
                 {new: true}
@@ -129,13 +133,6 @@ module.exports.update = async function(req, res) {
             {$set: updated},
             {new: true}
         ).lean()
-
-        if (req.body.status == 1) {
-            await User.updateOne(
-                {_id: event.autor}, 
-                {$inc: {score: 10}},
-                {new: true})
-        }
 
         const participantsNames = []
         const hideNames = []

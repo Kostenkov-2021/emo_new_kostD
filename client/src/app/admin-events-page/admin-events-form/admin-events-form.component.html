@@ -175,8 +175,9 @@ class="dark-{{session.firstColor}}-border"
         class="nav-admin form_picture_button middle-{{session.firstColor}}-bg-hover" 
         [routerLink]="['/manage/events']">Назад</a>
 
-        <button id="submit_button" type="submit" hidden></button>
+        <button id="submit_button" type="button" hidden></button>
         <label 
+        (click)="onSubmit()"
         for="submit_button" 
         class="new_user_button form_picture_button middle-{{session.firstColor}}-bg-hover">
             Сохранить
