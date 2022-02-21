@@ -36,7 +36,6 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
   whomShow = 0
   wait: string[]
   now: Date
-  photolikesPreview: string[] = []
   wait_inst: string[] = []
   roles: string[] = ['1', '2', '3', '4', '5']
 
@@ -106,7 +105,6 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
                 }
               }
               if (event.institutions) this.wait_inst = event.institutions
-              if (event.photolikes) this.photolikesPreview = event.photolikes
             }
             this.form.enable()
           },
@@ -195,13 +193,12 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
   }
 
   onFileUpload(event: any) {
-    const file = event.target.files[0]
-    this.image = file
+    this.image = event.target.files[0]
     const reader = new FileReader()
     reader.onload = () => {
       this.imagePreview = reader.result.toString()
     }
-    reader.readAsDataURL(file)
+    reader.readAsDataURL(this.image)
   }
 
   onSubmit(newStatus?: number) {
@@ -223,10 +220,9 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
       (this.form.value.p_status == '1' ? this.form.value.sex : '0'))
 
     .subscribe(event => {
-      this.event = event
       this.image = null
-      this.photolikesPreview = event.photolikes
       this.photolikes = []
+      this.event = event
       this.form.enable()
     },
     error => {

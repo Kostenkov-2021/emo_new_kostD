@@ -163,9 +163,9 @@ class="dark-{{session.firstColor}}-border"
     
         <p class="dark-{{session.firstColor}}-color">Фотолайки:</p>
         <input type="file"  formControlName="photolikesImage"  (change)="onPhotolikesUpload($event)" multiple><br>
-        <div *ngIf="photolikesPreview.length > 0">
+        <div *ngIf="event.photolikes && event.photolikes.length > 0">
             <img 
-            *ngFor="let photo of photolikesPreview"
+            *ngFor="let photo of event.photolikes"
             class="phl_img" 
             [src]="photo"> 
         </div> <br> <br>
