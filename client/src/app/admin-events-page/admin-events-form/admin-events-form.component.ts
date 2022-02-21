@@ -22,7 +22,7 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
   form: FormGroup
   id: string
   image: File
-  photolikes: File[] = []
+  photolikes: File[]
   imagePreview = ''
   event: Event
   session$: Subscription
@@ -191,8 +191,7 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
   }
 
   onPhotolikesUpload(event: any) {
-    const files = event.target.files
-    this.photolikes = files
+    this.photolikes = event.target.files
   }
 
   onFileUpload(event: any) {
@@ -227,7 +226,7 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
       this.event = event
       this.image = null
       this.photolikesPreview = event.photolikes
-      this.photolikes.length = 0
+      this.photolikes = []
       this.form.enable()
     },
     error => {
