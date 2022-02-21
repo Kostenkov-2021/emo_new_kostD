@@ -56,10 +56,6 @@ export class SettingsPageComponent implements OnInit, OnDestroy {
     this.oSub.unsubscribe()
   }
 
-  sendToParent(user) {
-    this.navService.sendToPeople(user)
-  }
-
   newRole(role: string) {
     let str
     if (role == '5') str = 'взрослым'
@@ -90,7 +86,7 @@ export class SettingsPageComponent implements OnInit, OnDestroy {
     obs$.subscribe(
       user => {
         this.session = user
-        this.sendToParent(user)
+        this.navService.sendToPeople(user)
         this.form.enable()
       },
       error => {

@@ -6,52 +6,52 @@ import {tap} from 'rxjs/operators'
 
 @Injectable({
     providedIn: 'root'
-  })
-  export class LoginService {
-  
-    private token = null
-  
-    constructor(private http: HttpClient) {
-    }
-  
-    login(user: User): Observable<{token: string}> {
-      return this.http.post<{token: string}>('/api/login', user)
-        .pipe(
-          tap(
-            ({token}) => {
-              localStorage.setItem('auth-token', token)
-              this.setToken(token)
-            }
-          )
-        )
-    }
+})
+export class LoginService {
 
-    getUser(): Observable<User> {
-      return this.http.get<User>('/api/people')
-    }
-  
-    setToken(token: string) {
-      this.token = token
-    }
-  
-    getToken(): string {
-      return this.token
-    }
-  
-    isAuthenticated(): boolean {
-      return !!this.token
-    }
-  
-    logout() {
-      this.setToken(null)
-      localStorage.clear()
-    }
+  private token = null
 
-    exit(): Observable<MessageFromServer> {
-      return this.http.delete<MessageFromServer>('/api/people')
-    }
-
-    exitTimout(): Observable<MessageFromServer> {
-      return this.http.get<MessageFromServer>('/api/people/logout')
-    }
+  constructor(private http: HttpClient) {
   }
+
+  login(user: User): Observable<{token: string}> {
+    return this.http.post<{token: string}>('/api/login', user)
+      .pipe(
+        tap(
+          ({token}) => {
+            localStorage.setItem('auth-token', token)
+            this.setToken(token)
+          }
+        )
+      )
+  }
+
+  getUser(): Observable<User> {
+    return this.http.get<User>('/api/people')
+  }
+
+  setToken(token: string) {
+    this.token = token
+  }
+
+  getToken(): string {
+    return this.token
+  }
+
+  isAuthenticated(): boolean {
+    return !!this.token
+  }
+
+  logout() {
+    this.setToken(null)
+    localStorage.clear()
+  }
+
+  exit(): Observable<MessageFromServer> {
+    return this.http.delete<MessageFromServer>('/api/people')
+  }
+
+  exitTimout(): Observable<MessageFromServer> {
+    return this.http.get<MessageFromServer>('/api/people/logout')
+  }
+}

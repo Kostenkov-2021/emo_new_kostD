@@ -225,8 +225,9 @@ export class AdminEventsFormComponent implements OnInit, OnDestroy {
 
     .subscribe(event => {
       this.event = event
+      this.image = null
       this.photolikesPreview = event.photolikes
-      this.photolikes = []
+      this.photolikes.length = 0
       this.form.enable()
     },
     error => {
