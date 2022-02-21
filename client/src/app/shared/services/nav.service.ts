@@ -5,13 +5,12 @@ import { User } from '../interfaces';
   providedIn: 'root'
 })
 export class NavService {
-
+  
   newSettings: EventEmitter<User> = new EventEmitter()
   textMessage: EventEmitter<any[]> = new EventEmitter()
-
+  
   public sendToPeople(user) {
     this.newSettings.emit(user);
-    
   }
 
   public sendTextMessage(message: string, type: number) {

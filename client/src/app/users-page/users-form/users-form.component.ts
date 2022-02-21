@@ -232,10 +232,6 @@ export class UsersFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  sendToParent(user) {
-    this.navService.sendToPeople(user)
-  }
-
   onSubmit() {
     this.form.disable()
     const valid = this.validationDate()
