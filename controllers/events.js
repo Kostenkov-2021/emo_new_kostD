@@ -37,7 +37,7 @@ module.exports.create = async function(req, res) {
 }
 
 module.exports.getForModerators = async function(req, res) {
-    try {
+    try {//event
         const now = new Date();
         await User.updateOne(
             {_id: req.user.id}, 
@@ -80,10 +80,6 @@ module.exports.update = async function(req, res) {
 
         if (req.body.status == 1) {
             updated.mailingTime = now
-            await User.updateOne(
-                {_id: event.autor}, 
-                {$inc: {score: 10}},
-                {new: true})
         }
 
         if (req.body.p_status == 'true') {
@@ -155,6 +151,13 @@ module.exports.update = async function(req, res) {
         event.autorName = user.name
         event.autorSurname = user.surname
         event.autorSex = user.sex
+
+        if (req.body.status == 1) {
+            await User.updateOne(
+                {_id: event.autor}, 
+                {$inc: {score: 10}},
+                {new: true})
+        }
 
 
         res.status(200).json(event)
