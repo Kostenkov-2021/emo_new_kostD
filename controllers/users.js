@@ -235,7 +235,7 @@ module.exports.getRating = async function(req, res) {
 
     for (const user of users) {
       const institution = await Institution.findOne({_id: user.institution}, {_id: 0})
-      user.institutionName = institution.name
+      user.institutionName = institution.name ? institution.name : "Без учреждения"
     }
     
     res.status(200).json(users)
