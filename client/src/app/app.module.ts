@@ -62,6 +62,7 @@ import { Game4Component } from './games/game4/game4.component';
 import { Game5Component } from './games/game5/game5.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { DatePipe } from '@angular/common';
+import { RegistrPageComponent } from './registr-page/registr-page.component';
 
 @NgModule({
   declarations: [
@@ -118,7 +119,8 @@ import { DatePipe } from '@angular/common';
     Game3Component,
     Game4Component,
     Game5Component,
-    AnalyticsComponent
+    AnalyticsComponent,
+    RegistrPageComponent
   ],
   imports: [
     BrowserModule,

@@ -126,6 +126,10 @@ module.exports.search2 = async function(req, res) {
     if (req.query.institution) {
       q.institution =  req.query.institution
     }
+
+    if (req.user.levelStatus == 6) {
+      q['$or'] = [{levelStatus: 1}, {levelStatus: 2, institution: req.user.institution}]
+    } else q.levelStatus = {$ne: 6}
       
     const users = await User
       .find(q, {name: 1, surname: 1, birthDate: 1, onlineStatus: 1, photo: 1, last_active_at: 1, sex: 1})
@@ -150,7 +154,7 @@ module.exports.search2 = async function(req, res) {
 module.exports.toPictures = async function(req, res) {
   try {       
     const users = await User
-      .find({institution: req.params.instID}, 
+      .find({institution: req.params.instID, levelStatus: {$ne: 6}}, 
         {name: 1, surname: 1, login: 1})
       .sort({name: 1, surname: 1})
 

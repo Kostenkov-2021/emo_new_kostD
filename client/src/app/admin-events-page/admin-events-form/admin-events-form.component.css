@@ -3,16 +3,6 @@
     resize: vertical;
 }
 
-.red_button {
-    background-color: red;
-    color: white
-}
-
-.green_button {
-    background-color: green;
-    color: white
-}
-
 .phl_img {
     width: auto;
     height: 200px;

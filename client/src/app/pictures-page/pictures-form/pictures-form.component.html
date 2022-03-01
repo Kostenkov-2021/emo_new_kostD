@@ -110,7 +110,10 @@ class="dark-{{session.firstColor}}-border"
                         <img class="picta_answer" [src]="picture.boysGreyPicture">
                     </div>
                     <div class="p_text">{{picture.text}}</div>
-                    <button (click)="checkAnswer(picture._id)" type="button">{{answers.includes(picture._id) ? 'Отменить' : 'Выбрать'}}</button>
+                    <button (click)="checkAnswer(picture._id)" type="button"
+                    [ngClass]="{green_button: answers.includes(picture._id), red_button: !answers.includes(picture._id)}"
+                    >
+                        {{answers.includes(picture._id) ? 'Отменить' : 'Выбрать'}}</button>
                 </div> 
             </div>
         </div>
@@ -143,7 +146,7 @@ class="dark-{{session.firstColor}}-border"
     class="answers_box dark-{{session.firstColor}}-border"
     *ngIf="users$ | async as users">
         <div *ngFor="let user of users">
-            <button (click)="checkUser(user._id)" type="button">{{exceptions.includes(user._id) ? 'Отменить' : 'Выбрать'}}</button>
+            <button (click)="checkUser(user._id)" type="button" [ngClass]="{green_button: exceptions.includes(user._id), red_button: !exceptions.includes(user._id)}">{{exceptions.includes(user._id) ? 'Отменить' : 'Выбрать'}}</button>
             {{user.name}} {{user.surname}}, {{user.login}} 
         </div>
     </div>

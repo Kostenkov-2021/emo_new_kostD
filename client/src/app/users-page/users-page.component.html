@@ -27,7 +27,8 @@
         <input name="status" type="checkbox" [(ngModel)]="role2"> Модератор <br>
         <input name="status" type="checkbox" [(ngModel)]="role3"> Подопечный <br>
         <input name="status" type="checkbox" [(ngModel)]="role5"> Взрослый <br>
-        <input name="status" type="checkbox" [(ngModel)]="role4"> Гость <br><br>
+        <input name="status" type="checkbox" [(ngModel)]="role4"> Гость <br>
+        <input name="status" type="checkbox" [(ngModel)]="role6"> Запросы на регистрацию <span *ngIf="count$ | async as count">({{count.requests > 99 ? '99+' : count.requests}})</span><br><br>
 
         <button id="submit_button" type="submit" hidden></button>
         <label for="submit_button" id="submit" class="middle-{{session.firstColor}}-bg-hover" (click)="onFilter($event)">Применить фильтр</label>

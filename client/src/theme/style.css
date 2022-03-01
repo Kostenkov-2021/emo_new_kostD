@@ -15,13 +15,10 @@ textarea {
 }
  
 .entrance {
-	height: 3vw;
+	height: auto;
+    width: 30vw;
 	font-size: 2.8vw; 
-    margin-left: 20px;
-}
-
-.entrance_password {
-    margin-top: 45px;
+    margin: 10px;
 }
 
 #bottom_entrance {
@@ -92,8 +89,9 @@ p, img, a:visited, a:active, a:hover {
      z-index: 2;
      position: relative;
      width: 25vw;
-     height: auto;
+     height: 25vw;
      margin: auto;
+     object-fit: cover;
 }
 
 
@@ -126,4 +124,14 @@ audio, video {
 .message_time {
     font-size: 16px;
     word-wrap: normal;
+}
+
+.red_button {
+    background-color: red;
+    color: white
+}
+
+.green_button {
+    background-color: green;
+    color: white
 }

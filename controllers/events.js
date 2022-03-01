@@ -268,23 +268,29 @@ module.exports.getForBot = async function (req, res) {
             .lean()
         }
 
+        let q = {
+            hide: {$ne: req.user.id},
+            participants: {$ne: req.user.id},
+        }
+        if (req.user.levelStatus != 6) {
+            q['$or'] = [
+                {autor: req.user.id}, 
+                {wait: req.user.id, status: 1},
+                {
+                    institutions: req.user.institution, 
+                    $or: [{sex: {$in: [0, user.sex]}}, {sex: {$exists: false}}],
+                    $or: [{roles: req.user.levelStatus}, {roles: {$exists: false}}, {"roles.0": {$exists: false}}], 
+                    status: 1,
+                },
+                {p_status: true, status: 1}
+            ]
+        } else {
+            q.status = 1
+            q.p_status = true
+        }
         if (req.query.mystatus == 'wait') {
             events = await Event
-            .find({
-                hide: {$ne: req.user.id},
-                participants: {$ne: req.user.id},
-                $or: [
-                    {autor: req.user.id}, 
-                    {wait: req.user.id, status: 1},
-                    {
-                        institutions: req.user.institution, 
-                        $or: [{sex: {$in: [0, user.sex]}}, {sex: {$exists: false}}],
-                        $or: [{roles: req.user.levelStatus}, {roles: {$exists: false}}, {"roles.0": {$exists: false}}], 
-                        status: 1
-                    },
-                    {p_status: true, status: 1}
-                ]
-            }, 
+            .find(q, 
             {likes: 0, photolikes: 0})
             .sort({createTime: -1})
             .skip(+req.query.offset)

@@ -28,10 +28,9 @@ const userSchema = new Schema({
   },
   institution: {
     ref: 'institutions',
-    type: Schema.Types.ObjectId,
-    required: true
+    type: Schema.Types.ObjectId
   },
-  levelStatus: {    // 1 - админ, 2 - модератор, 3 - подопечный, 4 - гость, 5 - родитель
+  levelStatus: {    // 1 - админ, 2 - модератор, 3 - подопечный, 4 - гость, 5 - родитель, 6 - запрос
     type: Number,
     required: true
   },
@@ -47,18 +46,20 @@ const userSchema = new Schema({
     type: Date
   },
 
+  info: String,
+
   // settings  
   online: {         // показывать ли онлайны других пользователей
     type: Boolean,
-    default: false
+    default: true
   },
   text: {           // показывать ли подписи к пиктограммам
     type: Boolean,
-    default: false
+    default: true
   },
   read: {           // показывать, почитаны сообщения или нет
     type: Boolean,
-    default: false
+    default: true
   },
   firstColor: {          // первый цвет: 1 - розовый, 2 - оранжевый, 3 - жёлтый, 4 - зелёный, 5 - голубой, 6 - фиолетовый, 7 - коричневый
     type: Number,
@@ -70,23 +71,23 @@ const userSchema = new Schema({
   },
   surnameView: {        // показывать ли фамилии
     type: Boolean,
-    default: false
+    default: true
   },
   setting: {        // 0 - не разрешать менять настройки, 1 - разрешать менять только цвета, 2 - разрешать менять все настройки
     type: Number,
-    default: 1
+    default: 2
   },
   vote: {               // разрешить записывать голосовые сообщения
     type: Boolean,
-    default: false
+    default: true
   },
   sentence: {           // может ли отправлять предложения
     type: Boolean,
-    default: false
+    default: true
   },
   answers: {            // видны ли подсказки к ответам
     type: Boolean,
-    default: false
+    default: true
   },
   change: {             // доступна ли смена картинок цветные/чб
     type: Boolean,
@@ -102,11 +103,11 @@ const userSchema = new Schema({
   },
   screenreader: {
     type: Boolean,
-    default: false
+    default: true
   },
   time: {   //время сообщения
     type: Boolean,
-    default: false
+    default: true
   },
   events: {          // мероприятия
     type: Boolean,
@@ -116,8 +117,15 @@ const userSchema = new Schema({
     type: [String]
   },
   score: Number,
-  games: Boolean,
-  expoPushToken: String
+  games: {          
+    type: Boolean,
+    default: true
+  },
+  expoPushToken: String,
+  // access: {
+  //   privacy: [String], //политика конфиденциальности
+  //   agreement: [String] //пользовательское соглашение
+  // }
 })
 
 module.exports = mongoose.model('users', userSchema)

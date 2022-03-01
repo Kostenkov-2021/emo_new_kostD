@@ -9,11 +9,10 @@ export class LoginLayoutComponent implements OnInit {
 
   links = [
     {url: '/login', name: 'Вход'},
+    {url: '/registration', name: 'Регистрация'},
     {url: '/events', name: 'Мероприятия'},
     {url: '/photolikes', name: 'Фотолайки'}
   ]
-
-  constructor() { }
 
   ngOnInit(): void {
   }

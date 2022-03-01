@@ -20,6 +20,7 @@
     <div *ngIf="session.levelStatus == 1">
         <p class="in_new_user dark-{{session.firstColor}}-color">Учреждение:</p>
         <select *ngIf="institutions$ | async as institutions" formControlName="institution">
+            <option [disabled]="userInstitution || whatDo == 'new'" [selected]="!userInstitution" value="">Не выбрано</option>
             <option 
             *ngFor="let institution of institutions" 
             value="{{institution._id}}" 
@@ -54,9 +55,14 @@
     <input name="status" type="radio" value="3" formControlName="status"> Подопечный <br>
     <input name="status" type="radio" value="5" formControlName="status"> Взрослый <br>
     <input name="status" type="radio" value="4" formControlName="status"> Гость <br>
+    <input name="status" type="radio" value="6" formControlName="status"> Запрос на регистрацию <br>
 
-    <p class="in_new_user dark-{{session.firstColor}}-color">Фото (пожалуйста, загружайте только квадратные фотографии):</p>
-    <input type="file" formControlName="photo" (change)="onFileUpload($event)"><br>
+    <p class="in_new_user dark-{{session.firstColor}}-color">Фото (будет обрезано по центру):</p>
+    <input type="file" formControlName="photo" (change)="onFileUpload($event)"><br><br>
+
+    <p class="dark-{{session.firstColor}}-color">Дополнительная информация (видна только администраторам):</p>
+        <textarea type="text" formControlName="info" class="description-input"></textarea>
+        <br>
 
     <h3 class="dark-{{session.firstColor}}-color">Настройки:</h3>
 
@@ -144,12 +150,17 @@
             </td>
         </tr> 
     </table>
+    <br>
 
     <br>
+
     <a class="nav-admin form_picture_button middle-{{session.firstColor}}-bg-hover" [routerLink]="['/manage/users']">Назад</a>
 
     <button id="submit_button" type="submit" (click)="onSubmit()" hidden [disabled]="form.disabled || form.invalid"></button>
-    <label for="submit_button" class="new_user_button middle-{{session.firstColor}}-bg-hover">Сохранить</label>
+    <label for="submit_button" class="new_user_button middle-{{session.firstColor}}-bg-hover form_picture_button">Сохранить</label>
+
+    <button id="write_button" type="button" (click)="goToChat()" hidden></button>
+    <label for="write_button" class="new_user_button middle-{{session.firstColor}}-bg-hover form_picture_button" *ngIf="whatDo !== 'new'">Написать пользователю</label>
 </form>
 
 <ng-template #reloader>

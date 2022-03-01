@@ -38,6 +38,10 @@ export class UsersService {
       return this.http.get<{position: number}>(`/api/manage/users/rating/position`)
     }
 
+    countRequests(): Observable<{requests: number}> {
+      return this.http.get<{requests: number}>(`/api/manage/users/count-requests`)
+    }
+
     getAnalytics(institution: string, params: any): Observable<User[]> {
       return this.http.get<User[]>(`/api/manage/users/analytics/${institution}`, {
         params: new HttpParams({
@@ -73,7 +77,8 @@ export class UsersService {
       events?: boolean,
       screenreader?: boolean,
       games?: boolean,
-      time?: boolean
+      time?: boolean,
+      info?: string
     ): Observable<User> {
 
       const fd = new FormData()
@@ -90,6 +95,7 @@ export class UsersService {
       fd.append('levelStatus', levelStatus.toString())
 
       if (online) fd.append('online', online.toString())
+      if (info) fd.append('info', info)
       if (text) fd.append('text', text.toString())
       if (read) fd.append('read', read.toString())
       if (firstColor) fd.append('firstColor', firstColor.toString())
@@ -141,7 +147,8 @@ export class UsersService {
       events?: boolean,
       screenreader?: boolean,
       games?: boolean,
-      time?: boolean
+      time?: boolean,
+      info?: string
     ): Observable<User> {
 
       const fd = new FormData()
@@ -149,7 +156,7 @@ export class UsersService {
       if (photo) fd.append('image', photo, photo.name)
       if (imageText) fd.append('photo', imageText)
       if (birthDate) fd.append('birthDate', birthDate.toString())
-
+      if (info) fd.append('info', info)
       if (changeL) fd.append('login', login)
       if (password) fd.append('password', password)
       fd.append('surname', surname)
@@ -181,6 +188,34 @@ export class UsersService {
 
     delete(id: string): Observable<MessageFromServer> {
       return this.http.delete<MessageFromServer>(`/api/manage/users/${id}`)
+    }
+
+    createRequest(
+      login: string,
+      password: string,
+      name: string,
+      surname: string,
+      sex: string,
+      institution?: string,
+      birthDate?: string,
+      photo?: File,
+      info?: string
+    ): Observable<User> {
+
+      const fd = new FormData()
+
+      if (photo) fd.append('image', photo, photo.name)
+      if (birthDate) fd.append('birthDate', birthDate)
+      if (info) fd.append('info', info)
+
+      fd.append('login', login)
+      fd.append('password', password)
+      fd.append('surname', surname)
+      fd.append('name', name)
+      fd.append('sex', sex)
+
+      if (institution) fd.append('institution', institution)
+      return this.http.post<User>(`/api/manage/users/request`, fd)
     }
 
 }

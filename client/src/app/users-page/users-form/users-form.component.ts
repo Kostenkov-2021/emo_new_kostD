@@ -8,6 +8,7 @@ import { switchMap } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import { LoginService } from 'src/app/shared/services/login.service';
 import { NavService } from 'src/app/shared/services/nav.service';
+import { ChatService } from 'src/app/shared/services/chat.service';
 
 @Component({
   selector: 'app-users-form',
@@ -57,6 +58,7 @@ export class UsersFormComponent implements OnInit, OnDestroy {
               private loginService: LoginService,
               private router: Router,
               public datePipe : DatePipe,
+              private chatService: ChatService,
               private navService: NavService) { }
 
   ngOnInit(): void {
@@ -107,7 +109,8 @@ export class UsersFormComponent implements OnInit, OnDestroy {
   
         day: new FormControl('0'),
         month: new FormControl('0'),
-        year: new FormControl('', [Validators.minLength(4), Validators.maxLength(4)])
+        year: new FormControl('', [Validators.minLength(4), Validators.maxLength(4)]),
+        info: new FormControl('')
       })
 
       this.imagePreview = '/images/boy.png'
@@ -136,34 +139,35 @@ export class UsersFormComponent implements OnInit, OnDestroy {
               name: user.name,
               surname: user.surname,
               text: user.text,
+              info: user.info ? user.info : '',
               sex: user.sex.toString(),
               status: user.levelStatus.toString(),
-              institution: user.institution,
+              institution: user.institution ? user.institution : '',
 
-              online: user.online.toString(),
-              Text: user.text.toString(),
-              read: user.read.toString(),
-              surnameView: user.surnameView.toString(),
-              setting: user.setting.toString(),
-              vote: user.vote.toString(),
-              sentence: user.sentence.toString(),
-              answers: user.answers.toString(),
-              change: user.change.toString(),
+              online: user.online?.toString(),
+              Text: user.text?.toString(),
+              read: user.read?.toString(),
+              surnameView: user.surnameView?.toString(),
+              setting: user.setting?.toString(),
+              vote: user.vote?.toString(),
+              sentence: user.sentence?.toString(),
+              answers: user.answers?.toString(),
+              change: user.change?.toString(),
               defaultColor: user.defaultColor,
-              birthdays: user.birthdays.toString(),
-              first: user.firstColor.toString(),
-              second: user.secondColor.toString(),
-              events: user.events.toString(),
-              screenreader: user.screenreader.toString(),
-              games: user.games.toString(),  
-              time: typeof user['time'] !== "undefined" ? user.time.toString() : false
+              birthdays: user.birthdays?.toString(),
+              first: user.firstColor?.toString(),
+              second: user.secondColor?.toString(),
+              events: user.events?.toString(),
+              screenreader: user.screenreader?.toString(),
+              games: user.games?.toString(),  
+              time: user.time?.toString()
             })
             this.startL = user.login
             this.imagePreview = user.photo
             this.first = +user.firstColor
             if (this.imagePreview == '/images/boy.png') this.imageText = '/images/boy.png'
             if (this.imagePreview == '/images/girl.png') this.imageText = '/images/girl.png'
-            this.userInstitution = user.institution.toString()
+            this.userInstitution = user.institution ? user.institution.toString() : ''
             if (user.birthDate) {
               let date = this.datePipe.transform(user.birthDate, "dd,MM,yyyy") 
               this.dateFromServer = date.split(',')
@@ -189,6 +193,9 @@ export class UsersFormComponent implements OnInit, OnDestroy {
     this.oSub.unsubscribe()
   }
 
+  goToChat() {
+    this.chatService.goToChat(this.whatDo, this.session.defaultColor)
+  }
   changeSex() {
     if ((this.imagePreview == '/images/boy.png') || (this.imagePreview == '/images/girl.png')) {
       if (this.form.value.sex == '1') {
@@ -270,7 +277,8 @@ export class UsersFormComponent implements OnInit, OnDestroy {
           this.form.value.events,
           this.form.value.screenreader,
           this.form.value.games,
-          this.form.value.time
+          this.form.value.time,
+          this.form.value.info
         )
       } else {
         this.endL = this.form.value.login
@@ -309,7 +317,8 @@ export class UsersFormComponent implements OnInit, OnDestroy {
           this.form.value.events,
           this.form.value.screenreader,
           this.form.value.games,
-          this.form.value.time
+          this.form.value.time,
+          this.form.value.info
         )
       }
       obs$.subscribe(

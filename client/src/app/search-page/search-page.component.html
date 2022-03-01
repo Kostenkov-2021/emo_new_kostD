@@ -14,6 +14,7 @@
     </div>
 
     <div class="search">
+        <p class="pNotAdmin" *ngIf="session.levelStatus == 6" appEasyLang style="margin: 1vw;">Вы можете писать только администраторам, пока ваш запрос не подтверждён</p>
         <div class="box-friend" *ngFor="let user of users | filter:name:online:birthday">
             <div class="birthday green-cursor" *ngIf="(user.birthDate | date:'MM.dd') == (today | date:'MM.dd') && session.birthdays"
             (click)="goToChat(user._id, session.defaultColor, '5f3bfe9255ba364d9f2edfac')"></div>
