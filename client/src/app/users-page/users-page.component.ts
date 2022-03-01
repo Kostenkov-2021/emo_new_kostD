@@ -23,13 +23,15 @@ export class UsersPageComponent implements OnInit, OnDestroy {
   noMore = false
   filter: Filter = {}
   session$: Observable<User>
+  count$: Observable<{requests: number}>
 
   status = {
     1: 'Администратор',
     2: 'Модератор',
     3: 'Подопечный',
     4: 'Гость',
-    5: 'Взрослый'
+    5: 'Взрослый',
+    6: 'Запрос на регистрацию'
   }
   login: string
   name: string
@@ -41,6 +43,7 @@ export class UsersPageComponent implements OnInit, OnDestroy {
   role3: string
   role4: string
   role5: string
+  role6: string
 
   institutions$: Observable<Institution[]>
 
@@ -54,6 +57,7 @@ export class UsersPageComponent implements OnInit, OnDestroy {
     this.session$ = this.loginService.getUser()
     
     this.institutions$ = this.usersService.getInstitutions()
+    this.count$ = this.usersService.countRequests()
 
     this.fetch()
   }
@@ -113,7 +117,8 @@ export class UsersPageComponent implements OnInit, OnDestroy {
     if (this.role3) roles.push('3')
     if (this.role4) roles.push('4')
     if (this.role5) roles.push('5')
-    if (roles !== []) filter.levelStatus = roles.toString()
+    if (this.role6) roles.push('6')
+    if (roles.length > 0) filter.levelStatus = roles.toString()
 
     this.users = []
     this.offset = 0

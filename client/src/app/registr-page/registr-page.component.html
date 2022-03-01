@@ -1,0 +1,77 @@
+<div class="emo_pt">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+        <p class="entrance tc notadmin" appEasyLang>Логин: </p>
+        <input 
+        formControlName="login"
+        class="entrance text-cursor">
+
+        <p class="entrance tc notadmin" appEasyLang>Пароль:</p>
+        <input 
+        formControlName="password"
+        class="entrance text-cursor">
+        <br>
+
+        <p class="entrance tc notadmin" appEasyLang>Имя: </p>
+        <input 
+        formControlName="name"
+        class="entrance text-cursor">
+
+        <p class="entrance tc notadmin" appEasyLang>Фамилия:</p>
+        <input 
+        formControlName="surname"
+        class="entrance text-cursor">
+        <br>
+
+        <p class="entrance tc notadmin" appEasyLang>Пол:</p>
+        <label class="radio" [ngClass]="{checked: form.value.sex == '1'}">
+            <input name="sex" type="radio" value="1" formControlName="sex" hidden (change)='changeSex()'> 
+            <div class="yes green-cursor"></div> 
+        </label>
+        <div class="radio_yes"></div>
+        <label class="radio" [ngClass]="{checked: form.value.sex == '2'}">
+            <input name="sex" type="radio" value="2" formControlName="sex" hidden (change)='changeSex()'>
+            <div class="no green-cursor"></div> 
+        </label><br>
+
+        <p class="entrance tc notadmin" appEasyLang>Дата рождения:</p>
+        <input name="date" type="date" formControlName="birthDate" class="datetime-local green-cursor"> <br>
+            
+        <p class="entrance tc notadmin" appEasyLang>Фотография:</p>
+        <label class="radio">
+            <input name="file" type="file" hidden (change)='onFileUpload($event)'> 
+            <div class="green-cursor" [ngClass]="{checked_file: image, no_file: !image}"></div> 
+        </label><br>
+        <p class="entrance tc notadmin" appEasyLang>Учреждение:</p>
+        <select 
+        class="inheader green-cursor" 
+        *ngIf="institutions$ | async as institutions" 
+        formControlName="institution">
+            <option value="">Не выбрано</option>
+            <option *ngFor="let institution of institutions" value="{{institution._id}}">{{institution.name}}</option>
+        </select>
+        <p class="entrance tc notadmin" appEasyLang style="width: 80vw;">Любая дополнительная информация:</p>
+        <textarea formControlName="info" class="textarea text-cursor" placeholder="{{form.value.institution ? 'дополнительная информация' : 'укажите учреждение'}}"></textarea> 
+        <br>
+
+        <button 
+        class="entrance" 
+        id="bottom_entrance_hidden" 
+        type="submit"
+        [disabled]="form.invalid || form.disabled" 
+        hidden> </button>
+
+        <label 
+        for="bottom_entrance_hidden"
+        id="bottom_entrance" 
+        class="tc green-cursor"
+        appEasyLang>
+            ОТПРАВИТЬ ЗАПРОС
+        </label>            
+
+    </form>
+    
+</div>
+<div class="emo_pt" style="position: fixed;">
+     <img id="emoPicture" [src]="imagePreview">
+</div>

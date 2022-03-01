@@ -61,7 +61,8 @@
 }
 .avatarAdmin {
     width: 200px;
-    height: auto;
+    height: 200px;
+    object-fit: cover;
     display: inline-block;
 }
 .user_title {
@@ -122,6 +123,7 @@ p {
     border-style: solid;
     width: 280px;
     height: 280px;
+    object-fit: cover;
     border-radius: 3px;
     display: inline-block;
     float: right;

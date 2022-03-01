@@ -13,8 +13,10 @@ const stop = (req, res, next) =>  {
   }
 
 router.post('/', passport.authenticate('jwt', {session: false}), stop, upload.single('image'), controller.create)
+router.post('/request', upload.single('image'), controller.createRequest)
 router.patch('/:userID', passport.authenticate('jwt', {session: false}), stop, upload.single('image'), controller.update)
 router.get('/', passport.authenticate('jwt', {session: false}), stop, controller.getAll)
+router.get('/count-requests', passport.authenticate('jwt', {session: false}), stop, controller.countRequests)
 router.get('/rating/all', controller.getRating)
 router.get('/rating/position', passport.authenticate('jwt', {session: false}), controller.getRatingPosition)
 router.get('/analytics/:instID', passport.authenticate('jwt', {session: false}), stop, controller.getAnalytics)

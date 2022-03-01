@@ -1,6 +1,6 @@
 <div *ngIf="!reloading; else reloader">
 
-    <div class="box-friend">
+    <div class="box-friend" *ngIf="session.levelStatus != 4 && session.levelStatus != 6">
         <img 
         class="friendAvatar dark-{{session.firstColor}}-border green-cursor" 
         src="/images/rating.png"

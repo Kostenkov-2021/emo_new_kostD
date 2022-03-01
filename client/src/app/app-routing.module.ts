@@ -5,6 +5,7 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { LoginLayoutComponent } from './shared/layouts/login-layout/login-layout.component';
 import {AuthGuard} from './shared/classes/auth.guard'
 import {AdminGuard} from './shared/classes/admin.guard'
+import {ActiveUserGuard} from './shared/classes/active.guard'
 import {ModeratorGuard} from './shared/classes/moderator.guard'
 import { PeopleLayoutComponent } from './shared/layouts/people-layout/people-layout.component';
 import { FriendsPageComponent } from './friends-page/friends-page.component';
@@ -45,12 +46,14 @@ import { Game3Component } from './games/game3/game3.component';
 import { Game4Component } from './games/game4/game4.component';
 import { Game5Component } from './games/game5/game5.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
+import { RegistrPageComponent } from './registr-page/registr-page.component';
 
 const routes: Routes = [
   {
     path: '', component: LoginLayoutComponent, children: [
       {path: '', redirectTo: '/login', pathMatch: 'full'},
       {path: 'login', component: LoginPageComponent},
+      {path: 'registration', component: RegistrPageComponent},
       {path: 'photolikes', component: PublicPhotolikesPageComponent},
       {path: 'events', component: PublicEventsPageComponent},
       {path: 'privacy', component: PrivacyComponent}
@@ -89,7 +92,7 @@ const routes: Routes = [
       //{path: 'game/5', component: Game5Component},
     ]
   },
-  {path: 'rating', component: RatingComponent},
+  {path: 'rating', component: RatingComponent, canActivate: [ActiveUserGuard]},
   {
     path: 'table', redirectTo: '/people/events', pathMatch: 'full', canActivate: [AuthGuard]
   },
@@ -112,11 +115,11 @@ const routes: Routes = [
       {path: 'manage/institutions', component: InstitutionsPageComponent},
       {path: 'manage/institutions/:do', component: InstitutionsFormComponent},
       {path: 'manage/institutions/delete/:id', component: InstitutionsDeleteComponent},
-      {path: 'manage/emo', component: AdminBotPageComponent},
-      {path: 'manage/emo/:id', component: AdminBotFormComponent},
+      {path: 'manage/emo', component: AdminBotPageComponent, canActivate: [AdminGuard]},
+      {path: 'manage/emo/:id', component: AdminBotFormComponent, canActivate: [AdminGuard]},
       {path: 'manage/events', component: AdminEventsPageComponent},
       {path: 'manage/events/:id', component: AdminEventsFormComponent},
-      {path: 'manage/table', component: AdminTablePageComponent},
+      {path: 'manage/table', component: AdminTablePageComponent, canActivate: [AdminGuard]},
       {path: 'manage/analytics', component: AnalyticsComponent}
     ]
   }

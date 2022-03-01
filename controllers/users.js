@@ -52,7 +52,8 @@ module.exports.create = async function(req, res) {
         events: req.body.events,
         screenreader: req.body.screenreader,
         games: req.body.games,
-        time: req.body.time
+        time: req.body.time,
+        info: req.body.info
       })
   
       try {
@@ -179,7 +180,7 @@ module.exports.getAll = async function(req, res) {
 
     for (let user of users) {
       let institutionName = await Institution.findOne({_id: user.institution}, {_id: 0}) // {name: 'Name'}
-      user.institutionName = institutionName.name
+      user.institutionName = institutionName ? institutionName.name : 'не указано'
     }
 
     res.status(200).json(users)
@@ -192,7 +193,7 @@ module.exports.getByUserID = async function(req, res) {
   try {
     let user = await User.findOne({_id: req.params.userID})
     const institution = await Institution.findOne({_id: user.institution}, {_id: 0})
-    user.institutionName = institution.name
+    user.institutionName = institution ? institution.name : 'не указано'
     res.status(200).json(user)
   } catch (e) {
     errorHandler(res, e)
@@ -223,7 +224,7 @@ module.exports.remove = async function(req, res) {
 
 module.exports.getRating = async function(req, res) {
   try {
-    let q = {score: {$gte: 0}}
+    let q = {score: {$gte: 0}, levelStatus: {$nin: [4, 6]}}
     if (req.query.institution) q.institution = req.query.institution
     const users = await User
     .find(q, {name: 1, surname: 1, photo: 1, institution: 1, score: 1, levelStatus: 1, sex: 1})
@@ -252,7 +253,7 @@ module.exports.getRatingPosition = async function(req, res) {
 
     const user = await User.findById(req.user.id).lean()
     const position = await User
-    .count({score: {$gt: user.score}})
+    .count({score: {$gt: user.score}, levelStatus: {$nin: [4, 6]}})
     .lean()
     
     res.status(200).json({position: position + 1})
@@ -382,3 +383,49 @@ module.exports.createManyUsers = async function (req, res) {
 //     errorHandler(res, e)
 //   }
 // }
+
+module.exports.createRequest = async function(req, res) {
+  // login password
+  const candidate = await User.findOne({login: req.body.login})
+  
+  if (candidate) {
+    // Пользователь существует, нужно отправить ошибку
+    res.status(409).json({
+      message: 'Такой логин уже занят. Попробуйте другой.'
+    })
+  } else {
+    const salt = bcrypt.genSaltSync(10)
+    const password = req.body.password
+    const user = new User({
+      login: req.body.login,
+      password: bcrypt.hashSync(password, salt),
+      name: req.body.name,
+      surname: req.body.surname,
+      birthDate: req.body.birthDate,
+      sex: req.body.sex,
+      institution: req.body.institution,
+      levelStatus: 6,
+      photo: req.file ? req.file.location : (req.body.sex == '2' ? '/images/girl.png' : '/images/boy.png'),
+      info: req.body.info
+    })
+
+    try {
+      await user.save()
+      res.status(201).json(user)
+    } catch(e) {
+      errorHandler(res, e)
+    }
+
+  }
+}
+
+module.exports.countRequests = async function(req, res) {
+  try {
+    let q = {levelStatus: 6}
+    if (req.user.levelStatus != 1) q.institution = req.user.institution
+    const num = await User.count(q).lean()
+    res.status(201).json({requests: num})
+  } catch(e) {
+    errorHandler(res, e)
+  }
+}

@@ -1,0 +1,85 @@
+.emo_pt {
+    display: inline-block;
+    vertical-align: top;
+    width: auto;
+    max-width: 48vw;
+    padding-left: 5vw;
+    padding-bottom: 15vh;
+}
+
+#emoPicture {
+    border: red 3px solid;
+    border-radius: 10px;
+}
+
+.textarea {
+    position: absolute;
+    height: auto;
+    font-size: 1cm;
+    margin: 10px;
+    resize: vertical;
+    display: block;
+    overflow: hidden;
+    width: 65vw;
+    bottom: 3vh;
+}
+#bottom_entrance {
+    position: absolute;
+    left: 70vw;
+    width: 20vw;
+    bottom: 3vh;
+}
+label.radio {
+    display: inline-block;
+}
+.radio_yes {
+    width: 60px;
+    display: inline-block;
+}
+.checked{
+    outline: 3px black solid;
+}
+.yes {
+    height: 6vw;
+    width: 6vw;
+    background: url('/images/boy.png');
+    background-size: 100% 100%;
+}
+.no {
+    height: 6vw;
+    width: 6vw;
+    background: url('/images/girl.png');
+    background-size: 100% 100%;
+}
+
+.checked_file {
+    height: 6vw;
+    width: 6vw;
+    background: url('/images/tick.png');
+    background-size: 100% 100%;
+}
+.no_file {
+    height: 6vw;
+    width: 6vw;
+    background: url('/images/cross.png');
+    background-size: 100% 100%;
+}
+
+.datetime-local {
+    height: 1.2cm;
+    width: auto;
+    font-size: 1cm;
+    margin-left: 1%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.inheader {
+    width: 20vw;
+    margin-right: 1%;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    height: 0.8cm;
+    font-size: 1.7vw;
+    position: relative;
+}
