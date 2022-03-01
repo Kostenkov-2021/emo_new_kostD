@@ -14,10 +14,10 @@
 
 .textarea {
     position: absolute;
-    height: auto;
+    height: 14vh;
     font-size: 1cm;
     margin: 10px;
-    resize: vertical;
+    resize: none;
     display: block;
     overflow: hidden;
     width: 65vw;
@@ -27,7 +27,8 @@
     position: absolute;
     left: 70vw;
     width: 20vw;
-    bottom: 3vh;
+    bottom: calc(3vh + 10px);
+    height: calc(14vh - 10px);
 }
 label.radio {
     display: inline-block;
