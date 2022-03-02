@@ -33,6 +33,7 @@ export class EmoBotPageComponent implements OnInit, OnDestroy {
   }
 
   startEvent() {
+    if (this.session.levelStatus == 6) return
     this.buttons$ = this.botService.fetch()
     this.stage = 1
   }
