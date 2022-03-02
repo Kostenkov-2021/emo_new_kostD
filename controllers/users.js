@@ -264,7 +264,7 @@ module.exports.getRatingPosition = async function(req, res) {
 
 module.exports.getAnalytics = async function (req, res) {
   try {
-    const users = await User.find({institution: req.params.instID, levelStatus: {$ne: 4}}, {name: 1, surname: 1, score: 1, loginDates: 1, expoPushToken: 1, last_active_at: 1, birthDate: 1, levelStatus: 1}).sort({name: 1, surname: 1}).skip(+req.query.offset).limit(+req.query.limit).lean()
+    const users = await User.find({institution: req.params.instID, levelStatus: {$nin: [4, 6]}}, {name: 1, surname: 1, score: 1, loginDates: 1, expoPushToken: 1, last_active_at: 1, birthDate: 1, levelStatus: 1}).sort({name: 1, surname: 1}).skip(+req.query.offset).limit(+req.query.limit).lean()
     for (let user of users) {
       user.send_messages = await Message.count({sender: user._id})
       user.send_messages_read = await Message.count({sender: user._id, read: true})

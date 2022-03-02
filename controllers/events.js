@@ -9,6 +9,7 @@ const GroupMessage = require('../models/GroupMessage');
 
 module.exports.create = async function(req, res) {
     try {
+        if (req.user.levelStatus == 6) res.status(403).json({message: 'Неподтверждённые профили не могут создавать мероприятия'})
         const now = new Date();
         await User.updateOne(
           {_id: req.user.id}, 
