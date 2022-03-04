@@ -27,7 +27,7 @@ export class SocketioService {
     this.peer = new Peer({
       // host: 'localhost',
       // port: 80,
-      // path: '/',
+      path: '/',
       secure: environment.production ? true : false
     });
     this.peer.on("open", (id) => {
