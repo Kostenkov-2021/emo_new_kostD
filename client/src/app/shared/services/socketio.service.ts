@@ -21,44 +21,51 @@ export class SocketioService {
 
   peer 
 
-  constructor() {}
+  constructor() {
+    this.peer = new Peer();
+  }
 
-  videoRoomStart(room) {
-    this.peer = new Peer({
+  startStreamInVideoroom(stream, roomId) {
+    this.peer = new Peer(undefined, {
       // host: 'localhost',
-      // port: 80,
+      // port: 9000,
       path: '/',
       secure: environment.production ? true : false
     });
-    this.peer.on("open", (id) => {
-      this.videoID.emit(id)
-      this.socket.emit("join-video-room", room._id, id);
-    });
-  }
 
-  startStreamInVideoroom(stream) {
+    this.peer.on("open", (id) => {
+      console.log("open", id)
+      this.videoID.emit(id)
+      this.socket.emit("join-video-room", roomId, id);
+    });
+
     this.peer.on("call", (call) => {
+      console.log("call41", call)
       call.answer(stream);
       call.on("stream", (userVideoStream) => {
+        console.log("call44", userVideoStream)
         this.newVideoStream.emit({userVideoStream, userId: call.peer})
       });
     });
 
     this.socket.on("user-connected", (userId) => {
-      // console.log("user-connected", userId)
+      console.log("user-connected", userId)
       const call = this.peer.call(userId, stream);
       call.on("stream", (userVideoStream) => {
+        console.log("user-connected", userVideoStream)
         this.newVideoStream.emit({userVideoStream, userId})
       });
     });
 
     this.socket.on("user-disconnected", (userId) => {
+      console.log('leave', userId)
       this.leaveRoomID.emit(userId)
     });
 
     this.socket.on("videoroom-message", (message) => {
       this.newVideoRoomMessage.emit(message)
     });
+
   }
   
   setupSocketConnection(id, interlocutor) {       //вхождение в чат (ngOnInit)
@@ -108,6 +115,7 @@ export class SocketioService {
   }
 
   leaveVideoRoom() {
+    console.log("leave-video-room")
     this.socket.emit("leave-video-room");
   }
 }

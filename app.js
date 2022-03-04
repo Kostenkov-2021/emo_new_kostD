@@ -63,13 +63,13 @@ io.on('connection', (socket) => {
   })
 
   socket.on("join-video-room", (roomId, userId) => {
+    console.warn('join-video-room', new Date())
     socket.join(roomId);
     socket.to(roomId).broadcast.emit("user-connected", userId);
     socket.on("videoroom-message", (message) => {
       io.to(roomId).emit("videoroom-message", message);
     });
     socket.on('leave-video-room', () => {
-      console.log('leave-video-room', new Date())
       io.to(roomId).emit("user-disconnected", userId);
       socket.leave(roomId)
     })
