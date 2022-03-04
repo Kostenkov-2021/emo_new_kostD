@@ -14,44 +14,81 @@ const botRoutes = require('./routes/bot')
 const eventsRoutes = require('./routes/events')
 const groupRoutes = require('./routes/group')
 const tableRoutes = require('./routes/table')
+const videoroomRoutes = require('./routes/videorooms')
+const videoroommessagesRoutes = require('./routes/videoroommessages')
 const keys = require('./config/keys')
 
 const app = express()
 const http = require('http').createServer(app)
-const io = require('socket.io').listen(http)
+const io = require("socket.io").listen(http)
+
+const {ExpressPeerServer} = require('peer')
+const peerApp = express();  //app
+const peerHttp = require('http').createServer(peerApp); //http
+const peerPort = 9000
+// const ioPeer = require("socket.io")(peerHttp, {
+//   cors: {
+//     origin: '*'
+//   }
+// });
+const peerServer = ExpressPeerServer(peerHttp, { debug: true })
+peerApp.use('/peerjs', peerServer);
 
 io.on('connection', (socket) => {
-    socket.on('in-chat', (id) => {
-        socket.join(id)
-        socket.join(id + '-online')
-    })
+  socket.on('in-chat', (id) => {
+      socket.join(id)
+      socket.join(id + '-online')
+  })
 
-    socket.on('in-group', (data) => {
-      socket.join(data.group)
-      io.in(data.group).emit('online', data.id)
-    })
+  socket.on('in-group', (data) => {
+    socket.join(data.group)
+    io.in(data.group).emit('online', data.id)
+  })
 
-    socket.on('new message', (data) => {
-        io.in(data.id).emit('new message', {message: data.message})
-    })
+  socket.on('new message', (data) => {
+      io.in(data.id).emit('new message', {message: data.message})
+  })
 
-    socket.on('new-group-message', (data) => {
-      io.in(data.group).emit('new-group-message', data.message)
-    })
+  socket.on('new-group-message', (data) => {
+    io.in(data.group).emit('new-group-message', data.message)
+  })
 
-    socket.on('online', (id) => {
-        io.in(id + '-online').emit('online', id)
-    })
+  socket.on('online', (id) => {
+      io.in(id + '-online').emit('online', id)
+  })
 
-    socket.on('leave room', (id) => {
-        socket.leave(id)
-        socket.leave(id + '-online')
-    })
-
-    socket.on('leave group room', (id) => {
+  socket.on('leave room', (id) => {
       socket.leave(id)
+      socket.leave(id + '-online')
   })
+
+  socket.on('leave group room', (id) => {
+    socket.leave(id)
   })
+
+  socket.on("join-video-room", (roomId, userId) => {
+    socket.join(roomId);
+    socket.to(roomId).broadcast.emit("user-connected", userId);
+    socket.on("videoroom-message", (message) => {
+      io.to(roomId).emit("videoroom-message", message);
+    });
+    socket.on('leave-video-room', () => {
+      console.log('leave-video-room', new Date())
+      io.to(roomId).emit("user-disconnected", userId);
+      socket.leave(roomId)
+    })
+  });
+})
+
+// peerServer.on('connection', function(id) {
+//   console.warn(id)
+// console.log(peerHttp._clients)
+// });
+
+// peerHttp.on('disconnect', function(id) {
+//   console.warn(id + "deconnected")
+// });
+
  
 mongoose.connect(keys.mongoURI, {
     useNewUrlParser: true,
@@ -78,6 +115,8 @@ app.use('/api/bot', botRoutes)
 app.use('/api/events', eventsRoutes)
 app.use('/api/group', groupRoutes)
 app.use('/api/table', tableRoutes)
+app.use('/api/videorooms', videoroomRoutes)
+app.use('/api/videoroom-messages', videoroommessagesRoutes)
 app.use('/api/manage/pictures', picturesRoutes)
 app.use('/api/manage/users', usersRoutes)
 app.use('/api/manage/institutions', institutionsRoutes)
@@ -110,4 +149,5 @@ if (process.env.NODE_ENV === 'production') {
     })
   }
 
+peerHttp.listen(peerPort, 'localhost');
 module.exports = http

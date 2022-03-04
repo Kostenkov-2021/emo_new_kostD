@@ -1,0 +1,175 @@
+#edit_event {
+    width: 90%;
+    height: 70%;
+    margin: auto;
+}
+
+.tablo_uv {
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 15px;
+}
+
+.textarea {
+    height: auto;
+    width: 97%;
+    font-size: 1cm;
+    margin: auto;
+    resize: vertical;
+    display: block;
+    overflow: hidden;
+}
+
+.text-input {
+    height: 1.2cm;
+    width: 97%;
+    font-size: 1cm;
+    margin: auto;
+    resize: none;
+    display: block;
+    overflow: hidden;
+}
+
+.number-input {
+    height: 1.2cm;
+    width: 15%;
+    font-size: 1cm;
+    margin-left: 1%;
+}
+
+.datetime-local {
+    height: 1.2cm;
+    width: auto;
+    font-size: 1cm;
+    margin-left: 1%;
+}
+
+.select {
+    width: auto;
+    height: 0.8cm;
+    font-size: 0.5cm;
+}
+
+input, textarea {
+    margin-bottom: 10px;
+}
+
+.footer {
+    width: 40px;
+    height: 40px;
+    margin-left: 5px;
+    margin-right: 5px;
+    display: inline-block;
+ }
+
+ .inline-block {
+    display: inline-block;
+}
+
+.radio_0 {
+    height: 6vw;
+    width: 6vw;
+    background: url('/images/link.png');
+    background-size: 100% 100%;
+}
+.radio_1 {
+    height: 6vw;
+    width: 6vw;
+    background: url('/images/emo.png');
+    background-size: 100% 100%;
+}
+.radio_2 {
+    height: 6vw;
+    width: 6vw;
+    background: url('/images/people.png');
+    background-size: 100% 100%;
+}
+label.radio {
+    display: inline-block;
+}
+.radio_yes {
+    width: 60px;
+    display: inline-block;
+}
+
+.checked{
+    outline: 3px black solid;
+}
+
+.pict_event {
+    border-width: 3px;
+    border-style: solid;
+    border-radius: 10px;
+    width: 15vw;
+    height: 15vw;
+    object-fit: cover;
+}
+
+.event_tick {
+    position: relative;
+    height: 1.3cm;
+    width: 1.3cm;
+    background-image: url('/images/tick.png');
+    background-size: 100% 100%;
+    display: block;
+    bottom: 5px;
+    float: right;
+    left: 3px;
+    margin-top: -1.3cm;
+}
+
+.event_cross {
+    position: relative;
+    height: 1.3cm;
+    width: 1.3cm;
+    background-image: url('/images/cross.png');
+    background-size: 100% 100%;
+    display: block;
+    bottom: 5px;
+    float: right;
+    left: 3px;
+    margin-top: -1.3cm;
+}
+
+.pictatext {
+    width: 15vw;
+}
+
+.video_form_users {
+    display: block;
+    position: relative;
+    margin: auto;
+    width: auto;
+}
+
+#cross_pict, #tick_pict {
+    bottom: 6%;
+}
+
+#cross_pict {
+    left: 21%;
+}
+
+#tick_pict {
+    right: 18%;
+}
+
+.button_2 {
+    right: 19% !important;
+    bottom: calc(6% + 2.1cm) !important; 
+    left: auto;
+    height: 2cm;
+    width: 2cm;
+    display: inline-block;
+    position: fixed;
+}
+
+.resume {
+    background-image: url(/images/start.png);
+    background-size: 100% 100%;
+}
+
+.pause {
+    background-image: url(/images/stop.png);
+    background-size: 100% 100%;
+}
