@@ -54,9 +54,11 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
       this.streamSub = this.socketioService.newVideoStream.subscribe(data => {
         const find = document.getElementById(data.userId)
         if (!find) {
+          console.log(find)
           const video = document.createElement("video");
           video.setAttribute("id", data.userId)
           video.classList.add('room_video')
+          // video.classList.add(data.userVideoStream.id)
           this.addVideoStream(video, data.userVideoStream);
         }
       })
@@ -82,18 +84,21 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
         this.room = room
         if (this.room.active == 0) {
           this.status = -1
-          return
+        } else {
+          this.fetchMessages()
+          window.addEventListener('unload', event => {
+            this.leaveRoom()
+          });
+          if (this.auth.isAuthenticated()) {
+            this.auth.getUser().subscribe(session => {
+              this.session = session
+              this.authID = this.session._id
+              this.status = 2
+              this.startStream()
+            }, error => this.status = 1)
+          }
+          else this.status = 1
         }
-        this.fetchMessages()
-        window.addEventListener('unload', event => {
-          this.leaveRoom()
-        });
-        this.sesSub = this.auth.getUser().subscribe(session => {
-          this.session = session
-          this.authID = this.session._id
-          this.status = 2
-          if (this.room.active == 1) this.startStream()
-        }, error => this.status = 1)
       }, error => this.status = -2)
     }) 
   }
@@ -151,18 +156,20 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
   }
 
   startStream() {
-    this.socketioService.videoRoomStart(this.room)
     const myVideo = document.createElement("video");
     myVideo.classList.add('room_video')
     myVideo.muted = true;
+    console.log('getUserMedia', new Date())
     navigator.mediaDevices.getUserMedia({
         audio: true,
         video: true,
     })
     .then((stream) => {
         this.myVideoStream = stream;
+        console.log('addVideoStream', new Date())
         this.addVideoStream(myVideo, stream);
-        this.socketioService.startStreamInVideoroom(stream)
+        console.log('startStreamInVideoroom', new Date())
+        this.socketioService.startStreamInVideoroom(stream, this.room._id)
     });
   }
 
