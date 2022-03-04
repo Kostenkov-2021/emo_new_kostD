@@ -3,11 +3,11 @@ import {LoginService} from '../services/login.service'
 import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http'
 import {Observable, throwError} from 'rxjs'
 import {catchError} from 'rxjs/operators'
-import {Router} from '@angular/router'
+import {ActivatedRoute, Router} from '@angular/router'
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-  constructor(private auth: LoginService, private router: Router) {
+  constructor(private auth: LoginService, private router: Router, private route: ActivatedRoute) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -27,13 +27,11 @@ export class TokenInterceptor implements HttpInterceptor {
 
   private handleAuthError(error: HttpErrorResponse): Observable<any> {
     if (error.status === 401) {
-      this.router.navigate(['/login'], {
-        queryParams: {
-          sessionFailed: true
-        }
+      this.route.queryParams.subscribe((param: any) => {
+        if (param.auth != 'false') this.router.navigate(['/login'], {queryParams: {sessionFailed: true}})
       })
     }
-
     return throwError(error)
   }
 }
+

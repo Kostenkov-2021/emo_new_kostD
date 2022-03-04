@@ -1,0 +1,94 @@
+<div *ngIf="status == 2">
+<div class="header">
+    <div class="logo">
+      <h3>{{room.title}}</h3>
+    </div>
+</div>  
+<div class="main">  
+  <div class="main__left">
+    <div class="videos__group">
+      <div id="video-grid" #video_grid>
+
+      </div>
+    </div>
+    <div class="options">
+      <div class="options__left">
+        <div #stopVideo class="options__button green-cursor" (click)="videoButton()">
+          <i class="fa fa-video"></i>
+        </div>
+        <div #muteButton class="options__button green-cursor" (click)="voteButton()">
+          <i class="fa fa-microphone"></i>
+        </div>
+        <div #showChat class="options__button green-cursor" (click)="chatButton()"  [ngClass]="{'background__red': !showChatToggle}">
+          <i class="fa fa-comment"></i>
+        </div>
+        <div class="green-cursor options__button" (click)="addButton()" *ngIf="room.privateLevel == 0">
+            <i class="fa fa-user-plus"></i>
+        </div>
+      </div>
+      <div class="options__right">
+        <div class="green-cursor options__button background__red" (click)="exit()">
+            <i class="fa fa-xmark"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="main__right" *ngIf="showChatToggle">
+    <div class="main__chat_window">
+        <div class="messages">
+            <div class="message" *ngFor="let message of messages">
+                <b><i class="far fa-user-circle"></i> <span> 
+                    {{message.sender && message.sender === session._id ? "Я" : message.senderName}}</span> </b>
+                <span appEasyLang>{{message.message}}</span> 
+            </div>
+            <div id="forScroll"></div>
+        </div>
+    </div>
+
+    <div class="main__message_container">
+      <textarea [(ngModel)]="chat_message" autocomplete="off" placeholder="Сообщение..." class="text-cursor"></textarea>
+      <div class="options__button green-cursor" (click)="messageButton()">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<div class="info_container" *ngIf="status == -1 || status == -2">
+    <div class="info_box pNotAdmin">
+        <div appEasyLang *ngIf="status == -1">Комната выключена</div>
+        <div appEasyLang *ngIf="status == -2">Комната не найдена</div>
+    </div>
+    <div class="exit" (click)="exit()"></div>
+</div>
+<div class="info_container" *ngIf="status == 1">
+    <div class="info_box pNotAdmin">
+        <div>
+            <div appEasyLang>Вы не авторизованы</div>
+            <input type='text' placeholder="ВАШЕ ИМЯ" [(ngModel)]="anonimName" class='unauth_input text-cursor'>
+        </div>
+        <div class="tick" (click)="createUser()"></div>
+    </div>
+    <div class="exit" (click)="exit()"></div>
+    
+</div>
+
+<div class="link_container" *ngIf="wantCopyLink">
+    <div class="link_box">
+        <div appEasyLang class="pNotAdmin">Копировать ссылку</div>
+        <div *ngIf="!copySuccess">{{host}}{{router.url}}</div>
+        <div *ngIf="copySuccess">Ссылка скопирована</div>
+        <div class="link_buttons">
+            <div class="options__left">
+                <div class="green-cursor options__button background__red" (click)="copyLink()">
+                    <i class="fa fa-copy"></i>
+                </div>
+                <div class="green-cursor options__button background__red" (click)="exitLink()">
+                    <i class="fa fa-xmark"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

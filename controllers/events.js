@@ -28,6 +28,7 @@ module.exports.create = async function(req, res) {
             description: req.body.description,
             status: 0,
             chatImage: bot.img,
+            chatTitle: bot.text,
             institution: req.user.institution
         }).save()
 

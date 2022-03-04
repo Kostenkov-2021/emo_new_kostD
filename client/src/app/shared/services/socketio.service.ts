@@ -1,7 +1,8 @@
 import * as io from 'socket.io-client';
 import { Injectable, EventEmitter } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Message, GroupMessage } from '../interfaces';
+import { Message, GroupMessage, VideoRoomMessage } from '../interfaces';
+import  Peer  from  'peerjs-client' 
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,56 @@ export class SocketioService {
   newMessage: EventEmitter<Message> = new EventEmitter()
   newGroupMessage: EventEmitter<GroupMessage> = new EventEmitter()
   online: EventEmitter<string> = new EventEmitter()
+  newVideoStream: EventEmitter<any> = new EventEmitter()
+  newVideoRoomMessage: EventEmitter<VideoRoomMessage> = new EventEmitter()
+  videoID: EventEmitter<string> = new EventEmitter()
+  leaveRoomID: EventEmitter<string> = new EventEmitter()
 
-  socket = io(environment.SOCKET_ENDPOINT)
+  socket = io(environment.SOCKET_ENDPOINT).connect()
+
+  // socketPeer = io('http://localhost:9000')
+
+  peer 
+
+  constructor() {}
+
+  videoRoomStart(room) {
+    this.peer = new Peer({
+      // host: 'localhost',
+      port: 9000,
+      path: '/',
+      secure: false
+    });
+    this.peer.on("open", (id) => {
+      this.videoID.emit(id)
+      this.socket.emit("join-video-room", room._id, id);
+    });
+  }
+
+  startStreamInVideoroom(stream) {
+    this.peer.on("call", (call) => {
+      call.answer(stream);
+      call.on("stream", (userVideoStream) => {
+        this.newVideoStream.emit({userVideoStream, userId: call.peer})
+      });
+    });
+
+    this.socket.on("user-connected", (userId) => {
+      // console.log("user-connected", userId)
+      const call = this.peer.call(userId, stream);
+      call.on("stream", (userVideoStream) => {
+        this.newVideoStream.emit({userVideoStream, userId})
+      });
+    });
+
+    this.socket.on("user-disconnected", (userId) => {
+      this.leaveRoomID.emit(userId)
+    });
+
+    this.socket.on("videoroom-message", (message) => {
+      this.newVideoRoomMessage.emit(message)
+    });
+  }
   
   setupSocketConnection(id, interlocutor) {       //вхождение в чат (ngOnInit)
     this.socket.emit('in-chat', id)
@@ -54,5 +103,13 @@ export class SocketioService {
 
   disconnectSocketGroup(group: string) {      //выхождение из чата (ngOnDestroy) group
     this.socket.emit('leave group room', group)
+  }
+
+  sendVideoRoomMessage(message) {
+    this.socket.emit("videoroom-message", message);
+  }
+
+  leaveVideoRoom() {
+    this.socket.emit("leave-video-room");
   }
 }

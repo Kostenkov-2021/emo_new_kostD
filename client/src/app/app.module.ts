@@ -63,6 +63,9 @@ import { Game5Component } from './games/game5/game5.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { DatePipe } from '@angular/common';
 import { RegistrPageComponent } from './registr-page/registr-page.component';
+import { VideoRoomsPageComponent } from './video-rooms-page/video-rooms-page.component';
+import { VideoRoomPageComponent } from './video-rooms-page/video-room-page/video-room-page.component';
+import { VideoRoomFormComponent } from './shared/components/video-room-form/video-room-form.component';
 
 @NgModule({
   declarations: [
@@ -120,7 +123,10 @@ import { RegistrPageComponent } from './registr-page/registr-page.component';
     Game4Component,
     Game5Component,
     AnalyticsComponent,
-    RegistrPageComponent
+    RegistrPageComponent,
+    VideoRoomsPageComponent,
+    VideoRoomPageComponent,
+    VideoRoomFormComponent
   ],
   imports: [
     BrowserModule,

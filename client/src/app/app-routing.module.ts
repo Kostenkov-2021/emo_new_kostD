@@ -47,6 +47,8 @@ import { Game4Component } from './games/game4/game4.component';
 import { Game5Component } from './games/game5/game5.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { RegistrPageComponent } from './registr-page/registr-page.component';
+import { VideoRoomsPageComponent } from './video-rooms-page/video-rooms-page.component';
+import { VideoRoomPageComponent } from './video-rooms-page/video-room-page/video-room-page.component';
 
 const routes: Routes = [
   {
@@ -67,9 +69,11 @@ const routes: Routes = [
       {path: 'people/settings', component: SettingsPageComponent},
       {path: 'people/photolikes', component: PhotolikesPageComponent},
       {path: 'people/games', component: GamesComponent},
-      {path: 'people/events', component: EventsPageComponent}
+      {path: 'people/events', component: EventsPageComponent},
+      {path: 'people/videorooms', component: VideoRoomsPageComponent}
     ]
   },
+  {path: 'videoroom/:id', component: VideoRoomPageComponent},
   {
     path: '', component: ChatLayoutComponent, canActivate: [AuthGuard], children: [
       {path: 'chat', redirectTo: '/people/friends', pathMatch: 'full'},

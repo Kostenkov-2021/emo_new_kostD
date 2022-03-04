@@ -31,6 +31,8 @@ export interface User {
   games?: boolean
   score?: number
   info?: string
+  videorooms?: boolean
+  id?: string
   
 }
 
@@ -167,10 +169,39 @@ export interface TBItem {
 }
 
 export interface GameSession {
-  user?: string,
-  level: string,
-  game: number,
-  time?: Date,
-  score: number,
+  user?: string
+  level: string
+  game: number
+  time?: Date
+  score: number
+  _id?: string
+}
+
+export interface VideoRoom {
+  author: string
+  privateLevel: number
+  users: any
+  image?: string
+  createTime?: Date
+  _id?: string
+  title: string
+  active?: number
+  institution?: string
+}
+
+export interface VideoRoomMessage {
+  sender?: string
+  room?: string
+  time?: Date
+  type: number
+  message: string
+  read?: string[]
+  _id?: string
+  senderName?: string
+}
+
+export interface VideoUser {
+  id?: string
+  name: string
   _id?: string
 }

@@ -1,0 +1,24 @@
+.room-online {
+    position: relative;
+    float: right;
+    margin-right: 3vw;
+    top: 1vw;
+    margin-top: -4vw;
+    height: 4vw;
+    width: 4vw;
+    z-index: 2;
+    border-radius: 35%;
+}
+
+.no_active_room {
+    background-color: red;
+}
+
+.active_room {
+    background-color: green;
+}
+
+.room_admin {
+    background-size: 100% 100%;
+    background-image: url('/images/settings_white.png');
+}

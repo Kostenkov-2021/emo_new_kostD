@@ -1,0 +1,33 @@
+<div *ngIf="!reloading; else reloader">
+    <div class="box-friend">
+        <img 
+        class="friendAvatar dark-{{session.firstColor}}-border green-cursor" 
+        loading="lazy"
+        src="/images/plus_videoroom.png"
+        (click)="create()">
+        <div class="friendName tc dark-{{session.firstColor}}-border green-cursor" (click)="create()">
+            <span appEasyLang>Создать видео комнату</span>
+        </div>
+   </div>
+
+   <div class="box-friend" *ngFor="let room of rooms">
+        <img 
+        class="friendAvatar dark-{{session.firstColor}}-border green-cursor" 
+        [src]="room.image ? room.image : '/images/videorooms.png'"
+        (click)="goToRoom(room._id)">
+        <div class="room-online green-cursor" 
+        [ngClass]="{no_active_room: room.active == 0, active_room: room.active == 1, room_admin: session._id == room.author || session.levelStatus == 1 || session.levelStatus == 2 && room.institution == session.institution}"
+        (click)="editRoom(room)"> 
+        </div>
+        <div class="friendName tc dark-{{session.firstColor}}-border green-cursor" (click)="goToRoom(room._id)">
+            <span appEasyLang>{{room.title}}</span><br>
+        </div>
+    </div>
+
+    <app-loader *ngIf="loading"></app-loader>
+    <app-video-room-form *ngIf="form" [room]="currentRoom" [session]="session" (result)="closeForm($event)" (newRoom)="newRoom($event)"></app-video-room-form>
+</div>
+
+<ng-template #reloader>
+    <app-loader></app-loader>
+</ng-template>

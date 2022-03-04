@@ -121,6 +121,10 @@ const userSchema = new Schema({
     type: Boolean,
     default: true
   },
+  videorooms: {
+    type: Boolean,
+    default: false
+  },
   expoPushToken: String,
   // access: {
   //   privacy: [String], //политика конфиденциальности
