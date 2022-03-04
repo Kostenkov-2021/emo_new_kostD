@@ -21,9 +21,7 @@ export class SocketioService {
 
   peer 
 
-  constructor() {
-    this.peer = new Peer();
-  }
+  constructor() {}
 
   startStreamInVideoroom(stream, roomId) {
     this.peer = new Peer(undefined, {
