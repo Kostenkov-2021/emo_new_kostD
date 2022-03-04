@@ -27,7 +27,7 @@ export class SocketioService {
 
   startStreamInVideoroom(stream, roomId) {
     this.peer = new Peer(undefined, {
-      host: environment.production ? environment.SOCKET_ENDPOINT : '0.peerjs.com',
+      host: environment.production ? 'https://0.peerjs.com' : 'http://0.peerjs.com',
       port: environment.production ? 443 : 9000,
       path: '/',
       secure: environment.production ? true : false
