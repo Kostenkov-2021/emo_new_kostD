@@ -19,8 +19,6 @@ export class SocketioService {
 
   socket = io(environment.SOCKET_ENDPOINT).connect()
 
-  // socketPeer = io('http://localhost:9000')
-
   peer 
 
   constructor() {}
@@ -28,8 +26,8 @@ export class SocketioService {
   videoRoomStart(room) {
     this.peer = new Peer({
       // host: 'localhost',
-      port: 9000,
-      path: '/',
+      // port: 80,
+      // path: '/',
       secure: false
     });
     this.peer.on("open", (id) => {

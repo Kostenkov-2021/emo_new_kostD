@@ -25,14 +25,10 @@ const io = require("socket.io").listen(http)
 const {ExpressPeerServer} = require('peer')
 const peerApp = express();  //app
 const peerHttp = require('http').createServer(peerApp); //http
-const peerPort = 9000
-// const ioPeer = require("socket.io")(peerHttp, {
-//   cors: {
-//     origin: '*'
-//   }
-// });
+// const peerPort = 9000
+
 const peerServer = ExpressPeerServer(peerHttp, { debug: true })
-peerApp.use('/peerjs', peerServer);
+app.use('/peerjs', peerServer);
 
 io.on('connection', (socket) => {
   socket.on('in-chat', (id) => {
@@ -149,5 +145,5 @@ if (process.env.NODE_ENV === 'production') {
     })
   }
 
-peerHttp.listen(peerPort, 'localhost');
+// peerHttp.listen(peerPort, 'localhost');
 module.exports = http
