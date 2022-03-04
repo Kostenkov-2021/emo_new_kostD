@@ -28,7 +28,7 @@ export class SocketioService {
       // host: 'localhost',
       // port: 80,
       // path: '/',
-      secure: false
+      secure: environment.production ? true : false
     });
     this.peer.on("open", (id) => {
       this.videoID.emit(id)
