@@ -27,12 +27,12 @@ export class SocketioService {
 
   startStreamInVideoroom(stream, roomId) {
     this.peer = new Peer(undefined, {
-      // host: 'localhost',
+      host: environment.production ? environment.SOCKET_ENDPOINT : '0.peerjs.com',
       port: environment.production ? 443 : 9000,
       path: '/',
       secure: environment.production ? true : false
     });
-
+    console.log(this.peer)
     this.peer.on("open", (id) => {
       console.log("open", id)
       this.videoID.emit(id)
