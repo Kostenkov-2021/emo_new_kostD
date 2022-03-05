@@ -90,7 +90,7 @@ module.exports.getAll = async function(req, res) {
         {new: true})
 
         const rooms = await VideoRoom
-        .find({$or: [{privateLevel: {$in: [0, 1]}, active: 1}, {author: req.user.id, active: {$in: [1, 0]}}, {users: req.user.id, active: 1}]})
+        .find({active: {$ne: 2}, $or: [{privateLevel: {$in: [0, 1]}}, {author: req.user.id}, {users: req.user.id, privateLevel: 2}]})
           .skip(+req.query.offset)
           .limit(+req.query.limit)
           .sort({createTime: -1})
