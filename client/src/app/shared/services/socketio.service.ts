@@ -24,7 +24,6 @@ export class SocketioService {
   constructor() {}
 
   startStreamInVideoroom(stream, roomId) {
-    
     if (environment.production) {
       this.peer = new Peer(undefined, {
         path: "/peerjs",
