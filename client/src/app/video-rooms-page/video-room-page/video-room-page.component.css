@@ -232,17 +232,6 @@ video {
   color: #fff;
 } */
 
-.room_video {
-  height: 300px;
-  border-radius: 1rem;
-  margin: 0.5rem;
-  width: 400px;
-  background-color: black;
-  object-fit: contain;
-  transform: rotateY(180deg);
-  -webkit-transform: rotateY(180deg);
-  -moz-transform: rotateY(180deg);
-}
 
 .tick {
   display: block;
