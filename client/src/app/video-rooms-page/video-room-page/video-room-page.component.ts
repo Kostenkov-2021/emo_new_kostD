@@ -52,18 +52,11 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private auth: LoginService) { 
       this.streamSub = this.socketioService.newVideoStream.subscribe(data => {
-        const find = document.getElementById(data.userId)
-        if (!find) {
-          console.log(find)
-          const video = document.createElement("video");
-          video.setAttribute("id", data.userId)
-          video.classList.add('room_video')
-          // video.classList.add(data.userVideoStream.id)
-          this.addVideoStream(video, data.userVideoStream);
-        }
+        this.addVideo(data)
       })
       this.idSub = this.socketioService.videoID.subscribe(id => {
         this.session.id = id
+        this.videoGrid.nativeElement.children[0].setAttribute("id",`${id}`)
       })
       this.leaveSub = this.socketioService.leaveRoomID.subscribe(id => {
         const video = document.getElementById(id)
@@ -153,6 +146,17 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
 
   exit() {
     this.router.navigate(['/people/videorooms'])
+  }
+
+  addVideo(data) {
+    const find = document.getElementById(`${data.userId}`) //`${data.userId}`
+    if (!find) {
+      const video = document.createElement("video");
+      video.setAttribute("id", `${data.userId}`)
+      video.classList.add('room_video')
+      // video.classList.add(data.userVideoStream.id)
+      this.addVideoStream(video, data.userVideoStream);
+    }
   }
 
   startStream() {
