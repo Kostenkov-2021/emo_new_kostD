@@ -20,15 +20,24 @@ const keys = require('./config/keys')
 
 const app = express()
 const http = require('http').createServer(app)
-const io = require("socket.io").listen(http)
+const io = require("socket.io")(http, {
+  cors: {
+    origin: '*'
+  }
+});
 
 const {ExpressPeerServer} = require('peer')
-const peerApp = express();  //app
-const peerHttp = require('http').createServer(peerApp); //http
-// const peerPort = 9000
 
-const peerServer = ExpressPeerServer(peerHttp, { debug: true })
-app.use('/peerjs', peerServer);
+if (process.env.NODE_ENV === 'production') {
+  const peerServer = ExpressPeerServer(http, {debug: true,});
+  app.use('/peerjs', peerServer);
+} else {
+  const peerApp = express();  //app
+  const peerHttp = require('http').createServer(peerApp); //http
+  const peerServer = ExpressPeerServer(peerHttp, { debug: true })
+  app.use('/peerjs', peerServer);
+}
+
 
 io.on('connection', (socket) => {
   socket.on('in-chat', (id) => {
@@ -76,16 +85,6 @@ io.on('connection', (socket) => {
   });
 })
 
-// peerServer.on('connection', function(id) {
-//   console.warn(id)
-// console.log(peerHttp._clients)
-// });
-
-// peerHttp.on('disconnect', function(id) {
-//   console.warn(id + "deconnected")
-// });
-
- 
 mongoose.connect(keys.mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -145,5 +144,4 @@ if (process.env.NODE_ENV === 'production') {
     })
   }
 
-// peerHttp.listen(peerPort, 'localhost');
 module.exports = http
