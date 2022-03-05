@@ -32,9 +32,6 @@ export class SocketioService {
       });
     } else {
       this.peer = new Peer(undefined, {
-        // host: environment.production ? '/' : '0.peerjs.com',
-        // port: environment.production ? 443 : 80,
-        // path: '/',
         secure: false
       });
     }

@@ -6,6 +6,7 @@ import { LoginService } from 'src/app/shared/services/login.service';
 import { SocketioService } from 'src/app/shared/services/socketio.service';
 import { VideoRoomService } from 'src/app/shared/services/videorooms.service';
 import { environment } from 'src/environments/environment';
+import { checkServerIdentity } from 'tls';
 
 const STEP = 5
 
@@ -56,7 +57,16 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
       })
       this.idSub = this.socketioService.videoID.subscribe(id => {
         this.session.id = id
-        this.videoGrid.nativeElement.children[0].setAttribute("id",`${id}`)
+        var t = setInterval(() => check(), 100)
+        function check() {
+          const myVideo = document.getElementById('my')
+          if (myVideo) {
+            myVideo.removeAttribute("id")
+            myVideo.setAttribute("id",`${id}`)
+            clearInterval(t)
+          }
+        }
+        
       })
       this.leaveSub = this.socketioService.leaveRoomID.subscribe(id => {
         const video = document.getElementById(id)
@@ -154,7 +164,6 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
       const video = document.createElement("video");
       video.setAttribute("id", `${data.userId}`)
       video.classList.add('room_video')
-      // video.classList.add(data.userVideoStream.id)
       this.addVideoStream(video, data.userVideoStream);
     }
   }
@@ -162,17 +171,15 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
   startStream() {
     const myVideo = document.createElement("video");
     myVideo.classList.add('room_video')
+    myVideo.setAttribute("id", `my`)
     myVideo.muted = true;
-    console.log('getUserMedia', new Date())
     navigator.mediaDevices.getUserMedia({
         audio: true,
         video: true,
     })
     .then((stream) => {
         this.myVideoStream = stream;
-        console.log('addVideoStream', new Date())
         this.addVideoStream(myVideo, stream);
-        console.log('startStreamInVideoroom', new Date())
         this.socketioService.startStreamInVideoroom(stream, this.room._id)
     });
   }
