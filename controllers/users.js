@@ -53,7 +53,8 @@ module.exports.create = async function(req, res) {
         screenreader: req.body.screenreader,
         games: req.body.games,
         time: req.body.time,
-        info: req.body.info
+        info: req.body.info,
+        videorooms: req.body.videorooms
       })
   
       try {

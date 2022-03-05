@@ -106,6 +106,7 @@ export class UsersFormComponent implements OnInit, OnDestroy {
         games: new FormControl('true'),
         screenreader: new FormControl('true'),
         time: new FormControl('true'),
+        videorooms: new FormControl('false'),
   
         day: new FormControl('0'),
         month: new FormControl('0'),
@@ -160,6 +161,7 @@ export class UsersFormComponent implements OnInit, OnDestroy {
               events: user.events?.toString(),
               screenreader: user.screenreader?.toString(),
               games: user.games?.toString(),  
+              videorooms: user.videorooms?.toString(),  
               time: user.time?.toString()
             })
             this.startL = user.login
@@ -278,7 +280,8 @@ export class UsersFormComponent implements OnInit, OnDestroy {
           this.form.value.screenreader,
           this.form.value.games,
           this.form.value.time,
-          this.form.value.info
+          this.form.value.info,
+          this.form.value.videorooms
         )
       } else {
         this.endL = this.form.value.login
@@ -318,7 +321,8 @@ export class UsersFormComponent implements OnInit, OnDestroy {
           this.form.value.screenreader,
           this.form.value.games,
           this.form.value.time,
-          this.form.value.info
+          this.form.value.info,
+          this.form.value.videorooms
         )
       }
       obs$.subscribe(

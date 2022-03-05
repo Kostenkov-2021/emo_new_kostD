@@ -78,7 +78,8 @@ export class UsersService {
       screenreader?: boolean,
       games?: boolean,
       time?: boolean,
-      info?: string
+      info?: string,
+      videorooms?: string
     ): Observable<User> {
 
       const fd = new FormData()
@@ -112,6 +113,7 @@ export class UsersService {
       if (games) fd.append('games', games.toString())
       if (time) fd.append('time', time.toString())
       if (screenreader) fd.append('screenreader', screenreader.toString())
+      if (videorooms) fd.append('videorooms', videorooms)
 
       return this.http.post<User>(`/api/manage/users`, fd)
     }
@@ -148,7 +150,8 @@ export class UsersService {
       screenreader?: boolean,
       games?: boolean,
       time?: boolean,
-      info?: string
+      info?: string,
+      videorooms?: string
     ): Observable<User> {
 
       const fd = new FormData()
@@ -159,6 +162,7 @@ export class UsersService {
       if (info) fd.append('info', info)
       if (changeL) fd.append('login', login)
       if (password) fd.append('password', password)
+      if (videorooms) fd.append('videorooms', videorooms)
       fd.append('surname', surname)
       fd.append('name', name)
       fd.append('sex', sex.toString())
