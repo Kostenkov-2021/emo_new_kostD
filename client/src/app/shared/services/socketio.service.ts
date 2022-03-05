@@ -46,10 +46,10 @@ export class SocketioService {
     });
 
     this.peer.on("call", (call) => {
-      console.log("call41", call)
+      // console.log("call41", call)
       call.answer(stream);
       call.on("stream", (userVideoStream) => {
-        console.log("call44", userVideoStream)
+        // console.log("call44", userVideoStream)
         this.newVideoStream.emit({userVideoStream, userId: call.peer})
       });
     });
@@ -58,13 +58,13 @@ export class SocketioService {
       console.log("user-connected", userId)
       const call = this.peer.call(userId, stream);
       call.on("stream", (userVideoStream) => {
-        console.log("user-connected", userVideoStream)
+        // console.log("user-connected", userVideoStream)
         this.newVideoStream.emit({userVideoStream, userId})
       });
     });
 
     this.socket.on("user-disconnected", (userId) => {
-      console.log('leave', userId)
+      // console.log('leave', userId)
       this.leaveRoomID.emit(userId)
     });
 
