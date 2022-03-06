@@ -123,7 +123,7 @@ const userSchema = new Schema({
   },
   videorooms: {
     type: Boolean,
-    default: false
+    default: true
   },
   expoPushToken: String,
   // access: {

@@ -204,152 +204,153 @@ module.exports.getById = async function(req, res) {
 }
 
 module.exports.create = async function(req, res) {
-    const now = new Date();
-      await User.updateOne(
-        {_id: req.user.id}, 
-        {$set: {last_active_at: now}},
-        {new: true}) 
-  
-    function randomInteger(min, max) {
-      // случайное число от min до (max+1)
-      let rand = min + Math.random() * (max + 1 - min);
-      return Math.floor(rand);
-    }
-  
-    try {
-      if (req.files) {
-        const files = req.files
-        for (let file of files) {
-  
-          if (file.mimetype === 'image/png' 
-          || file.mimetype === 'image/jpeg' 
-          || file.mimetype === 'image/jpg'
-          || file.mimetype === 'image/gif'
-          || file.mimetype === 'image/webp') 
-          {
-            const lastPicture = await Picture
-              .findOne({parent: '603e1ae80c54fc9b6e417951', user: req.user.id})
-              .sort({p_sort: -1})
-  
-            const maxSort = lastPicture ? lastPicture.p_sort : 0
-  
-            const pictures = await new Picture({
-              folder: false,
-              boysGreyPicture: file.location,
-              parent: '603e1ae80c54fc9b6e417951',
-              p_sort: maxSort + 1,
-              user: req.user.id
-            }).save()
-          }
-  
-          else if (file.mimetype === 'video/mp4' 
-          || file.mimetype === 'video/x-msvideo' 
-          || file.mimetype === 'video/mpeg'
-          || file.mimetype === 'video/ogg'
-          || file.mimetype === 'video/webm'
-          || file.mimetype === 'video/quicktime'
-          || file.mimetype === 'video/avi') 
-          {
-            const lastPicture = await Picture
-              .findOne({parent: '603e1b0c0c54fc9b6e417952', user: req.user.id})
-              .sort({p_sort: -1})
-  
-            const maxSort = lastPicture ? lastPicture.p_sort : 0
-  
-            const pictures = await new Picture({
-              folder: false,
-              boysGreyPicture: file.location,
-              parent: '603e1b0c0c54fc9b6e417952',
-              p_sort: maxSort + 1,
-              user: req.user.id
-            }).save()
-          }
-  
-          else if (file.mimetype === 'audio/mpeg3' 
-          || file.mimetype === 'audio/x-mpeg3' 
-          || file.mimetype === 'audio/mod'
-          || file.mimetype === 'audio/x-mod'
-          || file.mimetype === 'audio/mpeg'
-          || file.mimetype === 'audio/x-mpeg'
-          || file.mimetype === 'audio/ogg'
-          || file.mimetype === 'audio/wav'
-          || file.mimetype === 'audio/webm') 
-          {
-            const lastPicture = await Picture
-              .findOne({parent: '603e1b430c54fc9b6e417953', user: req.user.id})
-              .sort({p_sort: -1})
-  
-            const maxSort = lastPicture ? lastPicture.p_sort : 0
-  
-            const pictures = await new Picture({
-              folder: false,
-              boysGreyPicture: file.location,
-              parent: '603e1b430c54fc9b6e417953',
-              p_sort: maxSort + 1,
-              user: req.user.id,
-              text: file.originalname,
-              color: randomInteger(1, 12)
-            }).save()
-          }
-  
-          else {
-            const lastPicture = await Picture
-              .findOne({parent: '603e1b630c54fc9b6e417954', user: req.user.id})
-              .sort({p_sort: -1})
-  
-            const maxSort = lastPicture ? lastPicture.p_sort : 0
-  
-            const pictures = await new Picture({
-              folder: false,
-              boysGreyPicture: file.location,
-              parent: '603e1b630c54fc9b6e417954',
-              p_sort: maxSort + 1,
-              user: req.user.id,
-              text: file.originalname,
-              color: randomInteger(1, 12)
-            }).save()
-          }
+  const now = new Date();
+    await User.updateOne(
+      {_id: req.user.id}, 
+      {$set: {last_active_at: now}},
+      {new: true}) 
+
+  function randomInteger(min, max) {
+    // случайное число от min до (max+1)
+    let rand = min + Math.random() * (max + 1 - min);
+    return Math.floor(rand);
+  }
+
+  try {
+    if (req.files) {
+      const files = req.files
+      for (let file of files) {
+
+        if (file.mimetype === 'image/png' 
+        || file.mimetype === 'image/jpeg' 
+        || file.mimetype === 'image/jpg'
+        || file.mimetype === 'image/gif'
+        || file.mimetype === 'image/webp') 
+        {
+          const lastPicture = await Picture
+            .findOne({parent: '5f1309e3962c2f062467f854', user: req.user.id})
+            .sort({p_sort: -1})
+
+          const maxSort = lastPicture ? lastPicture.p_sort : 0
+
+          const pictures = await new Picture({
+            folder: false,
+            boysGreyPicture: file.location,
+            parent: '5f1309e3962c2f062467f854',
+            p_sort: maxSort + 1,
+            user: req.user.id
+          }).save()
+        }
+
+        else if (file.mimetype === 'video/mp4' 
+        || file.mimetype === 'video/x-msvideo' 
+        || file.mimetype === 'video/mpeg'
+        || file.mimetype === 'video/ogg'
+        || file.mimetype === 'video/webm'
+        || file.mimetype === 'video/quicktime'
+        || file.mimetype === 'video/avi') 
+        {
+          const lastPicture = await Picture
+            .findOne({parent: '5f1309f1962c2f062467f855', user: req.user.id})
+            .sort({p_sort: -1})
+
+          const maxSort = lastPicture ? lastPicture.p_sort : 0
+
+          const pictures = await new Picture({
+            folder: false,
+            boysGreyPicture: file.location,
+            parent: '5f1309f1962c2f062467f855',
+            p_sort: maxSort + 1,
+            user: req.user.id
+          }).save()
+        }
+
+        else if (file.mimetype === 'audio/mpeg3' 
+        || file.mimetype === 'audio/x-mpeg3' 
+        || file.mimetype === 'audio/mod'
+        || file.mimetype === 'audio/x-mod'
+        || file.mimetype === 'audio/mpeg'
+        || file.mimetype === 'audio/x-mpeg'
+        || file.mimetype === 'audio/ogg'
+        || file.mimetype === 'audio/wav'
+        || file.mimetype === 'audio/webm') 
+        {
+          const lastPicture = await Picture
+            .findOne({parent: '5f130a00962c2f062467f856', user: req.user.id})
+            .sort({p_sort: -1})
+
+          const maxSort = lastPicture ? lastPicture.p_sort : 0
+
+          const pictures = await new Picture({
+            folder: false,
+            boysGreyPicture: file.location,
+            parent: '5f130a00962c2f062467f856',
+            p_sort: maxSort + 1,
+            user: req.user.id,
+            text: file.originalname,
+            color: randomInteger(1, 12)
+          }).save()
+        }
+
+        else {
+          const lastPicture = await Picture
+            .findOne({parent: '5f130a0d962c2f062467f857', user: req.user.id})
+            .sort({p_sort: -1})
+
+          const maxSort = lastPicture ? lastPicture.p_sort : 0
+
+          const pictures = await new Picture({
+            folder: false,
+            boysGreyPicture: file.location,
+            parent: '5f130a0d962c2f062467f857',
+            p_sort: maxSort + 1,
+            user: req.user.id,
+            text: file.originalname,
+            color: randomInteger(1, 12)
+          }).save()
         }
       }
-      res.status(201).json({message: 'Файлы загружены.'})
-    } catch (e) {
-      errorHandler(res, e)
     }
+    res.status(201).json({message: 'Файлы загружены.'})
+  } catch (e) {
+    errorHandler(res, e)
   }
-  
-  module.exports.vote = async function (req, res) {
+}
 
-    const now = new Date();
-      await User.updateOne(
-        {_id: req.user.id}, 
-        {$set: {last_active_at: now}},
-        {new: true})
   
-    function randomInteger(min, max) {
-      // случайное число от min до (max+1)
-      let rand = min + Math.random() * (max + 1 - min);
-      return Math.floor(rand);
-    }
-    try {
-      
-      const lastPicture = await Picture
-        .findOne({parent: '603e1ba10c54fc9b6e417955', user: req.user.id})
-        .sort({p_sort: -1})
+module.exports.vote = async function (req, res) {
   
-      const maxSort = lastPicture ? lastPicture.p_sort : 0
-  
-      const vote = await new Picture({
-        folder: false,
-        boysGreyPicture: req.file.location,
-        parent: '603e1ba10c54fc9b6e417955',
-        p_sort: maxSort + 1,
-        user: req.user.id,
-        text: 'Моё голосовое сообщение',
-        color: randomInteger(1, 12)
-      }).save()
-  
-      res.status(201).json(vote)
-    } catch(e) {
-      errorHandler(res, e)
-    }
+  const now = new Date();
+    await User.updateOne(
+      {_id: req.user.id}, 
+      {$set: {last_active_at: now}},
+      {new: true})
+
+  function randomInteger(min, max) {
+    // случайное число от min до (max+1)
+    let rand = min + Math.random() * (max + 1 - min);
+    return Math.floor(rand);
   }
+  try {
+    
+    const lastPicture = await Picture
+      .findOne({parent: '5f5486f982194ca1fb21ff6d', user: req.user.id})
+      .sort({p_sort: -1})
+
+    const maxSort = lastPicture ? lastPicture.p_sort : 0
+
+    const vote = await new Picture({
+      folder: false,
+      boysGreyPicture: req.file.location,
+      parent: '5f5486f982194ca1fb21ff6d',
+      p_sort: maxSort + 1,
+      user: req.user.id,
+      text: 'Моё голосовое сообщение',
+      color: randomInteger(1, 12)
+    }).save()
+
+    res.status(201).json(vote)
+  } catch(e) {
+    errorHandler(res, e)
+  }
+}

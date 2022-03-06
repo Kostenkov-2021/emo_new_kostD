@@ -49,7 +49,7 @@ export class EventsPageComponent implements OnInit, OnDestroy {
   }
   
   goToChat(id) {
-    this.router.navigate([`/group/${id}`], {queryParams: {color: this.session.defaultColor, folder: '603df642e8189fa35e95273f'}})
+    this.router.navigate([`/group/${id}`], {queryParams: {color: this.session.defaultColor, folder: '5f12ff8cc06cd105437d84e3'}})
   }
 
   ngOnDestroy() {

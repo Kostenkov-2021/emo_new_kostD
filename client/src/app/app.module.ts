@@ -43,7 +43,6 @@ import { AdminBotFormComponent } from './admin-bot-page/admin-bot-form/admin-bot
 import { AdminEventsFormComponent } from './admin-events-page/admin-events-form/admin-events-form.component';
 import { GroupLayoutComponent } from './shared/layouts/group-layout/group-layout.component';
 import { GroupPageComponent } from './group-page/group-page.component';
-import { PicturesStartComponent } from './pictures-page/pictures-start/pictures-start.component';
 import { PhotolikesPageComponent } from './photolikes-page/photolikes-page.component';
 import { EventInGroupFormComponent } from './group-page/event-in-group-form/event-in-group-form.component';
 import { MoneyTableComponent } from './group-page/money-table/money-table.component';
@@ -105,7 +104,6 @@ import { VideoRoomFormComponent } from './shared/components/video-room-form/vide
     AdminEventsFormComponent,
     GroupLayoutComponent,
     GroupPageComponent,
-    PicturesStartComponent,
     PhotolikesPageComponent,
     EventInGroupFormComponent,
     MoneyTableComponent,

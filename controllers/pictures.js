@@ -49,24 +49,30 @@ module.exports.update = async function(req, res) {
     const updated = req.body
     updated.answers = req.body.answers != '' ? req.body.answers.split(',') : []
     updated.exceptions = req.body.exceptions != '' ? req.body.exceptions.split(',') : []
+    const archive = []
+    const pictureOld = await Picture.findOne({_id: req.params.pictureID})
     if (req.files) {
       if (req.files['boysGreyPicture']) {
         updated.boysGreyPicture = req.files['boysGreyPicture'][0].location
+        if (pictureOld.boysGreyPicture) archive.push(pictureOld.boysGreyPicture)
       }
       if (req.files['girlsGreyPicture']) {
         updated.girlsGreyPicture = req.files['girlsGreyPicture'][0].location
+        if (pictureOld.girlsGreyPicture) archive.push(pictureOld.girlsGreyPicture)
       }
       if (req.files['boysColorPicture']) {
         updated.boysColorPicture = req.files['boysColorPicture'][0].location
+        if (pictureOld.boysColorPicture) archive.push(pictureOld.boysColorPicture)
       }
       if (req.files['girlsColorPicture']) {
         updated.girlsColorPicture = req.files['girlsColorPicture'][0].location
+        if (pictureOld.girlsColorPicture) archive.push(pictureOld.girlsColorPicture)
       }
     }
     
     const picture = await Picture.findOneAndUpdate(
       {_id: req.params.pictureID},
-      {$set: updated},
+      {$addToSet: {archive: {$each: archive}}, $set: updated},
       {new: true}
     )
     res.status(200).json(picture)

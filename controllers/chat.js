@@ -43,7 +43,7 @@ module.exports.getAllMessage = async function(req, res) {
     } catch (e) {
       errorHandler(res, e)
     }
-  }
+}
 
 module.exports.getAllMessage2 = async function(req, res) {   
   try {
@@ -87,34 +87,45 @@ module.exports.getAllPictures = async function(req, res) {
         {$set: {last_active_at: now}},
         {new: true})
 
-      const f = {parent: req.params.parentID}
+      const parent = req.params.parentID == '603df642e8189fa35e95273f' ? '5f12ff8cc06cd105437d84e3' : req.params.parentID
+      const f = {parent}
       let sort = 1
       if (
-        req.params.parentID == '5f1309e3962c2f062467f854' || 
-        req.params.parentID == '5f1309f1962c2f062467f855' || 
-        req.params.parentID == '5f130a00962c2f062467f856' || 
-        req.params.parentID == '5f5486f982194ca1fb21ff6d' || 
-        req.params.parentID == '5f130a0d962c2f062467f857' ||
-        req.params.parentID == '603e1ae80c54fc9b6e417951' || 
-        req.params.parentID == '603e1b0c0c54fc9b6e417952' || 
-        req.params.parentID == '603e1b430c54fc9b6e417953' || 
-        req.params.parentID == '603e1b630c54fc9b6e417954' || 
-        req.params.parentID == '603e1ba10c54fc9b6e417955') {
+        parent == '5f1309e3962c2f062467f854' || 
+        parent == '5f1309f1962c2f062467f855' || 
+        parent == '5f130a00962c2f062467f856' || 
+        parent == '5f5486f982194ca1fb21ff6d' || 
+        parent == '5f130a0d962c2f062467f857' ||
+        parent == '603e1ae80c54fc9b6e417951' || 
+        parent == '603e1b0c0c54fc9b6e417952' || 
+        parent == '603e1b430c54fc9b6e417953' || 
+        parent == '603e1b630c54fc9b6e417954' || 
+        parent == '603e1ba10c54fc9b6e417955') {
           f.user = req.user.id
           sort = -1
         }
-      const pictures = await Picture
-      .find(f, {system: 0})
-      .sort({p_sort: sort})
 
-      const folder = await Picture.findOne({_id: req.params.parentID}, {many: 1, parent: 1})
+      //5f12ff8cc06cd105437d84e3
+      
+
+      let folder = await Picture.findOne({_id: parent}, {many: 1, parent: 1})
+      if (!folder) {
+        folder = await Picture.findOne({_id: '5f12ff8cc06cd105437d84e3'}, {many: 1, parent: 1})
+        f.parent = '5f12ff8cc06cd105437d84e3'
+      }
+
+      const pictures = await Picture
+      .find(f, {system: 0, archive: 0})
+      .sort({p_sort: sort})
+      // .lean()
+
       const picturesAndFolder = {pictures, folder}
 
       res.status(200).json(picturesAndFolder)
     } catch (e) {
       errorHandler(res, e)
     }
-  }
+}
 
 module.exports.send = async function(req, res) {
   try { 
@@ -343,18 +354,14 @@ module.exports.getAnswers = async function (req, res) {
         {boysGreyPicture: src},
         {girlsGreyPicture: src},
         {boysColorPicture: src},
-        {girlsColorPicture: src}
+        {girlsColorPicture: src},
+        {archive: src}
       ]}, {answers: 1})
-
       let answers = []
-
       if (picture && picture.answers) {
-        for (let id of picture.answers) {
-          let answer = await Picture.findOne({_id: id}, 
-            {boysGreyPicture: 1, girlsGreyPicture: 1, boysColorPicture: 1, girlsColorPicture: 1, 
-            folder: 1, text: 1, textForGirls: 1})
-          answers.push(answer)
-        }
+        answers = await Picture.find({_id: {$in: picture.answers}}, 
+          {boysGreyPicture: 1, girlsGreyPicture: 1, boysColorPicture: 1, girlsColorPicture: 1, 
+          folder: 1, text: 1, textForGirls: 1}).lean()
       }
       
       res.status(200).json({answers})

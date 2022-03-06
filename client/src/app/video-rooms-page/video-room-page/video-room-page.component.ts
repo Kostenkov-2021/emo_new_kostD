@@ -6,7 +6,6 @@ import { LoginService } from 'src/app/shared/services/login.service';
 import { SocketioService } from 'src/app/shared/services/socketio.service';
 import { VideoRoomService } from 'src/app/shared/services/videorooms.service';
 import { environment } from 'src/environments/environment';
-import { checkServerIdentity } from 'tls';
 
 const STEP = 5
 
@@ -26,7 +25,7 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
   anonimName: string
   myVideoStream: any
   showChatToggle = false
-  host = environment.SOCKET_ENDPOINT
+  host = environment.url
   copySuccess = false
   wantCopyLink = false
   chat_message = ''
@@ -36,6 +35,7 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
   messSub: Subscription
   idSub: Subscription
   leaveSub: Subscription
+  wcSub: Subscription
   messages$: Subscription
   limit = STEP
   offset = 0
@@ -169,7 +169,7 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
   }
 
   startStream() {
-    const myVideo = document.createElement("video");
+    const myVideo = document.createElement("video")
     myVideo.classList.add('room_video')
     myVideo.setAttribute("id", `my`)
     myVideo.muted = true;
@@ -179,8 +179,8 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
     })
     .then((stream) => {
         this.myVideoStream = stream;
-        this.addVideoStream(myVideo, stream);
-        this.socketioService.startStreamInVideoroom(stream, this.room._id)
+        this.addVideoStream(myVideo, this.myVideoStream);
+        this.socketioService.startStreamInVideoroom(this.myVideoStream, this.room._id)
     });
   }
 

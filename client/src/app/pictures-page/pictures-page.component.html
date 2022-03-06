@@ -92,7 +92,7 @@
             <label 
                 for="back_picture_botton" 
                 id="back_picture"
-                *ngIf="pictureAndFolder.folder._id !== '5f12ff8cc06cd105437d84e3' && pictureAndFolder.folder._id !== '603df642e8189fa35e95273f'">
+                *ngIf="pictureAndFolder.folder && pictureAndFolder.folder.parent">
                     <a class="nav-admin middle-{{session.firstColor}}-bg-hover" 
                     [routerLink]="['/manage/pictures', pictureAndFolder.folder.parent]"
                     [queryParams]="{'answersFolder': queryA}">
@@ -100,16 +100,6 @@
                     </a>
             </label>
 
-            <button id="back_picture_botton" hidden></button>
-            <label 
-                for="back_picture_botton" 
-                id="back_picture"
-                *ngIf="pictureAndFolder.folder._id == '5f12ff8cc06cd105437d84e3' || pictureAndFolder.folder._id == '603df642e8189fa35e95273f'">
-                    <a class="nav-admin middle-{{session.firstColor}}-bg-hover" 
-                    [routerLink]="['/manage/pictures']">
-                        Назад
-                    </a>
-            </label>
     </div>
 </div>
 <ng-template #loader>

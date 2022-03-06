@@ -69,7 +69,8 @@ const pictureSchema = new Schema({
   },
   color: {
     type: Number
-  }
+  },
+  archive: [String]
 })
 
 module.exports = mongoose.model('pictures', pictureSchema)
