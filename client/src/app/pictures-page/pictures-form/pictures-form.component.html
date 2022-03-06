@@ -98,7 +98,7 @@ class="dark-{{session.firstColor}}-border"
             <p class="in_new_user dark-{{session.firstColor}}-color">Ответы:</p>
             <div class="answers_box dark-{{session.firstColor}}-border" *ngIf="picturesAndFolder$ | async as pictureAndFolder">
                 <button 
-                *ngIf="pictureAndFolder.folder._id !== '5f12ff8cc06cd105437d84e3' && pictureAndFolder.folder._id !== '603df642e8189fa35e95273f'"
+                *ngIf="pictureAndFolder.folder._id !== '5f12ff8cc06cd105437d84e3' && pictureAndFolder.folder._id !== '5f12ff8cc06cd105437d84e3'"
                 (click)="answerChange(true, pictureAndFolder.folder.parent)">
                     Назад
                 </button>

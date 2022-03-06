@@ -1,4 +1,4 @@
-import * as io from 'socket.io-client';
+import * as io from 'socket.io-client/lib';
 import { Injectable, EventEmitter } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Message, GroupMessage, VideoRoomMessage } from '../interfaces';
@@ -16,6 +16,7 @@ export class SocketioService {
   newVideoRoomMessage: EventEmitter<VideoRoomMessage> = new EventEmitter()
   videoID: EventEmitter<string> = new EventEmitter()
   leaveRoomID: EventEmitter<string> = new EventEmitter()
+  wantToConnect: EventEmitter<string> = new EventEmitter()
 
   socket = io(environment.SOCKET_ENDPOINT).connect()
 
@@ -28,7 +29,7 @@ export class SocketioService {
       this.peer = new Peer(undefined, {
         path: "/peerjs",
         host: "/",
-        port: "443",
+        port: 443,
       });
     } else {
       this.peer = new Peer(undefined, {
@@ -68,7 +69,9 @@ export class SocketioService {
     this.socket.on("videoroom-message", (message) => {
       this.newVideoRoomMessage.emit(message)
     });
-
+    // this.socket.on("user-wantconnect", userId => {
+    //   this.wantToConnect.emit(userId)
+    // })
   }
   
   setupSocketConnection(id, interlocutor) {       //вхождение в чат (ngOnInit)

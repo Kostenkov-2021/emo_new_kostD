@@ -57,7 +57,7 @@
             (click)="checkUser(institution._id)">
             <div class="green-cursor" 
             [ngClass]="{event_tick: myEventInstit.includes(institution._id), event_cross: !myEventInstit.includes(institution._id)}"
-            (click)="checkUser(user._id)"> </div>
+            (click)="checkUser(institution._id)"> </div>
             <div class="pictatext tc dark-{{session.secondColor}}-border green-cursor" (click)="checkUser(institution._id)">
                 <span appEasyLang>{{institution.name}}</span>
             </div>                                             	 

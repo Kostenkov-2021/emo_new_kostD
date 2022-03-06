@@ -102,10 +102,10 @@ export class GroupPageComponent implements OnInit, OnDestroy {
   }
 
   sortPictures() {
-    for (let picture of this.pictureAndFolder.pictures) {
-      if (picture.invisible === picture.exceptions.includes(this.session._id)) {
+    for (const picture of this.pictureAndFolder.pictures) {
+      if (picture.invisible == picture.exceptions.includes(this.session._id)) {
         picture.show = true
-        if (picture._id == '603e1a6f0c54fc9b6e417950') {
+        if (picture._id == '5f130939962c2f062467f853') {
           picture.src = this.session.photo
           if (picture.text) picture.textInHTML = picture.text
           else if (picture.textForGirls) picture.textInHTML = picture.textForGirls
@@ -193,7 +193,7 @@ export class GroupPageComponent implements OnInit, OnDestroy {
   }
 
   cross() {
-    if (this.queryF == '603df642e8189fa35e95273f') {
+    if (this.queryF == '5f12ff8cc06cd105437d84e3') {
       this.router.navigate(['/people/events'])
     }
     else {

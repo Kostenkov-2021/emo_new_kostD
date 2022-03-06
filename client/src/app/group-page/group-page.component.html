@@ -90,8 +90,8 @@
         </div>        
 
         <div class="pictaandtext" 
-        *ngIf="!picture.folder && picture.show && picture.src && picture.parent != '603e1b430c54fc9b6e417953' &&
-        picture.parent != '603e1ba10c54fc9b6e417955' && picture.parent != '603e1b0c0c54fc9b6e417952' && picture.parent != '603e1b630c54fc9b6e417954'"
+        *ngIf="!picture.folder && picture.show && picture.src && picture.parent != '5f1309f1962c2f062467f855' &&
+        picture.parent != '5f130a00962c2f062467f856' && picture.parent != '5f130a0d962c2f062467f857' && picture.parent != '5f5486f982194ca1fb21ff6d'"
         id="{{picture._id}}">
             <img class="pict dark-{{session.secondColor}}-border green-cursor" [src]="picture.src" 
             (click)="makeMessage(1, picture.src)">
@@ -102,12 +102,12 @@
             appEasyLang>
                 {{picture.textInHTML}}
             </p> 
-            <span class="file-delete green-cursor" *ngIf="picture.parent == '603e1ae80c54fc9b6e417951'"
+            <span class="file-delete green-cursor" *ngIf="picture.parent == '5f1309e3962c2f062467f854'"
             (click)="wantDeletePicture(picture.src, picture._id)"></span>              
         </div>
 
         <div class="video-audio-box" 
-        *ngIf="picture.parent == '603e1b430c54fc9b6e417953' || picture.parent == '603e1ba10c54fc9b6e417955'"
+        *ngIf="picture.parent == '5f130a00962c2f062467f856' || picture.parent == '5f5486f982194ca1fb21ff6d'"
         id="{{picture._id}}">
             <p *ngIf="picture.textInHTML" 
             class="audiotext dark-{{session.secondColor}}-border file-{{picture.color}}">{{picture.textInHTML}}</p>
@@ -115,13 +115,13 @@
             <audio class="audio" controls>
                 <source [src]="picture.src">
             </audio>
-            <span *ngIf="picture.parent == '603e1b430c54fc9b6e417953'" class="file-delete green-cursor" (click)="wantDeletePicture('audioDelete', picture._id)"></span> 
-            <span *ngIf="picture.parent == '603e1ba10c54fc9b6e417955'" class="file-delete green-cursor" (click)="wantDeletePicture('voteDelete', picture._id)"></span>
+            <span *ngIf="picture.parent == '5f130a00962c2f062467f856'" class="file-delete green-cursor" (click)="wantDeletePicture('audioDelete', picture._id)"></span> 
+            <span *ngIf="picture.parent == '5f5486f982194ca1fb21ff6d'" class="file-delete green-cursor" (click)="wantDeletePicture('voteDelete', picture._id)"></span>
             <span class="file-letter green-cursor" (click)="makeMessage(3, picture.src)"></span>                       
         </div>
 
         <div class="video-audio-box" 
-        *ngIf="picture.parent == '603e1b0c0c54fc9b6e417952'"
+        *ngIf="picture.parent == '5f1309f1962c2f062467f855'"
         id="{{picture._id}}">
             <video class="video dark-{{session.secondColor}}-border" controls>
                 <source [src]="picture.src">
@@ -130,7 +130,7 @@
             <span class="file-letter green-cursor" (click)="makeMessage(4, picture.src)"></span>                       
         </div>
 
-        <div class="pictaandtext" *ngIf="picture.parent == '603e1b630c54fc9b6e417954'"
+        <div class="pictaandtext" *ngIf="picture.parent == '5f130a0d962c2f062467f857'"
         id="{{picture._id}}">
             <a [href]="picture.src" [download]="picture.textInHTML">
                 <img class="pict dark-{{session.secondColor}}-border file-{{picture.color}} green-cursor" src="/images/docs.png">

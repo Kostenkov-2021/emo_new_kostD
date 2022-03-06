@@ -56,6 +56,7 @@ export class ChatLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
           this.offset += 1
           for (const src of message.message) {
             this.chatService.getAnswers(src).subscribe(answers => {
+              
               if (answers.answers.length !== 0 && !this.withAnswers.includes(src)) this.withAnswers.push(src)
             },
             error => {
