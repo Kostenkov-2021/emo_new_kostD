@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms'
 import {ActivatedRoute, Params, Router} from '@angular/router'
 
@@ -19,7 +19,11 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute) { }
 
+  @ViewChild('password_control') password_control: ElementRef
+  @ViewChild('password') password: ElementRef
+
   ngOnInit(): void {
+   
     this.form = new FormGroup({
       login: new FormControl(null, [Validators.required]),
       password: new FormControl(null, [Validators.required])
@@ -34,6 +38,20 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         //MaterialService.toast('Пожалуйста войдите в систему заного')
       }
     })
+  }
+
+  show_hide_password() {
+    let input = this.password.nativeElement;
+    let target = this.password_control.nativeElement;
+    if (input.getAttribute('type') == 'password') {
+      target.classList.add('view');
+      target.classList.remove('no_view');
+      input.setAttribute('type', 'text');
+    } else {
+      target.classList.add('no_view');
+      target.classList.remove('view');
+      input.setAttribute('type', 'password');
+    }
   }
 
   ngOnDestroy() {

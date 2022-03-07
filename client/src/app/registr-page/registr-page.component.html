@@ -4,13 +4,23 @@
         <p class="entrance tc notadmin" appEasyLang>Логин: </p>
         <input 
         formControlName="login"
+        name="username"
+        autocomplete="on"
         class="entrance text-cursor">
 
-        <p class="entrance tc notadmin" appEasyLang>Пароль:</p>
-        <input 
-        formControlName="password"
-        class="entrance text-cursor">
-        <br>
+
+       
+        <div>
+            <p class="entrance tc entrance_password notadmin" appEasyLang>Пароль:</p>
+            <input 
+            name="password"
+            type="password"
+            #password
+            formControlName="password"
+            autocomplete="new-password"
+            class="entrance text-cursor">
+            <span class="password-control green-cursor" #password_control (click)="show_hide_password()"></span>
+        </div>
 
         <p class="entrance tc notadmin" appEasyLang>Имя: </p>
         <input 

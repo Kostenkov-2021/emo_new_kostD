@@ -24,7 +24,7 @@ const videoRoomSchema = new Schema({
     },
     title: {
       type: String,
-      default: "Новая видео комната"
+      default: "Новая видеокомната"
     },
     active: {
         type: Number,

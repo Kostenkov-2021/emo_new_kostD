@@ -18,7 +18,11 @@ textarea {
 	height: auto;
     width: 30vw;
 	font-size: 2.8vw; 
-    margin: 10px;
+    margin: 5px;
+    /* margin-top: 5px; */
+}
+p.entrance {
+    margin-top: 20px;
 }
 
 #bottom_entrance {
@@ -85,6 +89,24 @@ p, img, a:visited, a:active, a:hover {
     cursor: url('/images/cursorText.cur') 16 16, text;
 }
 
+.password {
+	position: relative;
+}
+
+.password-control {
+	position: relative;
+	top: 1vw;
+    margin-top: -1vw;
+	left: 0;
+	display: inline-block;
+	width: 4vw;
+	height: 4vw;
+	background: url('/images/no-view.svg') 0 0 no-repeat;
+}
+.password-control.view {
+	background: url('/images/view.svg') 0 0 no-repeat;
+}
+
 #emoPicture {
      z-index: 2;
      position: relative;
@@ -119,6 +141,8 @@ audio, video {
     background-size: 100% 100%;
     width: 2.8vw;
     height: 2.8vw;
+    display: inline-block;
+    vertical-align: top;
 }
 
 .message_time {
