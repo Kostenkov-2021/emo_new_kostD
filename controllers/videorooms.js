@@ -41,7 +41,7 @@ module.exports.remove = async function(req, res) {
         if (room.author == req.user.id || req.user.levelStatus == 1 || (req.user.levelStatus == 2 && author.institution == req.user.institution)) {
           await VideoRoom.updateOne({_id: req.params.id}, {$set: {active: 2}}, {new: true})
           res.status(200).json({
-            message: 'Видео комната удалена.'
+            message: 'Видеокомната удалена.'
           })
         } else {
           res.status(403).json({

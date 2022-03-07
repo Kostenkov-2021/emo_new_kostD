@@ -17,12 +17,16 @@
                 
             </div>
             <hr noshade color="black">
-            <div *ngIf="event.description" appEasyLang class="pNotAdmin">
-                {{event.description}}
-            </div>
-            <div class="screenread-btn green-cursor" 
+            <div *ngIf="event.description" >
+                <span appEasyLang class="pNotAdmin">
+                    {{event.description}}
+                </span>
+                <div class="screenread-btn green-cursor" 
                 *ngIf="event.description && session.screenreader"
-                (click)="screenRead(event.autorSex, event.autorName, event.autorSurname, event.chatTitle, event.description)"></div>
+                (click)="screenRead(event.autorSex, event.autorName, event.autorSurname, event.chatTitle, event.description)">
+                </div>
+            </div>
+            
             
 
             <hr noshade color="black">

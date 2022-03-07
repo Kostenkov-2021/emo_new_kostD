@@ -1,32 +1,39 @@
 <div class="emo_pt">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
-              <p class="entrance tc notadmin" appEasyLang>Логин: </p>
-              <input 
-              formControlName="login"
-              class="entrance text-cursor" 
-              value="">
+          <p class="entrance tc notadmin" appEasyLang>Логин: </p>
+          <input 
+          name="username"
+          formControlName="login"
+          autocomplete="on"
+          class="entrance text-cursor">
 
-              <p class="entrance tc entrance_password notadmin" appEasyLang>Пароль:</p>
-              <input 
-              formControlName="password"
-              class="entrance text-cursor" 
-              value=""><br>
-              
-              <button 
-              class="entrance" 
-              id="bottom_entrance_hidden" 
-              type="submit"
-              [disabled]="form.invalid || form.disabled" 
-               hidden> </button>
+          <p class="entrance tc entrance_password notadmin" appEasyLang>Пароль:</p>
+          <ng-container>
+               <input 
+               #password
+               type="password"
+               name="password"
+               formControlName="password"
+               autocomplete="on"
+               class="entrance text-cursor">
+               <span class="password-control green-cursor" #password_control (click)="show_hide_password()"></span>
+          </ng-container>
+          
+          <button 
+          class="entrance" 
+          id="bottom_entrance_hidden" 
+          type="submit"
+          [disabled]="form.invalid || form.disabled" 
+          hidden> </button>
 
-              <label 
-              for="bottom_entrance_hidden"
-              id="bottom_entrance" 
-              class="tc green-cursor"
-              appEasyLang>
-                    ВХОД
-               </label>            
+          <label 
+          for="bottom_entrance_hidden"
+          id="bottom_entrance" 
+          class="tc green-cursor"
+          appEasyLang>
+               ВХОД
+          </label>            
 
     </form>
     <a 

@@ -65,7 +65,7 @@ export class VideoRoomsPageComponent implements OnInit {
       author: this.session._id,
       privateLevel: 0,
       users: [],
-      title: "Новая видео комната",
+      title: "Новая видеокомната",
       image: '/images/videorooms.png'
     }
     this.openForm(currentRoom)
