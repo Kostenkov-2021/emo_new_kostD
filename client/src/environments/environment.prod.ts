@@ -1,7 +1,7 @@
 
 export const environment = {
   production: true,
-  SOCKET_ENDPOINT: `https://emo.su`,
+  SOCKET_ENDPOINT: `wws://emo.su:443`,
   isMobile: window.innerWidth < 700,
   host: '/',
   port: 443,
