@@ -22,11 +22,14 @@ const app = express()
 const http = require('http').createServer(app)
 
 
-const {ExpressPeerServer} = require('peer')
-
 if (process.env.NODE_ENV === 'production') {
-  var io = require('socket.io').listen(http)
-  const peerServer = ExpressPeerServer(http, {debug: true,});
+  var io = require('socket.io')(http, {
+    cors: {
+      origin: '*'
+    }
+  });
+  const {ExpressPeerServer} = require('peer')
+  const peerServer = ExpressPeerServer(http, {debug: true});
   app.use('/peer', peerServer);
 } else {
   var io = require('socket.io')(http, {origins: ["http://localhost:4200"]})
