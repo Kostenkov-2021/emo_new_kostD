@@ -20,20 +20,16 @@ const keys = require('./config/keys')
 
 const app = express()
 const http = require('http').createServer(app)
-
-
+const options = {}
 if (process.env.NODE_ENV === 'production') {
-  var io = require('socket.io')(3001, {
-    cors: {
-      origin: '*'
-    }
-  });
+  options.cors.origin = '*'
   const {ExpressPeerServer} = require('peer')
   const peerServer = ExpressPeerServer(http, {debug: true});
   app.use('/peer', peerServer);
 } else {
-  var io = require('socket.io')(http, {origins: ["http://localhost:4200"]})
+  options.origins = ["http://localhost:4200"]
 }
+const io = require('socket.io')(http, options)
 
 io.on('connection', (socket) => {
   console.log('Socket connect')

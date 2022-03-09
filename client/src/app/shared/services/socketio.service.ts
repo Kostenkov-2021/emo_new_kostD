@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Message, GroupMessage, VideoRoomMessage } from '../interfaces';
 import  Peer  from  'peerjs-client' 
 
-const SOCKET = io.connect(environment.SOCKET_ENDPOINT)
+// const SOCKET = 
 
 // SOCKET.on("connect_error", () => {
 //   SOCKET.io.opts.transports = ;
@@ -25,7 +25,7 @@ export class SocketioService {
   wantToConnect: EventEmitter<string> = new EventEmitter()
 
   peer
-  socket = SOCKET
+  socket = io.connect(environment.SOCKET_ENDPOINT)
 
   constructor() {}
 
