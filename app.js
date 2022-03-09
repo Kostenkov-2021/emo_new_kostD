@@ -20,7 +20,7 @@ const keys = require('./config/keys')
 
 const app = express()
 const http = require('http').createServer(app)
-const io = require('socket.io')(http, {origins: ["http://localhost:4200", "https://emo.su"]})
+const io = require('socket.io')(http, {origins: ["http://localhost:4200", "https://emo.su:443"]})
 
 const {ExpressPeerServer} = require('peer')
 
