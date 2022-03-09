@@ -29,10 +29,12 @@ export class SocketioService {
         path: "/peerjs",
         host: "/",
         port: 443,
+        debug: true
       });
     } else {
       this.peer = new Peer(undefined, {
-        secure: false
+        secure: false,
+        debug: true
       });
     }
     console.log(this.peer)
