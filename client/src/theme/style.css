@@ -162,9 +162,11 @@ audio, video {
 
 .room_video {
     height: 300px;
+    max-height: 90vw;
     border-radius: 1rem;
     margin: 0.5rem;
     width: 400px;
+    max-width: 90%;
     background-color: black;
     object-fit: contain;
     transform: rotateY(180deg);

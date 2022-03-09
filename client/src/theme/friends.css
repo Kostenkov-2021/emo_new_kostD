@@ -1,5 +1,5 @@
 .friends {
-  width: 80%;
+  width: calc(80% - 3px);
   height: 100%;
   overflow: auto;
   border-spacing: 50px;

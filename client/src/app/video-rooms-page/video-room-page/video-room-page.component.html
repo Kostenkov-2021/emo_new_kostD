@@ -12,7 +12,6 @@
       </div>
     </div>
     <div class="options">
-      <div class="options__left">
         <div #stopVideo class="options__button green-cursor" (click)="videoButton()">
           <i class="fa fa-video"></i>
         </div>
@@ -25,12 +24,9 @@
         <div class="green-cursor options__button" (click)="addButton()" *ngIf="room.privateLevel == 0">
             <i class="fa fa-user-plus"></i>
         </div>
-      </div>
-      <div class="options__right">
         <div class="green-cursor options__button background__red" (click)="exit()">
             <i class="fa fa-xmark"></i>
         </div>
-      </div>
     </div>
   </div>
   <div class="main__right" *ngIf="showChatToggle">
