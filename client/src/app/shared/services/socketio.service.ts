@@ -43,9 +43,10 @@ export class SocketioService {
       console.log("open", id)
       this.videoID.emit(id)
       this.socket.emit("join-video-room", roomId, id);
-      // this.socket.on("active-message", message => {
-      //   this.socket.emit("active-answer", message)
-      // })
+      this.socket.on("active-message", message => {
+        console.log('message')
+        this.socket.emit("active-answer", message)
+      })
     });
 
     this.peer.on("call", (call) => {
