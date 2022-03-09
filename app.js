@@ -23,6 +23,7 @@ const http = require('http').createServer(app)
 const options = {}
 
 if (process.env.NODE_ENV === 'production') {
+  options.cors = {}
   options.cors.origin = '*'
   const {ExpressPeerServer} = require('peer')
   const peerServer = ExpressPeerServer(http, {debug: true});
