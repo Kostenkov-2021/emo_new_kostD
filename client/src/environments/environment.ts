@@ -7,7 +7,7 @@ export const environment = {
   SOCKET_ENDPOINT: `http://localhost:5000`,
   isMobile: window.innerWidth < 700,
   host: 'localhost',
-  port: '5000',
+  port: 5000,
   url: `http://localhost:4200`
 };
 

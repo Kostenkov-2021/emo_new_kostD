@@ -4,6 +4,6 @@ export const environment = {
   SOCKET_ENDPOINT: `/`,
   isMobile: window.innerWidth < 700,
   host: '/',
-  port: '443',
+  port: 443,
   url: `https://emo.su`
 };
