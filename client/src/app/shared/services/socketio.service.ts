@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Message, GroupMessage, VideoRoomMessage } from '../interfaces';
 import  Peer  from  'peerjs-client' 
 
-const SOCKET = io.connect(environment.SOCKET_ENDPOINT, {transports: ["websocket", "polling"]})
+const SOCKET = io.connect(environment.SOCKET_ENDPOINT)
 
 // SOCKET.on("connect_error", () => {
 //   SOCKET.io.opts.transports = ;

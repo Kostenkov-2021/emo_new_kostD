@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  SOCKET_ENDPOINT: `wss://emo.su`,
+  SOCKET_ENDPOINT: `http://localhost:5000`,
   isMobile: window.innerWidth < 700,
   host: 'localhost',
   port: '5000',
