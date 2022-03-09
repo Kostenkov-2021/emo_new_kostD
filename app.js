@@ -80,10 +80,6 @@ io.on('connection', (socket) => {
       socket.leave(roomId)
     })
 
-    socket.on("disconnect", (reason) => {
-      console.log(userId, "disconnect", reason)
-      io.to(roomId).emit("user-disconnected", userId);
-    });
   });
 })
 
