@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === 'production') {
   options.cors = {}
   options.cors.origin = '*'
   const {ExpressPeerServer} = require('peer')
-  const peerServer = ExpressPeerServer(http, {alive_timeout: 86400000});
+  const peerServer = ExpressPeerServer(http, {debug: true});
   app.use('/peer', peerServer);
 } else {
   options.origins = ["http://localhost:4200"]
