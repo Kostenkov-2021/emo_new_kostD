@@ -135,7 +135,8 @@ if (process.env.NODE_ENV === 'production') {
       '.png',
       '.jpg',
       '.jpeg',
-      '.cur'
+      '.cur',
+      '.svg'
     ];
    
     app.get('*', (req, res) => {
