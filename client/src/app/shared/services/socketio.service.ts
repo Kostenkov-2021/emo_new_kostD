@@ -18,8 +18,7 @@ export class SocketioService {
   leaveRoomID: EventEmitter<string> = new EventEmitter()
   wantToConnect: EventEmitter<string> = new EventEmitter()
 
-  socket = io(environment.SOCKET_ENDPOINT).connect()
-
+  socket = io(environment.SOCKET_ENDPOINT)
   peer 
 
   constructor() {}
