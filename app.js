@@ -19,7 +19,7 @@ const videoroommessagesRoutes = require('./routes/videoroommessages')
 const keys = require('./config/keys')
 
 const app = express()
-const http = require('http').createServer(app)
+const http = require('http').Server(app)
 const options = {}
 
 if (process.env.NODE_ENV === 'production') {
@@ -76,9 +76,6 @@ io.on('connection', (socket) => {
     socket.on('leave-video-room', () => {
       io.to(roomId).emit("user-disconnected", userId);
       socket.leave(roomId)
-    })
-    socket.on('active-message', () => {
-      io.to(roomId).broadcast.emit('active-message', userId + ' active in ' + roomId)
     })
   });
 

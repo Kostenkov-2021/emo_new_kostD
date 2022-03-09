@@ -4,12 +4,6 @@ import { environment } from 'src/environments/environment';
 import { Message, GroupMessage, VideoRoomMessage } from '../interfaces';
 import  Peer  from  'peerjs-client' 
 
-// const SOCKET = 
-
-// SOCKET.on("connect_error", () => {
-//   SOCKET.io.opts.transports = ;
-// });
-
 @Injectable({
   providedIn: 'root'
 })
@@ -27,48 +21,41 @@ export class SocketioService {
   peer
   socket = io.connect(environment.SOCKET_ENDPOINT)
 
-  constructor() {}
+  constructor() {
+    this.peer = new Peer(undefined, {
+      path: "/peer",
+      host: "emo.su",
+      port: "443",
+      debug: true,
+      secure: true
+  })
+  }
 
   startStreamInVideoroom(stream, roomId) {
-    this.peer = new Peer(undefined, {
-        path: "/peer",
-        host: "emo.su",
-        port: 443,
-        secure: true,
-        debug: true
-      })
     console.log(this.peer)
     console.log(this.socket)
+
+    this.peer.on("call", (call) => {
+      call.answer(stream);
+      call.on("stream", (userVideoStream) => {
+        this.newVideoStream.emit({userVideoStream, userId: call.peer})
+      });
+    });
+
+    this.socket.on("user-connected", (userId) => {
+      const call = this.peer.call(userId, stream);
+      call.on("stream", (userVideoStream) => {
+        this.newVideoStream.emit({userVideoStream, userId})
+      });
+    });
+
     this.peer.on("open", (id) => {
       console.log("open", id)
       this.videoID.emit(id)
       this.socket.emit("join-video-room", roomId, id);
     });
 
-    this.peer.on("call", (call) => {
-      // console.log("call41", call)
-      call.answer(stream);
-      call.on("stream", (userVideoStream) => {
-        // console.log("call44", userVideoStream)
-        this.newVideoStream.emit({userVideoStream, userId: call.peer})
-      });
-    });
-
-    this.peer.on("active-message", () => {
-      console.log('active')
-    })
-
-    this.socket.on("user-connected", (userId) => {
-      console.log("user-connected", userId)
-      const call = this.peer.call(userId, stream);
-      call.on("stream", (userVideoStream) => {
-        // console.log("user-connected", userVideoStream)
-        this.newVideoStream.emit({userVideoStream, userId})
-      });
-    });
-
     this.socket.on("user-disconnected", (userId) => {
-      // console.log('leave', userId)
       this.leaveRoomID.emit(userId)
     });
 

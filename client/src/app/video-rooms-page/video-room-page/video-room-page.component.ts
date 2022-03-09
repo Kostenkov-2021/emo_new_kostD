@@ -186,7 +186,7 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
         this.myVideoStream = stream;
         this.addVideoStream(myVideo, this.myVideoStream);
         this.socketioService.startStreamInVideoroom(this.myVideoStream, this.room._id)
-        this.interval = setInterval(() => this.active(), 5000)
+        // this.interval = setInterval(() => this.active(), 5000)
     });
   }
 
@@ -259,7 +259,7 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
       if (this.streamSub) this.streamSub.unsubscribe()
       if (this.leaveSub) this.leaveSub.unsubscribe()
       if (this.messages$) this.messages$.unsubscribe()
-      if (this.interval) clearInterval(this.interval)
+      // if (this.interval) clearInterval(this.interval)
       this.leaveRoom()
   }
 }
