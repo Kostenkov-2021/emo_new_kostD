@@ -30,7 +30,7 @@ const {ExpressPeerServer} = require('peer')
 
 if (process.env.NODE_ENV === 'production') {
   const peerServer = ExpressPeerServer(http, {debug: true,});
-  app.use('/peerjs', peerServer);
+  app.use('/peer', peerServer);
 } else {
   const peerApp = express();  //app
   const peerHttp = require('http').createServer(peerApp); //http
