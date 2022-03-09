@@ -23,7 +23,7 @@ const http = require('http').createServer(app)
 
 
 if (process.env.NODE_ENV === 'production') {
-  var io = require('socket.io')(http, {
+  var io = require('socket.io')(3001, {
     cors: {
       origin: '*'
     }
