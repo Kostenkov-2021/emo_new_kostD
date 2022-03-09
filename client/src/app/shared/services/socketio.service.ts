@@ -4,7 +4,11 @@ import { environment } from 'src/environments/environment';
 import { Message, GroupMessage, VideoRoomMessage } from '../interfaces';
 import  Peer  from  'peerjs-client' 
 
-const SOCKET = io.connect(environment.SOCKET_ENDPOINT, {transports: ["polling", "websocket"]})
+const SOCKET = io.connect(environment.SOCKET_ENDPOINT, {transports: ["websocket", "polling"]})
+
+// SOCKET.on("connect_error", () => {
+//   SOCKET.io.opts.transports = ;
+// });
 
 @Injectable({
   providedIn: 'root'
@@ -131,4 +135,5 @@ export class SocketioService {
     console.log("leave-video-room")
     this.socket.emit("leave-video-room");
   }
+
 }
