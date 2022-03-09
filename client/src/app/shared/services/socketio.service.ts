@@ -43,10 +43,6 @@ export class SocketioService {
       console.log("open", id)
       this.videoID.emit(id)
       this.socket.emit("join-video-room", roomId, id);
-      this.socket.on("active-message", message => {
-        console.log('message')
-        this.socket.emit("active-answer", message)
-      })
     });
 
     this.peer.on("call", (call) => {
@@ -57,6 +53,10 @@ export class SocketioService {
         this.newVideoStream.emit({userVideoStream, userId: call.peer})
       });
     });
+
+    this.peer.on("active-message", () => {
+      console.log('active')
+    })
 
     this.socket.on("user-connected", (userId) => {
       console.log("user-connected", userId)
@@ -81,7 +81,7 @@ export class SocketioService {
   }
 
   active() {
-    this.socket.emit("active-message");
+    this.peer.emit("active-message");
   }
   
   setupSocketConnection(id, interlocutor) {       //вхождение в чат (ngOnInit)

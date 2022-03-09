@@ -78,10 +78,7 @@ io.on('connection', (socket) => {
       socket.leave(roomId)
     })
     socket.on('active-message', () => {
-      io.to(roomId).emit('active-message', userId + ' active in ' + roomId)
-    })
-    socket.on('active-answer', message => {
-      console.log(message)
+      io.to(roomId).broadcast.emit('active-message', userId + ' active in ' + roomId)
     })
   });
 
