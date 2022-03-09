@@ -77,8 +77,14 @@ io.on('connection', (socket) => {
       io.to(roomId).emit("user-disconnected", userId);
       socket.leave(roomId)
     })
-
+    socket.on('active-message', () => {
+      io.to(roomId).emit('active-message', userId + ' active in ' + roomId)
+    })
+    socket.on('active-answer', message => {
+      console.log(message)
+    })
   });
+
 })
 
 mongoose.connect(keys.mongoURI, {

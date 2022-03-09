@@ -41,6 +41,7 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
   offset = 0
   loading = false
   noMore = false
+  interval
 
   @ViewChild('video_grid') videoGrid: ElementRef<HTMLDivElement>
   @ViewChild('stopVideo') stopVideo: ElementRef<HTMLDivElement>
@@ -53,6 +54,7 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private auth: LoginService) { 
       this.streamSub = this.socketioService.newVideoStream.subscribe(data => {
+        console.log('streamSub')
         this.addVideo(data)
       })
       this.idSub = this.socketioService.videoID.subscribe(id => {
@@ -168,6 +170,9 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
     }
   }
 
+  active() {
+    this.socketioService.active()
+  }
   startStream() {
     const myVideo = document.createElement("video")
     myVideo.classList.add('room_video')
@@ -181,6 +186,7 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
         this.myVideoStream = stream;
         this.addVideoStream(myVideo, this.myVideoStream);
         this.socketioService.startStreamInVideoroom(this.myVideoStream, this.room._id)
+        this.interval = setInterval(() => this.active(), 5000)
     });
   }
 
@@ -253,6 +259,7 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
       if (this.streamSub) this.streamSub.unsubscribe()
       if (this.leaveSub) this.leaveSub.unsubscribe()
       if (this.messages$) this.messages$.unsubscribe()
+      if (this.interval) clearInterval(this.interval)
       this.leaveRoom()
   }
 }

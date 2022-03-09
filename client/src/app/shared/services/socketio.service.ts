@@ -30,15 +30,6 @@ export class SocketioService {
   constructor() {}
 
   startStreamInVideoroom(stream, roomId) {
-    // this.peer = environment.production ? new Peer(undefined, {
-    //   path: "/peer",
-    //   host: environment.host,
-    //   port: environment.port,
-    //   debug: true
-    // }) : new Peer(undefined, {
-    //   secure: false,
-    //   debug: true
-    // })
     this.peer = new Peer(undefined, {
         path: "/peer",
         host: "emo.su",
@@ -52,6 +43,9 @@ export class SocketioService {
       console.log("open", id)
       this.videoID.emit(id)
       this.socket.emit("join-video-room", roomId, id);
+      // this.socket.on("active-message", message => {
+      //   this.socket.emit("active-answer", message)
+      // })
     });
 
     this.peer.on("call", (call) => {
@@ -83,6 +77,10 @@ export class SocketioService {
     // this.socket.on("user-wantconnect", userId => {
     //   this.wantToConnect.emit(userId)
     // })
+  }
+
+  active() {
+    this.socket.emit("active-message");
   }
   
   setupSocketConnection(id, interlocutor) {       //вхождение в чат (ngOnInit)
