@@ -4,6 +4,8 @@ import { environment } from 'src/environments/environment';
 import { Message, GroupMessage, VideoRoomMessage } from '../interfaces';
 import  Peer  from  'peerjs-client' 
 
+const SOCKET = io(environment.SOCKET_ENDPOINT)
+
 @Injectable({
   providedIn: 'root'
 })
@@ -19,16 +21,14 @@ export class SocketioService {
   wantToConnect: EventEmitter<string> = new EventEmitter()
 
   peer
-  socket
+  socket = SOCKET
 
-  constructor() {
-    this.socket = io(environment.SOCKET_ENDPOINT)
-  }
+  constructor() {}
 
   startStreamInVideoroom(stream, roomId) {
     this.peer = environment.production ? new Peer(undefined, {
       path: "/peerjs",
-      host: "/",
+      host: environment.host,
       port: 443
     }) : new Peer(undefined, {
       secure: false,
