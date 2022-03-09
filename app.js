@@ -20,20 +20,20 @@ const keys = require('./config/keys')
 
 const app = express()
 const http = require('http').createServer(app)
-const io = require('socket.io')
+
 
 const {ExpressPeerServer} = require('peer')
 
 if (process.env.NODE_ENV === 'production') {
-  io.listen(http)
+  var io = require('socket.io').listen(http)
   const peerServer = ExpressPeerServer(http, {debug: true,});
   app.use('/peer', peerServer);
 } else {
-  io(http, {origins: ["http://localhost:4200"]})
+  var io = require('socket.io')(http, {origins: ["http://localhost:4200"]})
 }
 
 io.on('connection', (socket) => {
-  console.log('connect')
+  console.log('Socket connect')
   socket.on('in-chat', (id) => {
       socket.join(id)
       socket.join(id + '-online')
