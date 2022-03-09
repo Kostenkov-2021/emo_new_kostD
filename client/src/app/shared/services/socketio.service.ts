@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Message, GroupMessage, VideoRoomMessage } from '../interfaces';
 import  Peer  from  'peerjs-client' 
 
-const SOCKET = io.connect('https://emo.su')
+const SOCKET = io.connect(environment.SOCKET_ENDPOINT)
 
 @Injectable({
   providedIn: 'root'
