@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Message, GroupMessage, VideoRoomMessage } from '../interfaces';
 import  Peer  from  'peerjs-client' 
 
-const SOCKET = io(environment.SOCKET_ENDPOINT)
+const SOCKET = io('https://emo.su')
 
 @Injectable({
   providedIn: 'root'
@@ -26,15 +26,22 @@ export class SocketioService {
   constructor() {}
 
   startStreamInVideoroom(stream, roomId) {
-    this.peer = environment.production ? new Peer(undefined, {
-      path: "/peer",
-      host: environment.host,
-      port: environment.port,
-      debug: true
-    }) : new Peer(undefined, {
-      secure: false,
-      debug: true
-    })
+    // this.peer = environment.production ? new Peer(undefined, {
+    //   path: "/peer",
+    //   host: environment.host,
+    //   port: environment.port,
+    //   debug: true
+    // }) : new Peer(undefined, {
+    //   secure: false,
+    //   debug: true
+    // })
+    this.peer = new Peer(undefined, {
+        path: "/peer",
+        host: "emo.su",
+        port: 443,
+        secure: true,
+        debug: true
+      })
     console.log(this.peer)
     console.log(this.socket)
     this.peer.on("open", (id) => {

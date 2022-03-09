@@ -21,9 +21,9 @@ const keys = require('./config/keys')
 const app = express()
 const http = require('http').createServer(app)
 const io = require("socket.io")(http, {
-  cors: {
-    origin: '*'
-  }
+  // cors: {
+  //   origin: '*'
+  // }
 });
 
 const {ExpressPeerServer} = require('peer')
