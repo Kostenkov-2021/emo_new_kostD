@@ -22,6 +22,10 @@ export class SocketioService {
   socket = io.connect(environment.SOCKET_ENDPOINT)
 
   constructor() {
+    
+  }
+
+  startStreamInVideoroom(stream, roomId) {
     this.peer = new Peer(undefined, {
       path: "/peer",
       host: "emo.su",
@@ -29,9 +33,6 @@ export class SocketioService {
       debug: true,
       secure: true
   })
-  }
-
-  startStreamInVideoroom(stream, roomId) {
     console.log(this.peer)
     console.log(this.socket)
 
