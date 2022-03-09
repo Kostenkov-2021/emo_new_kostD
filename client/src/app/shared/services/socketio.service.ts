@@ -20,20 +20,9 @@ export class SocketioService {
 
   peer
   socket
-  // peer = environment.production ? new Peer(undefined, {
-  //   path: "/peerjs",
-  //   host: "/",
-  //   port: 443,
-  //   debug: true
-  // }) : new Peer(undefined, {
-  //   secure: false,
-  //   debug: true
-  // })
-  // socket = io(environment.SOCKET_ENDPOINT)
 
   constructor() {
     this.socket = io(environment.SOCKET_ENDPOINT)
-    this.peer = new Peer()
   }
 
   startStreamInVideoroom(stream, roomId) {
