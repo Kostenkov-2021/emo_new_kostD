@@ -1,4 +1,4 @@
-import * as io from 'socket.io-client/lib';
+import * as io from 'socket.io-client';
 import { Injectable, EventEmitter } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Message, GroupMessage, VideoRoomMessage } from '../interfaces';
