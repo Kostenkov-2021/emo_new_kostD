@@ -18,26 +18,35 @@ export class SocketioService {
   leaveRoomID: EventEmitter<string> = new EventEmitter()
   wantToConnect: EventEmitter<string> = new EventEmitter()
 
-  socket = io(environment.SOCKET_ENDPOINT)
-  peer 
+  peer
+  socket
+  // peer = environment.production ? new Peer(undefined, {
+  //   path: "/peerjs",
+  //   host: "/",
+  //   port: 443,
+  //   debug: true
+  // }) : new Peer(undefined, {
+  //   secure: false,
+  //   debug: true
+  // })
+  // socket = io(environment.SOCKET_ENDPOINT)
 
-  constructor() {}
+  constructor() {
+    this.socket = io(environment.SOCKET_ENDPOINT)
+    this.peer = new Peer()
+  }
 
   startStreamInVideoroom(stream, roomId) {
-    if (environment.production) {
-      this.peer = new Peer(undefined, {
-        path: "/peerjs",
-        host: "/",
-        port: 443,
-        debug: true
-      });
-    } else {
-      this.peer = new Peer(undefined, {
-        secure: false,
-        debug: true
-      });
-    }
+    this.peer = environment.production ? new Peer(undefined, {
+      path: "/peerjs",
+      host: "/",
+      port: 443
+    }) : new Peer(undefined, {
+      secure: false,
+      debug: true
+    })
     console.log(this.peer)
+    console.log(this.socket)
     this.peer.on("open", (id) => {
       console.log("open", id)
       this.videoID.emit(id)
