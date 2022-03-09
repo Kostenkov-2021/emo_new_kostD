@@ -21,6 +21,7 @@ const keys = require('./config/keys')
 const app = express()
 const http = require('http').createServer(app)
 const options = {}
+
 if (process.env.NODE_ENV === 'production') {
   options.cors.origin = '*'
   const {ExpressPeerServer} = require('peer')
