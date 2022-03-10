@@ -67,7 +67,7 @@ io.on('connection', (socket) => {
   })
 
   socket.on("join-video-room", (roomId, userId) => {
-    console.warn('join-video-room', new Date())
+    // console.warn('join-video-room', new Date())
     socket.join(roomId);
     socket.to(roomId).broadcast.emit("user-connected", userId);
     socket.on("videoroom-message", (message) => {
@@ -76,6 +76,9 @@ io.on('connection', (socket) => {
     socket.on('leave-video-room', () => {
       io.to(roomId).emit("user-disconnected", userId);
       socket.leave(roomId)
+    })
+    socket.on("disconnect", () => {
+      io.to(roomId).emit("user-disconnected", userId);
     })
   });
 
