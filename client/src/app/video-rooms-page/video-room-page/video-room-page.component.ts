@@ -209,7 +209,7 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
           this.socketioService.leaveVideoRoom(data.user)
         } else {
           const video = document.createElement("video");
-          video.classList.add('room_video')
+          video.classList.add('room_video', data.user.anonimus_id, data.user.id)
           this.addVideoStream(video, data.userVideoStream, data.user);
         }
       }
@@ -234,8 +234,19 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
     video.srcObject = stream;
     video.user = user;
     video.addEventListener("loadedmetadata", () => {
-      video.play();
-      this.videoGrid.nativeElement.append(video)
+      const children: any = this.videoGrid.nativeElement.childNodes
+      let len = children.length
+      for (let i = 0; i < len; i++) {
+        if (children[i].user && (
+        (user.id && children[i].user.id == user.id) 
+        || (user._id && children[i].user._id == user._id)
+        || (user.anonimus_id && children[i].user.anonimus_id == user.anonimus_id))) {
+          console.log(user)
+        } else {
+          video.play();
+          this.videoGrid.nativeElement.append(video)
+        }
+      }
     });
   };
 

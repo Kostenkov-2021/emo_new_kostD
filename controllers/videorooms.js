@@ -2,7 +2,6 @@ const errorHandler = require('../utils/errorHandler');
 const User = require('../models/User');
 const VideoRoom = require('../models/VideoRoom');
 // const { Expo } = require('expo-server-sdk')
-
 // const expo = new Expo();
 
 module.exports.create = async function(req, res) {
