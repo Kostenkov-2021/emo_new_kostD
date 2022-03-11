@@ -6,6 +6,7 @@ const bodyParser = require('body-parser')
 
 const http = require("http").createServer(app);
 const io = require('socket.io').listen(http)
+
 io.origins((_, callback) => {
   callback(null, true);
 });
