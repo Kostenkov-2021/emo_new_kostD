@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 
 const server = require("http").Server(app);
 const io = require("socket.io")(server, {
-    origins: ["http://localhost:4200", "https://emo.su:443"], 
+    origins: ["http://localhost:4200", "https://emo.su:443", "https://emo.su"], 
     pingTimeout: 60000,
     maxHttpBufferSize: 1e8
 });
