@@ -125,7 +125,6 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
                   this.session.anonimus_id = visitorId
                   this.status = 2
                   this.startStream()
-                  console.log(this.session)
                 })
               
             }, error => this.status = 1)
@@ -156,7 +155,6 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
         this.session = {name: this.anonimName, anonimus_id: visitorId}
         this.status = 2
         this.startStream()
-        console.log(this.session)
       })
   }
 
@@ -237,7 +235,7 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
       const children: any = this.videoGrid.nativeElement.childNodes
       let len = children.length
       for (let i = 0; i < len; i++) {
-        if (children[i].user && (
+        if (user.anonimus_id != this.session.anonimus_id && user.id != this.session.id && children[i].user && (
         (user.id && children[i].user.id == user.id) 
         || (user._id && children[i].user._id == user._id)
         || (user.anonimus_id && children[i].user.anonimus_id == user.anonimus_id))) {
