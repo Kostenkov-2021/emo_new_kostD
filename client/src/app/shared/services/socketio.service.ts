@@ -17,16 +17,21 @@ export class SocketioService {
   videoID: EventEmitter<string> = new EventEmitter()
   leaveRoomID: EventEmitter<string> = new EventEmitter()
   wantToConnect: EventEmitter<string> = new EventEmitter()
+  isMeActive: EventEmitter<boolean> = new EventEmitter()
 
   socket = io(environment.SOCKET_ENDPOINT, {transports: ["polling"]})
   peer
   session
+  id
+  socketID
 
   constructor() {
   }
 
   startStreamInVideoroom(stream, roomId, session) {
-    this.peer = new Peer(undefined, {
+    if (!this.socketID) this.socketID = this.socket.id
+
+    this.peer = new Peer(this.id, {
       path: "/peer",
       host: environment.host,
       port: environment.port,
@@ -34,7 +39,9 @@ export class SocketioService {
       secure: environment.production
     })
     console.log(this.socket)
+    console.log(this.socketID)
     console.log(this.peer)
+    this.isMeActive.emit(this.socket.connected && !this.peer.disconnected && this.socket.id == this.socketID)
     this.session = session
 
     this.peer.on("call", (call) => {
@@ -44,8 +51,24 @@ export class SocketioService {
       });
     });
 
+    this.socket.on('pong', () => {
+      this.isMeActive.emit(this.socket.connected && !this.peer.disconnected && this.socket.id == this.socketID)
+    });
+
+    this.peer.on('error', () => {
+      this.isMeActive.emit(false)
+    });
+
+    this.socket.on('error', () => {
+      this.isMeActive.emit(false)
+    });
+
+    this.socket.on("disconnected", () => {
+      console.log('disconnected')
+      this.isMeActive.emit(this.socket.connected && !this.peer.disconnected)
+    });
+
     this.socket.on("user-connected", (user) => {
-      
       const call = this.peer.call(user.id, stream);
       call.on("stream", (userVideoStream) => {
         this.newVideoStream.emit({userVideoStream, user})
@@ -54,6 +77,7 @@ export class SocketioService {
 
     this.peer.on("open", (id) => {
       console.log("open", id)
+      this.id = id
       this.videoID.emit(id)
       this.session = {...session, id}
       this.socket.emit("join-video-room", roomId, this.session);
@@ -61,6 +85,10 @@ export class SocketioService {
 
     this.socket.on("user-disconnected", (user) => {
       this.leaveRoomID.emit(user)
+    });
+
+    this.socket.on("isActive", (data) => {
+      if (data.user.id == this.id) this.isMeActive.emit(data.isActive)
     });
 
     this.socket.on("twice-connect", (userID) => {
@@ -72,8 +100,8 @@ export class SocketioService {
     });
   }
 
-  active() {
-    this.peer.emit("active-message");
+  changeActive(data) {
+    this.socket.emit("isActive", data)
   }
   
   setupSocketConnection(id, interlocutor) {       //вхождение в чат (ngOnInit)

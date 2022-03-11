@@ -53,6 +53,16 @@
     font-size: calc(10px + 2vw);
     margin: auto;
 }
+.meActive {
+  border-radius: 50%;
+  height: 6vh;
+  width: 6vh;
+  position: fixed;
+  left: 1vh;
+  top: 1vh;
+}
+.red {background: red;}
+.green {background: green;}
 .link_box {
   width: 600px;
   height: 80vw;

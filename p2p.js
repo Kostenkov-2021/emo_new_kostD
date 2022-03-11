@@ -49,7 +49,11 @@ io.on('connection', (socket) => {
     socket.on("disconnect", () => {
       io.to(roomId).emit("user-disconnected", user);
     })
-//cff3e141-b26f-42f3-9a08-cf7db483a0df cff3e141-b26f-42f3-9a08-cf7db483a0df
+
+    socket.on("isActive", (data) => {
+      io.to(roomId).emit("isActive", data);
+    })
+
     // peerServer.on('disconnect', (client) => { 
     //   console.log(client)
     //   console.log(socket)

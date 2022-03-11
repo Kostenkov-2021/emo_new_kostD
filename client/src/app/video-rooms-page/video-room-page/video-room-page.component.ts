@@ -44,6 +44,8 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
   loading = false
   noMore = false
   interval
+  isMeActive: boolean
+  activeSub: Subscription
 
   @ViewChild('video_grid') videoGrid: ElementRef<HTMLDivElement>
   @ViewChild('stopVideo') stopVideo: ElementRef<HTMLDivElement>
@@ -57,6 +59,9 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
     private auth: LoginService) { 
       this.streamSub = this.socketioService.newVideoStream.subscribe(data => {
         this.addVideo(data)
+      })
+      this.activeSub = this.socketioService.isMeActive.subscribe(active => {
+        this.isMeActive = active
       })
       this.idSub = this.socketioService.videoID.subscribe(id => {
         this.session.id = id
@@ -110,6 +115,10 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
           this.status = -1
         } else {
           this.fetchMessages()
+          window.addEventListener('beforeunload', e => {
+            e.preventDefault(); //per the standard
+            e.returnValue = ''; //required for Chrome
+          });
           window.addEventListener('unload', event => {
             this.leaveRoom()
           });
@@ -246,9 +255,31 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
       if (show) {
         video.play();
         this.videoGrid.nativeElement.append(video)
+        stream.onactive = (user) => this.active(user)
+        stream.oninactive = (user) => this.inactive(user)
       }
     });
   };
+
+  active (user)  {
+    console.log('active', user.id)
+    this.socketioService.changeActive({user, isActive: true})
+  }
+
+  inactive (user) {
+    console.log('inactive', user.id)
+    this.socketioService.changeActive({user, isActive: false})
+    const children: any = this.videoGrid.nativeElement.childNodes
+    let len = children.length
+      for (let i = 0; i < len; i++) {
+        if (children[i].user && (
+        (user.id && children[i].user.id == user.id) 
+        || (user._id && children[i].user._id == user._id)
+        || (user.anonimus_id && children[i].user.anonimus_id == user.anonimus_id))) {
+          this.videoGrid.nativeElement.children[i].remove()
+        }
+      }
+  }
 
   videoButton() {
     const enabled = this.myVideoStream.getVideoTracks()[0].enabled;
@@ -312,7 +343,7 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
       if (this.leaveSub) this.leaveSub.unsubscribe()
       if (this.messages$) this.messages$.unsubscribe()
       if (this.tcon) this.tcon.unsubscribe()
-      // if (this.interval) clearInterval(this.interval)
+      if (this.activeSub) this.activeSub.unsubscribe()
       this.leaveRoom()
   }
 }

@@ -1,5 +1,6 @@
 <div *ngIf="status == 2">
 <div class="header">
+    <div class="meActive" [ngClass]="{'red': !isMeActive, 'green': isMeActive}"></div>
     <div class="logo">
       <h3>{{room.title}}</h3>
     </div>
