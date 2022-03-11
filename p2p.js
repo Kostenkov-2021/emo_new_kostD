@@ -12,11 +12,13 @@ const io = require("socket.io")(server, {
 
 const { ExpressPeerServer } = require("peer");
 const peerServer = ExpressPeerServer(server, {
-  debug: 3,
+  // debug: true,
   alive_timeout: 86400000
 });
 
 app.use("/peer", peerServer);
+
+
 
 io.on('connection', (socket) => {
   console.log('Socket connect')
@@ -38,6 +40,10 @@ io.on('connection', (socket) => {
     socket.on("disconnect", () => {
       io.to(roomId).emit("user-disconnected", user);
     })
+
+    peerServer.on('disconnect', (client) => { 
+      io.to(roomId).emit("user-disconnected", {id: client.id});
+    });
   });
 
   socket.on('in-chat', (id) => {
