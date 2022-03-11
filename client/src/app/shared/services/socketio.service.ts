@@ -23,7 +23,6 @@ export class SocketioService {
   session
 
   constructor() {
-    
   }
 
   startStreamInVideoroom(stream, roomId, session) {
@@ -90,6 +89,7 @@ export class SocketioService {
     this.socket.on('online', (id) => {
       this.online.emit(id)
     })
+
   }
 
   sendMessage(id: string, message: Message) {       //отправка сообщения
@@ -110,6 +110,7 @@ export class SocketioService {
     this.socket.on('online', (id) => {
       this.online.emit(id)
     })
+
   }
 
   sendMessageGroup(group: string, message: GroupMessage) {       //отправка сообщения group
