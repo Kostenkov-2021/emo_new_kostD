@@ -40,10 +40,10 @@ io.on('connection', (socket) => {
     socket.on("disconnect", () => {
       io.to(roomId).emit("user-disconnected", user);
     })
-
+//cff3e141-b26f-42f3-9a08-cf7db483a0df cff3e141-b26f-42f3-9a08-cf7db483a0df
     peerServer.on('disconnect', (client) => { 
       console.log(user.id, client.id)
-      io.to(roomId).emit("user-disconnected", user);
+      io.to(roomId).emit("user-disconnected", {id: client.id});
     });
   });
 
