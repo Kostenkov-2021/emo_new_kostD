@@ -6,8 +6,8 @@ const bodyParser = require('body-parser')
 const server = require("http").Server(app);
 const io = require("socket.io")(server, {
     origins: ["http://localhost:4200", "https://emo.su:443", "https://emo.su"], 
-    pingTimeout: 60000,
-    maxHttpBufferSize: 1e8
+    // pingTimeout: 10000,
+    // maxHttpBufferSize: 1e8
 });
 
 const { ExpressPeerServer } = require("peer");
@@ -41,10 +41,11 @@ io.on('connection', (socket) => {
       io.to(roomId).emit("user-disconnected", user);
     })
 //cff3e141-b26f-42f3-9a08-cf7db483a0df cff3e141-b26f-42f3-9a08-cf7db483a0df
-    peerServer.on('disconnect', (client) => { 
-      console.log(user.id, client.id)
-      io.to(roomId).emit("user-disconnected", {id: client.id});
-    });
+    // peerServer.on('disconnect', (client) => { 
+    //   console.log(client)
+    //   console.log(socket)
+    //   io.to(roomId).emit("user-disconnected", {id: client.id});
+    // });
   });
 
   socket.on('in-chat', (id) => {
