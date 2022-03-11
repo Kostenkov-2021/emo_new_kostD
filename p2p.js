@@ -46,9 +46,9 @@ io.on('connection', (socket) => {
     socket.on('twice-connect', userIdUniqe => {
         io.to(roomId).emit("twice-connect", userIdUniqe);
     })
-    // socket.on("disconnect", () => {
-    //   io.to(roomId).emit("user-disconnected", user);
-    // })
+    socket.on("disconnect", () => {
+      io.to(roomId).emit("user-disconnected", user);
+    })
 //cff3e141-b26f-42f3-9a08-cf7db483a0df cff3e141-b26f-42f3-9a08-cf7db483a0df
     // peerServer.on('disconnect', (client) => { 
     //   console.log(client)
