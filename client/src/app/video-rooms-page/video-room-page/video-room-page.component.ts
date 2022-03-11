@@ -1,6 +1,8 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+
+import FingerprintJS from '@fingerprintjs/fingerprintjs'
 import { User, VideoRoom, VideoRoomMessage, VideoUser } from 'src/app/shared/interfaces';
 import { LoginService } from 'src/app/shared/services/login.service';
 import { SocketioService } from 'src/app/shared/services/socketio.service';
@@ -19,7 +21,7 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
 
   status = 0
   room: VideoRoom
-  session: User | VideoUser
+  session: User | VideoUser | any
   sesSub: Subscription
   rSub: Subscription
   anonimName: string
@@ -30,12 +32,12 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
   wantCopyLink = false
   chat_message = ''
   messages: VideoRoomMessage[] = []
-  authID: string = ''
   streamSub: Subscription
   messSub: Subscription
   idSub: Subscription
   leaveSub: Subscription
   wcSub: Subscription
+  tcon: Subscription
   messages$: Subscription
   limit = STEP
   offset = 0
@@ -54,25 +56,33 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private auth: LoginService) { 
       this.streamSub = this.socketioService.newVideoStream.subscribe(data => {
-        console.log('streamSub')
         this.addVideo(data)
       })
       this.idSub = this.socketioService.videoID.subscribe(id => {
         this.session.id = id
-        var t = setInterval(() => check(), 100)
-        function check() {
-          const myVideo = document.getElementById('my')
-          if (myVideo) {
-            myVideo.removeAttribute("id")
-            myVideo.setAttribute("id",`${id}`)
-            clearInterval(t)
+      })
+      this.leaveSub = this.socketioService.leaveRoomID.subscribe(user => {
+        try {
+          if (user.id && this.session.id == user.id
+          || (user._id && this.session._id == user._id)
+          || (user.anonimus_id && this.session.anonimus_id == user.anonimus_id)) {
+          this.exit()
+        } else {
+          const children: any = this.videoGrid.nativeElement.childNodes
+          let len = children.length
+          for (let i = len - 1; i >= 0; i--) {
+            if (children[i].user && (
+              (user.id && children[i].user.id == user.id) 
+              || (user._id && children[i].user._id == user._id)
+              || (user.anonimus_id && children[i].user.anonimus_id == user.anonimus_id)
+            )) {
+              this.videoGrid.nativeElement.children[i].remove()
+            }
           }
         }
-        
-      })
-      this.leaveSub = this.socketioService.leaveRoomID.subscribe(id => {
-        const video = document.getElementById(id)
-        if (video) video.remove()
+      } catch (e) {
+        console.log(e)
+      }
       })
       this.messSub = this.socketioService.newVideoRoomMessage.subscribe((message: VideoRoomMessage) => {
         if (message.room == this.room._id && !this.messages.find(el => el._id == message._id)) {
@@ -80,10 +90,19 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
           this.scrollChat()
         }
       })
+
+      this.tcon = this.socketioService.wantToConnect.subscribe((userId) => {
+        if (userId == this.session.id) {
+          this.myVideoStream.getTracks().forEach(function(track) {
+            track.stop();
+          });
+          console.log(userId, this.session.id)
+          this.status = 3;
+        }
+      })
     }
 
   ngOnInit(): void {
-    this.host
     this.route.params.subscribe((param: any) => {
       this.rSub = this.videoroomService.getById(param.id).subscribe(room => {
         this.room = room
@@ -96,10 +115,19 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
           });
           if (this.auth.isAuthenticated()) {
             this.auth.getUser().subscribe(session => {
-              this.session = session
-              this.authID = this.session._id
-              this.status = 2
-              this.startStream()
+              const fpPromise = FingerprintJS.load()
+    
+              fpPromise
+                .then(fp => fp.get())
+                .then(result => {
+                  const visitorId = result.visitorId
+                  this.session = session
+                  this.session.anonimus_id = visitorId
+                  this.status = 2
+                  this.startStream()
+                  console.log(this.session)
+                })
+              
             }, error => this.status = 1)
           }
           else this.status = 1
@@ -114,13 +142,22 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
         track.stop();
       });
     }
-    this.socketioService.leaveVideoRoom()
+    this.socketioService.leaveVideoRoom(this.session)
   }
 
   createUser() {
-    this.session = {name: this.anonimName ? this.anonimName : 'Аноним'}
-    this.status = 2
-    this.startStream()
+    if (!this.anonimName) this.anonimName  = 'Аноним'
+    const fpPromise = FingerprintJS.load()
+    
+    fpPromise
+      .then(fp => fp.get())
+      .then(result => {
+        const visitorId = result.visitorId
+        this.session = {name: this.anonimName, anonimus_id: visitorId}
+        this.status = 2
+        this.startStream()
+        console.log(this.session)
+      })
   }
 
   fetchMessages() {
@@ -161,22 +198,26 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
   }
 
   addVideo(data) {
-    const find = document.getElementById(`${data.userId}`) //`${data.userId}`
-    if (!find) {
-      const video = document.createElement("video");
-      video.setAttribute("id", `${data.userId}`)
-      video.classList.add('room_video')
-      this.addVideoStream(video, data.userVideoStream);
-    }
+    const children: any = this.videoGrid.nativeElement.childNodes
+      let len = children.length
+      for (let i = 0; i < len; i++) {
+        if (children[i].user && (
+        (data.user.id && children[i].user.id == data.user.id) 
+        || (data.user._id && children[i].user._id == data.user._id)
+        || (data.user.anonimus_id && children[i].user.anonimus_id == data.user.anonimus_id)
+      )) {
+          this.socketioService.leaveVideoRoom(data.user)
+        } else {
+          const video = document.createElement("video");
+          video.classList.add('room_video')
+          this.addVideoStream(video, data.userVideoStream, data.user);
+        }
+      }
   }
 
-  active() {
-    this.socketioService.active()
-  }
   startStream() {
     const myVideo = document.createElement("video")
     myVideo.classList.add('room_video')
-    myVideo.setAttribute("id", `my`)
     myVideo.muted = true;
     navigator.mediaDevices.getUserMedia({
         audio: true,
@@ -184,17 +225,17 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
     })
     .then((stream) => {
         this.myVideoStream = stream;
-        this.addVideoStream(myVideo, this.myVideoStream);
-        this.socketioService.startStreamInVideoroom(this.myVideoStream, this.room._id)
-        // this.interval = setInterval(() => this.active(), 5000)
+        this.addVideoStream(myVideo, this.myVideoStream, this.session);
+        this.socketioService.startStreamInVideoroom(this.myVideoStream, this.room._id, this.session)
     });
   }
 
-  addVideoStream(video, stream) {
+  addVideoStream(video, stream, user) {
     video.srcObject = stream;
+    video.user = user;
     video.addEventListener("loadedmetadata", () => {
-       video.play();
-       this.videoGrid.nativeElement.append(video);
+      video.play();
+      this.videoGrid.nativeElement.append(video)
     });
   };
 
@@ -244,9 +285,9 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
   messageButton() {
     this.chat_message = this.chat_message.trim()
     if (this.chat_message) {
-      this.videoroomService.sendMessage(this.room._id, {message: this.chat_message, type: 2, senderName: this.session.name, sender: this.authID}).subscribe(message => {
+      this.videoroomService.sendMessage(this.room._id, {message: this.chat_message, type: 2, senderName: this.session.name, sender: this.session._id}).subscribe(message => {
         this.chat_message = ''
-        this.socketioService.sendVideoRoomMessage(message)
+        this.socketioService.sendVideoRoomMessage(message, this.session)
       })
     }
   }
@@ -259,6 +300,7 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
       if (this.streamSub) this.streamSub.unsubscribe()
       if (this.leaveSub) this.leaveSub.unsubscribe()
       if (this.messages$) this.messages$.unsubscribe()
+      if (this.tcon) this.tcon.unsubscribe()
       // if (this.interval) clearInterval(this.interval)
       this.leaveRoom()
   }

@@ -143,7 +143,7 @@ module.exports.getByIdPrivate = async function(req, res) {
       }
       res.status(200).json(room)
   } catch (e) {
-      errorHandler(res, e) 
+    res.status(404).json({message: "Комната не найдена"})
   }
 }
 

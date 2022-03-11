@@ -19,70 +19,6 @@ const videoroommessagesRoutes = require('./routes/videoroommessages')
 const keys = require('./config/keys')
 
 const app = express()
-const http = require('http').Server(app)
-const options = {}
-
-if (process.env.NODE_ENV === 'production') {
-  options.cors = {}
-  options.cors.origin = '*'
-  const {ExpressPeerServer} = require('peer')
-  const peerServer = ExpressPeerServer(http, {debug: true, alive_timeout: 86400000});
-  app.use('/peer', peerServer);
-} else {
-  options.origins = ["http://localhost:4200"]
-}
-const io = require('socket.io')(http, options)
-
-io.on('connection', (socket) => {
-  console.log('Socket connect')
-  socket.on('in-chat', (id) => {
-      socket.join(id)
-      socket.join(id + '-online')
-  })
-
-  socket.on('in-group', (data) => {
-    socket.join(data.group)
-    io.in(data.group).emit('online', data.id)
-  })
-
-  socket.on('new message', (data) => {
-      io.in(data.id).emit('new message', {message: data.message})
-  })
-
-  socket.on('new-group-message', (data) => {
-    io.in(data.group).emit('new-group-message', data.message)
-  })
-
-  socket.on('online', (id) => {
-      io.in(id + '-online').emit('online', id)
-  })
-
-  socket.on('leave room', (id) => {
-      socket.leave(id)
-      socket.leave(id + '-online')
-  })
-
-  socket.on('leave group room', (id) => {
-    socket.leave(id)
-  })
-
-  socket.on("join-video-room", (roomId, userId) => {
-    // console.warn('join-video-room', new Date())
-    socket.join(roomId);
-    socket.to(roomId).broadcast.emit("user-connected", userId);
-    socket.on("videoroom-message", (message) => {
-      io.to(roomId).emit("videoroom-message", message);
-    });
-    socket.on('leave-video-room', () => {
-      io.to(roomId).emit("user-disconnected", userId);
-      socket.leave(roomId)
-    })
-    socket.on("disconnect", () => {
-      io.to(roomId).emit("user-disconnected", userId);
-    })
-  });
-
-})
 
 mongoose.connect(keys.mongoURI, {
     useNewUrlParser: true,
@@ -144,4 +80,4 @@ if (process.env.NODE_ENV === 'production') {
     })
   }
 
-module.exports = http
+module.exports = app

@@ -42,6 +42,17 @@
   margin: auto;
 }
 
+.bottom_entrance {
+    text-align: center;
+    top: 25px; 
+    width: 60%;
+    padding: 5px;
+    display: block;
+    border: 4px solid red;
+    border-radius: 5px;
+    font-size: calc(10px + 2vw);
+    margin: auto;
+}
 .link_box {
   width: 600px;
   height: 80vw;

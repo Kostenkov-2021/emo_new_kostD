@@ -18,54 +18,59 @@ export class SocketioService {
   leaveRoomID: EventEmitter<string> = new EventEmitter()
   wantToConnect: EventEmitter<string> = new EventEmitter()
 
+  socket = io.connect(environment.SOCKET_ENDPOINT, {transports: ["polling"]})
   peer
-  socket = io.connect(environment.SOCKET_ENDPOINT)
+  session
 
   constructor() {
     
   }
 
-  startStreamInVideoroom(stream, roomId) {
+  startStreamInVideoroom(stream, roomId, session) {
     this.peer = new Peer(undefined, {
       path: "/peer",
-      host: "emo.su",
-      port: "443",
-      debug: true,
-      secure: true
-  })
-    console.log(this.peer)
+      host: environment.host,
+      port: environment.port,
+      debug: 3,
+      secure: environment.production
+    })
     console.log(this.socket)
+    console.log(this.peer)
+    this.session = session
 
     this.peer.on("call", (call) => {
       call.answer(stream);
       call.on("stream", (userVideoStream) => {
-        this.newVideoStream.emit({userVideoStream, userId: call.peer})
+        this.newVideoStream.emit({userVideoStream, user: {id: call.peer}})
       });
     });
 
-    this.socket.on("user-connected", (userId) => {
-      const call = this.peer.call(userId, stream);
+    this.socket.on("user-connected", (user) => {
+      
+      const call = this.peer.call(user.id, stream);
       call.on("stream", (userVideoStream) => {
-        this.newVideoStream.emit({userVideoStream, userId})
+        this.newVideoStream.emit({userVideoStream, user})
       });
     });
 
     this.peer.on("open", (id) => {
       console.log("open", id)
       this.videoID.emit(id)
-      this.socket.emit("join-video-room", roomId, id);
+      this.session = {...session, id}
+      this.socket.emit("join-video-room", roomId, this.session);
     });
 
-    this.socket.on("user-disconnected", (userId) => {
-      this.leaveRoomID.emit(userId)
+    this.socket.on("user-disconnected", (user) => {
+      this.leaveRoomID.emit(user)
+    });
+
+    this.socket.on("twice-connect", (userID) => {
+      this.wantToConnect.emit(userID)
     });
 
     this.socket.on("videoroom-message", (message) => {
       this.newVideoRoomMessage.emit(message)
     });
-    // this.socket.on("user-wantconnect", userId => {
-    //   this.wantToConnect.emit(userId)
-    // })
   }
 
   active() {
@@ -73,6 +78,7 @@ export class SocketioService {
   }
   
   setupSocketConnection(id, interlocutor) {       //вхождение в чат (ngOnInit)
+    console.log(this.socket)
     this.socket.emit('in-chat', id)
 
     this.socket.emit('online', interlocutor)
@@ -114,13 +120,16 @@ export class SocketioService {
     this.socket.emit('leave group room', group)
   }
 
-  sendVideoRoomMessage(message) {
-    this.socket.emit("videoroom-message", message);
+  sendVideoRoomMessage(message, user) {
+    this.socket.emit("videoroom-message", {...message, user});
   }
 
-  leaveVideoRoom() {
-    console.log("leave-video-room")
-    this.socket.emit("leave-video-room");
+  leaveVideoRoom(user) {
+    this.socket.emit("leave-video-room", user);
+  }
+
+  twiceConnect(userId) {
+    this.socket.emit("twice-connect", userId);
   }
 
 }

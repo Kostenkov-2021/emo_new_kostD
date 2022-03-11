@@ -4,10 +4,10 @@
 
 export const environment = {
   production: false,
-  SOCKET_ENDPOINT: `http://localhost:5000`,
+  SOCKET_ENDPOINT: `localhost:5050`,
   isMobile: window.innerWidth < 700,
   host: 'localhost',
-  port: '5000',
+  port: 5050,
   url: `http://localhost:4200`
 };
 
