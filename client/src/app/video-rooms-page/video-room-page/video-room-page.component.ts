@@ -234,16 +234,18 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
     video.addEventListener("loadedmetadata", () => {
       const children: any = this.videoGrid.nativeElement.childNodes
       let len = children.length
+      let show = true
       for (let i = 0; i < len; i++) {
-        if (user.anonimus_id != this.session.anonimus_id && user.id != this.session.id && children[i].user && (
+        if (children[i].user && (
         (user.id && children[i].user.id == user.id) 
         || (user._id && children[i].user._id == user._id)
         || (user.anonimus_id && children[i].user.anonimus_id == user.anonimus_id))) {
-          console.log(user)
-        } else {
-          video.play();
-          this.videoGrid.nativeElement.append(video)
+          show = false
         }
+      }
+      if (show) {
+        video.play();
+        this.videoGrid.nativeElement.append(video)
       }
     });
   };
