@@ -34,7 +34,11 @@
         <div class="messages">
             <div class="message" *ngFor="let message of messages">
                 <b><i class="far fa-user-circle"></i> <span> 
-                    {{(message.user._id === session._id || message.user.id === session.id || message.user.anonimus_id === session.anonimus_id) ? "Я" : message.senderName}}</span> </b>
+                    {{((message.user && 
+                      (message.user._id == session._id || message.user.id == session.id || message.user.anonimus_id == session.anonimus_id)) ||
+                      message.sender == session._id 
+                      )
+                       ? "Я" : message.senderName}}</span> </b>
                 <span appEasyLang>{{message.message}}</span> 
             </div>
             <div id="forScroll"></div>

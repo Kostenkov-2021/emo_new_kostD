@@ -42,7 +42,8 @@ io.on('connection', (socket) => {
     })
 
     peerServer.on('disconnect', (client) => { 
-      io.to(roomId).emit("user-disconnected", {id: client.id});
+      console.log(user.id, client.id)
+      io.to(roomId).emit("user-disconnected", user);
     });
   });
 

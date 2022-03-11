@@ -31,7 +31,7 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
   copySuccess = false
   wantCopyLink = false
   chat_message = ''
-  messages: VideoRoomMessage[] = []
+  messages: VideoRoomMessage[] | any = []
   streamSub: Subscription
   messSub: Subscription
   idSub: Subscription
