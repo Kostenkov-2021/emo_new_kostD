@@ -150,6 +150,7 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
         track.stop();
       });
     }
+    this.socketioService.exitRoom()
     this.socketioService.leaveVideoRoom(this.session)
   }
 

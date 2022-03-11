@@ -18,7 +18,6 @@ export class SocketioService {
   leaveRoomID: EventEmitter<string> = new EventEmitter()
   wantToConnect: EventEmitter<string> = new EventEmitter()
   isMeActive: EventEmitter<boolean> = new EventEmitter()
-
   socket = io(environment.SOCKET_ENDPOINT, {transports: ["polling"]})
   peer
   session
@@ -102,6 +101,10 @@ export class SocketioService {
 
   changeActive(data) {
     this.socket.emit("isActive", data)
+  }
+
+  exitRoom() {
+    this.id = undefined
   }
   
   setupSocketConnection(id, interlocutor) {       //вхождение в чат (ngOnInit)
