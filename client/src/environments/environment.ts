@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  SOCKET_ENDPOINT: `localhost:5050`,
+  SOCKET_ENDPOINT: `http://localhost:5050`,
   isMobile: window.innerWidth < 700,
   host: 'localhost',
   port: 5050,

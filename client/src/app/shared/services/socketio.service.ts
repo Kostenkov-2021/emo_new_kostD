@@ -18,7 +18,7 @@ export class SocketioService {
   leaveRoomID: EventEmitter<string> = new EventEmitter()
   wantToConnect: EventEmitter<string> = new EventEmitter()
 
-  socket = io.connect(environment.SOCKET_ENDPOINT, {transports: ["polling"]})
+  socket = io.connect(environment.SOCKET_ENDPOINT)
   peer
   session
 
