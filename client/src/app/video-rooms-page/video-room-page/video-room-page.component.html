@@ -57,10 +57,11 @@
 </div>
 
 
-<div class="info_container" *ngIf="status == -1 || status == -2">
+<div class="info_container" *ngIf="status < 0">
     <div class="info_box pNotAdmin">
         <div appEasyLang *ngIf="status == -1">Комната выключена</div>
         <div appEasyLang *ngIf="status == -2">Комната не найдена</div>
+        <div appEasyLang *ngIf="status == -3">Вы не можете открыть две комнаты одновременно</div>
     </div>
     <div class="exit" (click)="exit()"></div>
 </div>

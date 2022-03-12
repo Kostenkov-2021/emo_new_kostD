@@ -132,7 +132,6 @@ module.exports.getByIdPublic = async function(req, res, next) {
 module.exports.getByIdPrivate = async function(req, res) {
   try {
       const room = await VideoRoom.findOne({_id: req.params.id, $or: [{privateLevel: {$in: [0, 1]}}, {author: req.user.id}, {users: req.user.id}]}).lean()
-
       if (room) {
         room.user_refs = []
         for (let id of room.users) {
@@ -142,7 +141,7 @@ module.exports.getByIdPrivate = async function(req, res) {
       }
       res.status(200).json(room)
   } catch (e) {
-    res.status(404).json({message: "Комната не найдена"})
+    errorHandler(res, e)
   }
 }
 

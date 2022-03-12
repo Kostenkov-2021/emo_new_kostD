@@ -146,4 +146,13 @@ import { VideoRoomFormComponent } from './shared/components/video-room-form/vide
   entryComponents: [AnswersComponent],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+
+export class AppModule { 
+  
+}
+
+declare global {
+  interface Window {
+    session: string;
+  }
+}

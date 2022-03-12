@@ -116,8 +116,7 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
         } else {
           this.fetchMessages()
           window.addEventListener('beforeunload', e => {
-            e.preventDefault(); //per the standard
-            e.returnValue = ''; //required for Chrome
+            this.leaveRoom()
           });
           window.addEventListener('unload', event => {
             this.leaveRoom()
@@ -130,10 +129,15 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
                 .then(fp => fp.get())
                 .then(result => {
                   const visitorId = result.visitorId
-                  this.session = session
-                  this.session.anonimus_id = visitorId
-                  this.status = 2
-                  this.startStream()
+                  let twice = this.socketioService.isTwice()
+                  if (twice == visitorId) this.status = -3
+                  else {
+                    this.socketioService.twiceBrowser(visitorId)
+                    this.session = session
+                    this.session.anonimus_id = visitorId
+                    this.status = 2
+                    this.startStream()
+                  }
                 })
               
             }, error => this.status = 1)
@@ -150,6 +154,7 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
         track.stop();
       });
     }
+    this.socketioService.noTwice()
     this.socketioService.exitRoom()
     this.socketioService.leaveVideoRoom(this.session)
   }
@@ -162,9 +167,14 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
       .then(fp => fp.get())
       .then(result => {
         const visitorId = result.visitorId
-        this.session = {name: this.anonimName, anonimus_id: visitorId}
-        this.status = 2
-        this.startStream()
+        let twice = this.socketioService.isTwice()
+        if (twice == visitorId) this.status = -3
+        else {
+          this.socketioService.twiceBrowser(visitorId)
+          this.session = {name: this.anonimName, anonimus_id: visitorId}
+          this.status = 2
+          this.startStream()
+        }
       })
   }
 

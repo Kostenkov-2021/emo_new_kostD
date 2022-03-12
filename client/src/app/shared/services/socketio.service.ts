@@ -18,6 +18,7 @@ export class SocketioService {
   leaveRoomID: EventEmitter<string> = new EventEmitter()
   wantToConnect: EventEmitter<string> = new EventEmitter()
   isMeActive: EventEmitter<boolean> = new EventEmitter()
+
   socket = io(environment.SOCKET_ENDPOINT, {transports: ["polling"]})
   peer
   session
@@ -162,6 +163,32 @@ export class SocketioService {
 
   twiceConnect(userId) {
     this.socket.emit("twice-connect", userId);
+  }
+
+  onStorage (e) {
+    if (e.key === 'session' && e.newValue !== window.session)
+        localStorage.setItem("multitab", window.session);
+    if (e.key === "multitab" && e.newValue && e.newValue !== window.session) {
+        window.removeEventListener("storage", this.onStorage);
+        localStorage.setItem("session", localStorage.getItem("multitab"));
+        localStorage.removeItem("multitab");
+    }
+  };
+
+  isTwice(): string {
+    return localStorage.getItem("session")
+  }
+
+  twiceBrowser(id) {
+    window.session = id;
+    localStorage.setItem("session", window.session);
+    window.addEventListener('storage', this.onStorage);
+  }
+
+  noTwice () {
+    localStorage.removeItem("session");
+    localStorage.removeItem("multitab");
+    window.removeEventListener('storage', this.onStorage);
   }
 
 }
