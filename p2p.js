@@ -2,10 +2,8 @@
 const express = require("express");
 const app = express();
 
-const bodyParser = require('body-parser')
-
 const http = require("http").createServer(app);
-const io = require('socket.io').listen(http)
+const io = require('socket.io')(http)
 
 io.origins((_, callback) => {
   callback(null, true);
@@ -96,8 +94,6 @@ io.on('connection', (socket) => {
 
 
 app.use(require('morgan')('dev'))
-app.use(bodyParser.urlencoded({extended: true}))
-app.use(bodyParser.json())
 app.use(require('cors')())
 
 module.exports = http

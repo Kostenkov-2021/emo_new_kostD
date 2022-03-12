@@ -19,17 +19,16 @@ export class SocketioService {
   wantToConnect: EventEmitter<string> = new EventEmitter()
   isMeActive: EventEmitter<boolean> = new EventEmitter()
 
-  socket = io(environment.SOCKET_ENDPOINT, {transports: ["polling"]})
+  socket
   peer
   session
   id
-  socketID
 
   constructor() {
   }
 
   startStreamInVideoroom(stream, roomId, session) {
-    if (!this.socketID) this.socketID = this.socket.id
+    this.socket = io(environment.SOCKET_ENDPOINT, {transports: ["polling"]})
 
     this.peer = new Peer(this.id, {
       path: "/peer",
@@ -38,10 +37,10 @@ export class SocketioService {
       debug: 3,
       secure: environment.production
     })
+
     console.log(this.socket)
-    console.log(this.socketID)
     console.log(this.peer)
-    this.isMeActive.emit(this.socket.connected && !this.peer.disconnected && this.socket.id == this.socketID)
+    this.isMeActive.emit(!this.peer.disconnected)
     this.session = session
 
     this.peer.on("call", (call) => {
@@ -52,7 +51,8 @@ export class SocketioService {
     });
 
     this.socket.on('pong', () => {
-      this.isMeActive.emit(this.socket.connected && !this.peer.disconnected && this.socket.id == this.socketID)
+      console.log(this.socket)
+      this.isMeActive.emit(!this.socket.disconnected && !this.peer.disconnected)
     });
 
     this.peer.on('error', () => {
@@ -65,7 +65,7 @@ export class SocketioService {
 
     this.socket.on("disconnected", () => {
       console.log('disconnected')
-      this.isMeActive.emit(this.socket.connected && !this.peer.disconnected)
+      this.isMeActive.emit(false)
     });
 
     this.socket.on("user-connected", (user) => {
@@ -106,10 +106,11 @@ export class SocketioService {
 
   exitRoom() {
     this.id = undefined
+    this.socket.close()
   }
   
   setupSocketConnection(id, interlocutor) {       //вхождение в чат (ngOnInit)
-    console.log(this.socket)
+    this.socket = io(environment.SOCKET_ENDPOINT, {transports: ["polling"]})
     this.socket.emit('in-chat', id)
 
     this.socket.emit('online', interlocutor)
@@ -128,11 +129,13 @@ export class SocketioService {
     this.socket.emit('new message', {id, message})
   }
 
-  disconnectSocket(id: string) {      //выхождение из чата (ngOnDestroy)
+  disconnectSocket(id: string) {     //выхождение из чата (ngOnDestroy)
     this.socket.emit('leave room', id)
+    this.socket.close()
   }
 
   setupSocketConnectionGroup(id, group) {       //вхождение в чат (ngOnInit) group
+    this.socket = io(environment.SOCKET_ENDPOINT, {transports: ["polling"]})
     this.socket.emit('in-group', {group, id})
 
     this.socket.on('new-group-message', (message) => {
@@ -151,6 +154,7 @@ export class SocketioService {
 
   disconnectSocketGroup(group: string) {      //выхождение из чата (ngOnDestroy) group
     this.socket.emit('leave group room', group)
+    this.socket.close()
   }
 
   sendVideoRoomMessage(message, user) {

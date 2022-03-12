@@ -142,16 +142,16 @@
     display: block;
     height: 100%;
   }
-  
+
   .downloads {
-       margin: auto;
-       padding-bottom: 2vw;
-       padding-top: 6vw;
-       width: 11vw;
-       height: 11vw;
-       position: relative;
-       object-fit: cover;
-       display: block;
+    margin: auto;
+    padding-bottom: 2vw;
+    padding-top: 6vw;
+    width: 11vw;
+    height: 11vw;
+    position: relative;
+    object-fit: cover;
+    display: block;
   }
 
   .downloads-picture {
