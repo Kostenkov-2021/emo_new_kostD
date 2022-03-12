@@ -10,15 +10,6 @@
   background-color: #161d29;
   overflow: hidden;
 }
-.link_container {
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
 
 .exit {
   position: fixed;
@@ -65,8 +56,8 @@
 .green {background: green;}
 .link_box {
   width: 600px;
-  height: 80vw;
-  max-width: 200px;
+  height: 200px;
+  max-width: 80vw;
   max-height: 100%;
   background-color: #fff;
   border-radius: 10px;
@@ -139,7 +130,7 @@
 
 .options {
   position: fixed;
-  z-index: 10;
+  z-index: 5;
   bottom: 0;
   left: 0;
   padding: 0.1rem;
@@ -287,11 +278,4 @@
   }
 } */
 
-.link_container {
-  position: fixed;
-  display: block;
-  height: 100vh;
-  width: 100vw;
-  z-index: 10;
-}
 

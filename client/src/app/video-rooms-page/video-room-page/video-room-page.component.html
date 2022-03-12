@@ -84,7 +84,7 @@
   <div class="exit" (click)="exit()"></div>
 </div>
 
-<div class="link_container" *ngIf="wantCopyLink">
+<div class="backdrop" *ngIf="wantCopyLink">
     <div class="link_box">
         <div appEasyLang class="pNotAdmin">Копировать ссылку</div>
         <div *ngIf="!copySuccess">{{host}}{{router.url}}</div>
