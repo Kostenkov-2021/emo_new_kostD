@@ -1,0 +1,42 @@
+<div class="backdrop"></div>
+
+<div class="tablo_uv">
+    <form 
+    id="edit_event" 
+    [formGroup]="form_del">
+
+        <p class="pNotAdmin" appEasyLang>{{room.title}}</p>
+        <p class="pNotAdmin" appEasyLang>Создатель {{room.author_ref.name}} {{room.author_ref.surname}}</p>
+        <img 
+        class="now_img" 
+        [src]="room.image"
+        *ngIf="room.image"
+        > 
+
+        <br><br>
+        <p class="pNotAdmin" appEasyLang>Что вы хотите сделать?</p>
+        <br> 
+        <div class="radio_yes"></div>
+        <label class="radio" [ngClass]="{checked: form_del.value.whatDo == 'active'}">
+            <input type="radio" value="active" formControlName="whatDo" hidden> 
+            <div class="radio_0 green-cursor"></div> 
+        </label>
+        <div class="radio_yes"></div>
+        <label class="radio" [ngClass]="{checked: form_del.value.whatDo == 'nothing'}">
+            <input type="radio" value="nothing" formControlName="whatDo" hidden>
+            <div class="radio_1 green-cursor"></div>
+        </label>
+        <div class="radio_yes"></div>
+        <label class="radio" [ngClass]="{checked: form_del.value.whatDo == 'delete'}" *ngIf="room.author == session._id">
+            <input type="radio" value="delete" formControlName="whatDo" hidden>
+            <div class="radio_2 green-cursor"></div>
+        </label>
+        <br> <br>
+        <p class="pNotAdmin" appEasyLang *ngIf="form_del.value.whatDo == 'nothing'">Закрыть форму?</p>
+        <p class="pNotAdmin" appEasyLang *ngIf="form_del.value.whatDo == 'active'">Вернуть видеокомнату в активные?</p>
+        <p class="pNotAdmin" appEasyLang *ngIf="form_del.value.whatDo == 'delete'">Удалить видеокомнату навсегда?</p>
+    
+        <div id="cross_pict" (click)="close()" class="green-cursor"></div>
+        <div id="tick_pict" (click)="onSubmit()" class="green-cursor"></div>
+    </form>
+</div>

@@ -1,0 +1,13 @@
+.zoom_box {
+    width: auto;
+    height: auto;
+    position: relative;
+}
+
+.vtablo { 
+    margin: 0;
+  }
+
+.tablo_uv {
+    overflow: hidden;
+}

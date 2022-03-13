@@ -186,7 +186,7 @@ export interface VideoRoom {
   _id?: string
   title: string
   active?: number
-  institution?: string
+  author_ref?: User
 }
 
 export interface VideoRoomMessage {

@@ -54,6 +54,7 @@
         </div>
         </div>
     </form>
+    <div class="green-cursor button_2 delete_pict" *ngIf="room._id" (click)="delete()"></div>
     <div class="green-cursor button_2 pause" *ngIf="room.active == 1" (click)="changeActive(0)"></div>
     <div class="green-cursor button_2 resume" *ngIf="room.active == 0" (click)="changeActive(1)"></div>
     <div id="cross_pict" (click)="close()" class="green-cursor"></div>

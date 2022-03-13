@@ -339,7 +339,7 @@ module.exports.create = async function(req, res) {
 
 module.exports.getFriend = async function (req, res) {
   try {
-      const user = await User.findOne({_id: req.params.id}, {photo: 1, sex: 1})
+      const user = await User.findOne({_id: req.params.id}, {photo: 1, sex: 1, name: 1, surname: 1})
       res.status(200).json(user)
   } catch (e) {
       errorHandler(res, e)

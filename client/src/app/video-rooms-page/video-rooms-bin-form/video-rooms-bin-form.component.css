@@ -1,0 +1,46 @@
+.radio_0 {
+    height: 6vw;
+    width: 6vw;
+    background: url('/images/return.png');
+    background-size: 100% 100%;
+}
+.radio_1 {
+    height: 6vw;
+    width: 6vw;
+    background: url('/images/notpeople.png');
+    background-size: 100% 100%;
+}
+.radio_2 {
+    height: 6vw;
+    width: 6vw;
+    background: url('/images/bin_transparent.png');
+    background-size: 100% 100%;
+}
+label.radio {
+    display: inline-block;
+}
+.radio_yes {
+    width: 60px;
+    display: inline-block;
+}
+
+.tablo_uv {
+    padding: 15px;
+    overflow-y: auto;
+}
+
+#cross_pict, #tick_pict {
+    bottom: 6%;
+}
+
+#cross_pict {
+    left: 21%;
+}
+
+#tick_pict {
+    right: 18%;
+}
+
+.checked{
+    outline: 3px black solid;
+}

@@ -51,7 +51,7 @@ export class SocketioService {
     });
 
     this.socket.on('pong', () => {
-      console.log(this.socket)
+      // console.log(this.socket)
       this.isMeActive.emit(!this.socket.disconnected && !this.peer.disconnected)
     });
 
@@ -101,12 +101,12 @@ export class SocketioService {
   }
 
   changeActive(data) {
-    this.socket.emit("isActive", data)
+    if (this.socket) this.socket.emit("isActive", data)
   }
 
   exitRoom() {
     this.id = undefined
-    this.socket.close()
+    if (this.socket) this.socket.close()
   }
   
   setupSocketConnection(id, interlocutor) {       //вхождение в чат (ngOnInit)
@@ -162,11 +162,11 @@ export class SocketioService {
   }
 
   leaveVideoRoom(user) {
-    this.socket.emit("leave-video-room", user);
+    if (this.socket) this.socket.emit("leave-video-room", user);
   }
 
   twiceConnect(userId) {
-    this.socket.emit("twice-connect", userId);
+    if (this.socket) this.socket.emit("twice-connect", userId);
   }
 
   onStorage (e) {

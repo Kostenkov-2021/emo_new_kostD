@@ -7,6 +7,7 @@ const router = express.Router()
 router.post('/', passport.authenticate('jwt', {session: false}), controller.create)
 router.delete('/:id', passport.authenticate('jwt', {session: false}), controller.remove)
 router.patch('/:id', passport.authenticate('jwt', {session: false}), upload.single('image'), controller.update)
+router.get('/archive', passport.authenticate('jwt', {session: false}), controller.getArchive)
 router.get('/:id', controller.getByIdPublic, passport.authenticate('jwt', {session: false}), controller.getByIdPrivate)
 router.get('/', passport.authenticate('jwt', {session: false}), controller.getAll)
 

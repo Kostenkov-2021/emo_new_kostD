@@ -48,6 +48,7 @@ import { AnalyticsComponent } from './analytics/analytics.component';
 import { RegistrPageComponent } from './registr-page/registr-page.component';
 import { VideoRoomsPageComponent } from './video-rooms-page/video-rooms-page.component';
 import { VideoRoomPageComponent } from './video-rooms-page/video-room-page/video-room-page.component';
+import {VideoRoomsBinComponent} from './video-rooms-page/video-rooms-bin/video-rooms-bin.component'
 
 const routes: Routes = [
   {
@@ -69,7 +70,8 @@ const routes: Routes = [
       {path: 'people/photolikes', component: PhotolikesPageComponent},
       {path: 'people/games', component: GamesComponent},
       {path: 'people/events', component: EventsPageComponent},
-      {path: 'people/videorooms', component: VideoRoomsPageComponent}
+      {path: 'people/videorooms', component: VideoRoomsPageComponent},
+      {path: 'people/videorooms/bin', component: VideoRoomsBinComponent}
     ]
   },
   {path: 'videoroom/:id', component: VideoRoomPageComponent},

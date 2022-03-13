@@ -172,4 +172,15 @@ audio, video {
     transform: rotateY(180deg);
     -webkit-transform: rotateY(180deg);
     -moz-transform: rotateY(180deg);
+}
+
+.zoom_button {
+    position: relative;
+    display: inline-block;
+    z-index: 5;
+    height: 50px;
+    width: 50px;
+    background: wheat;
+    margin-left: -50px;
+    /* bottom: 0; */
   }

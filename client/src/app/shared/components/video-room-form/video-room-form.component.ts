@@ -103,7 +103,14 @@ export class VideoRoomFormComponent implements OnInit, OnDestroy {
     this.form.disable()
     this.videoroomService.update({...this.room, ...this.form.value}, this.image).subscribe(room => {
       this.room = room
+      console.log(room)
       this.changeUsers()
+    }, error => {console.log(error)})
+  }
+
+  delete() {
+    this.videoroomService.update({...this.room, active: 2}).subscribe(room => {
+      this.result.emit(false)
     }, error => {console.log(error)})
   }
 

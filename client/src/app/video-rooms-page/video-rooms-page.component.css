@@ -10,6 +10,24 @@
     border-radius: 35%;
 }
 
+.room_author {
+    position: relative;
+    float: left;
+    margin-left: 3vw;
+    top: 1vw;
+    margin-top: -4vw;
+    height: calc(4vw - 6px);
+    width: calc(4vw - 6px);
+    z-index: 2;
+    border-radius: 35%;
+    border-style: solid;
+    border-width: 3px;
+}
+
+.libraryName {
+    font-size: 1.8vw;
+}
+
 .no_active_room {
     background-color: red;
 }

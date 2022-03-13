@@ -36,8 +36,8 @@
   height: auto;
   display: inline-block;
   margin-left: 10%;
-  margin-top: 3%;
-  margin-bottom: 3%;   
+  margin-top: 2vh;
+  margin-bottom: 2vh;   
   vertical-align: top;
 }
   
@@ -52,7 +52,7 @@
     position: relative;
     margin-top: 1%;
     padding-top: 0.2cm;
-    padding-bottom: 0.1cm;
+    padding-bottom: 0.2cm;
   }
   
   img.pict {
@@ -171,7 +171,7 @@
       text-align: center;
       position: relative;
       padding-top: 0.2cm;
-      padding-bottom: 0.1cm;
+      padding-bottom: 0.2cm;
   }
   
   .box {
@@ -189,15 +189,16 @@
     top: 10%;
     left: 20%;
     background: #FFFFFF;
-    z-index: 2;
     border: 4px solid red;
     border-radius: 12px;
     vertical-align: baseline;
     z-index: 5;
+    object-fit: contain;
+    overflow: auto;
    }
    
   .vtablo { 
-    font-size: 1.2cm;
+    font-size: calc(10px + 2vw);
     text-align: center;
     vertical-align: middle;
     margin-top: 2%;
@@ -213,16 +214,14 @@
      margin-top: 8%;
    }
   
-  #ontablo_uv { 
-    max-height: 90%;
-    height: auto;
-    width: auto;
-    overflow: hidden;
-    margin-top: 3%;
-    margin-left: auto;
-    margin-right: auto;
+  .ontablo_uv { 
+    height: calc(100%);
+    /* top: 5%; */
+    margin: auto;
     display: block;
-    max-width: 90%;
+    width: calc(100%);
+    /* position: relative; */
+    object-fit: contain;
   }
 
   .ontablo_vote {

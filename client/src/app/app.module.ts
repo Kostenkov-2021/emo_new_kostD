@@ -65,6 +65,8 @@ import { RegistrPageComponent } from './registr-page/registr-page.component';
 import { VideoRoomsPageComponent } from './video-rooms-page/video-rooms-page.component';
 import { VideoRoomPageComponent } from './video-rooms-page/video-room-page/video-room-page.component';
 import { VideoRoomFormComponent } from './shared/components/video-room-form/video-room-form.component';
+import { VideoRoomsBinComponent } from './video-rooms-page/video-rooms-bin/video-rooms-bin.component';
+import { VideoRoomsBinFormComponent } from './video-rooms-page/video-rooms-bin-form/video-rooms-bin-form.component';
 
 @NgModule({
   declarations: [
@@ -124,7 +126,9 @@ import { VideoRoomFormComponent } from './shared/components/video-room-form/vide
     RegistrPageComponent,
     VideoRoomsPageComponent,
     VideoRoomPageComponent,
-    VideoRoomFormComponent
+    VideoRoomFormComponent,
+    VideoRoomsBinComponent,
+    VideoRoomsBinFormComponent
   ],
   imports: [
     BrowserModule,

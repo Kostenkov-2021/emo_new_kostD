@@ -42,6 +42,7 @@ export class ChatLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   letters: Message[] = []
   mesloading = false
   withAnswers = []
+  text_bottom: string
 
   constructor(private loginService: LoginService,
     private route: ActivatedRoute,
@@ -162,13 +163,15 @@ export class ChatLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  openZoom(src) {
+  openZoom(src, text_bottom?) {
     this.image = src
+    this.text_bottom = text_bottom
     this.zoom = true
   }
 
   closeZoom(result) {
     if (result) this.zoom = false
+    this.text_bottom = null
   }
 
   screenRead(text) {

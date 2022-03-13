@@ -1,0 +1,14 @@
+<div class="box-friend" *ngFor="let room of rooms">
+    <img 
+    class="friendAvatar dark-{{session.firstColor}}-border green-cursor" 
+    [src]="room.image ? room.image : '/images/videorooms.png'"
+    (click)="openForm(room)">
+
+    <div class="friendName tc dark-{{session.firstColor}}-border green-cursor" (click)="openForm(room)">
+        <span appEasyLang>{{room.title}}</span><br>
+    </div>
+</div>
+
+<div class="exit green-cursor" (click)="goToVP()"></div>
+
+<app-video-rooms-bin-form *ngIf="form" [room]="currentRoom" [session]="session" (result)="closeForm($event)"></app-video-rooms-bin-form>

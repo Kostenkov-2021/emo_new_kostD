@@ -47,6 +47,7 @@ export class GroupLayoutComponent implements OnInit, OnDestroy {
   
   withAnswers = []
   eventForm = false
+  text_bottom: string
 
   constructor(private loginService: LoginService,
     private route: ActivatedRoute,
@@ -145,13 +146,15 @@ export class GroupLayoutComponent implements OnInit, OnDestroy {
     this.fetch()
   }
 
-  openZoom(src) {
+  openZoom(src, text_bottom?) {
     this.image = src
+    this.text_bottom = text_bottom
     this.zoom = true
   }
 
   closeZoom(result) {
     if (result) this.zoom = false
+    this.text_bottom = null
   }
 
   openForm() {

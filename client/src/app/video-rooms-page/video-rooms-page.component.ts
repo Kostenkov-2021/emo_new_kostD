@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { User, VideoRoom } from '../shared/interfaces';
 import { LoginService } from '../shared/services/login.service';
@@ -26,8 +27,13 @@ export class VideoRoomsPageComponent implements OnInit {
   filter: any = {}
   form: boolean
   currentRoom: VideoRoom
+  image: string
+  zoom: boolean
+  text_top: string
+  text_bottom: string
 
   constructor(private videoroomService: VideoRoomService,
+    private router: Router,
     private loginService: LoginService) { }
 
   ngOnInit(): void {
@@ -60,13 +66,18 @@ export class VideoRoomsPageComponent implements OnInit {
     this.fetch(false)
   }
 
+  goToBin() {
+    this.router.navigate(['/people/videorooms/bin'])
+  }
+
   create() {
     let currentRoom = {
       author: this.session._id,
       privateLevel: 0,
       users: [],
-      title: "Новая видеокомната",
-      image: '/images/videorooms.png'
+      title: "Новая комната",
+      image: '/images/videorooms.png',
+      active: 0
     }
     this.openForm(currentRoom)
   }
@@ -77,9 +88,11 @@ export class VideoRoomsPageComponent implements OnInit {
   }
 
   closeForm(result) {
-    if (result) {
-      this.form = false
+    if (!result) {
+      let index = this.rooms.indexOf(this.currentRoom)
+      this.rooms.splice(index, 1)
     }
+    this.form = false
   }
 
   editRoom(room) {
@@ -98,6 +111,20 @@ export class VideoRoomsPageComponent implements OnInit {
 
   goToRoom(id: string) {
     this.videoroomService.goToRoom(id)
+  }
+
+  openZoom(src, text_top?, text_bottom?) {
+    this.image = src
+    this.text_bottom = text_bottom
+    this.text_top = text_top
+    this.zoom = true
+  }
+
+  closeZoom(result) {
+    if (result) this.zoom = false
+    this.image = null
+    this.text_bottom = null
+    this.text_top = null
   }
 
   ngOnDestroy() {

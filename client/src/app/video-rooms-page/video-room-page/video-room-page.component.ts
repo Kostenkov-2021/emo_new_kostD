@@ -265,12 +265,36 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
       }
       if (show) {
         video.play();
+        // video.onmouseover = () => this.showZoom(user.id)
         this.videoGrid.nativeElement.append(video)
-        stream.onactive = (user) => this.active(user)
-        stream.oninactive = (user) => this.inactive(user)
+        stream.onactive = () => this.active(user)
+        stream.oninactive = () => this.inactive(user)
       }
     });
   };
+  
+
+  showZoom(id) {
+    console.log(id)
+    if (document.getElementsByClassName(id+"zoom").length) return
+    const zoom = document.createElement("div")
+    zoom.classList.add("zoom_button", id+"zoom")
+    const children: any = this.videoGrid.nativeElement.childNodes
+    let len = children.length
+    for (let i = 0; i < len; i++) {
+      if (children[i].user && id && children[i].user.id == id) {
+        this.videoGrid.nativeElement.insertBefore(zoom, children[i+1])
+      }
+    }
+  }
+
+  closeZoom() {
+    const zoom = document.getElementsByClassName("zoom_button")
+    let len = zoom.length
+    for (let i = len-1; i >= 0; i--) {
+      zoom[i].remove()
+    }
+  }
 
   active (user)  {
     console.log('active', user.id)

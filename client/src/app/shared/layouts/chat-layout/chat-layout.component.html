@@ -2,8 +2,8 @@
      <div class="chat light-{{session.firstColor}}-bg">
           <div *ngIf="user$ | async as user; else loader">
                <div id="header" class="light-{{session.secondColor}}-bg dark-{{session.secondColor}}-border">
-                    <img class="avatar green-cursor" id="friend" [src]="user.photo" (click)="openZoom(user.photo)">
-                    <img class="avatar green-cursor" id="me" [src]="session.photo" (click)="openZoom(session.photo)">
+                    <img class="avatar green-cursor" id="friend" [src]="user.photo" (click)="openZoom(user.photo, user.name + ' ' + user.surname)">
+                    <img class="avatar green-cursor" id="me" [src]="session.photo" (click)="openZoom(session.photo, session.name + ' ' + session.surname)">
                </div>
 
                <div id="section" class="light-{{session.secondColor}}-bg">
@@ -126,7 +126,7 @@
           (deleteAll)="clearChat($event)"></app-chat-page>
      </div>
 
-     <app-picture-zoom *ngIf="zoom" [image]="image" (result)="closeZoom($event)"></app-picture-zoom>
+     <app-picture-zoom *ngIf="zoom" [image]="image" [text_bottom]="text_bottom" (result)="closeZoom($event)"></app-picture-zoom>
      <app-delete-one-message *ngIf="deleteMessage" [letter]="deleteID" (result)="closeDeleteMessage($event)"></app-delete-one-message>
      <ng-template appRef></ng-template>
 </div>

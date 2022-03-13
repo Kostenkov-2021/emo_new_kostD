@@ -25,6 +25,14 @@ export class VideoRoomService {
     })
   }
 
+  fetchArchive(params: any): Observable<VideoRoom[]> {
+    return this.http.get<VideoRoom[]>(`/api/videorooms/archive`, {
+      params: new HttpParams({
+        fromObject: params
+      })
+    })
+  }
+
   update(videoroom: VideoRoom, image?: File): Observable<VideoRoom> {
     const fd = new FormData()
     if (typeof videoroom.active == 'number') fd.append('active', videoroom.active.toString())

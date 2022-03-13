@@ -160,8 +160,13 @@ label.radio {
     left: auto;
     height: 2cm;
     width: 2cm;
-    display: inline-block;
     position: fixed;
+}
+
+.delete_pict {
+    bottom: calc(6% + 4.2cm) !important; 
+    background: url('/images/bin_transparent.png');
+    background-size: 100% 100%;
 }
 
 .resume {

@@ -1,6 +1,7 @@
 const errorHandler = require('../utils/errorHandler');
 const User = require('../models/User');
 const VideoRoom = require('../models/VideoRoom');
+const VideoRoomMessage = require('../models/VideoRoomMessage');
 // const { Expo } = require('expo-server-sdk')
 // const expo = new Expo();
 
@@ -12,14 +13,7 @@ module.exports.create = async function(req, res) {
         {$set: {last_active_at: now}, $inc: {score: 1}},
         {new: true})
 
-        const room = await new VideoRoom({
-            author: req.user.id,
-            privateLevel: req.body.privateLevel,
-            users: req.body.users,
-            image: req.body.image,
-            title: req.body.title
-        }).save()
-
+        const room = await new VideoRoom(req.body).save()
         res.status(201).json(room)
 
     } catch (e) {
@@ -36,9 +30,9 @@ module.exports.remove = async function(req, res) {
         {new: true})
 
         const room = await VideoRoom.findById(req.params.id, 'author').lean()
-        const author = await User.findById(room.author, 'institution').lean()
-        if (room.author == req.user.id || req.user.levelStatus == 1 || (req.user.levelStatus == 2 && author.institution == req.user.institution)) {
-          await VideoRoom.updateOne({_id: req.params.id}, {$set: {active: 2}}, {new: true})
+        if (room.author == req.user.id) {
+          await VideoRoom.deleteOne({_id: req.params.id})
+          await VideoRoomMessage.deleteMany({room: req.params.id})
           res.status(200).json({
             message: 'Видеокомната удалена.'
           })
@@ -65,10 +59,11 @@ module.exports.update = async function(req, res) {
       if (req.file) updated.image = req.file.location
 
       const room = await VideoRoom.findById(req.params.id, 'author').lean()
-      const author = await User.findById(room.author, 'institution').lean()
+      const author = await User.findById(room.author, '_id institution photo name surname').lean()
       if (room.author == req.user.id || req.user.levelStatus == 1 || (req.user.levelStatus == 2 && author.institution == req.user.institution)) {
-        const room = await VideoRoom.findOneAndUpdate({_id: req.params.id}, {$set: updated}, {new: true})
-        res.status(200).json(room)
+        const new_room = await VideoRoom.findOneAndUpdate({_id: req.params.id}, {$set: updated}, {new: true}).lean()
+        new_room.author_ref = author
+        res.status(200).json(new_room)
       } else {
         res.status(403).json({
           message: 'Недостаточно прав для совершения операции.'
@@ -82,33 +77,55 @@ module.exports.update = async function(req, res) {
 
 module.exports.getAll = async function(req, res) {
     try {
-        const now = new Date();
-        await User.updateOne(
-        {_id: req.user.id}, 
-        {$set: {last_active_at: now}},
-        {new: true})
+      const now = new Date();
+      await User.updateOne(
+      {_id: req.user.id}, 
+      {$set: {last_active_at: now}},
+      {new: true})
 
-        const rooms = await VideoRoom
-        .find({active: {$ne: 2}, $or: [{privateLevel: {$in: [0, 1]}}, {author: req.user.id}, {users: req.user.id, privateLevel: 2}]})
-          .skip(+req.query.offset)
-          .limit(+req.query.limit)
-          .sort({createTime: -1})
-          .lean()
+      const rooms = await VideoRoom
+      .find({active: {$ne: 2}, $or: [{privateLevel: {$in: [0, 1]}}, {author: req.user.id}, {users: req.user.id, privateLevel: 2}]})
+      .skip(+req.query.offset)
+      .limit(+req.query.limit)
+      .sort({createTime: -1})
+      .lean()
 
-        for (const room of rooms) {
-          const author = await User.findById(room.author).lean()
-          if (author) room.institution = author.institution
-          room.user_refs = []
-          for (let id of room.users) {
-            const user = await User.findOne({_id: id}, {_id: 1, name: 1, surname: 1, institution: 1, photo: 1}).lean()
-            room.user_refs.push(user)
-          }
-        }
-        res.status(200).json(rooms)
+      for (const room of rooms) {
+        const author = await User.findById(room.author, '_id institution photo name surname').lean()
+        if (author) room.author_ref = author
+      }
+      res.status(200).json(rooms)
 
     } catch (e) {
         errorHandler(res, e) 
     }
+}
+
+module.exports.getArchive = async function(req, res) {
+  try {
+    const q = {active: 2}
+    if (req.user.levelStatus != 1 && req.user.levelStatus != 2) q.author = req.user.id
+    if (req.user.levelStatus == 2) {
+      const users = await User.distinct("_id", {institution: req.user.institution})
+      q.author = {$in: users}
+    }
+    const rooms = await VideoRoom
+    .find(q)
+    .skip(+req.query.offset)
+    .limit(+req.query.limit)
+    .sort({createTime: -1})
+    .lean()
+
+    for (const room of rooms) {
+      const author = await User.findById(room.author, '_id institution photo name surname').lean()
+      if (author) room.author_ref = author
+    }
+
+    res.status(200).json(rooms)
+
+  } catch (e) {
+      errorHandler(res, e) 
+  }
 }
 
 module.exports.getByIdPublic = async function(req, res, next) {
@@ -121,6 +138,8 @@ module.exports.getByIdPublic = async function(req, res, next) {
             const user = await User.findOne({_id: id}, {_id: 1, name: 1, surname: 1, institution: 1, photo: 1}).lean()
             room.user_refs.push(user)
           }
+          const author = await User.findById(room.author, '_id institution photo name surname').lean()
+          if (author) room.author_ref = author
           res.status(200).json(room)
         }
         next()
@@ -138,6 +157,8 @@ module.exports.getByIdPrivate = async function(req, res) {
           const user = await User.findOne({_id: id}, {_id: 1, name: 1, surname: 1, institution: 1, photo: 1}).lean()
           room.user_refs.push(user)
         }
+        const author = await User.findById(room.author, '_id institution photo name surname').lean()
+        if (author) room.author_ref = author
       }
       res.status(200).json(room)
   } catch (e) {
@@ -147,9 +168,7 @@ module.exports.getByIdPrivate = async function(req, res) {
 
 module.exports.pushUser = async function(req, res) {  
   try {
-    console.log('here 1')
     await VideoRoom.updateOne({_id: req.params.id}, {$addToSet: {users: req.params.user}}, {new: true}).lean()
-    console.log('here 2')
     res.status(200).json({message: 'Добавлено'})
   } catch (e) {
       errorHandler(res, e)
