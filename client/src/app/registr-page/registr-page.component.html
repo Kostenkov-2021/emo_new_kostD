@@ -52,7 +52,7 @@
             <input name="file" type="file" hidden (change)='onFileUpload($event)'> 
             <div class="green-cursor" [ngClass]="{checked_file: image, no_file: !image}"></div> 
         </label><br>
-        <p class="entrance tc notadmin" appEasyLang>Учреждение:</p>
+        <p class="entrance tc notadmin" appEasyLang>Организания:</p>
         <select 
         class="inheader green-cursor" 
         *ngIf="institutions$ | async as institutions" 
@@ -61,7 +61,7 @@
             <option *ngFor="let institution of institutions" value="{{institution._id}}">{{institution.name}}</option>
         </select>
         <p class="entrance tc notadmin" appEasyLang style="width: 80vw;">Любая дополнительная информация:</p>
-        <textarea formControlName="info" class="textarea text-cursor" placeholder="{{form.value.institution ? 'дополнительная информация' : 'укажите учреждение'}}"></textarea> 
+        <textarea formControlName="info" class="textarea text-cursor" placeholder="{{form.value.institution ? 'дополнительная информация' : 'укажите организацию'}}"></textarea> 
         <br>
 
         <button 

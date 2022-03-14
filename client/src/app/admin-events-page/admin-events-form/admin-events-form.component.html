@@ -50,7 +50,7 @@ class="dark-{{session.firstColor}}-border"
 
         <div *ngIf="event.status == 0">
             <div *ngIf="form.value.p_status == 1 && institutions"> 
-                <p class="dark-{{session.firstColor}}-color">Выберите учреждения:</p>
+                <p class="dark-{{session.firstColor}}-color">Выберите организации:</p>
                 <button (click)="checkAll_1()" type="button">Выбрать все</button>
                 <button (click)="checkNobody_1()" type="button">Отменить все</button>
                 <div *ngFor="let institution of institutions">
@@ -113,7 +113,7 @@ class="dark-{{session.firstColor}}-border"
             <div *ngIf="form.value.p_status == 2">
                 <p class="dark-{{session.firstColor}}-color">Кому рассылать:</p>   
             
-                <p class="dark-{{session.firstColor}}-color">Учреждение:</p>
+                <p class="dark-{{session.firstColor}}-color">Организания:</p>
                 <select *ngIf="institutions" formControlName="institution" (change)="changeInstitution()">
                     <option 
                     *ngFor="let institution of institutions" 

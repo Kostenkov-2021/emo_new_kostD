@@ -40,7 +40,7 @@ export class SocketioService {
 
     console.log(this.socket)
     console.log(this.peer)
-    this.isMeActive.emit(!this.peer.disconnected)
+    this.isMeActive.emit(!this.socket.disconnect && !this.peer.disconnect)
     this.session = session
 
     this.peer.on("call", (call) => {

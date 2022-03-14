@@ -71,8 +71,9 @@
     margin-left: 2%;
     height: 0.8cm;
     font-size: 0.5cm;
-    width: 50%;
+    width: 64%;
     margin-top: 7px;
+    margin-left: 10%;
 }
 
 .description {
@@ -88,6 +89,7 @@
 
 .all {
     height: 100%;
-    width: 100%;
-    overflow: auto;
+    width: calc(100% - 3px);
+    overflow-y: auto;
+    overflow-x: hidden;
 }

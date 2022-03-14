@@ -11,7 +11,7 @@ const eventSchema = new Schema({
     ref: 'users',
     type: [Schema.Types.ObjectId]
   },
-  institutions: {     //учреждения
+  institutions: {     //организации
     ref: 'institutions',
     type: [Schema.Types.ObjectId]
   },

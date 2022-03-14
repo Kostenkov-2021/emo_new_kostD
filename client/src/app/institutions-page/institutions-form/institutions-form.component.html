@@ -7,11 +7,24 @@ class="institution dark-{{session.firstColor}}-border"
     <label for="submit_button" class="inst-edit inst-right middle-{{session.firstColor}}-bg-hover">Сохранить</label>
 
     <a class="inst-edit inst-right middle-{{session.firstColor}}-bg-hover" routerLink="/manage/institutions">Назад</a>
+    <p class="in_user_filtr dark-{{session.firstColor}}-color">Название:</p>
     <input type="text" class="inst-span" formControlName="name">  <br>
+
+    <p class="in_user_filtr dark-{{session.firstColor}}-color">Регион:</p>
+    <select *ngIf="regions$ | async as regions" formControlName="region">
+        <option  value="">Выберите</option>
+        <option *ngFor="let region of regions" value="{{region._id}}">{{region.name}}</option>
+        <option  value="add">Другой</option>
+    </select>
+
+    <div *ngIf="form.value.region == 'add'">
+        <p class="in_user_filtr dark-{{session.firstColor}}-color">Новый регион:</p>
+        <input type="text" class="inst-span" formControlName="new_region">  <br>
+    </div>
 
     <p class="in_new_user dark-{{session.firstColor}}-color">Картинка:</p>
     
-    <input type="file" formControlName="photo" (change)="onFileUpload($event)"><br>
+    <input type="file" (change)="onFileUpload($event)"><br>
     <img 
     class="now_img" 
     [src]="imagePreview"

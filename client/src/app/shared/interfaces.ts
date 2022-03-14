@@ -59,6 +59,12 @@ export interface Messages {
 export interface Institution {
   name: string
   img?: string
+  region?: string
+  _id?: string
+}
+
+export interface Region {
+  name: string
   _id?: string
 }
 

@@ -34,8 +34,12 @@ export class PeopleService {
     return this.http.get<Users>(`/api/people/friends/0`)
   }
 
-  getInstitutions(): Observable<Institution[]> {
-    return this.http.get<Institution[]>(`/api/manage/institutions/search`)
+  getInstitutions(params: any = {}): Observable<Institution[]> {
+    return this.http.get<Institution[]>(`/api/manage/institutions/search`, {
+      params: new HttpParams({
+        fromObject: params
+      })
+    })
   }
 
   newScore(score: number): Observable<MessageFromServer> {

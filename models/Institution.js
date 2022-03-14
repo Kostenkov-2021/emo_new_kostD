@@ -7,6 +7,10 @@ const institutionSchema = new Schema({
     required: true,
     unique: true
   },
+  region: {
+    ref: 'regions',
+    type: Schema.Types.ObjectId
+  },
   img: {
     type: String
   }

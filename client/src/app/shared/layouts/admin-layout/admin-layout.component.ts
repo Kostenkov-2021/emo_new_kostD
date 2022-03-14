@@ -16,8 +16,8 @@ export class AdminLayoutComponent implements OnInit {
 
   links = [
     {url: '/manage/users', name: 'Пользователи'},
-    {url: '/manage/institutions', name: 'Учреждения'},
-    {url: '/manage/pictures', name: 'Пиктограммы'},
+    {url: '/manage/institutions', name: 'Организации'},
+    {url: '/manage/pictures', name: 'Библиотека'},
     {url: '/manage/events', name: 'Мероприятия'},
     {url: '/manage/analytics', name: 'Аналитика'}
   ]

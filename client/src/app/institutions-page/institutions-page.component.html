@@ -1,5 +1,31 @@
 <div *ngIf="session$ | async as session; else loader">
-    <div *ngIf="institutions$ | async as institutions; else loader">
+    <div *ngIf="session.levelStatus == 1" class="user_filtr">
+        <p class="in_user_filtr dark-{{session.firstColor}}-color">Регион:</p>
+        <select *ngIf="!reloading" [(ngModel)]="region" (change)="onFilter()">
+            <option value="">Любой</option>
+            <option *ngFor="let region of regions" value="{{region._id}}">{{region.name}} ({{region.count}})</option>
+        </select>
+    </div>
+
+    <div class="institution dark-{{session.firstColor}}-border">
+        <span class="dark-{{session.firstColor}}-color">Активные</span> - участники, заходившие в аккаунт хотя бы один раз за последние 30 дней <br>
+        <span class="dark-{{session.firstColor}}-color">Без активности</span> - участники, не заходившие в аккаунт ни разу за всё время
+    </div>
+
+    <div *ngIf="!reloading; else loader">
+        
+        <div *ngIf="region && session.levelStatus == 1" class="institution dark-{{session.firstColor}}-border">
+            <div
+            style="cursor: pointer;"
+            class="inst-edit inst-right middle-{{session.firstColor}}-bg-hover" 
+            (click)="update()">
+                Сохранить
+            </div>
+            <form [formGroup]="form">
+                <p class="dark-{{session.firstColor}}-color">Редактировать регион:</p>
+                <input type="text" class="inst-span" formControlName="name">  <br>
+            </form>
+        </div>
         <div 
         class="institution dark-{{session.firstColor}}-border"
         *ngFor="let institution of institutions">
@@ -10,13 +36,19 @@
                 Редактировать
             </a>
             <a 
-            *ngIf="institutions.length > 1"
+            *ngIf="session.levelStatus == 1"
             class="inst-edit inst-right middle-{{session.firstColor}}-bg-hover" 
             [routerLink]="['/manage/institutions/delete', institution._id]">
                 Удалить
             </a>
                 
-            <span class="inst-span">{{institution.name}}</span>                
+            <span class="inst-span">{{institution.name}}</span> <br>
+            <span class="inst-span"><span class="dark-{{session.firstColor}}-color">Участники:</span> {{institution.count_verificated}}</span> <br>
+            <span *ngIf="institution.count_verificated">
+                <span class="inst-span"><span class="dark-{{session.firstColor}}-color">Активные:</span> {{institution.count_active}} ({{round(institution.count_active / institution.count_verificated * 100)}}%)</span> <br>
+                <span class="inst-span"><span class="dark-{{session.firstColor}}-color">Без активности:</span> {{institution.count_no_active}} ({{round(institution.count_no_active / institution.count_verificated * 100)}}%)</span> <br>
+            </span>
+            <p *ngIf="institution.region">{{findRegion(institution.region)}}</p>               
         </div>
     </div>
 
@@ -25,7 +57,7 @@
     id="add_institution" 
     [routerLink]="['/manage/institutions', 'new']"
     *ngIf="session.levelStatus == 1">
-        Добавить учреждение
+        Добавить организацию
     </a>
 </div>
 <ng-template #loader>

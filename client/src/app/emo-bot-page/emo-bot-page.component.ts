@@ -1,10 +1,11 @@
 import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { User, BotButton, Institution, Event } from '../shared/interfaces';
+import { User, BotButton, Institution, Event, Region } from '../shared/interfaces';
 import { BotService } from '../shared/services/bot.service';
 import { EventsService } from '../shared/services/events.service';
 import { Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { PeopleService } from '../shared/services/people.service';
+import { RegionsService } from '../shared/services/region.service';
 
 @Component({
   selector: 'app-emo-bot-page',
@@ -22,12 +23,16 @@ export class EmoBotPageComponent implements OnInit, OnDestroy {
   buttons$: Observable<BotButton[]>
   iSub$: Subscription
   institutions: Institution[]
+  rSub$: Subscription
+  regions: Region[]
   description: string
+  region: string = ''
 
   constructor(private botService: BotService, 
-              private router: Router,
-              private peopleService: PeopleService,
-              private eventsService: EventsService) { }
+    private regionsService: RegionsService, 
+    private router: Router,
+    private peopleService: PeopleService,
+    private eventsService: EventsService) { }
 
   ngOnInit(): void {
   }
@@ -41,7 +46,17 @@ export class EmoBotPageComponent implements OnInit, OnDestroy {
   makeEvent(type) {
     this.myEventType = type
     this.stage = 2
-    this.iSub$ = this.peopleService.getInstitutions().subscribe(institutions => this.institutions = institutions)
+    this.fetchInstitution()
+    this.rSub$ = this.regionsService.fetch({}).subscribe(regions => this.regions = regions)
+  }
+
+  fetchInstitution(id?) {
+    let q: any = {}
+    if (id) q.region = id
+    this.iSub$ = this.peopleService.getInstitutions(q).subscribe(institutions => {
+      this.institutions = institutions
+      this.clearInst()
+    })
   }
 
   checkUser(id) {
@@ -58,6 +73,13 @@ export class EmoBotPageComponent implements OnInit, OnDestroy {
     this.myEventInstit = []
     for (let instit of this.institutions) {
       this.myEventInstit.push(instit._id)
+    }
+  }
+
+  clearInst() {
+    for (let i = this.myEventInstit.length - 1; i >= 0; i--) {
+      const instit = this.institutions.find(el => el._id == this.myEventInstit[i])
+      if (!instit) this.myEventInstit.splice(i, 1)
     }
   }
 

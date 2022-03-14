@@ -13,20 +13,20 @@ module.exports.create = async function(req, res) {
       {new: true})
     
     const candidate = await Institution.findOne({name: req.body.name})
-    
+
     if (candidate) {
-      //  Такое учреждение существует, нужно отправить ошибку
+      //  Такое существует, нужно отправить ошибку
       res.status(409).json({
-        message: 'Такое учреждение уже существует.'
+        message: 'Такая организация уже существует.'
       })
     } else {
-      // Нужно создать учреждение
+      // Нужно создать 
       const institution = await new Institution({
         img: req.file ? req.file.location : '/images/institution.png',
-        name: req.body.name        
+        name: req.body.name,
+        region: req.body.region
       }).save()
       res.status(201).json(institution)
-
     }
   } catch(e) {
     errorHandler(res, e)
@@ -67,10 +67,23 @@ module.exports.getAllAdmin = async function(req, res) {
       {new: true})
 
       if (req.user.levelStatus == 1) {
-        const institutions = await Institution.find().sort({name: 1}).lean()
+        q = {}
+        if (req.query.region) q.region = req.query.region
+        const institutions = await Institution.find(q).sort({name: 1}).lean()
+        for (const institution of institutions) {
+          const lastMonth = now - (1000 * 60 * 60 * 24 * 30)
+          // institution.count = await User.count({institution: institution._id})
+          institution.count_verificated = await User.count({institution: institution._id, levelStatus: {$nin: [4, 6]}})
+          institution.count_active = await User.count({institution: institution._id, levelStatus: {$nin: [4, 6]}, last_active_at: {$gte: lastMonth}})
+          institution.count_no_active = await User.count({institution: institution._id, levelStatus: {$nin: [4, 6]}, last_active_at: {$exists: false}})
+        }
         res.status(200).json(institutions)
       } else {
         const institution = await Institution.find({_id: req.user.institution}).lean()
+        // institution.count = await User.count({institution: institution._id})
+        institution.count_verificated = await User.count({institution: institution._id, levelStatus: {$nin: [4, 6]}})
+        institution.count_active = institution.count_verificated ? await User.count({institution: institution._id, levelStatus: {$nin: [4, 6]}, last_active_at: {$gte: lastMonth}}) : 0
+        institution.count_no_active = institution.count_verificated ? await User.count({institution: institution._id, levelStatus: {$nin: [4, 6]}, last_active_at: {$exists: false}}) : 0
         res.status(200).json(institution)
       }
       
@@ -81,7 +94,9 @@ module.exports.getAllAdmin = async function(req, res) {
 
   module.exports.getAll = async function(req, res) {
     try {
-      const institution = await Institution.find().sort({name: 1}).lean()
+      q = {}
+      if (req.query.region) q.region = req.query.region
+      const institution = await Institution.find(q).sort({name: 1}).lean()
       res.status(200).json(institution)
     } catch (e) {
       errorHandler(res, e)
@@ -106,12 +121,12 @@ module.exports.remove = async function(req, res) {
         })
         await Institution.deleteOne({_id: req.params.institutionID})
         res.status(200).json({
-          message: 'Учреждение удалено.'
+          message: 'Организания удалена.'
         })
       }
       else {
         res.status(409).json({
-          message: 'Вы не можете перевести пользователей в удаляемое учреждение.'
+          message: 'Вы не можете перевести пользователей в удаляемую организацию.'
         })
       }
     } catch (e) {

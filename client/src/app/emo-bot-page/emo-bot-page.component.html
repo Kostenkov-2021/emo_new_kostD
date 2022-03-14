@@ -1,6 +1,6 @@
 <div class="all dark-{{session.secondColor}}-border" *ngIf="stage == 0">
      <div class="start_event dark-{{session.secondColor}}-border green-cursor" appEasyLang (click)="startEvent()">
-         {{session.levelStatus == 6 ? 'Вы не можете создавать мероприятия' : 'СОЗДАТЬ МЕРОПРИЯТИЕ'}}
+         {{session.levelStatus == 6 ? 'Вы не можете создавать мероприятия' : 'Создать мероприятие'}}
      </div>
 </div>
 
@@ -48,6 +48,13 @@
         (click)="checkNobody()">
         
     </span>
+    <select 
+    class="inheader green-cursor" 
+    *ngIf="regions" 
+    [(ngModel)]="region" (change)="fetchInstitution(region)">
+        <option value="">Любой регион</option>
+        <option *ngFor="let region of regions" value="{{region._id}}">{{region.name}}</option>
+    </select>
 
     <div *ngIf="institutions; else loader">
         <div class="pictaandtext" *ngFor="let institution of institutions">
