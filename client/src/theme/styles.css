@@ -1,14 +1,54 @@
 .nav {
     position: fixed;
+    overflow: hidden;
     top: 0;
-    left: 0; 
-    right: 0;
+    width: 100%;
     height: 55px;
     padding-bottom: 10px;
     padding-left: 3px;
     padding-right: 3px;
     z-index: 2;
 }
+
+
+  /* 48em = 768px */
+  
+/* @media (max-width: 700px) {
+    .nav-mobile{
+        position:absolute;
+        height: auto;
+        left:0;
+        top:55px;
+        padding:0;
+        z-index:2;
+        min-width: 30%;
+        color: #000;
+    }
+    .nav-mobile ul{width:auto;}
+    .nav-mobile ul li{padding:0;width:100%}
+    .nav-mobile ul li a{font-size:15px;padding:10px 20px}
+    .nav-admin-li-right, .nav-admin {
+        display: none;
+    }
+    label.toggle-menu {
+        display: block;
+        margin-left: 35px;
+        width: 40px;
+        margin-top: 15px;
+    }
+    input[type=checkbox]:checked ~ .nav-mobile, .nav-admin-li, .nav-admin, .nav-admin-li{display:block}
+} */
+
+/* .toggle-icon{
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 100%' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    width:30px;
+    height:30px;
+    position:absolute;
+    display: block;
+} */
+
+input[type=checkbox]{display:none} 
+
 
 .manage-active {
     border: 3px solid #fff;
@@ -21,7 +61,7 @@
 .content {
     padding-bottom: 20px;
 }
-#nav-mobile {
+.nav-mobile {
     list-style: none; /*убираем маркеры списка*/
     margin: 0; /*убираем отступы*/
     padding-left: 0; /*убираем отступы*/

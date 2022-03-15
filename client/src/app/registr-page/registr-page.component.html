@@ -52,7 +52,7 @@
             <input name="file" type="file" hidden (change)='onFileUpload($event)'> 
             <div class="green-cursor" [ngClass]="{checked_file: image, no_file: !image}"></div> 
         </label><br>
-        <p class="entrance tc notadmin" appEasyLang>Организания:</p>
+        <p class="entrance tc notadmin" appEasyLang>Организация:</p>
         <select 
         class="inheader green-cursor" 
         *ngIf="institutions$ | async as institutions" 

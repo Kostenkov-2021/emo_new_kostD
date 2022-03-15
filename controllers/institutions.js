@@ -121,7 +121,7 @@ module.exports.remove = async function(req, res) {
         })
         await Institution.deleteOne({_id: req.params.institutionID})
         res.status(200).json({
-          message: 'Организания удалена.'
+          message: 'Организация удалена.'
         })
       }
       else {

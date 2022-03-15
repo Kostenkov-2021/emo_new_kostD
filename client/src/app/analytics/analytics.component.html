@@ -1,7 +1,7 @@
 <div *ngIf="!reloading; else reloader" class="container">
     <div class="user_filtr">
         <div *ngIf="session.levelStatus == 1">
-            <p class="in_user_filtr dark-{{session.firstColor}}-color">Организания:</p>
+            <p class="in_user_filtr dark-{{session.firstColor}}-color">Организация:</p>
             <select *ngIf="institutions$ | async as institutions" [(ngModel)]="institution" (change)="newInstitution()">
                 <option *ngFor="let institution of institutions" [value]="institution._id">{{institution.name}}</option>
             </select>

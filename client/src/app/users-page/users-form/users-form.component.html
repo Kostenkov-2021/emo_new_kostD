@@ -18,7 +18,7 @@
     <input type="text" formControlName="surname">
     
     <div *ngIf="session.levelStatus == 1">
-        <p class="in_new_user dark-{{session.firstColor}}-color">Организания:</p>
+        <p class="in_new_user dark-{{session.firstColor}}-color">Организация:</p>
         <select *ngIf="institutions$ | async as institutions" formControlName="institution">
             <option [disabled]="userInstitution || whatDo == 'new'" [selected]="!userInstitution" value="">Не выбрано</option>
             <option 

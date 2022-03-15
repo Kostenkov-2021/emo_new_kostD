@@ -113,7 +113,7 @@ class="dark-{{session.firstColor}}-border"
             <div *ngIf="form.value.p_status == 2">
                 <p class="dark-{{session.firstColor}}-color">Кому рассылать:</p>   
             
-                <p class="dark-{{session.firstColor}}-color">Организания:</p>
+                <p class="dark-{{session.firstColor}}-color">Организация:</p>
                 <select *ngIf="institutions" formControlName="institution" (change)="changeInstitution()">
                     <option 
                     *ngFor="let institution of institutions" 
