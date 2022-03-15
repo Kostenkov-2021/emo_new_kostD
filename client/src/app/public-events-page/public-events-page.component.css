@@ -20,8 +20,8 @@
 
 .like {
     display: inline-block;
-    width: 40px;
-    height: 40px;
+    width: calc(2vw + 10px);
+    height: calc(2vw + 10px);
 }
 
 .countlike {

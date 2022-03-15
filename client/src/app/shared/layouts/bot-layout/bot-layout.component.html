@@ -1,7 +1,7 @@
 <div class="body" *ngIf="!reloading; else reloader"> 
     <div class="chat light-{{session.firstColor}}-bg">
         <div id="header" class="light-{{session.secondColor}}-bg dark-{{session.secondColor}}-border">
-            <img class="avatar green-cursor" id="friend" src="/images/emo.png" (click)="openZoom('/images/emo.png')">
+            <img class="avatar green-cursor" id="friend" src="/images/emo.png" (click)="openZoom('/images/emo.png', 'Бот ЭМО' , 'Делает рассылки о мероприятиях' )">
             <select 
             class="inheader green-cursor" 
             (change)="changeMyStatus()"
@@ -10,7 +10,7 @@
                 <option value="participant">Я учавствую</option>
                 <option value="hide">Я {{session.sex == 1 ? 'отказался' : 'отказалась'}}</option>
             </select>
-            <img class="avatar green-cursor" id="me" [src]="session.photo" (click)="openZoom(session.photo)">
+            <img class="avatar green-cursor" id="me" [src]="session.photo" (click)="openZoom(session.photo, session.name + ' ' + session.surname)">
         </div>
 
         <div id="section">
@@ -99,7 +99,7 @@
                     id="{{event._id}}">
                         <span appEasyLang>{{'Приглашает' + ' ' + event.autorName + (session.surnameView ? (' ' + event.autorSurname) : '')}}</span><br>
                         <div class="div-in-li">
-                            <img [src]="event.chatImage" class="div-img green-cursor" (click)="openZoom(event.chatImage)">
+                            <img [src]="event.chatImage" class="div-img green-cursor" (click)="openZoom(event.chatImage, event.chatTitle)">
                         </div>
                         <div *ngIf="event.description">
                             <div appEasyLang>{{event.description}}</div>
@@ -168,7 +168,7 @@
         <app-emo-bot-page [session]="session" (newEvent)="newEventFromMe($event)"></app-emo-bot-page>
     </div>
 
-    <app-picture-zoom *ngIf="zoom" [image]="image" (result)="closeZoom($event)"></app-picture-zoom>
+    <app-picture-zoom *ngIf="zoom" [image]="image" [text_bottom]="text_bottom" [text_top]="text_top" (result)="closeZoom($event)"></app-picture-zoom>
     <app-delete-all-message *ngIf="deletingEvent" [event]="eventWantDelete" (result)="fromDeleteEvent($event)"></app-delete-all-message>
 
 </div>   

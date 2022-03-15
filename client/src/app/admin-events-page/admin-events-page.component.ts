@@ -5,6 +5,7 @@ import { User, Institution, Filter, Event } from '../shared/interfaces';
 import { UsersService } from '../shared/services/users.service';
 import { EventsService } from '../shared/services/events.service';
 import { Router } from '@angular/router';
+import { PeopleService } from '../shared/services/people.service';
 
 const STEP = 10
 
@@ -32,7 +33,7 @@ export class AdminEventsPageComponent implements OnInit, OnDestroy {
   filter_status: string = ''
 
   constructor(private loginService: LoginService,
-              private usersService: UsersService,
+              private peopleService: PeopleService,
               private eventsService: EventsService,
               private router: Router) { }
 
@@ -44,7 +45,7 @@ export class AdminEventsPageComponent implements OnInit, OnDestroy {
       this.session.levelStatus === 2 ? this.institution = this.session.institution : this.institution = ''
     })
 
-    this.institutions$ = this.usersService.getInstitutions()
+    this.institutions$ = this.peopleService.getInstitutions()
 
     this.fetch()
   }

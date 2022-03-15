@@ -3,6 +3,7 @@ import { Observable, Subscription } from 'rxjs';
 import { User, Institution, Filter } from '../shared/interfaces';
 import {UsersService} from '../shared/services/users.service'
 import { LoginService } from '../shared/services/login.service';
+import { PeopleService } from '../shared/services/people.service';
 
 const STEP = 25
 
@@ -49,6 +50,7 @@ export class UsersPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private usersService: UsersService,
+    private peopleService: PeopleService,
     private loginService: LoginService) { }
 
   ngOnInit(): void {
@@ -56,7 +58,7 @@ export class UsersPageComponent implements OnInit, OnDestroy {
 
     this.session$ = this.loginService.getUser()
     
-    this.institutions$ = this.usersService.getInstitutions()
+    this.institutions$ = this.peopleService.getInstitutions()
     this.count$ = this.usersService.countRequests()
 
     this.fetch()

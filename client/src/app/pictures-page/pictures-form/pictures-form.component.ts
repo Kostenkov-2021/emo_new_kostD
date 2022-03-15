@@ -6,7 +6,7 @@ import { switchMap } from 'rxjs/operators';
 import { of, Observable, Subscription } from 'rxjs';
 import { Picture, PictureAndFolder, User, Institution } from 'src/app/shared/interfaces';
 import { LoginService } from 'src/app/shared/services/login.service';
-import { UsersService } from 'src/app/shared/services/users.service';
+import { PeopleService } from 'src/app/shared/services/people.service';
 
 @Component({
   selector: 'app-pictures-form',
@@ -47,7 +47,7 @@ export class PicturesFormComponent implements OnInit, OnDestroy {
 
   constructor(private route: ActivatedRoute,
               private picturesService: PicturesService,
-              private usersService: UsersService,
+              private peopleService: PeopleService,
               private router: Router,
               private loginService: LoginService) {}
 
@@ -64,7 +64,7 @@ export class PicturesFormComponent implements OnInit, OnDestroy {
       }) 
     })
 
-    this.institutions$ = this.usersService.getInstitutions()
+    this.institutions$ = this.peopleService.getInstitutions()
 
     this.form = new FormGroup({
       many: new FormControl('0', [Validators.required]),

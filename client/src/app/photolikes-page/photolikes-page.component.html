@@ -26,17 +26,15 @@
                 (click)="screenRead(event.autorSex, event.autorName, event.autorSurname, event.chatTitle, event.description)">
                 </div>
             </div>
-            
-            
-
-            <hr noshade color="black">
-            <img 
-            *ngFor="let photo of event.photolikes"
-            class="phl_img green-cursor" 
-            [src]="photo"
-            loading="lazy"
-            (click)="openZoom(photo)">
-
+            <hr noshade color="black" *ngIf="event.photolikes && event.photolikes.length">
+            <div class="photos" *ngIf="event.photolikes && event.photolikes.length">
+                <img 
+                *ngFor="let photo of event.photolikes"
+                class="phl_img green-cursor" 
+                [src]="photo"
+                loading="lazy"
+                (click)="openZoom(photo)">
+            </div>
             <br>
 
             <img *ngIf="event.likes && event.likes.includes(session._id)" 

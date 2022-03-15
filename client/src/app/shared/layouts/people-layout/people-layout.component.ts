@@ -19,6 +19,7 @@ export class PeopleLayoutComponent implements OnInit {
   reloading: boolean = false
   session: User
   today = new Date()
+  links: any[]
 
   constructor(
     private router: Router,
@@ -33,6 +34,44 @@ export class PeopleLayoutComponent implements OnInit {
     this.reloading = true
     this.oSub = this.auth.getUser().subscribe(user => {
       this.session = user
+      this.links = [
+        {
+          text: 'Диалоги',
+          link: '/people/friends',
+          image: '/images/dialog.png',
+          show: true
+        },{
+          text: 'Поиск',
+          link: '/people/search',
+          image: '/images/lupa.png',
+          show: true
+        },{
+          text: 'Видеокомнаты',
+          link: '/people/videorooms',
+          image: '/images/videorooms.png',
+          show: this.session.videorooms
+        },{
+          text: 'Мероприятия',
+          link: '/people/events',
+          image: '/images/events.png',
+          show: this.session.events
+        },{
+          text: 'Фотолайки',
+          link: '/people/photolikes',
+          image: '/images/photolike.png',
+          show: this.session.events
+        },{
+          text: 'Тренажёры',
+          link: '/people/games',
+          image: '/images/games.png',
+          show: this.session.games
+        },{
+          text: 'Настройки',
+          link: '/people/settings',
+          image: '/images/settings.jpg',
+          show: true
+        }
+      ]
       this.reloading = false     
     })
   }

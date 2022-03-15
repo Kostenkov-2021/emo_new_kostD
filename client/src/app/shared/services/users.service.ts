@@ -17,11 +17,7 @@ export class UsersService {
         })
       })
     }
-
-    getInstitutions(): Observable<Institution[]> {
-      return this.http.get<Institution[]>(`/api/manage/institutions`)
-    }
-
+    
     getById(id: string): Observable<User> {
       return this.http.get<User>(`/api/manage/users/${id}`)
     }

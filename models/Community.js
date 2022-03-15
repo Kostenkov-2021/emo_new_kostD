@@ -35,7 +35,7 @@ const comSchema = new Schema({
   },
   status: {     
     type: Number,   //0 - ожидание, 1 - активно, -1 - архив
-    required: true
+    default: 0
   },
   createTime: {
     type: Date,

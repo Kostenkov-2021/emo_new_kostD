@@ -9,6 +9,7 @@ import { DatePipe } from '@angular/common';
 import { LoginService } from 'src/app/shared/services/login.service';
 import { NavService } from 'src/app/shared/services/nav.service';
 import { ChatService } from 'src/app/shared/services/chat.service';
+import { PeopleService } from 'src/app/shared/services/people.service';
 
 @Component({
   selector: 'app-users-form',
@@ -54,12 +55,13 @@ export class UsersFormComponent implements OnInit, OnDestroy {
   reloading: boolean = false
 
   constructor(private route: ActivatedRoute,
-              private usersService: UsersService,
-              private loginService: LoginService,
-              private router: Router,
-              public datePipe : DatePipe,
-              private chatService: ChatService,
-              private navService: NavService) { }
+    private usersService: UsersService,
+    private peopleService: PeopleService,
+    private loginService: LoginService,
+    private router: Router,
+    public datePipe : DatePipe,
+    private chatService: ChatService,
+    private navService: NavService) { }
 
   ngOnInit(): void {
     for(let i = 1; i < 32; i++) {
@@ -71,7 +73,7 @@ export class UsersFormComponent implements OnInit, OnDestroy {
     }
 
     this.route.params.subscribe(() => {
-      this.institutions$ = this.usersService.getInstitutions()
+      this.institutions$ = this.peopleService.getInstitutions()
     })
 
     this.reloading = true

@@ -55,8 +55,8 @@ input, textarea {
 }
 
 .footer {
-    width: 40px;
-    height: 40px;
+    width: calc(2vw + 10px);
+    height: calc(2vw + 10px);
     margin-left: 5px;
     margin-right: 5px;
     display: inline-block;

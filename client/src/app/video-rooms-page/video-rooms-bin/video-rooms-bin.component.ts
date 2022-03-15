@@ -27,6 +27,10 @@ export class VideoRoomsBinComponent implements OnInit {
   filter: any = {}
   form: boolean =  false
   currentRoom: VideoRoom
+  image: string
+  zoom: boolean
+  text_top: string
+  text_bottom: string
 
   constructor(private videoroomService: VideoRoomService,
     private router: Router,
@@ -77,6 +81,20 @@ export class VideoRoomsBinComponent implements OnInit {
       this.rooms.splice(index, 1)
     }
     this.form = false
+  }
+
+  openZoom(src, text_top?, text_bottom?) {
+    this.image = src
+    this.text_bottom = text_bottom
+    this.text_top = text_top
+    this.zoom = true
+  }
+
+  closeZoom(result) {
+    if (result) this.zoom = false
+    this.image = null
+    this.text_bottom = null
+    this.text_top = null
   }
 
   ngOnDestroy() {

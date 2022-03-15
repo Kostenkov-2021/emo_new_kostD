@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { Institution, User, Filter } from '../shared/interfaces';
 import { LoginService } from '../shared/services/login.service';
+import { PeopleService } from '../shared/services/people.service';
 import { UsersService } from '../shared/services/users.service';
 
 const STEP = 3
@@ -30,6 +31,7 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
   show_info = false
 
   constructor(private loginService: LoginService,
+              private peopleService: PeopleService,
               private usersService: UsersService,
               private router: Router) { }
 
@@ -42,7 +44,7 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
       this.fetch(true)
     })
 
-    this.institutions$ = this.usersService.getInstitutions()
+    this.institutions$ = this.peopleService.getInstitutions()
   }
 
   newInstitution() {

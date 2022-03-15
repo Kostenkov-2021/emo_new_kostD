@@ -19,15 +19,15 @@
             <div *ngIf="event.description" appEasyLang class="pNotAdmin">
                 {{event.description}}
             </div>
-            <hr noshade color="black">
-            <img 
-            *ngFor="let photo of event.photolikes"
-            class="phl_img green-cursor" 
-            [src]="photo"
-            loading="lazy"
-            (click)="openZoom(photo)">
-
-            <br>
+            <hr noshade color="black" *ngIf="event.photolikes && event.photolikes.length">
+            <div class="photos" *ngIf="event.photolikes && event.photolikes.length">
+                <img 
+                *ngFor="let photo of event.photolikes"
+                class="phl_img green-cursor" 
+                [src]="photo"
+                loading="lazy"
+                (click)="openZoom(photo)">
+            </div>
 
             <img  
             class="like green-cursor" src="/images/notlike.png" (click)="openLikes(event._id)">

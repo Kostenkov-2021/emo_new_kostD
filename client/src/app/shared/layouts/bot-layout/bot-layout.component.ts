@@ -35,6 +35,8 @@ export class BotLayoutComponent implements OnInit, OnDestroy {
   mystatus = 'wait'
   deletingEvent = false
   eventWantDelete: Event
+  text_bottom: string
+  text_top: string
 
   constructor(private loginService: LoginService, 
               private eventsService: EventsService,
@@ -113,13 +115,17 @@ export class BotLayoutComponent implements OnInit, OnDestroy {
     this.deletingEvent = true
   }
 
-  openZoom(src) {
+  openZoom(src, text_bottom?, text_top?) {
     this.image = src
+    this.text_bottom = text_bottom
+    this.text_top = text_top
     this.zoom = true
   }
 
   closeZoom(result) {
     if (result) this.zoom = false
+    this.text_bottom = null
+    this.text_top = null
   }
 
   fromDeleteEvent(result) {

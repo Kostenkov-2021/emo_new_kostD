@@ -10,9 +10,8 @@ import { Subscription } from 'rxjs'
 export class AppComponent implements OnInit{
 
   oSub$: Subscription
-  
-  constructor(private auth: LoginService) {
-  }
+
+  constructor(private auth: LoginService) {}
 
   ngOnInit() {
     const potentialToken = localStorage.getItem('auth-token')
@@ -20,5 +19,4 @@ export class AppComponent implements OnInit{
       this.auth.setToken(potentialToken)
     }
   }
-
 }

@@ -88,7 +88,8 @@ export class EmoBotPageComponent implements OnInit, OnDestroy {
   }
 
   cross() {
-    this.router.navigate(['/people/events'])
+    if (this.stage == 0) this.router.navigate(['/people/events'])
+    else this.stage--
   }
 
   toDescription() {

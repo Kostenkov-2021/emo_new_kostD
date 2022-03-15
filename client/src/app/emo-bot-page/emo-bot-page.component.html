@@ -1,7 +1,19 @@
 <div class="all dark-{{session.secondColor}}-border" *ngIf="stage == 0">
-     <div class="start_event dark-{{session.secondColor}}-border green-cursor" appEasyLang (click)="startEvent()">
-         {{session.levelStatus == 6 ? 'Вы не можете создавать мероприятия' : 'Создать мероприятие'}}
+     <div class="start_event dark-{{session.secondColor}}-border green-cursor" appEasyLang *ngIf="session.levelStatus == 6">
+        Вы не можете создавать мероприятия
      </div>
+
+     <div class="pictaandtext" *ngIf="session.levelStatus != 6">
+        <img class="pict dark-{{session.secondColor}}-border green-cursor" src="/images/create_event.png" 
+        (click)="startEvent()">
+        <p 
+        class="pictatext tc dark-{{session.secondColor}}-border green-cursor" 
+        *ngIf="session.text"
+        (click)="startEvent()"
+        appEasyLang>
+            Создать мероприятие
+        </p>               
+    </div>
 </div>
 
 <div class="all dark-{{session.secondColor}}-border" *ngIf="stage == 1">
