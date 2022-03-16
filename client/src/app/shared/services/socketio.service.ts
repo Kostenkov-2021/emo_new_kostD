@@ -22,7 +22,6 @@ export class SocketioService {
   socket
   peer
   session
-  id
 
   constructor() {
   }
@@ -30,7 +29,7 @@ export class SocketioService {
   startStreamInVideoroom(stream, roomId, session) {
     this.socket = io(environment.SOCKET_ENDPOINT, {transports: ["polling"]})
 
-    this.peer = new Peer(this.id, {
+    this.peer = new Peer(undefined, {
       path: "/peer",
       host: environment.host,
       port: environment.port,
@@ -76,8 +75,6 @@ export class SocketioService {
     });
 
     this.peer.on("open", (id) => {
-      console.log("open", id)
-      this.id = id
       this.videoID.emit(id)
       this.session = {...session, id}
       this.socket.emit("join-video-room", roomId, this.session);
@@ -87,9 +84,9 @@ export class SocketioService {
       this.leaveRoomID.emit(user)
     });
 
-    this.socket.on("isActive", (data) => {
-      if (data.user.id == this.id) this.isMeActive.emit(data.isActive)
-    });
+    // this.socket.on("isActive", (data) => {
+    //   if (data.user.id == this.id) this.isMeActive.emit(data.isActive)
+    // });
 
     this.socket.on("twice-connect", (userID) => {
       this.wantToConnect.emit(userID)
@@ -105,7 +102,6 @@ export class SocketioService {
   }
 
   exitRoom() {
-    this.id = undefined
     if (this.socket) this.socket.close()
   }
   
