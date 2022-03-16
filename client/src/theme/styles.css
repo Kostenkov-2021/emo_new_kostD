@@ -66,7 +66,7 @@ input[type=checkbox]{display:none}
     margin: 0; /*убираем отступы*/
     padding-left: 0; /*убираем отступы*/
     margin-top:25px; /*делаем отступ сверху*/
-  }
+}
 .nav-admin, #submit, .new_user_button, .inst-edit {
     text-decoration: none; /*убираем подчеркивание текста ссылок*/
     color: #fff; /*меняем цвет ссылок*/
