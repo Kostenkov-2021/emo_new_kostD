@@ -102,6 +102,7 @@ export class SocketioService {
   }
 
   exitRoom() {
+    if (this.peer) this.peer.close()
     if (this.socket) this.socket.close()
   }
   
