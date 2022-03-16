@@ -14,7 +14,7 @@ export class LoginService {
   constructor(private http: HttpClient) {
   }
 
-  login(user: User): Observable<{token: string}> {
+  login(user: any): Observable<{token: string}> {
     return this.http.post<{token: string}>('/api/login', user)
       .pipe(
         tap(
