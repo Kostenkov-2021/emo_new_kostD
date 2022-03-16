@@ -47,7 +47,7 @@
     display: block;
 } */
 
-input[type=checkbox]{display:none} 
+#toggle-1{display:none} 
 
 
 .manage-active {
