@@ -2,6 +2,7 @@ const aws = require('aws-sdk')
 const multer = require('multer')
 const moment = require('moment')
 const cyrillicToTranslit = require('cyrillic-to-translit-js')
+// import cyrillicToTranslit from 'cyrillic-to-translit-js'
 const multerS3 = require('multer-s3')
 const keys = require('./../config/keys')
 
