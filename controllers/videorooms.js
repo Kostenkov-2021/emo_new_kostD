@@ -56,7 +56,7 @@ module.exports.update = async function(req, res) {
       {new: true})
 
       const updated = req.body
-      if (req.file) updated.image = req.file.location
+      if (req.file) updated.image = req.file.path
 
       const room = await VideoRoom.findById(req.params.id, 'author').lean()
       const author = await User.findById(room.author, '_id institution photo name surname').lean()

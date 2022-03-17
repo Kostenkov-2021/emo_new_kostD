@@ -33,7 +33,7 @@ module.exports.update = async function(req, res) {
 
       const updated = req.body
 
-      if (req.file) updated.img = req.file.location
+      if (req.file) updated.img = req.file.path
 
       const region = await Region.findOneAndUpdate(
         {_id: req.params.id},

@@ -35,7 +35,7 @@ module.exports.create = async function(req, res) {
         sex: req.body.sex,
         institution: institution,
         levelStatus: req.body.levelStatus,
-        photo: req.file ? req.file.location : (req.body.sex == '2' ? '/images/girl.png' : '/images/boy.png'),
+        photo: req.file ? req.file.path : (req.body.sex == '2' ? '/images/girl.png' : '/images/boy.png'),
         online: req.body.online,
         text: req.body.text,
         read: req.body.read,
@@ -82,7 +82,7 @@ module.exports.update = async function(req, res) {
         }
 
         if (req.file) {
-          updated.photo = req.file.location
+          updated.photo = req.file.path
         }
         
         const thisuser = await User.findOneAndUpdate(
@@ -111,7 +111,7 @@ module.exports.update = async function(req, res) {
           }
 
           if (req.file) {
-            updated.photo = req.file.location
+            updated.photo = req.file.path
           }
           
           const thisuser = await User.findOneAndUpdate(
@@ -406,7 +406,7 @@ module.exports.createRequest = async function(req, res) {
       sex: req.body.sex,
       institution: req.body.institution,
       levelStatus: 6,
-      photo: req.file ? req.file.location : (req.body.sex == '2' ? '/images/girl.png' : '/images/boy.png'),
+      photo: req.file ? req.file.path : (req.body.sex == '2' ? '/images/girl.png' : '/images/boy.png'),
       info: req.body.info
     })
 
