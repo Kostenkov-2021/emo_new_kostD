@@ -13,7 +13,7 @@ module.exports.create = async function(req, res) {
         const item = await new Table({
             item: req.body.item,
             parent: req.body.parent,
-            src: req.file ? req.file.path : '/images/clean.png'
+            src: req.file ? 'https://emo.su/' + req.file.path : 'https://emo.su/images/clean.png'
         }).save()
 
         res.status(200).json(item)
@@ -31,7 +31,7 @@ module.exports.update = async function(req, res) {
           {new: true})
 
         const updated = req.body 
-        if (req.file) updated.src = req.file.path
+        if (req.file) updated.src = 'https://emo.su/' + req.file.path
 
         const item = await Table.findOneAndUpdate(
             {_id: req.params.id},

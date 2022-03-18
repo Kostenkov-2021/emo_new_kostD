@@ -235,7 +235,7 @@ module.exports.create = async function(req, res) {
 
           const pictures = await new Picture({
             folder: false,
-            boysGreyPicture: file.path,
+            boysGreyPicture: 'https://emo.su/' + file.path,
             parent: '5f1309e3962c2f062467f854',
             p_sort: maxSort + 1,
             user: req.user.id
@@ -258,7 +258,7 @@ module.exports.create = async function(req, res) {
 
           const pictures = await new Picture({
             folder: false,
-            boysGreyPicture: file.path,
+            boysGreyPicture: 'https://emo.su/' + file.path,
             parent: '5f1309f1962c2f062467f855',
             p_sort: maxSort + 1,
             user: req.user.id
@@ -283,7 +283,7 @@ module.exports.create = async function(req, res) {
 
           const pictures = await new Picture({
             folder: false,
-            boysGreyPicture: file.path,
+            boysGreyPicture: 'https://emo.su/' + file.path,
             parent: '5f130a00962c2f062467f856',
             p_sort: maxSort + 1,
             user: req.user.id,
@@ -301,7 +301,7 @@ module.exports.create = async function(req, res) {
 
           const pictures = await new Picture({
             folder: false,
-            boysGreyPicture: file.path,
+            boysGreyPicture: 'https://emo.su/' + file.path,
             parent: '5f130a0d962c2f062467f857',
             p_sort: maxSort + 1,
             user: req.user.id,
@@ -341,7 +341,7 @@ module.exports.vote = async function (req, res) {
 
     const vote = await new Picture({
       folder: false,
-      boysGreyPicture: req.file.path,
+      boysGreyPicture: 'https://emo.su/' + req.file.path,
       parent: '5f5486f982194ca1fb21ff6d',
       p_sort: maxSort + 1,
       user: req.user.id,

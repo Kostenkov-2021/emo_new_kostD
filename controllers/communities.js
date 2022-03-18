@@ -20,7 +20,7 @@ module.exports.create = async function(req, res) {
             waitingList: req.body.waitingList,
             private_settings: req.body.private_settings,
             name: req.body.name,
-            image: '/images/people.png',
+            image: 'https://emo.su/images/people.png',
             description: req.body.description,
             status: req.body.status,
         }).save()
@@ -109,7 +109,7 @@ module.exports.update = async function(req, res) {
         if (req.body.status == 2) updated.closingTime = now
         if (req.files['image']) updated.chatImage = req.files['image'][0].path
         if (req.files['photolikes']) {
-            let paths = req.files['photolikes'].map(file => file.path)
+            let paths = req.files['photolikes'].map(file => 'https://emo.su/' + file.path)
             await Event.updateOne(
                 {_id: req.params.eventID},
                 {$addToSet: {photolikes: { $each: paths}}},
