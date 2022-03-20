@@ -1,4 +1,4 @@
-<div class="backdrop"></div>
+<div class="backdrop  invert-{{session.invert}}"></div>
 
 <div class="tablo_uv">
     <p class="tc vtablo" [appEasyLang]="session">Кому понравилось</p> <br>
@@ -7,5 +7,5 @@
                 {{user.name}} <span *ngIf="!session || (session && session.surnameView)">{{user.surname}} </span>
             </div>
         </div>
-    <div id="cross_uv" (click)="close()" class="green-cursor"></div>
+    <div id="cross_uv" (click)="close()" class="green-cursor invert-{{session.invert}}"></div>
 </div>
