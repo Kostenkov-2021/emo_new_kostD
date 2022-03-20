@@ -158,3 +158,12 @@
 .file-12 {
     background-color: #678532;
 }
+
+.invert-1 {
+    filter: invert(1);
+    -webkit-filter: invert(1);
+}
+
+.white {
+    background: white;
+}

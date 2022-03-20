@@ -1,9 +1,9 @@
-<div class="body" *ngIf="!reloading; else reloader">    
+<div class="body invert-{{session.invert}}" *ngIf="!reloading; else reloader">    
      <div class="chat light-{{session.firstColor}}-bg">
           <div *ngIf="user$ | async as user; else loader">
                <div id="header" class="light-{{session.secondColor}}-bg dark-{{session.secondColor}}-border">
-                    <img class="avatar green-cursor" id="friend" [src]="user.photo" (click)="openZoom(user.photo, user.name + ' ' + user.surname)">
-                    <img class="avatar green-cursor" id="me" [src]="session.photo" (click)="openZoom(session.photo, session.name + ' ' + session.surname)">
+                    <img class="avatar green-cursor invert-{{session.invert}}" id="friend" [src]="user.photo" (click)="openZoom(user.photo, user.name + ' ' + user.surname)">
+                    <img class="avatar green-cursor invert-{{session.invert}}" id="me" [src]="session.photo" (click)="openZoom(session.photo, session.name + ' ' + session.surname)">
                </div>
 
                <div id="section" class="light-{{session.secondColor}}-bg">
@@ -17,11 +17,11 @@
                                    id="{{letter._id}}">
                                         <div *ngFor="let message of letter.message; let i = index" class="div-in-li">
                                              <div *ngIf="letter.type[i] == 1"  class="div-in-li">
-                                                  <img [src]="message" class="div-img green-cursor" (click)="openZoom(message)">
+                                                  <img [src]="message" class="div-img white green-cursor invert-{{session.invert}}" (click)="openZoom(message)">
                                              </div>
 
                                              <div *ngIf="letter.type[i] == 2" class="div-in-li">
-                                                  <div appEasyLang class="div-text">{{message}}</div>
+                                                  <div [appEasyLang]="session" class="div-text">{{message}}</div>
                                                   
                                                   <div class="screenread-btn green-cursor" 
                                                   *ngIf="session.screenreader"
@@ -35,7 +35,7 @@
                                                   </audio>
                                              </div>
 
-                                             <div *ngIf="letter.type[i] == 4" class="div-in-li">
+                                             <div *ngIf="letter.type[i] == 4" class="div-in-li invert-{{session.invert}}">
                                                   <video controls class="div-img">
                                                        <source [src]="message">
                                                   </video>
@@ -44,17 +44,16 @@
                                              <div *ngIf="letter.type[i] == 5" class="div-in-li">
                                                   <a [href]="message" class="div-in-li green-cursor" download>
                                                        <img src="/images/docs.png" class="div-doument"> 
-                                                       <span class="docs" appEasyLang>ДОКУМЕНТ</span>
+                                                       <span class="docs" [appEasyLang]="session">Документ</span>
                                                   </a>
                                              </div>
                                         </div>
                                         <div class="footer-out">
-                                             <div *ngIf="letter.read && session.read" class="see-message footer"></div>
-                                             <div *ngIf="!letter.read && session.read" class="notsee-message footer"></div>
+                                             <div *ngIf="letter.read && session.read" class="see-message footer invert-{{session.invert}}"></div>
+                                             <div *ngIf="!letter.read && session.read" class="notsee-message footer invert-{{session.invert}}"></div>
                                              <div class="delete-message-btn footer green-cursor" (click)="openDeleteMessage(letter)"></div>
                                         </div>
                                         <div *ngIf="session.time" class="message_time">{{getDateString(letter.time)}}</div>
-                                        
                                    </div>
 
                                    <div *ngIf="letter.sender != session._id"  
@@ -62,7 +61,7 @@
                                    id="{{letter._id}}">
                                         <div *ngFor="let message of letter.message; let i = index" class="div-in-li">
                                              <div *ngIf="letter.type[i] == 1"  class="div-in-li">
-                                                  <img [src]="message" class="div-img green-cursor" (click)="openZoom(message)">
+                                                  <img [src]="message" class="div-img green-cursor white invert-{{session.invert}}" (click)="openZoom(message)">
                                                   <div class="footer-out">
                                                        <div class="answers-message-btn footer green-cursor" 
                                                        *ngIf="withAnswers.includes(message) && session.answers"
@@ -71,7 +70,7 @@
                                              </div>
 
                                              <div *ngIf="letter.type[i] == 2" class="div-in-li">
-                                                  <div appEasyLang class="div-text">{{message}}</div>
+                                                  <div [appEasyLang]="session" class="div-text">{{message}}</div>
                                                   <div class="screenread-btn green-cursor" 
                                                   *ngIf="session.screenreader"
                                                   (click)="screenRead(message)"></div>
@@ -92,13 +91,11 @@
                                              <div *ngIf="letter.type[i] == 5" class="div-in-li">
                                                   <a [href]="message" class="div-in-li green-cursor" download>
                                                        <img src="/images/docs.png" class="div-doument"> 
-                                                       <span class="docs" appEasyLang>ДОКУМЕНТ</span>
+                                                       <span class="docs" [appEasyLang]="session">Документ</span>
                                                   </a>
                                              </div>
                                         </div>
-
                                         <div *ngIf="session.time" class="message_time">{{getDateString(letter.time)}}</div>
-                                        
                                    </div>
                               </div>
 
@@ -111,8 +108,8 @@
                </div>
  
                <div id="chat" class="light-{{session.firstColor}}-bg">
-                    <textarea class="text text-cursor" id="tc" [(ngModel)]="textarea"></textarea>
-                    <div id="footer_letter" (click)="newText()" class="green-cursor"></div>
+                    <textarea class="text text-cursor-{{!!session.invert}}" id="tc" [(ngModel)]="textarea"></textarea>
+                    <div id="footer_letter" (click)="newText()" class="green-cursor invert-{{session.invert}}"></div>
                </div>
           </div>
           <ng-template #loader>
@@ -126,8 +123,8 @@
           (deleteAll)="clearChat($event)"></app-chat-page>
      </div>
 
-     <app-picture-zoom *ngIf="zoom" [image]="image" [text_bottom]="text_bottom" (result)="closeZoom($event)"></app-picture-zoom>
-     <app-delete-one-message *ngIf="deleteMessage" [letter]="deleteID" (result)="closeDeleteMessage($event)"></app-delete-one-message>
+     <app-picture-zoom *ngIf="zoom" [image]="image" [session]="session" [text_bottom]="text_bottom" (result)="closeZoom($event)"></app-picture-zoom>
+     <app-delete-one-message *ngIf="deleteMessage" [session]="session" [letter]="deleteID" (result)="closeDeleteMessage($event)"></app-delete-one-message>
      <ng-template appRef></ng-template>
 </div>
 

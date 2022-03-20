@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Message, GroupMessage } from '../../interfaces';
+import { Message, GroupMessage, User } from '../../interfaces';
 
 @Component({
   selector: 'app-delete-one-message',
@@ -9,6 +9,7 @@ import { Message, GroupMessage } from '../../interfaces';
 export class DeleteOneMessageComponent {
 
   @Input() letter: Message | GroupMessage
+  @Input() session: User
   @Output() result = new EventEmitter<boolean>()
 
   checked(ans) {

@@ -1,13 +1,13 @@
 <div class="backdrop"></div>
 
 <div class="tablo">
-    <p class="tc vtablo" appEasyLang>Хотите удалить {{event ? 'мероприятие' : 'чат'}}?</p>
+    <p class="tc vtablo" [appEasyLang]="session">Хотите удалить {{event ? 'мероприятие' : 'чат'}}?</p>
     <div class="ontablo start-ontablo">
-         <img id="avatar" src="{{event && event.chatImage ? event && event.chatImage : '/images/dialog.png'}}">
+         <img id="avatar" src="{{event && event.chatImage ? event && event.chatImage : 'https://emo.su/images/dialog.png'}}">
     </div>
-    <div class="ontablo" id="strelka"></div>
+    <div class="ontablo invert-{{session.invert}}" id="strelka"></div>
     <div class="ontablo" id="musorka">
     </div><div class="ontablo" id="question"></div>
-    <div id="cross" (click)="checked(false)" class="green-cursor"></div>
-    <div id="tick" (click)="checked(true)" class="green-cursor"></div>
+    <div id="cross" (click)="checked(false)" class="green-cursor invert-{{session.invert}}"></div>
+    <div id="tick" (click)="checked(true)" class="green-cursor invert-{{session.invert}}"></div>
 </div>

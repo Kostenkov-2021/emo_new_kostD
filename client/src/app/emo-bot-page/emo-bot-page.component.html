@@ -1,5 +1,5 @@
 <div class="all dark-{{session.secondColor}}-border" *ngIf="stage == 0">
-     <div class="start_event dark-{{session.secondColor}}-border green-cursor" appEasyLang *ngIf="session.levelStatus == 6">
+     <div class="start_event dark-{{session.secondColor}}-border green-cursor" [appEasyLang]="session" *ngIf="session.levelStatus == 6">
         Вы не можете создавать мероприятия
      </div>
 
@@ -10,27 +10,28 @@
         class="pictatext tc dark-{{session.secondColor}}-border green-cursor" 
         *ngIf="session.text"
         (click)="startEvent()"
-        appEasyLang>
+        [appEasyLang]="session">
             Создать мероприятие
         </p>               
     </div>
 </div>
 
 <div class="all dark-{{session.secondColor}}-border" *ngIf="stage == 1">
-    <div class="header" appEasyLang>
+    <div class="header" [appEasyLang]="session">
         Куда вы хотите пойти?
     </div>    
     <div *ngIf="buttons$ | async as buttons; else loader">
         <span *ngFor="let button of buttons"> 
     
             <div class="pictaandtext">
-                <img class="pict dark-{{session.secondColor}}-border green-cursor" [src]="button.img" 
-                (click)="makeEvent(button.type)">
+                <div class="pict dark-{{session.secondColor}}-border">
+                <img class="pict-image dark-{{session.secondColor}}-border invert-{{session.invert}} green-cursor" [src]="button.img" 
+                (click)="makeEvent(button.type)"></div>
                 <p 
                 class="pictatext tc dark-{{session.secondColor}}-border green-cursor" 
                 *ngIf="button.text && session.text"
                 (click)="makeEvent(button.type)"
-                appEasyLang>
+                [appEasyLang]="session">
                     {{button.text}}
                 </p>               
             </div>
@@ -41,13 +42,13 @@
 </div>
 
 <div class="all dark-{{session.secondColor}}-border" *ngIf="stage == 2">
-    <div class="header" appEasyLang>
+    <div class="header" [appEasyLang]="session">
         Кого вы хотите позвать?
     </div> 
 
     <span class="chat-menu">
 
-        <img class="menu-icon green-cursor" 
+        <img class="menu-icon green-cursor invert-{{session.invert}}" 
         src="/images/tick.png" 
         (click)="toDescription()">
 
@@ -70,15 +71,16 @@
 
     <div *ngIf="institutions; else loader">
         <div class="pictaandtext" *ngFor="let institution of institutions">
+            <div class="pict dark-{{session.secondColor}}-border">
             <img 
-            class="pict_event dark-{{session.secondColor}}-border green-cursor" 
+            class="white pict-image dark-{{session.secondColor}}-border green-cursor invert-{{session.invert}}" 
             [src]="institution.img"
-            (click)="checkUser(institution._id)">
-            <div class="green-cursor" 
+            (click)="checkUser(institution._id)"></div>
+            <div class="green-cursor invert-{{session.invert}}" 
             [ngClass]="{event_tick: myEventInstit.includes(institution._id), event_cross: !myEventInstit.includes(institution._id)}"
             (click)="checkUser(institution._id)"> </div>
             <div class="pictatext tc dark-{{session.secondColor}}-border green-cursor" (click)="checkUser(institution._id)">
-                <span appEasyLang>{{institution.name}}</span>
+                <span [appEasyLang]="session">{{institution.name}}</span>
             </div>                                             	 
        </div>
     </div>
@@ -86,23 +88,22 @@
 </div>
 
 <div class="all dark-{{session.secondColor}}-border" *ngIf="stage == 3">
-    <div class="header" appEasyLang>
+    <div class="header" [appEasyLang]="session">
         Описание
     </div> 
 
     <span class="chat-menu">
 
-        <img class="menu-icon green-cursor" 
+        <img class="menu-icon green-cursor invert-{{session.invert}}" 
         src="/images/tick.png" 
         (click)="finish()">
         
     </span>
 
-
-    <textarea class="description" [(ngModel)]="description"></textarea>
+    <textarea class="description text-cursor-{{!!session.invert}}" [(ngModel)]="description"></textarea>
 </div>
 
-<div class="exit green-cursor" (click)="cross()"></div>
+<div class="exit green-cursor invert-{{session.invert}}" (click)="cross()"></div>
 
 <ng-template #loader>
     <app-loader></app-loader>

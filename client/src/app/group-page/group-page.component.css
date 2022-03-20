@@ -7,16 +7,6 @@
     display: inline-block;
 }
 
-.video {
-    display: block;
-    position: relative;
-    max-height: 15rem;
-    max-width: 100%;
-    border-style: solid;
-    border-width: 3px;
-    border-radius: 10px;
-}
-
 .audio {
     display: block;
     position: relative;
@@ -98,24 +88,6 @@
     background-image: url('/images/musorka.png'); 
     background-size: 100% 100%;
     display: block;
-}
-
-.sentence-in {
-    width: 80%;
-    height: auto;
-    border-width: 2px;
-    border-style: solid;
-    border-radius: 10px;
-    margin-left: 9%;
-    text-align: left;
-    word-wrap: break-word;
-}
-
-.sent-m {
-    margin-top: 5px;
-    margin-bottom: 5px;
-    width: 100%;
-    position: relative;
 }
 
 .sentence-text {

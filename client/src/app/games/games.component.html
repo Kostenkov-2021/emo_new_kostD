@@ -1,42 +1,50 @@
 <div *ngIf="!reloading; else reloader">
 
     <div class="box-friend" *ngIf="session.levelStatus != 4 && session.levelStatus != 6">
-        <img 
-        class="friendAvatar dark-{{session.firstColor}}-border green-cursor" 
-        src="/images/rating.png"
-        (click)="goToRating()">
+        <div class="dark-{{session.firstColor}}-border friendAvatar-container">
+            <img 
+            class="friendAvatar dark-{{session.firstColor}}-border green-cursor" 
+            src="/images/rating.png"
+            (click)="goToRating()">
+        </div>
         <div class="friendName tc dark-{{session.firstColor}}-border green-cursor" (click)="goToRating()">
-            <span appEasyLang>Рейтинг</span><br>
+            <span [appEasyLang]="session">Рейтинг</span><br>
         </div>                                             	 
    </div>
 
    <div class="box-friend">
-        <img 
-        class="friendAvatar dark-{{session.firstColor}}-border green-cursor" 
-        src="/images/writing.png"
-        (click)="goToGame(1)">
+        <div class="dark-{{session.firstColor}}-border friendAvatar-container">
+            <img 
+            class="friendAvatar dark-{{session.firstColor}}-border green-cursor invert-{{session.invert}}" 
+            src="/images/writing.png"
+            (click)="goToGame(1)">
+        </div>
         <div class="friendName tc dark-{{session.firstColor}}-border green-cursor" (click)="goToGame(1)">
-            <span appEasyLang>Письмо</span><br>
+            <span [appEasyLang]="session">Письмо</span><br>
         </div>                                             	 
     </div>
 
     <div class="box-friend">
-        <img 
-        class="friendAvatar dark-{{session.firstColor}}-border green-cursor" 
-        src="/images/tir.png"
-        (click)="goToGame(2)">
+        <div class="dark-{{session.firstColor}}-border friendAvatar-container">
+            <img 
+            class="friendAvatar dark-{{session.firstColor}}-border green-cursor invert-{{session.invert}}" 
+            src="/images/tir.png"
+            (click)="goToGame(2)">
+        </div>
         <div class="friendName tc dark-{{session.firstColor}}-border green-cursor" (click)="goToGame(2)">
-            <span appEasyLang>Тир</span><br>
+            <span [appEasyLang]="session">Тир</span><br>
         </div>                                             	 
     </div>
 
     <div class="box-friend">
-        <img 
-        class="friendAvatar dark-{{session.firstColor}}-border green-cursor" 
-        src="/images/examples.png"
-        (click)="goToGame(3)">
+        <div class="dark-{{session.firstColor}}-border friendAvatar-container">
+            <img 
+            class="friendAvatar dark-{{session.firstColor}}-border green-cursor invert-{{session.invert}}" 
+            src="/images/examples.png"
+            (click)="goToGame(3)">
+        </div>
         <div class="friendName tc dark-{{session.firstColor}}-border green-cursor" (click)="goToGame(3)">
-            <span appEasyLang>Примеры</span><br>
+            <span [appEasyLang]="session">Примеры</span><br>
         </div>                                             	 
     </div>
                                          	 

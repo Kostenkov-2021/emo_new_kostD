@@ -1,9 +1,9 @@
 <div class="backdrop"></div>
 
 <div class="tablo_uv">
-    <p class="tc vtablo" appEasyLang>Кому понравилось</p> <br>
+    <p class="tc vtablo" [appEasyLang]="session">Кому понравилось</p> <br>
         <div class="likes_list">    
-            <div *ngFor="let user of likes" class="pNotAdmin" appEasyLang>
+            <div *ngFor="let user of likes" class="pNotAdmin" [appEasyLang]="session">
                 {{user.name}} <span *ngIf="!session || (session && session.surnameView)">{{user.surname}} </span>
             </div>
         </div>

@@ -7,7 +7,7 @@
         <p class="in_new_user dark-{{session.firstColor}}-color">Картинка:</p>
         <input type="file" formControlName="img" (change)="onFileUpload($event)"><br>
         <img 
-            class="now_img" 
+            class="now_img invert-{{session.invert}}" 
             [src]="imagePreview"
             *ngIf="imagePreview"
             >

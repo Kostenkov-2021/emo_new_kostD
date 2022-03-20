@@ -1,34 +1,43 @@
 <div *ngIf="!reloading; else reloader">
     <div class="box-friend">
-        <img 
-        class="friendAvatar dark-{{session.firstColor}}-border green-cursor" 
-        loading="lazy"
-        src="/images/plus_videoroom.png"
-        (click)="create()">
+        <div class="dark-{{session.firstColor}}-border friendAvatar-container">
+            <img 
+            class="friendAvatar dark-{{session.firstColor}}-border green-cursor" 
+            loading="lazy"
+            src="/images/plus_videoroom.png"
+            (click)="create()">
+        </div>
         <div class="friendName tc dark-{{session.firstColor}}-border green-cursor" (click)="create()">
-            <span appEasyLang>Создать видеокомнату</span>
+            <span [appEasyLang]="session">Создать видеокомнату</span>
         </div>
    </div>
 
    <div class="box-friend" *ngFor="let room of rooms">
-        <img 
-        class="friendAvatar dark-{{session.firstColor}}-border green-cursor" 
-        [src]="room.image ? room.image : '/images/videorooms.png'"
-        (click)="goToRoom(room._id)">
+        <div class="dark-{{session.firstColor}}-border friendAvatar-container">
+            <img 
+            class="friendAvatar invert-{{session.invert}} dark-{{session.firstColor}}-border green-cursor" 
+            [src]="room.image ? room.image : '/images/videorooms.png'"
+            (click)="goToRoom(room._id)">
+        </div>
         <div class="room_author green-cursor dark-{{session.firstColor}}-border" 
         *ngIf="room.author_ref"
-        style="background: url({{room.author_ref.photo}}); 
-        background-size: 100% 100%;
-        background-origin: border-box;
-        background-repeat: no-repeat;"
         (click)="openZoom(room.author_ref.photo, room.title, 'Создатель ' + room.author_ref.name + ' ' + room.author_ref.surname)"> 
+            <div class="invert-{{session.invert}}"
+            style="background: url({{room.author_ref.photo}}); 
+            width: 100%;
+            height: 100%;
+            border-radius: 32%;
+            background-size: 100% 100%;
+            background-origin: border-box;
+            background-repeat: no-repeat;">
+            </div>
         </div>
-        <div class="room-online green-cursor" 
+        <div class="room-online green- invert-{{session.invert}}" 
         [ngClass]="{no_active_room: room.active == 0, active_room: room.active == 1, room_admin: session._id == room.author || session.levelStatus == 1 || session.levelStatus == 2 && room.author_ref && room.author_ref.institution == session.institution}"
         (click)="editRoom(room)"> 
         </div>
         <div class="friendName tc dark-{{session.firstColor}}-border green-cursor" (click)="goToRoom(room._id)">
-            <span appEasyLang>{{room.title}}</span><br>
+            <span [appEasyLang]="session">{{room.title}}</span><br>
         </div>
     </div>
 
@@ -40,14 +49,14 @@
                 </div>
                 <p 
                 class="libraryName tc dark-{{session.firstColor}}-border green-cursor" 
-                appEasyLang>
+                [appEasyLang]="session">
                     Корзина
                 </p>
             </div>  
         </div>   
     </div>
 
-    <app-picture-zoom *ngIf="zoom" [image]="image" [text_top]="text_top" [text_bottom]="text_bottom" (result)="closeZoom($event)"></app-picture-zoom>
+    <app-picture-zoom *ngIf="zoom" [image]="image" [session]="session" [text_top]="text_top" [text_bottom]="text_bottom" (result)="closeZoom($event)"></app-picture-zoom>
 
     <app-loader *ngIf="loading"></app-loader>
     <app-video-room-form *ngIf="form" [room]="currentRoom" [session]="session" (result)="closeForm($event)" (newRoom)="newRoom($event)"></app-video-room-form>

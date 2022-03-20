@@ -1,45 +1,45 @@
+<div *ngIf="!reloading;" class="invert-{{session.invert}}">
+<div class="header light-{{session.secondColor}}-bg">
+    <select 
+    class="inheader green-cursor" 
+    *ngIf="institutions$ | async as institutions" 
+    [(ngModel)]="institution">
+        <option value="">Все</option>
+        <option *ngFor="let institution of institutions" value="{{institution._id}}">{{institution.name}}</option>
+    </select>
+    <span><input type="text" class="inheader" [(ngModel)]="name" placeholder="ИМЯ ИЛИ ФАМИЛИЯ"></span>
+</div>
 
-<div *ngIf="!reloading; else reloader" class="light-{{session.firstColor}}-bg page">
-    <div class="header light-{{session.secondColor}}-bg">
-        <select 
-        class="inheader green-cursor" 
-        *ngIf="institutions$ | async as institutions" 
-        [(ngModel)]="institution">
-            <option value="">Все</option>
-            <option *ngFor="let institution of institutions" value="{{institution._id}}">{{institution.name}}</option>
-        </select>
-        <span><input type="text" class="inheader text-cursor" [(ngModel)]="name" placeholder="ИМЯ ИЛИ ФАМИЛИЯ"></span>
-    </div>
+<div *ngIf="!reloading; else reloader" class=" body light-{{session.firstColor}}-bg">
 
     <div class="ratingBox dark-{{session.firstColor}}-border my_place">
-        <div class="pNotAdmin" appEasyLang>Вы на {{position}} месте.</div> <div class="pNotAdmin" appEasyLang>Пользуйтесь ЭМО и играйте в игры, чтобы заработать больше баллов.</div>
+        <div class="pNotAdmin" [appEasyLang]="session">Вы на {{position}} месте.</div> <div class="pNotAdmin" [appEasyLang]="session">Пользуйтесь ЭМО и играйте в игры, чтобы заработать больше баллов.</div>
     </div>
 
     <div *ngFor="let user of users | filter:name:false:false:institution" class="ratingBox dark-{{session.firstColor}}-border section">
         <div class="inline-block">
-            <div class="pNotAdmin" appEasyLang>{{num_users.indexOf(user) + 1}}</div> 
+            <div class="pNotAdmin" [appEasyLang]="session">{{num_users.indexOf(user) + 1}}</div> 
         </div>
         <div class="inline-block">
-            <img [src]="user.photo" class="ratingPhoto green-cursor" (click)="openZoom(user.photo)" loading="lazy">
+            <img [src]="user.photo" class="ratingPhoto green-cursor invert-{{session.invert}}" (click)="openZoom(user.photo)" loading="lazy">
         </div>
         <div class="inline-block">
-            <div class="pNotAdmin" appEasyLang>{{user.name}} {{session.surnameView ? user.surname : ''}}</div>
+            <div class="pNotAdmin" [appEasyLang]="session">{{user.name}} {{session.surnameView ? user.surname : ''}}</div>
         </div> <br>
         <div class="inline-block">
-            <div class="pNotAdmin" appEasyLang>{{user.institutionName}}</div>
+            <div class="pNotAdmin" [appEasyLang]="session">{{user.institutionName}}</div>
         </div>
         
-        <img src="/images/letter.png" class="ratingLetter green-cursor" (click)="goToChat(user._id, session.defaultColor)">
+        <img src="/images/letter.png" class="ratingLetter green-cursor invert-{{session.invert}}" (click)="goToChat(user._id, session.defaultColor)">
         
-        <div class="pNotAdmin" appEasyLang>Балл: {{user.score}}</div>
+        <div class="pNotAdmin" [appEasyLang]="session">Балл: {{user.score}}</div>
     </div>
 
-    <div class="exit green-cursor" (click)="cross()"></div>
+    
+    <app-picture-zoom *ngIf="zoom" [image]="image" (result)="closeZoom($event)" [session]="session"></app-picture-zoom>
 </div>
-
-
-<app-picture-zoom *ngIf="zoom" [image]="image" (result)="closeZoom($event)"></app-picture-zoom>
-
+</div>
 <ng-template #reloader>
     <app-loader></app-loader>
 </ng-template>
+<div class="exit green-cursor" (click)="cross()"></div>

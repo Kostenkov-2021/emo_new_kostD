@@ -1,20 +1,20 @@
 <div class="backdrop"></div>
 
 <div class="tablo_msg">
-    <p class="tc vtablo" appEasyLang>Возможные ответы:</p>
+    <p class="tc vtablo" [appEasyLang]="session">Возможные ответы:</p>
     <div id="delete_id"></div>
     <div class="answers-in-modal" *ngIf="!reloading; else reloader">
         <span *ngFor="let picture of answers">
             <div *ngIf="picture.folder" class="answers-box green-cursor" (click)="checkAnswer(picture._id, true)">
                 <div class="picta folder">
                     <div class="downloads-picture">
-                        <img class="downloads" [src]="picture.src" *ngIf="picture.src">
-                        <img class="downloads" src="/images/clean.png" *ngIf="!picture.src">
+                        <img class="downloads invert-{{session.invert}}" [src]="picture.src" *ngIf="picture.src">
+                        <img class="downloads" src="https://emo.su/images/clean.png" *ngIf="!picture.src">
                     </div>
                     <p 
                     class="libraryName tc green-cursor" 
                     *ngIf="picture.textInHTML"
-                    appEasyLang>
+                    [appEasyLang]="session">
                         {{picture.textInHTML}}
                     </p>
                 </div>  
@@ -22,20 +22,20 @@
 
             <div class="answers-box green-cursor" 
             *ngIf="!picture.folder && picture.src">
-                <img class="pict" [src]="picture.src"
+                <img class="pict invert-{{session.invert}}" [src]="picture.src"
                 (click)="checkAnswer(picture.src, false, 1)" 
                 >  
                 <p 
                 class="pictatext tc green-cursor" 
                 *ngIf="picture.textInHTML && session.text"
                 (click)="checkAnswer(picture.textInHTML, false, 2)"
-                appEasyLang>
+                [appEasyLang]="session">
                     {{picture.textInHTML}}
                 </p>           
             </div>
         </span> 
     </div>   
-    <div id="cross_msg" class="green-cursor" (click)="closeModal(true)"></div>
+    <div id="cross_msg" class="green-cursor invert-{{session.invert}}" (click)="closeModal(true)"></div>
     <ng-template #reloader>
         <app-loader></app-loader>
    </ng-template>

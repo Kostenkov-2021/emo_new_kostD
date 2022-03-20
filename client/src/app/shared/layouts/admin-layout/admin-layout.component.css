@@ -1,3 +1,10 @@
 .content, .nav {
     cursor: auto;
+    /* min-height: 100%; */
+    /* min-width: 100%; */
+}
+
+.content {
+    background: #fff;
+    min-height: calc(100vh - 55px);
 }

@@ -31,7 +31,7 @@ export class VideoRoomFormComponent implements OnInit, OnDestroy {
       title: new FormControl(this.room.title),
       privateLevel: new FormControl(this.room.privateLevel),
     })
-    this.imagePreview = this.room.image ? this.room.image : '/images/videorooms.png'
+    this.imagePreview = this.room.image ? this.room.image : 'https://emo.su/images/videorooms.png'
     for (let user of this.room.users) if (user) this.users.push(user._id ? user._id : user)
     this.oSub$ = this.peopleService.fetchFriends().subscribe(friends => {
       this.friends = [...friends.withMessageUsers, ...friends.withoutMessageUsers]

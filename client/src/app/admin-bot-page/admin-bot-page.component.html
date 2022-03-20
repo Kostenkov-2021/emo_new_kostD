@@ -4,7 +4,7 @@
             <div class="picture dark-{{session.firstColor}}-border" 
             *ngFor="let button of buttons">
                 <div class="p_border_one dark-{{session.firstColor}}-border">
-                    <img class="picta_one" [src]="button.img">
+                    <img class="picta_one invert-{{session.invert}}" [src]="button.img">
                 </div>
 
                 <div class="p_text">

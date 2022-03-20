@@ -1,6 +1,6 @@
 <div *ngIf="gameProgress == 0" class="gameBox">
 
-    <div class="pNotAdmin" appEasyLang>Вам надо будет печатать надписи, как они напечатаны на пиктограммах. Сколько карточек вы хотите?</div>
+    <div class="pNotAdmin" [appEasyLang]="session">Вам надо будет печатать надписи, как они напечатаны на пиктограммах. Сколько карточек вы хотите?</div>
     <ul class="time-list" id="time-list">
         <li>
           <button class="time-btn green-cursor" (click)="start(1, '1 карточка')">
@@ -28,11 +28,11 @@
 
 <div *ngIf="pictures && (gameProgress >= 1) && (gameProgress <= pictures.length)" class="gameBox">
 
-   <img [src]="pictures[gameProgress - 1].src" class="game1-image">
+   <img [src]="pictures[gameProgress - 1].src" class="game1-image invert-{{session.invert}}">
 
    <div class="game1-box">
-        <input type="text" [(ngModel)]="answer" class="game1-answer text-cursor">
-        <img class="game1-icon green-cursor" 
+        <input type="text" [(ngModel)]="answer" class="game1-answer text-cursor-{{!!session.invert}}">
+        <img class="game1-icon green-cursor invert-{{session.invert}}" 
         src="/images/tick.png" 
         (click)="nextPicture()">
     </div>
@@ -40,8 +40,8 @@
 
 <div *ngIf="pictures && pictures.length && (gameProgress > pictures.length)" class="gameBox">
 
-    <div class="pNotAdmin" appEasyLang>Набрано очков: {{score}}.</div>
-    <div class="pNotAdmin" appEasyLang>Хотите сыграть ещё?</div>
+    <div class="pNotAdmin" [appEasyLang]="session">Набрано очков: {{score}}.</div>
+    <div class="pNotAdmin" [appEasyLang]="session">Хотите сыграть ещё?</div>
     <ul class="time-list" id="time-list">
         <li>
           <button class="time-btn green-cursor" (click)="newStart()">

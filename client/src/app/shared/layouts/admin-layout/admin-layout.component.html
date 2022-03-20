@@ -1,22 +1,22 @@
 <div *ngIf="!reloading; else reloader">
-    <div class="nav light-{{color}}-bg">
-        <ul class="light-1-bg nav-mobile">
+    <div class="nav light-{{session.firstColor}}-bg invert-{{session.invert}}">
+        <ul class="light-{{session.firstColor}}-bg nav-mobile">
             <li
             class="nav-admin-li"
             *ngFor="let link of links"
             >
                 <a 
                 [routerLink]="[link.url]" 
-                class="nav-admin middle-{{color}}-bg-hover"
+                class="nav-admin middle-{{session.firstColor}}-bg-hover"
                 routerLinkActive="manage-active">
                     {{link.name}}
                 </a>
             </li> 
-            <li class="nav-admin-li-right"><a class="nav-admin middle-{{color}}-bg-hover"  href="#" (click)="logout($event)">Выход</a></li>
-            <li class="nav-admin-li-right"><a class="nav-admin middle-{{color}}-bg-hover" routerLink="/people/friends">Вернуться</a></li>              
+            <li class="nav-admin-li-right"><a class="nav-admin middle-{{session.firstColor}}-bg-hover"  href="#" (click)="logout($event)">Выход</a></li>
+            <li class="nav-admin-li-right"><a class="nav-admin middle-{{session.firstColor}}-bg-hover" routerLink="/people/friends">Вернуться</a></li>              
         </ul>
     </div>
-    <div class="content">
+    <div class="content invert-{{session.invert}}">
         <router-outlet></router-outlet>
     </div>
 </div>

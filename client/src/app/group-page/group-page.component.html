@@ -41,13 +41,13 @@
     </span>
 
     <div class="sentence dark-{{session.secondColor}}-border" *ngIf="sentenceToggle">
-        <div class="sent" appEasyLang>ПРЕДЛОЖЕНИЕ</div>
+        <div class="sent" [appEasyLang]="session">Предложение</div>
         <div *ngFor="let message of messages; let i = index">
-            <div *ngIf="types[i] == 1" class="sent-m">
-                <img class="sentence-in dark-{{session.secondColor}}-border" [src]="message">
+            <div *ngIf="types[i] == 1" class="sent-m dark-{{session.secondColor}}-border">
+                <img class="sentence-in invert-{{session.invert}}" [src]="message">
             </div>
             <div *ngIf="types[i] == 2" class="sent-m">
-                <div class="sentence-in dark-{{session.secondColor}}-border sentence-text" appEasyLang>
+                <div class="sentence-in dark-{{session.secondColor}}-border sentence-text" [appEasyLang]="session">
                     {{message}}
                 </div>
             </div>
@@ -56,7 +56,7 @@
                     <source [src]="message">
                 </audio>
             </div>
-            <div *ngIf="types[i] == 4" class="sent-m">
+            <div *ngIf="types[i] == 4" class="sent-m invert-{{session.invert}}">
                 <video class="sentence-in" controls>
                     <source [src]="message">
                 </video>
@@ -64,44 +64,42 @@
             <div *ngIf="types[i] == 5" class="sent-m">
                 <div class="sentence-in dark-{{session.secondColor}}-border">
                     <img src="/images/docs.png" class="sentence-doument"> 
-                    <span appEasyLang>ДОКУМЕНТ</span>
+                    <span [appEasyLang]="session">Документ</span>
                 </div>
             </div>
         </div>
         <div class="sentDelete green-cursor" (click)="clearSentence()"></div>
-        <div class="sentLetter green-cursor" (click)="sendSentence()"></div>
+        <div class="sentLetter green-cursor invert-{{session.invert}}" (click)="sendSentence()"></div>
     </div>
 
     <span *ngFor="let picture of pictureAndFolder.pictures">
         <div *ngIf="picture.folder && picture.show" class="pictaandtext">
             <div class="picta folder">
                 <div class="downloads-picture green-cursor" (click)="newFolder(picture._id)">
-                    <img class="downloads" [src]="picture.src" *ngIf="picture.src">
+                    <img class="downloads invert-{{session.invert}}" [src]="picture.src" *ngIf="picture.src">
                     <img class="downloads" src="/images/clean.png" *ngIf="!picture.src">
                 </div>
                 <p 
                 class="libraryName tc dark-{{session.secondColor}}-border green-cursor" 
                 *ngIf="picture.textInHTML"
                 (click)="newFolder(picture._id)"
-                appEasyLang>
+                [appEasyLang]="session">
                     {{picture.textInHTML}}
                 </p>
             </div>  
-        </div>        
+        </div>     
 
         <div class="pictaandtext" 
         *ngIf="!picture.folder && picture.show && picture.src && picture.parent != '5f1309f1962c2f062467f855' &&
         picture.parent != '5f130a00962c2f062467f856' && picture.parent != '5f130a0d962c2f062467f857' && picture.parent != '5f5486f982194ca1fb21ff6d'"
         id="{{picture._id}}">
-            <img class="pict dark-{{session.secondColor}}-border green-cursor" [src]="picture.src" 
-            (click)="makeMessage(1, picture.src)">
-            <p 
-            class="pictatext tc dark-{{session.secondColor}}-border green-cursor" 
+            <div class="pict dark-{{session.secondColor}}-border">
+            <img class="pict-image invert-{{session.invert}} green-cursor" [src]="picture.src" 
+            (click)="makeMessage(1, picture.src)"></div>
+            <p class="pictatext tc dark-{{session.secondColor}}-border green-cursor" 
             *ngIf="picture.textInHTML && session.text"
             (click)="makeMessage(2, picture.textInHTML)"
-            appEasyLang>
-                {{picture.textInHTML}}
-            </p> 
+            [appEasyLang]="session">{{picture.textInHTML}}</p> 
             <span class="file-delete green-cursor" *ngIf="picture.parent == '5f1309e3962c2f062467f854'"
             (click)="wantDeletePicture(picture.src, picture._id)"></span>              
         </div>
@@ -117,17 +115,21 @@
             </audio>
             <span *ngIf="picture.parent == '5f130a00962c2f062467f856'" class="file-delete green-cursor" (click)="wantDeletePicture('audioDelete', picture._id)"></span> 
             <span *ngIf="picture.parent == '5f5486f982194ca1fb21ff6d'" class="file-delete green-cursor" (click)="wantDeletePicture('voteDelete', picture._id)"></span>
-            <span class="file-letter green-cursor" (click)="makeMessage(3, picture.src)"></span>                       
+            <span class="file-letter green-cursor invert-{{session.invert}}" (click)="makeMessage(3, picture.src)"></span>                       
         </div>
 
         <div class="video-audio-box" 
         *ngIf="picture.parent == '5f1309f1962c2f062467f855'"
         id="{{picture._id}}">
-            <video class="video dark-{{session.secondColor}}-border" controls>
-                <source [src]="picture.src">
-            </video>
+            <div class="dark-{{session.secondColor}}-border pict">
+                <div class="invert-{{session.invert}}">
+                    <video class="video" controls>
+                        <source [src]="picture.src">
+                    </video>
+                </div>
+            </div>
             <span class="file-delete green-cursor" (click)="wantDeletePicture('videoDelete', picture._id)"></span>  
-            <span class="file-letter green-cursor" (click)="makeMessage(4, picture.src)"></span>                       
+            <span class="file-letter green-cursor invert-{{session.invert}}" (click)="makeMessage(4, picture.src)"></span>                       
         </div>
 
         <div class="pictaandtext" *ngIf="picture.parent == '5f130a0d962c2f062467f857'"
@@ -136,15 +138,15 @@
                 <img class="pict dark-{{session.secondColor}}-border file-{{picture.color}} green-cursor" src="/images/docs.png">
             </a>
             <span class="file-delete green-cursor" (click)="wantDeletePicture('documentDelete', picture._id)"></span>
-            <span class="file-letter green-cursor" (click)="makeMessage(5, picture.src)"></span> 
+            <span class="file-letter green-cursor invert-{{session.invert}}" (click)="makeMessage(5, picture.src)"></span> 
         </div>
 
     </span>
     
-    <div class="exit green-cursor" (click)="cross()" [@button]="buttonsState"></div>
+    <div class="exit green-cursor invert-{{session.invert}}" (click)="cross()" [@button]="buttonsState"></div>
 
-   <app-delete-picture *ngIf="deletePicture" [image]="image" (result)="fromDeletePicture($event)"></app-delete-picture>
-   <app-record-audio *ngIf="record" (audio)="newVote($event)" group="true"></app-record-audio>
+   <app-delete-picture *ngIf="deletePicture" [image]="image" (result)="fromDeletePicture($event)" [session]="session"></app-delete-picture>
+   <app-record-audio *ngIf="record" (audio)="newVote($event)" group="true" [session]="session"></app-record-audio>
 </div>
 
 <ng-template #loader>

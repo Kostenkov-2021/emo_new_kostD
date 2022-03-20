@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter} from '@angular/core';
+import { User } from '../../interfaces';
 
 @Component({
   selector: 'app-delete-picture',
@@ -8,6 +9,7 @@ import { Component, Input, Output, EventEmitter} from '@angular/core';
 export class DeletePictureComponent{
 
   @Input() image: string
+  @Input() session: User
   @Output() result = new EventEmitter<boolean>()
 
   checkedDelete (ans: boolean){

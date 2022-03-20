@@ -69,19 +69,19 @@ input, textarea {
 .radio_0 {
     height: 6vw;
     width: 6vw;
-    background: url('/images/link.png');
+    background: url('https://emo.su/images/link.png');
     background-size: 100% 100%;
 }
 .radio_1 {
     height: 6vw;
     width: 6vw;
-    background: url('/images/emo.png');
+    background: url('https://emo.su/images/emo.png');
     background-size: 100% 100%;
 }
 .radio_2 {
     height: 6vw;
     width: 6vw;
-    background: url('/images/people.png');
+    background: url('https://emo.su/images/people.png');
     background-size: 100% 100%;
 }
 label.radio {
@@ -96,20 +96,27 @@ label.radio {
     outline: 3px black solid;
 }
 
-.pict_event {
+.pict_event_container {
     border-width: 3px;
     border-style: solid;
     border-radius: 10px;
     width: 15vw;
     height: 15vw;
+}
+
+.pict_event {
+    border-radius: 7px;
+    width: 15vw;
+    height: 15vw;
     object-fit: cover;
+    display: block;
 }
 
 .event_tick {
     position: relative;
     height: 1.3cm;
     width: 1.3cm;
-    background-image: url('/images/tick.png');
+    background-image: url('https://emo.su/images/tick.png');
     background-size: 100% 100%;
     display: block;
     bottom: 5px;
@@ -122,7 +129,7 @@ label.radio {
     position: relative;
     height: 1.3cm;
     width: 1.3cm;
-    background-image: url('/images/cross.png');
+    background-image: url('https://emo.su/images/cross.png');
     background-size: 100% 100%;
     display: block;
     bottom: 5px;
@@ -165,16 +172,16 @@ label.radio {
 
 .delete_pict {
     bottom: calc(6% + 4.2cm) !important; 
-    background: url('/images/bin_transparent.png');
+    background: url('https://emo.su/images/bin_transparent.png');
     background-size: 100% 100%;
 }
 
 .resume {
-    background-image: url(/images/start.png);
+    background-image: url(https://emo.su/images/start.png);
     background-size: 100% 100%;
 }
 
 .pause {
-    background-image: url(/images/stop.png);
+    background-image: url(https://emo.su/images/stop.png);
     background-size: 100% 100%;
 }

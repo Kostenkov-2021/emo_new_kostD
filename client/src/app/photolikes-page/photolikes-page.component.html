@@ -1,24 +1,24 @@
 <div *ngIf="!reloading; else reloader">
     <div *ngFor="let event of events">
         <div class="phlevent dark-{{session.firstColor}}-border">
-            <span appEasyLang  class="pNotAdmin">{{'Пригласил' +  (event.autorSex === 2 ? 'А' : '') + ' ' + event.autorName + (session.surnameView ? (' ' + event.autorSurname) : '')}}</span><br>
+            <span [appEasyLang]="session"  class="pNotAdmin">{{'Пригласил' +  (event.autorSex === 2 ? 'а' : '') + ' ' + event.autorName + (session.surnameView ? (' ' + event.autorSurname) : '')}}</span><br>
             <hr noshade color="black">
             <div *ngIf="!event.chatTitle">
                 <div *ngIf="buttons$ | async as buttons">
                     <span *ngFor="let button of buttons">
-                        <span *ngIf="event.type == button.type" appEasyLang class="pNotAdmin">{{button.text}}</span>
+                        <span *ngIf="event.type == button.type" [appEasyLang]="session" class="pNotAdmin">{{button.text}}</span>
                     </span><br>
                     <span *ngIf="event.date" class="pNotAdmin">{{event.date | date:"dd.MM.yyyy HH:mm"}}</span>
                 </div>
             </div>
             <div *ngIf="event.chatTitle">
-                <span appEasyLang  class="pNotAdmin">{{event.chatTitle}}</span><br>
+                <span [appEasyLang]="session"  class="pNotAdmin">{{event.chatTitle}}</span><br>
                 <span *ngIf="event.date"  class="pNotAdmin">{{event.date | date:"dd.MM.yyyy HH:mm"}}</span>
                 
             </div>
             <hr noshade color="black">
             <div *ngIf="event.description" >
-                <span appEasyLang class="pNotAdmin">
+                <span [appEasyLang]="session" class="pNotAdmin">
                     {{event.description}}
                 </span>
                 <div class="screenread-btn green-cursor" 
@@ -30,7 +30,7 @@
             <div class="photos" *ngIf="event.photolikes && event.photolikes.length">
                 <img 
                 *ngFor="let photo of event.photolikes"
-                class="phl_img green-cursor" 
+                class="phl_img green-cursor invert-{{session.invert}}" 
                 [src]="photo"
                 loading="lazy"
                 (click)="openZoom(photo)">
@@ -51,7 +51,7 @@
     <app-loader *ngIf="loading"></app-loader>
 
 </div>
-<app-picture-zoom *ngIf="zoom" [image]="image" (result)="closeZoom($event)"></app-picture-zoom>
+<app-picture-zoom *ngIf="zoom" [image]="image" [session]="session" (result)="closeZoom($event)"></app-picture-zoom>
 <app-likes *ngIf="openlikes" [likes]="likes" [session]="session" (result)="closeLikes($event)"></app-likes>
 
 <ng-template #reloader>

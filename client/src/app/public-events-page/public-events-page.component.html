@@ -1,22 +1,22 @@
 <div *ngIf="!reloading; else reloader">
     <div *ngFor="let event of events">
         <div class="phlevent dark-1-border">
-            <span appEasyLang  class="pNotAdmin">{{'Приглашает' + ' ' + event.autorName + ' ' + event.autorSurname}}</span><br>
+            <span [appEasyLang]="{easyLang: true}"  class="pNotAdmin">{{'Приглашает' + ' ' + event.autorName + ' ' + event.autorSurname}}</span><br>
             <hr noshade color="black">
             <div *ngIf="!event.chatTitle">
                 <div *ngIf="buttons$ | async as buttons">
                     <span *ngFor="let button of buttons">
-                        <span *ngIf="event.type == button.type" appEasyLang class="pNotAdmin">{{button.text}}</span>
+                        <span *ngIf="event.type == button.type" [appEasyLang]="{easyLang: true}" class="pNotAdmin">{{button.text}}</span>
                     </span><br>
                     <span *ngIf="event.date" class="pNotAdmin">{{event.date | date:"dd.MM.yyyy HH:mm"}}</span>
                 </div>
             </div>
             <div *ngIf="event.chatTitle">
-                <span appEasyLang  class="pNotAdmin">{{event.chatTitle}}</span><br>
+                <span [appEasyLang]="{easyLang: true}"  class="pNotAdmin">{{event.chatTitle}}</span><br>
                 <span *ngIf="event.date"  class="pNotAdmin">{{event.date | date:"dd.MM.yyyy HH:mm"}}</span>
             </div>
             <hr noshade color="black">
-            <div *ngIf="event.description" appEasyLang class="pNotAdmin">
+            <div *ngIf="event.description" [appEasyLang]="{easyLang: true}" class="pNotAdmin">
                 {{event.description}}
             </div>
             <hr noshade color="black">

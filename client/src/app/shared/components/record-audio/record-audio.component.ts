@@ -1,4 +1,5 @@
 import { Component, OnInit, HostListener, Output, EventEmitter, Input } from '@angular/core';
+import { User } from '../../interfaces';
 import { ChatService } from '../../services/chat.service';
 
 @Component({
@@ -9,6 +10,7 @@ import { ChatService } from '../../services/chat.service';
 export class RecordAudioComponent implements OnInit {
 
   @Input() group: string
+  @Input() session: User
   @Output() audio = new EventEmitter<any[]>()
 
   recording = false

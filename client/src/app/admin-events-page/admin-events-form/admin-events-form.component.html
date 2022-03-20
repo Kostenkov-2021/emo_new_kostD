@@ -156,7 +156,7 @@ class="dark-{{session.firstColor}}-border"
         <p class="dark-{{session.firstColor}}-color">Картинка чата (рекомендуется квадратное изображение):</p>
         <input type="file" formControlName="chatImage"  (change)="onFileUpload($event)"><br>
         <img 
-        class="now_img" 
+        class="now_img invert-{{session.invert}}" 
         [src]="imagePreview"
         *ngIf="imagePreview"
         > <br> <br>
@@ -166,7 +166,7 @@ class="dark-{{session.firstColor}}-border"
         <div *ngIf="event.photolikes && event.photolikes.length > 0">
             <img 
             *ngFor="let photo of event.photolikes"
-            class="phl_img" 
+            class="phl_img invert-{{session.invert}}" 
             [src]="photo"> 
         </div> <br> <br>
         <br><br>

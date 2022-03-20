@@ -105,6 +105,10 @@ const userSchema = new Schema({
     type: Boolean,
     default: true
   },
+  easyLang: {
+    type: Boolean,
+    default: true
+  },
   time: {   //время сообщения
     type: Boolean,
     default: true
@@ -124,6 +128,10 @@ const userSchema = new Schema({
   videorooms: {
     type: Boolean,
     default: true
+  },
+  invert: {
+    type: Number,
+    default: 0
   },
   expoPushToken: String,
   // access: {

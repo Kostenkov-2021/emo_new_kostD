@@ -42,7 +42,7 @@
             id="{{user._id}}">
                 <p class="user_title">{{user.surname}} {{user.name}}</p><br>
                 <img 
-                class="avatarAdmin" 
+                class="avatarAdmin invert-{{session.invert}}" 
                 *ngIf="user.photo"
                 [src]="user.photo">
                 <div class="div_user_info">

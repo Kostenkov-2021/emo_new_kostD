@@ -2,22 +2,22 @@
 <div class="backdrop"></div>
 
 <div class="tablo">
-    <p class="tc vtablo" *ngIf="recording" appEasyLang>Говорите...</p>
-    <p class="tc vtablo" *ngIf="!recording" appEasyLang>Пауза</p>
+    <p class="tc vtablo" *ngIf="recording" [appEasyLang]="session">Говорите...</p>
+    <p class="tc vtablo" *ngIf="!recording" [appEasyLang]="session">Пауза</p>
 
-    <img class="ontablo_vote" *ngIf="recording" src="/images/listen.png">
-    <img class="ontablo_vote" *ngIf="!recording" src="/images/notlisten.png">
+    <img class="ontablo_vote invert-{{session.invert}}" *ngIf="recording" src="https://emo.su/images/listen.png">
+    <img class="ontablo_vote invert-{{session.invert}}" *ngIf="!recording" src="https://emo.su/images/notlisten.png">
 
     <div *ngIf="!reloading">
         <div id="pause" class="green-cursor" *ngIf="recording" (click)="pause()"></div>
         <div id="resume" class="green-cursor" *ngIf="!recording" (click)="resume()"></div>
-        <div id="send-vote" class="green-cursor" (click)="stop(true)"></div>
+        <div id="send-vote" class="green-cursor invert-{{session.invert}}" (click)="stop(true)"></div>
 
-        <div id="cross" class="green-cursor" (click)="break()"></div>
-        <div id="tick" class="green-cursor" (click)="stop(false)"></div>
+        <div id="cross" class="green-cursor invert-{{session.invert}}" (click)="break()"></div>
+        <div id="tick" class="green-cursor invert-{{session.invert}}" (click)="stop(false)"></div>
     </div>
     <div *ngIf="reloading">
-        <div id="cross" class="green-cursor" (click)="exit()"></div>  
+        <div id="cross" class="green-cursor invert-{{session.invert}}" (click)="exit()"></div>  
     </div>
     
 </div>

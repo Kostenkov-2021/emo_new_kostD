@@ -1,6 +1,5 @@
 body { 
     margin: 0;
-    background: WHITE;
     overflow: auto;
     word-wrap: break-word;
 }
@@ -75,18 +74,22 @@ p, img, a:visited, a:active, a:hover {
     text-decoration: none;
 }
 
-.black-cursor, body, html {
+.black-cursor, body {
      cursor: url('/images/cursorBlack.cur'), default;
      font-family: Arial, sans-serif;
 }
-
+html, body {top: 0; bottom: 0; left: 0; right: 0; position: absolute;}
 .green-cursor
 {
      cursor: url('/images/cursor.cur'), pointer;
 }
 
-.text-cursor {
+.text-cursor-false {
     cursor: url('/images/cursorText.cur') 16 16, text;
+}
+
+.text-cursor-true {
+    cursor: url('/images/cursorTextInvert.cur') 16 16, text;
 }
 
 .password {
@@ -184,3 +187,10 @@ audio, video {
     margin-left: -50px;
     /* bottom: 0; */
   }
+
+.image-standart-container {
+    display: block;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}

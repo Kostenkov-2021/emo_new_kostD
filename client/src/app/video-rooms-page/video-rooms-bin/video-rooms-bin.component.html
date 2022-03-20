@@ -1,23 +1,30 @@
 <div class="box-friend" *ngFor="let room of rooms">
-    <img 
-    class="friendAvatar dark-{{session.firstColor}}-border green-cursor" 
-    [src]="room.image ? room.image : '/images/videorooms.png'"
-    (click)="openForm(room)">
+    <div class="dark-{{session.firstColor}}-border friendAvatar-container">
+        <img 
+        class="friendAvatar dark-{{session.firstColor}}-border green-cursor invert-{{session.invert}}" 
+        [src]="room.image ? room.image : '/images/videorooms.png'"
+        (click)="openForm(room)">
+    </div>
     <div class="room_author green-cursor dark-{{session.firstColor}}-border" 
     *ngIf="room.author_ref"
-    style="background: url({{room.author_ref.photo}}); 
-    background-size: 100% 100%;
-    background-origin: border-box;
-    background-repeat: no-repeat;"
     (click)="openZoom(room.author_ref.photo, room.title, 'Создатель ' + room.author_ref.name + ' ' + room.author_ref.surname)"> 
+        <div class="invert-{{session.invert}}"
+        style="background: url({{room.author_ref.photo}}); 
+        width: 100%;
+        height: 100%;
+        border-radius: 32%;
+        background-size: 100% 100%;
+        background-origin: border-box;
+        background-repeat: no-repeat;">
+        </div>
     </div>
     <div class="friendName tc dark-{{session.firstColor}}-border green-cursor" (click)="openForm(room)">
-        <span appEasyLang>{{room.title}}</span><br>
+        <span [appEasyLang]="session">{{room.title}}</span><br>
     </div>
 </div>
 
-<div class="exit green-cursor" (click)="goToVP()"></div>
+<div class="exit green-cursor invert-{{session.invert}}" (click)="goToVP()"></div>
 
 <app-video-rooms-bin-form *ngIf="form" [room]="currentRoom" [session]="session" (result)="closeForm($event)"></app-video-rooms-bin-form>
-<app-picture-zoom *ngIf="zoom" [image]="image" [text_top]="text_top" [text_bottom]="text_bottom" (result)="closeZoom($event)"></app-picture-zoom>
+<app-picture-zoom *ngIf="zoom" [image]="image" [text_top]="text_top" [session]="session" [text_bottom]="text_bottom" (result)="closeZoom($event)"></app-picture-zoom>
 

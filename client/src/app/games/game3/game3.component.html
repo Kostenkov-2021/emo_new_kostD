@@ -1,6 +1,6 @@
 <div *ngIf="gameProgress == 0" class="gameBox">
 
-    <div class="pNotAdmin" appEasyLang>Вам надо будет решать примеры. В каких пределах вы хотите считать?</div>
+    <div class="pNotAdmin" [appEasyLang]="session">Вам надо будет решать примеры. В каких пределах вы хотите считать?</div>
     <ul class="time-list" id="time-list">
         <li>
           <button class="time-btn green-cursor" (click)="start(10, 'до 10')">
@@ -26,22 +26,22 @@
     <form [formGroup]="form">
 
         <div class="game3-box">
-            <div class="pNotAdmin" appEasyLang>Сложение:</div>
+            <div class="pNotAdmin" [appEasyLang]="session">Сложение:</div>
             <div formArrayName="addition">
                 <div *ngFor="let add of addition; let i = index" class="game3-example">
                     <span>{{add.example}}</span>
-                    <input type="number" [max]="count" min="0" [formControlName]="i" class="text-cursor">
+                    <input type="number" [max]="count" min="0" [formControlName]="i" class="text-cursor-{{!!session.invert}}">
                 </div>
             </div>
 
         </div>
 
         <div class="game3-box">
-            <div class="pNotAdmin" appEasyLang>Вычитание:</div>
+            <div class="pNotAdmin" [appEasyLang]="session">Вычитание:</div>
             <div formArrayName="subtraction">
                 <div *ngFor="let sub of subtraction; let i = index" class="game3-example">
                     <span>{{sub.example}}</span>
-                    <input type="number" [max]="count" min="0" [formControlName]="i" class="text-cursor">
+                    <input type="number" [max]="count" min="0" [formControlName]="i" class="text-cursor-{{!!session.invert}}">
                 </div>
             </div>
 
@@ -49,7 +49,7 @@
 
     </form>
 
-    <img class="game3-icon green-cursor" 
+    <img class="game3-icon green-cursor invert-{{session.invert}}" 
         src="/images/tick.png" 
         (click)="answer()">
 
@@ -58,9 +58,9 @@
 
 <div *ngIf="gameProgress == 2" class="gameBox">
 
-    <div class="pNotAdmin" appEasyLang>Решено верно: {{right}}.</div>
-    <div class="pNotAdmin" appEasyLang>Набрано очков: {{score}}.</div>
-    <div class="pNotAdmin" appEasyLang>Хотите сыграть ещё?</div>
+    <div class="pNotAdmin" [appEasyLang]="session">Решено верно: {{right}}.</div>
+    <div class="pNotAdmin" [appEasyLang]="session">Набрано очков: {{score}}.</div>
+    <div class="pNotAdmin" [appEasyLang]="session">Хотите сыграть ещё?</div>
     <ul class="time-list" id="time-list">
         <li>
           <button class="time-btn green-cursor" (click)="newStart()">

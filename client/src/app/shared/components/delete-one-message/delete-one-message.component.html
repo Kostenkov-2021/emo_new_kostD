@@ -1,16 +1,16 @@
 <div class="backdrop"></div>
 
 <div class="tablo_msg">
-    <p class="tc vtablo" appEasyLang>Хотите удалить сообщение?</p>
+    <p class="tc vtablo" [appEasyLang]="session">Хотите удалить сообщение?</p>
     <div id="delete_id"></div>
     <div class="ontablo start-tablo">
         
         <div *ngFor="let message of letter.message; let i = index" class="div-in-li">
             <div *ngIf="letter.type[i] == 1"  class="div-in-li">
-                 <img [src]="message" class="div-img" (click)="openZoom(message)">
+                 <img [src]="message" class="div-img invert-{{session.invert}}" (click)="openZoom(message)">
             </div>
 
-            <div *ngIf="letter.type[i] == 2" class="div-in-li" appEasyLang>
+            <div *ngIf="letter.type[i] == 2" class="div-in-li" [appEasyLang]="session">
                  {{message}}
             </div>
 
@@ -20,7 +20,7 @@
                  </audio>
             </div>
 
-            <div *ngIf="letter.type[i] == 4" class="div-in-li">
+            <div *ngIf="letter.type[i] == 4" class="div-in-li invert-{{session.invert}}">
                  <video controls class="div-img">
                       <source [src]="message">
                  </video>
@@ -28,16 +28,16 @@
 
             <div *ngIf="letter.type[i] == 5" class="div-in-li">
                  <a [href]="message" class="div-in-li" download>
-                      <img src="/images/docs.png" class="div-doument"> 
-                      <span class="docs" appEasyLang>ДОКУМЕНТ</span>
+                      <img src="https://emo.su/images/docs.png" class="div-doument"> 
+                      <span class="docs" [appEasyLang]="session">Документ</span>
                  </a>
             </div>
        </div>
        
     </div>
-    <div class="ontablo" id="strelka_msg"></div>
+    <div class="ontablo invert-{{session.invert}}" id="strelka_msg"></div>
     <div class="ontablo" id="musorka_msg"></div>
     <div class="ontablo" id="question_msg"></div>
-    <div id="cross_msg" (click)="checked(false)" class="green-cursor"></div>
-    <div id="tick_msg" (click)="checked(true)" class="green-cursor"></div>
+    <div id="cross_msg" (click)="checked(false)" class="green-cursor invert-{{session.invert}}"></div>
+    <div id="tick_msg" (click)="checked(true)" class="green-cursor invert-{{session.invert}}"></div>
 </div>

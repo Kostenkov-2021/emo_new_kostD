@@ -8,7 +8,7 @@
                 <p class="in_new_user dark-{{session.firstColor}}-color">Картинка:</p>
                 <input type="file" (change)="onRootFileUpload($event)"><br>
                 <img 
-                class="now_img" 
+                class="now_img invert-{{session.invert}}" 
                 [src]="rootPreview"
                 *ngIf="rootPreview && rootPreview !== '/images/clean.png'"
                 >
@@ -27,7 +27,7 @@
                 
                 <p>{{item.item}}</p>
                 <img 
-                class="now_img" 
+                class="now_img invert-{{session.invert}}" 
                 [src]="item.src"
                 *ngIf="item.src && item.src !== '/images/clean.png'"
                 > <br>
@@ -61,7 +61,7 @@
                 <p class="in_new_user dark-{{session.firstColor}}-color">Картинка:</p>
                 <input type="file" (change)="onChildFileUpload($event)"><br>
                 <img 
-                class="now_img" 
+                class="now_img invert-{{session.invert}}" 
                 [src]="childPreview"
                 *ngIf="childPreview && childPreview !== '/images/clean.png'"
                 >
@@ -77,7 +77,7 @@
             <div *ngFor="let item of childItems" class="itemBox dark-{{session.firstColor}}-border">
                 <p>{{item.item}}</p>
                 <img 
-                class="now_img" 
+                class="now_img invert-{{session.invert}}" 
                 [src]="item.src"
                 *ngIf="item.src && item.src !== '/images/clean.png'"
                 ><br>

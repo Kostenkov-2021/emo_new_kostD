@@ -5,8 +5,8 @@
     id="edit_event" 
     [formGroup]="form_del">
 
-        <p class="pNotAdmin" appEasyLang>{{room.title}}</p>
-        <p class="pNotAdmin" appEasyLang>Создатель {{room.author_ref.name}} {{room.author_ref.surname}}</p>
+        <p class="pNotAdmin" [appEasyLang]="session">{{room.title}}</p>
+        <p class="pNotAdmin" [appEasyLang]="session">Создатель {{room.author_ref.name}} {{room.author_ref.surname}}</p>
         <img 
         class="now_img" 
         [src]="room.image"
@@ -14,7 +14,7 @@
         > 
 
         <br><br>
-        <p class="pNotAdmin" appEasyLang>Что вы хотите сделать?</p>
+        <p class="pNotAdmin" [appEasyLang]="session">Что вы хотите сделать?</p>
         <br> 
         <div class="radio_yes"></div>
         <label class="radio" [ngClass]="{checked: form_del.value.whatDo == 'active'}">
@@ -32,11 +32,11 @@
             <div class="radio_2 green-cursor"></div>
         </label>
         <br> <br>
-        <p class="pNotAdmin" appEasyLang *ngIf="form_del.value.whatDo == 'nothing'">Закрыть форму?</p>
-        <p class="pNotAdmin" appEasyLang *ngIf="form_del.value.whatDo == 'active'">Вернуть видеокомнату в активные?</p>
-        <p class="pNotAdmin" appEasyLang *ngIf="form_del.value.whatDo == 'delete'">Удалить видеокомнату навсегда?</p>
+        <p class="pNotAdmin" [appEasyLang]="session" *ngIf="form_del.value.whatDo == 'nothing'">Закрыть форму?</p>
+        <p class="pNotAdmin" [appEasyLang]="session" *ngIf="form_del.value.whatDo == 'active'">Вернуть видеокомнату в активные?</p>
+        <p class="pNotAdmin" [appEasyLang]="session" *ngIf="form_del.value.whatDo == 'delete'">Удалить видеокомнату навсегда?</p>
     
-        <div id="cross_pict" (click)="close()" class="green-cursor"></div>
-        <div id="tick_pict" (click)="onSubmit()" class="green-cursor"></div>
+        <div id="cross_pict" (click)="close()" class="green-cursor invert-{{session.invert}}"></div>
+        <div id="tick_pict" (click)="onSubmit()" class="green-cursor invert-{{session.invert}}"></div>
     </form>
 </div>

@@ -27,7 +27,9 @@ export class PeopleLayoutComponent implements OnInit {
     private auth: LoginService,
     private navService: NavService,
     private chatService: ChatService) {
-      this.navSub = this.navService.newSettings.subscribe(user => this.session = user)
+      this.navSub = this.navService.newSettings.subscribe((user: User) => {
+        this.session = user
+      })
      }
 
   ngOnInit(): void {

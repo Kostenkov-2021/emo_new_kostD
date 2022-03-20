@@ -1,9 +1,11 @@
 <form id="edit_user" class="dark-{{session.firstColor}}-border" [formGroup]="form" *ngIf="!reloading; else reloader">
-    <img 
-    class="edit-avatar right dark-{{session.firstColor}}-border"
-    [src]="imagePreview"
-    *ngIf="imagePreview"
-    >
+    <div class="dark-{{session.firstColor}}-border edit-avatar right">
+        <img 
+        class="image-standart-container invert-{{session.invert}}"
+        [src]="imagePreview"
+        *ngIf="imagePreview"
+        >
+    </div>
     <h3 class="dark-{{session.firstColor}}-color">Основные данные:</h3>
     <p class="dark-{{session.firstColor}}-color">Логин:</p>
     <input type="text" formControlName="login"> 
@@ -110,6 +112,10 @@
     <input name="screenreader" type="radio" value="true" formControlName="screenreader"> Да <br>
     <input name="screenreader" type="radio" value="false" formControlName="screenreader"> Нет <br>
 
+    <p class="in_new_user dark-{{session.firstColor}}-color">Подсветка "Простой язык":</p>
+    <input name="easyLang" type="radio" value="true" formControlName="easyLang"> Да <br>
+    <input name="easyLang" type="radio" value="false" formControlName="easyLang"> Нет <br>
+
     <p class="in_new_user dark-{{session.firstColor}}-color">Показывается время отправки сообщений:</p>
     <input name="time" type="radio" value="true" formControlName="time"> Да <br>
     <input name="time" type="radio" value="false" formControlName="time"> Нет <br>
@@ -154,6 +160,10 @@
             </td>
         </tr> 
     </table>
+
+    <p class="in_new_user dark-{{session.firstColor}}-color">Инверсия цветов:</p>
+    <input name="invert" type="radio" value="1" formControlName="invert"> Да <br>
+    <input name="invert" type="radio" value="0" formControlName="invert"> Нет <br>
     <br>
 
     <br>

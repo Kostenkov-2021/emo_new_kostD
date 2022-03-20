@@ -5,20 +5,20 @@
     id="edit_event" 
     [formGroup]="form">
 
-        <p class="pNotAdmin" appEasyLang>Название комнаты:</p>
-        <textarea formControlName="title" class="textarea text-cursor"></textarea> <br>
+        <p class="pNotAdmin" [appEasyLang]="session">Название комнаты:</p>
+        <textarea formControlName="title" class="textarea text-cursor-{{!!session.invert}}"></textarea> <br>
 
-        <p class="pNotAdmin" appEasyLang>Картинка:</p>
+        <p class="pNotAdmin" [appEasyLang]="session">Картинка:</p>
         <input type="file" id="chatImage" (change)="onFileUpload($event)" hidden>
         <label for="chatImage">
             <img 
-            class="now_img green-cursor" 
+            class="now_img green-cursor invert-{{session.invert}}" 
             [src]="imagePreview"
             *ngIf="imagePreview"
             > 
         </label>
         <br>
-        <p class="pNotAdmin" appEasyLang>Доступ:</p>
+        <p class="pNotAdmin" [appEasyLang]="session">Доступ:</p>
         <div class="radio_yes"></div>
         <label class="radio" [ngClass]="{checked: form.value.privateLevel == 0}">
             <input name="privateLevel" type="radio" [value]="0" formControlName="privateLevel" hidden> 
@@ -27,7 +27,7 @@
         <div class="radio_yes"></div>
         <label class="radio" [ngClass]="{checked: form.value.privateLevel == 1}">
             <input name="privateLevel" type="radio" [value]="1" formControlName="privateLevel" hidden>
-            <div class="radio_1 green-cursor"></div>
+            <div class="radio_1 green-cursor invert-{{session.invert}}"></div>
         </label>
         <div class="radio_yes"></div>
         <label class="radio" [ngClass]="{checked: form.value.privateLevel == 2}">
@@ -36,19 +36,21 @@
         </label>
         <div style="width: 100%;">
         <div *ngIf="friends && form.value.privateLevel == 2" class="video_form_users">
-            <p class="pNotAdmin" appEasyLang>Участники:</p>
+            <p class="pNotAdmin" [appEasyLang]="session">Участники:</p>
 
             <div class="pictaandtext" *ngFor="let user of friends">
+                <div class="pict_event_container dark-{{session.secondColor}}-border">
                 <img 
-                class="pict_event dark-{{session.secondColor}}-border green-cursor" 
+                class="pict_event green-cursor invert-{{session.invert}}" 
                 [src]="user.photo"
                 (click)="checkUser(user._id)">
-                <div class="green-cursor" 
+                </div>
+                <div class="green-cursor invert-{{session.invert}}" 
                 [ngClass]="{event_tick: users.includes(user._id), event_cross: !users.includes(user._id)}"
                 (click)="checkUser(user._id)"> </div>
                 <div class="pictatext tc dark-{{session.secondColor}}-border green-cursor" (click)="checkUser(user._id)">
-                    <span appEasyLang>{{user.name}}</span><br>
-                    <span *ngIf="session.surnameView" appEasyLang>{{user.surname}}</span>
+                    <span [appEasyLang]="session">{{user.name}}</span><br>
+                    <span *ngIf="session.surnameView" [appEasyLang]="session">{{user.surname}}</span>
                 </div>                                             	 
            </div>
         </div>
@@ -57,7 +59,7 @@
     <div class="green-cursor button_2 delete_pict" *ngIf="room._id" (click)="delete()"></div>
     <div class="green-cursor button_2 pause" *ngIf="room.active == 1" (click)="changeActive(0)"></div>
     <div class="green-cursor button_2 resume" *ngIf="room.active == 0" (click)="changeActive(1)"></div>
-    <div id="cross_pict" (click)="close()" class="green-cursor"></div>
-    <div id="tick_pict" (click)="onSubmit()" class="green-cursor"></div>
+    <div id="cross_pict" (click)="close()" class="green-cursor invert-{{session.invert}}"></div>
+    <div id="tick_pict" (click)="onSubmit()" class="green-cursor invert-{{session.invert}}"></div>
 </div>
 

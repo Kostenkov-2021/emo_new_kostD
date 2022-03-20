@@ -3,6 +3,7 @@ import { LoginService } from '../../services/login.service';
 import { NavService } from '../../services/nav.service';
 import { Router} from '@angular/router';
 import {Subscription } from 'rxjs';
+import { User } from '../../interfaces';
 
 @Component({
   selector: 'app-admin-layout',
@@ -21,20 +22,20 @@ export class AdminLayoutComponent implements OnInit {
     {url: '/manage/events', name: 'Мероприятия'},
     {url: '/manage/analytics', name: 'Аналитика'}
   ]
-  color: string
+  session: User
   reloading: boolean = false
 
   constructor(
     private auth: LoginService,
     private router: Router,
     private navService: NavService) {
-      this.navService.newSettings.subscribe(user => this.color = user.firstColor)
+      this.navService.newSettings.subscribe(user => this.session = user)
     }
 
   ngOnInit(): void {
     this.reloading = true
     this.oSub = this.auth.getUser().subscribe(user => {
-      this.color = user.firstColor
+      this.session = user
       this.reloading = false
     })
   }

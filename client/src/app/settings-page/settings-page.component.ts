@@ -41,7 +41,9 @@ export class SettingsPageComponent implements OnInit, OnDestroy {
         firstColor: new FormControl(this.session.firstColor.toString()),
         secondColor: new FormControl(this.session.secondColor.toString()),
         screenreader: new FormControl(this.session.screenreader.toString()),
-        time: new FormControl(typeof this.session['time'] !== "undefined" ? this.session.time.toString() : false)
+        invert: new FormControl(this.session.invert ? this.session.invert.toString() : '0'),
+        easyLang: new FormControl(this.session.easyLang ? this.session.easyLang.toString() : 'false'),
+        time: new FormControl(typeof this.session['time'] !== "undefined" ? this.session.time.toString() : 'false')
       }) 
       this.reloading = false
     })

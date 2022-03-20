@@ -84,8 +84,8 @@
 }
 .content {
     position: relative;
-    top: 80px;
-    padding: 0, 0, 20px, 0;
+    padding-top: 80px;
+    /* padding: 0, 0, 20px, 0; */
     z-index: 1;
 }
 .user {
@@ -208,12 +208,14 @@ p {
     max-width: 128px; 
     display: block;  
     margin: auto; 
+    background-color: #fff;
 }
 .picta_one {
     max-height: 258px;
     max-width: 258px; 
     display: block; 
     margin: auto;
+    background-color: #fff;
 }
 .p_text {
     margin-top: 8px;

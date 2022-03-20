@@ -33,7 +33,8 @@ export interface User {
   info?: string
   videorooms?: boolean
   id?: string
-  
+  easyLang?: boolean
+  invert?: number
 }
 
 export interface Users {

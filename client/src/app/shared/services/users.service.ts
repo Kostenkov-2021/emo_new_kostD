@@ -75,7 +75,9 @@ export class UsersService {
       games?: boolean,
       time?: boolean,
       info?: string,
-      videorooms?: string
+      videorooms?: string,
+      easyLang?: string,
+      invert?: string
     ): Observable<User> {
 
       const fd = new FormData()
@@ -110,6 +112,8 @@ export class UsersService {
       if (time) fd.append('time', time.toString())
       if (screenreader) fd.append('screenreader', screenreader.toString())
       if (videorooms) fd.append('videorooms', videorooms)
+      if (easyLang) fd.append('easyLang', easyLang)
+      if (invert) fd.append('invert', invert)
 
       return this.http.post<User>(`/api/manage/users`, fd)
     }
@@ -147,7 +151,9 @@ export class UsersService {
       games?: boolean,
       time?: boolean,
       info?: string,
-      videorooms?: string
+      videorooms?: string,
+      easyLang?: string,
+      invert?: string
     ): Observable<User> {
 
       const fd = new FormData()
@@ -182,6 +188,8 @@ export class UsersService {
       if (screenreader) fd.append('screenreader', screenreader.toString())
       if (games) fd.append('games', games.toString())
       if (time) fd.append('time', time.toString())
+      if (easyLang) fd.append('easyLang', easyLang)
+      if (invert) fd.append('invert', invert)
 
       return this.http.patch<User>(`/api/manage/users/${id}`, fd)
     }

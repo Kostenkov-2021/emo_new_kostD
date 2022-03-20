@@ -1,32 +1,32 @@
 <div class="backdrop"></div>
 
 <div class="tablo_uv">
-    <p class="tc vtablo" appEasyLang>Описание</p>
+    <p class="tc vtablo" [appEasyLang]="session">Описание</p>
     <form 
     id="edit_event" 
     [formGroup]="form">
         <div *ngIf="buttons$ | async as buttons">
             <div *ngFor="let button of buttons">
-                <div *ngIf="group.type == button.type" class="pNotAdmin" appEasyLang>{{button.text}}</div>
+                <div *ngIf="group.type == button.type" class="pNotAdmin" [appEasyLang]="session">{{button.text}}</div>
             </div>
         </div> <br>
 
-        <textarea formControlName="description" class="textarea text-cursor"></textarea> <br>
+        <textarea formControlName="description" class="textarea text-cursor-{{!!session.invert}}"></textarea> <br>
 
-        <p class="pNotAdmin" appEasyLang>Адрес:</p>
-        <textarea formControlName="address" class="textarea text-cursor"></textarea> <br>
+        <p class="pNotAdmin" [appEasyLang]="session">Адрес:</p>
+        <textarea formControlName="address" class="textarea text-cursor-{{!!session.invert}}"></textarea> <br>
 
-        <p class="pNotAdmin" appEasyLang>Стоимость:</p>
-        <input type="number" min="0" formControlName="cost" class="number-input text-cursor"> <br>
+        <p class="pNotAdmin" [appEasyLang]="session">Стоимость:</p>
+        <input type="number" min="0" formControlName="cost" class="number-input text-cursor-{{!!session.invert}}"> <br>
 
-        <p class="pNotAdmin" appEasyLang>Дата и время:</p>
+        <p class="pNotAdmin" [appEasyLang]="session">Дата и время:</p>
         <input type="datetime-local" formControlName="date" class="datetime-local green-cursor"> <br>
 
-        <p class="pNotAdmin" appEasyLang>Картинка чата:</p>
+        <p class="pNotAdmin" [appEasyLang]="session">Картинка чата:</p>
         <input type="file"  formControlName="chatImage" id="chatImage" (change)="onFileUpload($event)" hidden>
         <label for="chatImage">
             <img 
-            class="now_img green-cursor" 
+            class="now_img green-cursor invert-{{session.invert}} white" 
             [src]="imagePreview"
             *ngIf="imagePreview"
             > 
@@ -34,14 +34,14 @@
         <br>
 
         
-        <p class="pNotAdmin" appEasyLang>Участники:</p>
+        <p class="pNotAdmin" [appEasyLang]="session">Участники:</p>
        
-        <div *ngFor="let user of group.participantsNames" appEasyLang class="pNotAdmin">                
-            {{user.name}}{{session.surnameView ? ' ' + user.surname : ''}}{{session.login === user.login ? ' (ВЫ),' : ','}} {{user.institutionName}}
+        <div *ngFor="let user of group.participantsNames" [appEasyLang]="session" class="pNotAdmin">                
+            {{user.name}}{{session.surnameView ? ' ' + user.surname : ''}}{{session.login === user.login ? ' (ВЫ)' : ''}}
         </div>
        
 
     </form>
-    <div id="cross_pict" (click)="close()" class="green-cursor"></div>
-    <div id="tick_pict" (click)="update()" class="green-cursor"></div>
+    <div id="cross_pict" (click)="close()" class="green-cursor invert-{{session.invert}}"></div>
+    <div id="tick_pict" (click)="update()" class="green-cursor invert-{{session.invert}}"></div>
 </div>

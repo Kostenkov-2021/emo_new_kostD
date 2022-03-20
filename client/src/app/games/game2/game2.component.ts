@@ -1,5 +1,8 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { User } from 'src/app/shared/interfaces';
+import { LoginService } from 'src/app/shared/services/login.service';
 import { PeopleService } from 'src/app/shared/services/people.service';
 
 const colors = [
@@ -13,10 +16,10 @@ const colors = [
   styleUrls: ['./game2.component.css']
 })
 
-export class Game2Component implements AfterViewInit, OnDestroy {
+export class Game2Component implements AfterViewInit, OnDestroy, OnInit {
   @ViewChild('board') board: ElementRef<HTMLDivElement>;
 
-  gameProgress: number = 0
+  gameProgress: number = -1
   score: number = 0
   answer: string = ''
   time: number = 0
@@ -24,12 +27,22 @@ export class Game2Component implements AfterViewInit, OnDestroy {
   timeStr: string
   t: any
   levelName: string
+  session: User
+  oSub: Subscription
 
 
   constructor(
     private router: Router,
+    private loginService: LoginService,
     private peopleService: PeopleService,
     private renderer: Renderer2) { }
+
+  ngOnInit(): void {
+    this.oSub = this.loginService.getUser().subscribe(user => {
+      this.session = user
+      this.gameProgress += 1
+    })
+  }
 
   ngAfterViewInit () {
     this.board.nativeElement.addEventListener('click', event => {
@@ -107,6 +120,7 @@ export class Game2Component implements AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     clearInterval(this.t)
+    this.oSub.unsubscribe()
   }
 
 }

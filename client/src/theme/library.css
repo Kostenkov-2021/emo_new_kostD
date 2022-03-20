@@ -26,10 +26,6 @@
   width: 100%;
   border-style: ridge;
 }
-
-.pict{ 
-  width: 100%;
-}
   
 .pictaandtext {
   width: 27%;     
@@ -55,11 +51,46 @@
     padding-bottom: 0.2cm;
   }
   
-  img.pict {
+  .pict {
     border-width: 3px; 
     border-style: solid;
     border-radius: 10px;
+    width: 100%;
   }
+
+  .pict-image {
+    border-width: 0; 
+    border-radius: 7px;
+    display:block;
+    width: 100%;
+  }
+  .sentence-in {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    text-align: left;
+    word-wrap: break-word;
+    display: block;
+}
+
+.sent-m {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 10%;
+    width: 80%;
+    position: relative;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 10px;
+    display: block;
+}
+.video {
+    display: block;
+    position: relative;
+    max-height: 15rem;
+    max-width: 100%;
+    border-radius: 7px;
+}
   
   .exit { 
     height: 10vh;

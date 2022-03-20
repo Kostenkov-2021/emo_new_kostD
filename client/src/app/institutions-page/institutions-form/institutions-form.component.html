@@ -26,7 +26,7 @@ class="institution dark-{{session.firstColor}}-border"
     
     <input type="file" (change)="onFileUpload($event)"><br>
     <img 
-    class="now_img" 
+    class="now_img invert-{{session.invert}}" 
     [src]="imagePreview"
     *ngIf="imagePreview"
     > 

@@ -1,7 +1,7 @@
 <form id="setting_form" [formGroup]="form" *ngIf="!reloading; else reloader" (submit)="onSubmit()">
 
     <div *ngIf="session.setting > 0">
-        <p class="pNotAdmin" appEasyLang>Первый цвет:</p>
+        <p class="pNotAdmin" [appEasyLang]="session">Первый цвет:</p>
         <table>
             <tr>
                 <td *ngFor="let color of colors">
@@ -19,7 +19,7 @@
             </tr> 
         </table>
 
-        <p class="pNotAdmin" appEasyLang>Второй цвет:</p>
+        <p class="pNotAdmin" [appEasyLang]="session">Второй цвет:</p>
         <table>
             <tr>
                 <td *ngFor="let color of colors">
@@ -36,100 +36,112 @@
                 </td>
             </tr> 
         </table>
+
+        <p class="pNotAdmin" [appEasyLang]="session">Инверсия цветов:</p>
+        
+        <label class="radio" [ngClass]="{checked: form.value.invert == '1'}">
+            <input name="invert" type="radio" value="1" formControlName="invert" hidden> 
+            <div class="yes green-cursor invert-{{session.invert}}"></div>
+        </label>
+        <div class="radio_yes"></div>
+        <label class="radio" [ngClass]="{checked: form.value.invert == '0'}">
+            <input name="invert" type="radio" value="0" formControlName="invert" hidden> 
+            <div class="no green-cursor invert-{{session.invert}}"></div> 
+        </label>
     </div>
 
     <div *ngIf="session.setting == 2">
-        <p class="pNotAdmin" appEasyLang>Онлайны:</p>
+        <p class="pNotAdmin" [appEasyLang]="session">Онлайны:</p>
         
         <label class="radio" [ngClass]="{checked: form.value.online == 'true'}">
             <input name="online" type="radio" value="true" formControlName="online" hidden> 
-            <div class="yes green-cursor"></div>
+            <div class="yes green-cursor invert-{{session.invert}}"></div>
         </label>
         <div class="radio_yes"></div>
         <label class="radio" [ngClass]="{checked: form.value.online == 'false'}">
             <input name="online" type="radio" value="false" formControlName="online" hidden> 
-            <div class="no green-cursor"></div> 
+            <div class="no green-cursor invert-{{session.invert}}"></div> 
         </label>
 
-        <p class="pNotAdmin" appEasyLang>Отправляемые подписи:</p>
+        <p class="pNotAdmin" [appEasyLang]="session">Отправляемые подписи:</p>
 
         <label class="radio"  [ngClass]="{checked: form.value.text == 'true'}">
             <input name="text" type="radio" value="true" formControlName="text" hidden> 
-            <div class="yes green-cursor"></div> 
+            <div class="yes green-cursor invert-{{session.invert}}"></div> 
         </label>
         <div class="radio_yes"></div>
         <label class="radio" [ngClass]="{checked: form.value.text == 'false'}">
             <input name="text" type="radio" value="false" formControlName="text" hidden>
-            <div class="no green-cursor"></div>
+            <div class="no green-cursor invert-{{session.invert}}"></div>
         </label>
 
-        <p class="pNotAdmin" appEasyLang>Прочитано ли сообщение:</p>
+        <p class="pNotAdmin" [appEasyLang]="session">Прочитано ли сообщение:</p>
         <label class="radio" [ngClass]="{checked: form.value.read == 'true'}">
             <input name="read" type="radio" value="true" formControlName="read" hidden> 
-            <div class="yes green-cursor"></div> 
+            <div class="yes green-cursor invert-{{session.invert}}"></div> 
         </label>
         <div class="radio_yes"></div>
         <label class="radio" [ngClass]="{checked: form.value.read == 'false'}">
             <input name="read" type="radio" value="false" formControlName="read" hidden>
-            <div class="no green-cursor"></div> 
+            <div class="no green-cursor invert-{{session.invert}}"></div> 
         </label>
 
-        <p class="pNotAdmin" appEasyLang>Фамилии:</p>
+        <p class="pNotAdmin" [appEasyLang]="session">Фамилии:</p>
         <label class="radio" [ngClass]="{checked: form.value.surnameView == 'true'}">
             <input name="surnameView" type="radio" value="true" formControlName="surnameView" hidden> 
-            <div class="yes green-cursor"></div> 
+            <div class="yes green-cursor invert-{{session.invert}}"></div> 
         </label>
         <div class="radio_yes"></div>
         <label class="radio" [ngClass]="{checked: form.value.surnameView == 'false'}">
             <input name="surnameView" type="radio" value="false" formControlName="surnameView" hidden>
-            <div class="no green-cursor"></div>
+            <div class="no green-cursor invert-{{session.invert}}"></div>
         </label>
 
-        <p class="pNotAdmin" appEasyLang>Голосовые сообщения:</p>
+        <p class="pNotAdmin" [appEasyLang]="session">Голосовые сообщения:</p>
         <label class="radio" [ngClass]="{checked: form.value.vote == 'true'}">
             <input name="vote" type="radio" value="true" formControlName="vote" hidden> 
-            <div class="yes green-cursor"></div> 
+            <div class="yes green-cursor invert-{{session.invert}}"></div> 
         </label>
         <div class="radio_yes"></div>
         <label class="radio" [ngClass]="{checked: form.value.vote == 'false'}">
             <input name="vote" type="radio" value="false" formControlName="vote" hidden>
-            <div class="no green-cursor"></div>
+            <div class="no green-cursor invert-{{session.invert}}"></div>
         </label>
 
-        <p class="pNotAdmin" appEasyLang>Предложения:</p>
+        <p class="pNotAdmin" [appEasyLang]="session">Предложения:</p>
         <label class="radio" [ngClass]="{checked: form.value.sentence == 'true'}">
             <input name="sentence" type="radio" value="true" formControlName="sentence" hidden> 
-            <div class="yes green-cursor"></div> 
+            <div class="yes green-cursor invert-{{session.invert}}"></div> 
         </label>
         <div class="radio_yes"></div>
         <label class="radio" [ngClass]="{checked: form.value.sentence == 'false'}">
             <input name="sentence" type="radio" value="false" formControlName="sentence" hidden>
-            <div class="no green-cursor"></div>
+            <div class="no green-cursor invert-{{session.invert}}"></div>
         </label>
 
-        <p class="pNotAdmin" appEasyLang>Подсказки к ответам:</p>
+        <p class="pNotAdmin" [appEasyLang]="session">Подсказки к ответам:</p>
         <label class="radio" [ngClass]="{checked: form.value.answers == 'true'}">
             <input name="answers" type="radio" value="true" formControlName="answers" hidden> 
-            <div class="yes green-cursor"></div> 
+            <div class="yes green-cursor invert-{{session.invert}}"></div> 
         </label>
         <div class="radio_yes"></div>
         <label class="radio" [ngClass]="{checked: form.value.answers == 'false'}">
             <input name="answers" type="radio" value="false" formControlName="answers" hidden>
-            <div class="no green-cursor"></div>
+            <div class="no green-cursor invert-{{session.invert}}"></div>
         </label>
 
-        <p class="pNotAdmin" appEasyLang>Смена цветных и чёрно-белых пиктограмм:</p>
+        <p class="pNotAdmin" [appEasyLang]="session">Смена цветных и чёрно-белых пиктограмм:</p>
         <label class="radio" [ngClass]="{checked: form.value.change == 'true'}">
             <input name="change" type="radio" value="true" formControlName="change" hidden> 
-            <div class="yes green-cursor"></div> 
+            <div class="yes green-cursor invert-{{session.invert}}"></div> 
         </label>
         <div class="radio_yes"></div>
         <label class="radio" [ngClass]="{checked: form.value.change == 'false'}">
             <input name="change" type="radio" value="false" formControlName="change" hidden>
-            <div class="no green-cursor"></div>
+            <div class="no green-cursor invert-{{session.invert}}"></div>
         </label>
 
-        <p class="pNotAdmin" appEasyLang>Пиктограммы по умолчанию:</p>
+        <p class="pNotAdmin" [appEasyLang]="session">Пиктограммы по умолчанию:</p>
         <label class="radio" [ngClass]="{checked: form.value.defaultColor == 'grey'}">
             <input name="defaultColor" type="radio" value="grey" formControlName="defaultColor" hidden>
             <div class="grey green-cursor"></div>
@@ -140,47 +152,58 @@
             <div class="color green-cursor"></div>
         </label>
 
-        <p class="pNotAdmin" appEasyLang>Именинники:</p>
+        <p class="pNotAdmin" [appEasyLang]="session">Именинники:</p>
         <label class="radio" [ngClass]="{checked: form.value.birthdays == 'true'}">
             <input name="birthdays" type="radio" value="true" formControlName="birthdays" hidden> 
-            <div class="yes green-cursor"></div> 
+            <div class="yes green-cursor invert-{{session.invert}}"></div> 
         </label>
         <div class="radio_yes"></div>
         <label class="radio" [ngClass]="{checked: form.value.birthdays == 'false'}">
             <input name="birthdays" type="radio" value="false" formControlName="birthdays" hidden>
-            <div class="no green-cursor"></div>
+            <div class="no green-cursor invert-{{session.invert}}"></div>
         </label>
 
-        <p class="pNotAdmin" appEasyLang>Озвучка текста:</p>
+        <p class="pNotAdmin" [appEasyLang]="session">Озвучка текста:</p>
         <label class="radio" [ngClass]="{checked: form.value.screenreader == 'true'}">
             <input name="screenreader" type="radio" value="true" formControlName="screenreader" hidden> 
-            <div class="yes green-cursor"></div> 
+            <div class="yes green-cursor invert-{{session.invert}}"></div> 
         </label>
         <div class="radio_yes"></div>
         <label class="radio" [ngClass]="{checked: form.value.screenreader == 'false'}">
             <input name="screenreader" type="radio" value="false" formControlName="screenreader" hidden>
-            <div class="no green-cursor"></div>
+            <div class="no green-cursor invert-{{session.invert}}"></div>
         </label>
 
-        <p class="pNotAdmin" appEasyLang>Время сообщений:</p>
+        <p class="pNotAdmin" [appEasyLang]="session">Время сообщений:</p>
         <label class="radio" [ngClass]="{checked: form.value.time == 'true'}">
             <input name="time" type="radio" value="true" formControlName="time" hidden> 
-            <div class="yes green-cursor"></div> 
+            <div class="yes green-cursor invert-{{session.invert}}"></div> 
         </label>
         <div class="radio_yes"></div>
         <label class="radio" [ngClass]="{checked: form.value.time == 'false'}">
             <input name="time" type="radio" value="false" formControlName="time" hidden>
-            <div class="no green-cursor"></div>
+            <div class="no green-cursor invert-{{session.invert}}"></div>
+        </label>
+
+        <p class="pNotAdmin" [appEasyLang]="session">Простой язык:</p>
+        <label class="radio" [ngClass]="{checked: form.value.easyLang == 'true'}">
+            <input name="easyLang" type="radio" value="true" formControlName="easyLang" hidden> 
+            <div class="yes green-cursor invert-{{session.invert}}"></div> 
+        </label>
+        <div class="radio_yes"></div>
+        <label class="radio" [ngClass]="{checked: form.value.easyLang == 'false'}">
+            <input name="easyLang" type="radio" value="false" formControlName="easyLang" hidden>
+            <div class="no green-cursor invert-{{session.invert}}"></div>
         </label>
     </div>
-    <button class="btn tc dark-{{session.firstColor}}-border green-cursor" type="submit" *ngIf="session.setting != 0" appEasyLang>
+    <button class="btn tc dark-{{session.firstColor}}-border green-cursor" type="submit" *ngIf="session.setting != 0" [appEasyLang]="session">
         Сохранить
     </button>
     <div *ngIf="session.levelStatus == 4">
-        <button class="btn tc dark-{{session.firstColor}}-border green-cursor" type="button" (click)="newRole('3')" appEasyLang>
+        <button class="btn tc dark-{{session.firstColor}}-border green-cursor" type="button" (click)="newRole('3')" [appEasyLang]="session">
             Стать подопечным
         </button>
-        <button class="btn tc dark-{{session.firstColor}}-border green-cursor" type="button" (click)="newRole('5')" appEasyLang>
+        <button class="btn tc dark-{{session.firstColor}}-border green-cursor" type="button" (click)="newRole('5')" [appEasyLang]="session">
             Стать взрослым
         </button>
     </div> 

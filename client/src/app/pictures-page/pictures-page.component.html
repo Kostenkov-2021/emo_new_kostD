@@ -14,21 +14,21 @@
                 </div>
                 <div *ngIf="pictureAndFolder.folder.many !== 0">
                     <div class="p_border dark-{{session.firstColor}}-border">
-                        <img class="picta-pictures" [src]="picture.boysGreyPicture">
+                        <img class="picta-pictures invert-{{session.invert}}" [src]="picture.boysGreyPicture">
                     </div>
                     <div class="p_border dark-{{session.firstColor}}-border">
-                        <img class="picta-pictures" [src]="picture.girlsGreyPicture">
+                        <img class="picta-pictures invert-{{session.invert}}" [src]="picture.girlsGreyPicture">
                     </div>
                     <div class="p_border dark-{{session.firstColor}}-border">
-                        <img class="picta-pictures" [src]="picture.boysColorPicture">
+                        <img class="picta-pictures invert-{{session.invert}}" [src]="picture.boysColorPicture">
                     </div>
                     <div class="p_border dark-{{session.firstColor}}-border">
-                        <img class="picta-pictures" [src]="picture.girlsColorPicture">
+                        <img class="picta-pictures invert-{{session.invert}}" [src]="picture.girlsColorPicture">
                     </div>
                 </div>
 
                 <div *ngIf="pictureAndFolder.folder.many === 0">
-                    <div class="p_border_one dark-{{session.firstColor}}-border"><img class="picta_one" [src]="picture.boysGreyPicture"></div>
+                    <div class="p_border_one dark-{{session.firstColor}}-border"><img class="picta_one invert-{{session.invert}}" [src]="picture.boysGreyPicture"></div>
                 </div>
 
                 <div class="p_text">{{picture.p_sort}}. 

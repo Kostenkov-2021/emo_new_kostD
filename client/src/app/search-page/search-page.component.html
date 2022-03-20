@@ -8,31 +8,33 @@
             <option value="">Все</option>
             <option *ngFor="let institution of institutions" value="{{institution._id}}">{{institution.name}}</option>
         </select>
-        <span><input type="text" class="inheader text-cursor" [(ngModel)]="name" placeholder="ИМЯ ИЛИ ФАМИЛИЯ"></span>
-        <span><img *ngIf="session.online" class="img_filter green-cursor" [ngClass]="{checked: online}" src="/images/computer.png"(click)="changeOnline()"></span>
-        <span><img *ngIf="session.birthdays" class="img_filter green-cursor" [ngClass]="{checked: birthday}" src="/images/present.png" (click)="changeBirthday()"></span>
+        <span><input type="text" class="inheader text-cursor-{{!!session.invert}}" [(ngModel)]="name" placeholder="ИМЯ ИЛИ ФАМИЛИЯ"></span>
+        <span><img *ngIf="session.online" class="img_filter green-cursor invert-{{session.invert}}" [ngClass]="{checked: online}" src="/images/computer.png"(click)="changeOnline()"></span>
+        <span><img *ngIf="session.birthdays" class="img_filter green-cursor invert-{{session.invert}}" [ngClass]="{checked: birthday}" src="/images/present.png" (click)="changeBirthday()"></span>
     </div>
 
     <div class="search">
-        <p class="pNotAdmin" *ngIf="session.levelStatus == 6" appEasyLang style="margin: 1vw;">Вы можете писать только администраторам, пока ваш запрос не подтверждён</p>
+        <p class="pNotAdmin" *ngIf="session.levelStatus == 6" [appEasyLang]="session" style="margin: 1vw;">Вы можете писать только администраторам, пока ваш запрос не подтверждён</p>
         <div class="box-friend" *ngFor="let user of users | filter:name:online:birthday">
-            <div class="birthday green-cursor" *ngIf="(user.birthDate | date:'MM.dd') == (today | date:'MM.dd') && session.birthdays"
+            <div class="birthday invert-{{session.invert}} green-cursor" *ngIf="(user.birthDate | date:'MM.dd') == (today | date:'MM.dd') && session.birthdays"
             (click)="goToChat(user._id, session.defaultColor, '5f3bfe9255ba364d9f2edfac')"></div>
-            <img 
-            class="friendAvatar dark-{{session.firstColor}}-border green-cursor" 
-            loading="lazy"
-            [src]="user.photo"
-            (click)="goToChat(user._id, session.defaultColor)">
-            <div class="letter green-cursor"
+            <div class="dark-{{session.firstColor}}-border friendAvatar-container">
+                <img 
+                class="friendAvatar invert-{{session.invert}} dark-{{session.firstColor}}-border green-cursor" 
+                loading="lazy"
+                [src]="user.photo"
+                (click)="goToChat(user._id, session.defaultColor)">
+            </div>
+            <div class="letter green-cursor invert-{{session.invert}}"
             *ngIf="user.letter"
             (click)="goToChat(user._id, session.defaultColor)"> </div>  
-            <div class="online green-cursor" 
+            <div class="online green-cursor invert-{{session.invert}}" 
             *ngIf="user.onlineStatus != '-1' && session.online && user.active"
             [ngClass]="{notincat: user.onlineStatus != session._id, inchat: user.onlineStatus == session._id}"
             (click)="goToChat(user._id, session.defaultColor)"> </div>
             <div class="friendName tc dark-{{session.firstColor}}-border green-cursor" (click)="goToChat(user._id, session.defaultColor)">
-                <span appEasyLang>{{user.name}}</span><br>
-                <span *ngIf="session.surnameView" appEasyLang>{{user.surname}}</span>
+                <span [appEasyLang]="session">{{user.name}}</span><br>
+                <span *ngIf="session.surnameView" [appEasyLang]="session">{{user.surname}}</span>
             </div>                                             	 
        </div>
     </div>

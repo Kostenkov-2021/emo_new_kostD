@@ -1,7 +1,8 @@
-import { Component, OnDestroy} from '@angular/core';
+import { Component, OnDestroy, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Picture } from 'src/app/shared/interfaces';
+import { Picture, User } from 'src/app/shared/interfaces';
+import { LoginService } from 'src/app/shared/services/login.service';
 import { PeopleService } from 'src/app/shared/services/people.service';
 import { PicturesService } from 'src/app/shared/services/pictures.service';
 
@@ -10,19 +11,29 @@ import { PicturesService } from 'src/app/shared/services/pictures.service';
   templateUrl: './game1.component.html',
   styleUrls: ['./game1.component.css']
 })
-export class Game1Component implements OnDestroy{
+export class Game1Component implements OnDestroy, OnInit{
 
-  gameProgress: number = 0
+  gameProgress: number = -1
   pSub: Subscription
   pictures: Picture[]
   score: number = 0
   answer: string = ''
   levelName: string
+  session: User
+  oSub: Subscription
 
 
   constructor(private picturesService: PicturesService,
+    private loginService: LoginService,
     private router: Router,
     private peopleService: PeopleService) { }
+
+  ngOnInit(): void {
+    this.oSub = this.loginService.getUser().subscribe(user => {
+      this.session = user
+      this.gameProgress += 1
+    })
+  }
 
   start(count, name) {
 
@@ -88,5 +99,6 @@ export class Game1Component implements OnDestroy{
 
   ngOnDestroy() {
     if (this.pictures) this.pSub.unsubscribe()
+    this.oSub.unsubscribe()
   }
 }

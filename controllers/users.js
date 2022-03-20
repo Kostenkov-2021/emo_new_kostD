@@ -20,42 +20,15 @@ module.exports.create = async function(req, res) {
       })
     } else {
       // Нужно создать пользователя
-      let institution
-      if (req.user.levelStatus == 2) institution = req.user.institution
-      else institution = req.body.institution
-
+      
+      const create = req.body
+      create.photo = req.file ? 'https://emo.su/' + req.file.path : (req.body.sex == '2' ? 'https://emo.su/images/girl.png' : 'https://emo.su/images/boy.png')
       const salt = bcrypt.genSaltSync(10)
       const password = req.body.password
-      const user = new User({
-        login: req.body.login,
-        password: bcrypt.hashSync(password, salt),
-        name: req.body.name,
-        surname: req.body.surname,
-        birthDate: req.body.birthDate,
-        sex: req.body.sex,
-        institution: institution,
-        levelStatus: req.body.levelStatus,
-        photo: req.file ? 'https://emo.su/' + req.file.path : (req.body.sex == '2' ? 'https://emo.su/images/girl.png' : 'https://emo.su/images/boy.png'),
-        online: req.body.online,
-        text: req.body.text,
-        read: req.body.read,
-        firstColor: req.body.firstColor,
-        secondColor: req.body.secondColor,
-        surnameView: req.body.surnameView,
-        setting: req.body.setting,
-        vote: req.body.vote,
-        sentence: req.body.sentence,
-        answers: req.body.answers,
-        change: req.body.change,
-        defaultColor: req.body.defaultColor,
-        birthdays: req.body.birthdays,
-        events: req.body.events,
-        screenreader: req.body.screenreader,
-        games: req.body.games,
-        time: req.body.time,
-        info: req.body.info,
-        videorooms: req.body.videorooms
-      })
+      create.password = bcrypt.hashSync(password, salt)
+      if (req.user.levelStatus == 2) create.institution = req.user.institution
+
+      const user = new User(create)
   
       try {
         await user.save()
@@ -373,6 +346,26 @@ module.exports.createManyUsers = async function (req, res) {
 }
 */
 
+
+// module.exports.onfunction = async function(req, res) {
+//   try {
+//     let grMes = await GroupMessage.find({}).lean()
+//     for (let gm of grMes) {
+//       let newMes = []
+//       for (let str of gm.message) {
+//         let a = str.replace("https://emooo.s3.amazonaws.com", "https://emo.su/uploads/from-aws").replace("https://emooo.s3.eu-north-1.amazonaws.com", "https://emo.su/uploads/from-aws")
+//         if (str.substring(0, 7) == 'uploads') {
+//           a = str.replace("uploads/", "https://emo.su/uploads/")
+//         }
+//         newMes.push(a)
+//       }
+//       await GroupMessage.updateOne({_id: gm._id}, {$set: {message: newMes}}, {new: true})
+//     }
+//     res.status(200).json({message: "Обновлено"})
+//   } catch (e) {
+//     errorHandler(res, e)
+//   }
+// }
 // module.exports.onfunction = async function(req, res) {
 //   try {
 //     await User.updateMany(

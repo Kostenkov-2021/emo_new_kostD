@@ -2,11 +2,11 @@
 
 <div class="tablo_uv">
     <div #top>
-        <p class="vtablo" *ngIf="text_top" appEasyLang>{{text_top}}</p>
+        <p class="vtablo" *ngIf="text_top" [appEasyLang]="session">{{text_top}}</p>
     </div>
-        <img class="ontablo_uv" #img [src]="image">
+        <img class="ontablo_uv invert-{{session.invert}}" #img [src]="image">
     <div #bottom>
-        <p class="vtablo" appEasyLang  *ngIf="text_bottom">{{text_bottom}}</p>
+        <p class="vtablo" [appEasyLang]="session" *ngIf="text_bottom">{{text_bottom}}</p>
     </div>
-    <div id="cross_uv" (click)="close()" class="green-cursor"></div>
+    <div id="cross_uv" (click)="close()" class="green-cursor invert-{{session.invert}}"></div>
 </div>

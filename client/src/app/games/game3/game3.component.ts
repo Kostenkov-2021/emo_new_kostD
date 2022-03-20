@@ -1,6 +1,9 @@
-import { Component} from '@angular/core';
+import { Component, OnDestroy, OnInit} from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { User } from 'src/app/shared/interfaces';
+import { LoginService } from 'src/app/shared/services/login.service';
 import { PeopleService } from 'src/app/shared/services/people.service';
 
 @Component({
@@ -8,9 +11,9 @@ import { PeopleService } from 'src/app/shared/services/people.service';
   templateUrl: './game3.component.html',
   styleUrls: ['./game3.component.css']
 })
-export class Game3Component  {
+export class Game3Component implements OnInit, OnDestroy  {
 
-  gameProgress: number = 0
+  gameProgress: number = -1
   score: number = 0
   right: number = 0
   addition: any[] = []
@@ -18,10 +21,19 @@ export class Game3Component  {
   form: FormGroup
   count = 10
   levelName: string
+  session: User
+  oSub: Subscription
 
-  constructor(
+  constructor(private loginService: LoginService,
     private router: Router,
     private peopleService: PeopleService) { }
+
+  ngOnInit(): void {
+    this.oSub = this.loginService.getUser().subscribe(user => {
+      this.session = user
+      this.gameProgress += 1
+    })
+  }
 
   start(count, name) {
     this.levelName = name
@@ -89,6 +101,10 @@ export class Game3Component  {
 
   exit() {
     this.router.navigate(['/people/games'])
+  }
+
+  ngOnDestroy() {
+    this.oSub.unsubscribe()
   }
 
 }

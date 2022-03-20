@@ -108,7 +108,9 @@ export class UsersFormComponent implements OnInit, OnDestroy {
         games: new FormControl('true'),
         screenreader: new FormControl('true'),
         time: new FormControl('true'),
-        videorooms: new FormControl('false'),
+        videorooms: new FormControl('true'),
+        easyLang: new FormControl('true'),
+        invert: new FormControl('0'),
   
         day: new FormControl('0'),
         month: new FormControl('0'),
@@ -164,7 +166,9 @@ export class UsersFormComponent implements OnInit, OnDestroy {
               screenreader: user.screenreader?.toString(),
               games: user.games?.toString(),  
               videorooms: user.videorooms?.toString(),  
-              time: user.time?.toString()
+              time: user.time?.toString(),
+              easyLang: user.easyLang?.toString(),
+              invert: typeof user.invert == 'number' ? user.invert.toString() : '0'
             })
             this.startL = user.login
             this.imagePreview = user.photo
@@ -283,7 +287,9 @@ export class UsersFormComponent implements OnInit, OnDestroy {
           this.form.value.games,
           this.form.value.time,
           this.form.value.info,
-          this.form.value.videorooms
+          this.form.value.videorooms,
+          this.form.value.easyLang,
+          this.form.value.invert
         )
       } else {
         this.endL = this.form.value.login
@@ -324,14 +330,16 @@ export class UsersFormComponent implements OnInit, OnDestroy {
           this.form.value.games,
           this.form.value.time,
           this.form.value.info,
-          this.form.value.videorooms
+          this.form.value.videorooms,
+          this.form.value.easyLang,
+          this.form.value.invert
         )
       }
       obs$.subscribe(
         user => {
           this.user = user
           this.form.enable()
-          if (this.first != +this.form.value.first && this.id == this.whatDo) {
+          if (this.id == this.whatDo) {
             this.navService.sendToPeople(user)
           }
           this.router.navigate([`/manage/users`])
