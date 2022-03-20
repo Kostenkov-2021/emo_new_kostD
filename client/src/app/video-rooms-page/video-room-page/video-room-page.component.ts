@@ -171,7 +171,7 @@ export class VideoRoomPageComponent implements OnInit, OnDestroy {
         if (twice == visitorId) this.status = -3
         else {
           this.socketioService.twiceBrowser(visitorId)
-          this.session = {name: this.anonimName, anonimus_id: visitorId}
+          this.session = {name: this.anonimName, anonimus_id: visitorId, easyLang: true, invert: 0}
           this.status = 2
           this.startStream()
         }

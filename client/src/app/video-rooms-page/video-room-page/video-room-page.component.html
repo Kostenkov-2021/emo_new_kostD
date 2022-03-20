@@ -40,7 +40,7 @@
                       message.sender == session._id 
                       )
                        ? "Я" : message.senderName}}</span> </b>
-                <span [appEasyLang]="session">{{message.message}}</span> 
+                <span [appEasyLang]="{easyLang: session.easyLang, invert: 0}">{{message.message}}</span> 
             </div>
             <div id="forScroll"></div>
         </div>
