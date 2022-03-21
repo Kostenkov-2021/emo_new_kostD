@@ -73,9 +73,8 @@ if (process.env.NODE_ENV === 'production') {
     // ];
    
     app.get('*', (req, res) => {
-      // if (files.includes(path.extname(req.path))) {
-      //   res.sendFile(path.join(__dirname, `${req.path}`));
-      // } else 
+      app.use(express.static('client/dist'))
+      
       if (!(req.path).includes('uploads/') && !(req.path).includes('images/')) {
         res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'))
       }
