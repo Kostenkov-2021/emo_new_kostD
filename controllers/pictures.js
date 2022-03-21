@@ -26,7 +26,7 @@ module.exports.create = async function(req, res) {
           textForGirls: req.body.textForGirls,
           parent: req.params.parentID,
           p_sort: maxSort + 1,
-          boysGreyPicture: req.files ? (req.files['boysGreyPicture'] ? 'https://emo.su/uploads/' +  req.files['boysGreyPicture'][0].filename : '') : '', //'https://emo.su/uploads/' + req.file.filename
+          boysGreyPicture: req.files ? (req.files['boysGreyPicture'] ? 'https://emo.su/uploads/' +  req.files['boysGreyPicture'][0].filename : '') : '', 
           girlsGreyPicture: req.files ? (req.files['girlsGreyPicture'] ? 'https://emo.su/uploads/' + req.files['girlsGreyPicture'][0].filename : '') : '',
           boysColorPicture: req.files ? (req.files['boysColorPicture'] ? 'https://emo.su/uploads/' + req.files['boysColorPicture'][0].filename : '') : '',
           girlsColorPicture: req.files ? (req.files['girlsColorPicture'] ? 'https://emo.su/uploads/' + req.files['girlsColorPicture'][0].filename : '') : '',

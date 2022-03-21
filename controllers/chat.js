@@ -239,7 +239,7 @@ module.exports.create = async function(req, res) {
   try {
     if (req.files) {
       const files = req.files
-      for (let file of files) {
+      for (const file of files) {
 
         if (file.mimetype === 'image/png' 
         || file.mimetype === 'image/jpeg' 
@@ -256,7 +256,7 @@ module.exports.create = async function(req, res) {
 
           await new Picture({
             folder: false,
-            boysGreyPicture: 'https://emo.su/uploads/' + req.file.filename,
+            boysGreyPicture: 'https://emo.su/uploads/' + file.filename,
             parent: '5f1309e3962c2f062467f854',
             p_sort: maxSort + 1,
             user: req.user.id
@@ -279,7 +279,7 @@ module.exports.create = async function(req, res) {
 
           await new Picture({
             folder: false,
-            boysGreyPicture: 'https://emo.su/uploads/' + req.file.filename,
+            boysGreyPicture: 'https://emo.su/uploads/' + file.filename,
             parent: '5f1309f1962c2f062467f855',
             p_sort: maxSort + 1,
             user: req.user.id
@@ -304,7 +304,7 @@ module.exports.create = async function(req, res) {
 
           await new Picture({
             folder: false,
-            boysGreyPicture: 'https://emo.su/uploads/' + req.file.filename,
+            boysGreyPicture: 'https://emo.su/uploads/' + file.filename,
             parent: '5f130a00962c2f062467f856',
             p_sort: maxSort + 1,
             user: req.user.id,
@@ -322,7 +322,7 @@ module.exports.create = async function(req, res) {
 
           await new Picture({
             folder: false,
-            boysGreyPicture: 'https://emo.su/uploads/' + req.file.filename,
+            boysGreyPicture: 'https://emo.su/uploads/' + file.filename,
             parent: '5f130a0d962c2f062467f857',
             p_sort: maxSort + 1,
             user: req.user.id,
