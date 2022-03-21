@@ -253,7 +253,7 @@ module.exports.create = async function(req, res) {
 
           const maxSort = lastPicture ? lastPicture.p_sort : 0
 
-          const pictures = await new Picture({
+          await new Picture({
             folder: false,
             boysGreyPicture: 'https://emo.su/' + file.path,
             parent: '5f1309e3962c2f062467f854',
@@ -276,7 +276,7 @@ module.exports.create = async function(req, res) {
 
           const maxSort = lastPicture ? lastPicture.p_sort : 0
 
-          const pictures = await new Picture({
+          await new Picture({
             folder: false,
             boysGreyPicture: 'https://emo.su/' + file.path,
             parent: '5f1309f1962c2f062467f855',
@@ -301,7 +301,7 @@ module.exports.create = async function(req, res) {
 
           const maxSort = lastPicture ? lastPicture.p_sort : 0
 
-          const pictures = await new Picture({
+          await new Picture({
             folder: false,
             boysGreyPicture: 'https://emo.su/' + file.path,
             parent: '5f130a00962c2f062467f856',
@@ -319,7 +319,7 @@ module.exports.create = async function(req, res) {
 
           const maxSort = lastPicture ? lastPicture.p_sort : 0
 
-          const pictures = await new Picture({
+          await new Picture({
             folder: false,
             boysGreyPicture: 'https://emo.su/' + file.path,
             parent: '5f130a0d962c2f062467f857',

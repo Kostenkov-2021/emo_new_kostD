@@ -33,8 +33,6 @@ app.use(require('morgan')('dev'))
 app.use(passport.initialize())
 require('./middleware/passport')(passport)
 
-app.use('/uploads', express.static('uploads'))
-app.use('/images', express.static('images'))
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 app.use(require('cors')())
@@ -54,8 +52,7 @@ app.use('/api/manage/users', usersRoutes)
 app.use('/api/manage/institutions', institutionsRoutes)
 
 if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('client/dist/client'))
-    app.use(express.static(__dirname))
+    app.use(express.static(__dirname));
   
     const client = [
       '.js',
@@ -80,6 +77,8 @@ if (process.env.NODE_ENV === 'production') {
         res.sendFile(path.join(__dirname, 'client/dist/client/index.html'));
       }
     })
-  }
+  } else {
+    app.use(express.static(__dirname));
+  } 
 
 module.exports = app
