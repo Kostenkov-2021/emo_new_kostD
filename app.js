@@ -56,7 +56,7 @@ app.use('/images', express.static('images'))
 
 if (process.env.NODE_ENV === 'production') {
 
-    app.use('/', express.static('client/dist'))
+    // app.use('/', express.static('client/dist'))
 
     const client = [
       '.js',
@@ -72,15 +72,15 @@ if (process.env.NODE_ENV === 'production') {
       '.svg'
     ];
    
-    // app.get('*', (req, res) => {
-    //   if (files.includes(path.extname(req.path))) {
-    //     res.sendFile(path.join(__dirname, `${req.path}`));
-    //   } else if (client.includes(path.extname(req.path))) {
-    //     res.sendFile(path.join(__dirname, `client/dist/client/${req.path}`));
-    //   } else {
-    //     res.sendFile(path.join(__dirname, 'client/dist/client/index.html'));
-    //   }
-    // })
+    app.get('*', (req, res) => {
+      if (files.includes(path.extname(req.path))) {
+        res.sendFile(path.join(__dirname, `${req.path}`));
+      } else if (client.includes(path.extname(req.path))) {
+        res.sendFile(path.join(__dirname, `client/dist/client/${req.path}`));
+      } else {
+        res.sendFile(path.join(__dirname, 'client/dist/client/index.html'));
+      }
+    })
   }
 
 module.exports = app
