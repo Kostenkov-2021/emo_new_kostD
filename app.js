@@ -55,7 +55,7 @@ app.use('/uploads', express.static('uploads'))
 app.use('/images', express.static('images'))
 
 if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(__dirname))
+    // app.use(express.static(__dirname))
     app.use(express.static('client/dist'))
 
     // const client = [
