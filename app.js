@@ -52,9 +52,8 @@ app.use('/api/manage/users', usersRoutes)
 app.use('/api/manage/institutions', institutionsRoutes)
 
 if (process.env.NODE_ENV === 'production') {
-    app.use('/uploads', express.static('uploads'))
-    app.use('/images', express.static('images'))
-    app.use('/client/dist', express.static('client/dist'))
+    // app.use(__dirname+'/uploads', express.static('uploads'))
+    app.use(express.static(__dirname));
   
     const client = [
       '.js',
@@ -62,22 +61,25 @@ if (process.env.NODE_ENV === 'production') {
       '.ico'
     ];
 
-    const html = [
-      '.html'
+    const files = [
+      '.png',
+      '.jpg',
+      '.jpeg',
+      '.cur',
+      '.svg'
     ];
    
     app.get('*', (req, res) => {
-      if (client.includes(path.extname(req.path))) {
-        res.sendFile(path.join(__dirname, `client/dist/client/${req.path}`));
-      } else if (html.includes(path.extname(req.path))) {
-        res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'))
-      } else {
+      if (files.includes(path.extname(req.path))) {
         res.sendFile(path.join(__dirname, `${req.path}`));
-      }  
+      } else if (client.includes(path.extname(req.path))) {
+        res.sendFile(path.join(__dirname, `client/dist/client/${req.path}`));
+      } else {
+        res.sendFile(path.join(__dirname, 'client/dist/client/index.html'));
+      }
     })
   } else {
-    app.use('/uploads', express.static('uploads'))
-    app.use('/images', express.static('images'))
+    app.use(express.static(__dirname));
   } 
 
 module.exports = app
