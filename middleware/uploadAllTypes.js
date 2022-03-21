@@ -8,7 +8,7 @@ function getRandomInt(min, max) {
 
 const storage = multer.diskStorage({
   destination(req, file,  cb) {
-    cb(null, 'https://emo.su/uploads/')
+    cb(null, '/uploads/')
   },
   filename(req, file, cb) {
     cb(null, `${moment().format('DDMMYYYY-HHmmss_SSS')}-${getRandomInt(1, 10000)}-${getRandomInt(1, 10000)}-emoall-${cyrillicToTranslit().transform(file.originalname, "_")}`)
