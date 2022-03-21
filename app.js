@@ -52,9 +52,7 @@ app.use('/api/manage/users', usersRoutes)
 app.use('/api/manage/institutions', institutionsRoutes)
 
 app.use('/uploads', express.static('uploads'))
-app.use('uploads', express.static('uploads'))
 app.use('/images', express.static('images'))
-app.use('images', express.static('images'))
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(__dirname))
@@ -75,9 +73,6 @@ if (process.env.NODE_ENV === 'production') {
     // ];
    
     app.get('*', (req, res) => {
-      // if (files.includes(path.extname(req.path))) {
-      //   res.sendFile(path.join(__dirname, `${req.path}`));
-      // } else 
       if (!(req.path).includes('uploads/') && !(req.path).includes('images')) {
         if (client.includes(path.extname(req.path))) {
           res.sendFile(path.join(__dirname, `client/dist/client/${req.path}`));
