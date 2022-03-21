@@ -113,7 +113,7 @@ export class RegistrPageComponent implements OnInit {
     obs$.subscribe(
       user => {
         this.form.enable()
-        this.aSub = this.loginService.login(this.form.value).subscribe(
+        this.aSub = this.loginService.login({login: user.login, password: this.form.value.password.trim()}).subscribe(
           () => this.router.navigate(['/people/friends']),
           error => {
             console.log(error)
