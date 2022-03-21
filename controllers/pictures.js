@@ -51,7 +51,7 @@ module.exports.update = async function(req, res) {
     updated.exceptions = req.body.exceptions != '' ? req.body.exceptions.split(',') : []
     const archive = []
     const pictureOld = await Picture.findOne({_id: req.params.pictureID})
-    if (req.files) {
+    if (req.files || req.body.boysColorPicture || req.body.girlsColorPicture || req.body.boysGreyPicture || req.body.girlsGreyPicture) {
       if (req.files['boysGreyPicture']) {
         updated.boysGreyPicture = 'https://emo.su/uploads/' + req.files['boysGreyPicture'][0].filename
         if (pictureOld.boysGreyPicture) archive.push(pictureOld.boysGreyPicture)
@@ -66,6 +66,18 @@ module.exports.update = async function(req, res) {
       }
       if (req.files['girlsColorPicture']) {
         updated.girlsColorPicture = 'https://emo.su/uploads/' + req.files['girlsColorPicture'][0].filename
+        if (pictureOld.girlsColorPicture) archive.push(pictureOld.girlsColorPicture)
+      }
+      if (req.body.boysGreyPicture == 'clean') {
+        if (pictureOld.boysGreyPicture) archive.push(pictureOld.boysGreyPicture)
+      }
+      if (req.body.girlsGreyPicture == 'clean') {
+        if (pictureOld.girlsGreyPicture) archive.push(pictureOld.girlsGreyPicture)
+      }
+      if (req.body.boysColorPicture == 'clean') {
+        if (pictureOld.boysColorPicture) archive.push(pictureOld.boysColorPicture)
+      }
+      if (req.body.girlsColorPicture == 'clean') {
         if (pictureOld.girlsColorPicture) archive.push(pictureOld.girlsColorPicture)
       }
     }

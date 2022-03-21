@@ -40,7 +40,7 @@
                     <a 
                     class="nav-admin middle-{{session.firstColor}}-bg-hover" 
                     [routerLink]="['/manage/pictures', 'edit' + picture.folder, pictureAndFolder.folder.many, pictureAndFolder.folder._id, picture._id]"
-                    [queryParams]="{'folder': queryA, 'institution': session.institution}">
+                    [queryParams]="{'folder': '5f12ff8cc06cd105437d84e3', 'institution': session.institution}">
                         Редактировать
                     </a>
                 </div>
@@ -49,8 +49,7 @@
                 *ngIf="picture.folder && pictureAndFolder.folder._id !== '5f130939962c2f062467f853'">
                     <a 
                     class="nav-admin middle-{{session.firstColor}}-bg-hover"
-                    [routerLink]="['/manage/pictures', picture._id]"
-                    [queryParams]="{'answersFolder': queryA}">
+                    [routerLink]="['/manage/pictures', picture._id]">
                         Перейти
                     </a>
                 </div>

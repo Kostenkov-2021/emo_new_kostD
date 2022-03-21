@@ -63,14 +63,6 @@ if (process.env.NODE_ENV === 'production') {
       '.css',
       '.ico'
     ];
-
-    // const files = [
-    //   '.png',
-    //   '.jpg',
-    //   '.jpeg',
-    //   '.cur',
-    //   '.svg'
-    // ];
    
     app.get('*', (req, res) => {
       if (!(req.path).includes('uploads/') && !(req.path).includes('images')) {
