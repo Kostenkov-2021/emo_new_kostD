@@ -11,7 +11,8 @@ const storage = multer.diskStorage({
     cb(null, 'uploads/')
   },
   filename(req, file, cb) {
-    cb(null, `${moment().format('DDMMYYYY-HHmmss_SSS')}-${getRandomInt(1, 10000)}-${getRandomInt(1, 10000)}-emo-pictures`)
+    const names = file.originalname.split('.')
+    cb(null, `${moment().format('DDMMYYYY-HHmmss_SSS')}-${getRandomInt(1, 10000)}-${getRandomInt(1, 10000)}-emo-pictures.${names.length ? names[names.length - 1] : ''}`)
   }
 })
 const fileFilter = (req, file, cb) => {
