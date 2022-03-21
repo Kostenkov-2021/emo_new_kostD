@@ -247,6 +247,7 @@ module.exports.create = async function(req, res) {
         || file.mimetype === 'image/gif'
         || file.mimetype === 'image/webp') 
         {
+          console.log(file)
           const lastPicture = await Picture
             .findOne({parent: '5f1309e3962c2f062467f854', user: req.user.id})
             .sort({p_sort: -1})

@@ -51,10 +51,13 @@ app.use('/api/manage/pictures', picturesRoutes)
 app.use('/api/manage/users', usersRoutes)
 app.use('/api/manage/institutions', institutionsRoutes)
 
+app.use('/uploads', express.static('uploads'))
+app.use('/images', express.static('images'))
+
 if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(__dirname));
-    // app.use('uploads', express.static(__dirname+'/uploads'))
-  
+
+    app.use('/', express.static('client/dist'))
+
     const client = [
       '.js',
       '.css',
@@ -69,17 +72,15 @@ if (process.env.NODE_ENV === 'production') {
       '.svg'
     ];
    
-    app.get('*', (req, res) => {
-      if (files.includes(path.extname(req.path))) {
-        res.sendFile(path.join(__dirname, `${req.path}`));
-      } else if (client.includes(path.extname(req.path))) {
-        res.sendFile(path.join(__dirname, `client/dist/client/${req.path}`));
-      } else {
-        res.sendFile(path.join(__dirname, 'client/dist/client/index.html'));
-      }
-    })
-  } else {
-    app.use(express.static(__dirname));
-  } 
+    // app.get('*', (req, res) => {
+    //   if (files.includes(path.extname(req.path))) {
+    //     res.sendFile(path.join(__dirname, `${req.path}`));
+    //   } else if (client.includes(path.extname(req.path))) {
+    //     res.sendFile(path.join(__dirname, `client/dist/client/${req.path}`));
+    //   } else {
+    //     res.sendFile(path.join(__dirname, 'client/dist/client/index.html'));
+    //   }
+    // })
+  }
 
 module.exports = app
