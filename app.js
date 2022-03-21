@@ -52,8 +52,8 @@ app.use('/api/manage/users', usersRoutes)
 app.use('/api/manage/institutions', institutionsRoutes)
 
 if (process.env.NODE_ENV === 'production') {
-    // app.use(__dirname+'/uploads', express.static('uploads'))
     app.use(express.static(__dirname));
+    app.use('/uploads', express.static('uploads'))
   
     const client = [
       '.js',
