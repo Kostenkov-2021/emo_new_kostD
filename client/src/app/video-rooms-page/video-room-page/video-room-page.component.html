@@ -68,8 +68,8 @@
 <div class="info_container" *ngIf="status == 1">
     <div class="info_box pNotAdmin">
         <div>
-            <div [appEasyLang]="session">Вы не авторизованы</div>
-            <input type='text' placeholder="ВАШЕ ИМЯ" [(ngModel)]="anonimName" class='unauth_input text-cursor-{{!!session.invert}}'>
+            <div>Вы не авторизованы</div>
+            <input type='text' placeholder="ВАШЕ ИМЯ" [(ngModel)]="anonimName" class='unauth_input text-cursor-false'>
         </div>
         <div class="tick" (click)="createUser()"></div>
     </div>

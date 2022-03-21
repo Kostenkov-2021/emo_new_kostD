@@ -69,15 +69,19 @@ module.exports.update = async function(req, res) {
         if (pictureOld.girlsColorPicture) archive.push(pictureOld.girlsColorPicture)
       }
       if (req.body.boysGreyPicture == 'clean') {
+        updated.boysGreyPicture = ""
         if (pictureOld.boysGreyPicture) archive.push(pictureOld.boysGreyPicture)
       }
       if (req.body.girlsGreyPicture == 'clean') {
+        updated.girlsGreyPicture = ""
         if (pictureOld.girlsGreyPicture) archive.push(pictureOld.girlsGreyPicture)
       }
       if (req.body.boysColorPicture == 'clean') {
+        updated.boysColorPicture = ""
         if (pictureOld.boysColorPicture) archive.push(pictureOld.boysColorPicture)
       }
       if (req.body.girlsColorPicture == 'clean') {
+        updated.girlsColorPicture = ""
         if (pictureOld.girlsColorPicture) archive.push(pictureOld.girlsColorPicture)
       }
     }
