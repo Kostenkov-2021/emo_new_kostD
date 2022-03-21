@@ -53,6 +53,7 @@ app.use('/api/manage/institutions', institutionsRoutes)
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(__dirname));
+    app.use(__dirname+'/uploads', express.static('uploads'))
   
     const client = [
       '.js',
