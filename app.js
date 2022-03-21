@@ -74,9 +74,9 @@ if (process.env.NODE_ENV === 'production') {
    
     app.get('*', (req, res) => {
 
-      if (!(req.path).includes('uploads/') && !(req.path).includes('images/')) {
+      // if (!(req.path).includes('uploads/') && !(req.path).includes('images/')) {
         res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'))
-      }
+      // }
     })
   }
 
