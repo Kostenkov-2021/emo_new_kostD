@@ -18,7 +18,7 @@ module.exports.create = async function(req, res) {
           
         if (req.user.levelStatus == 1) {
         const button = await new Bot({
-            img: 'https://emo.su/' + req.file.path,
+            img: 'https://emo.su/uploads/' + req.file.filename,
             text: req.body.text,
             type: maxSort + 1
         }).save()
@@ -43,7 +43,7 @@ module.exports.update = async function(req, res) {
         const updated = req.body
 
         if (req.file) {
-            updated.img = 'https://emo.su/' + req.file.path
+            updated.img = 'https://emo.su/uploads/' + req.file.filename
           }
         
         const button = await Bot.findOneAndUpdate(

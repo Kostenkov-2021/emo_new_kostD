@@ -26,10 +26,10 @@ module.exports.create = async function(req, res) {
           textForGirls: req.body.textForGirls,
           parent: req.params.parentID,
           p_sort: maxSort + 1,
-          boysGreyPicture: req.files ? (req.files['boysGreyPicture'] ? 'https://emo.su/' +  req.files['boysGreyPicture'][0].path : '') : '',
-          girlsGreyPicture: req.files ? (req.files['girlsGreyPicture'] ? 'https://emo.su/' + req.files['girlsGreyPicture'][0].path : '') : '',
-          boysColorPicture: req.files ? (req.files['boysColorPicture'] ? 'https://emo.su/' + req.files['boysColorPicture'][0].path : '') : '',
-          girlsColorPicture: req.files ? (req.files['girlsColorPicture'] ? 'https://emo.su/' + req.files['girlsColorPicture'][0].path : '') : '',
+          boysGreyPicture: req.files ? (req.files['boysGreyPicture'] ? 'https://emo.su/uploads/' +  req.files['boysGreyPicture'][0].filename : '') : '', //'https://emo.su/uploads/' + req.file.filename
+          girlsGreyPicture: req.files ? (req.files['girlsGreyPicture'] ? 'https://emo.su/uploads/' + req.files['girlsGreyPicture'][0].filename : '') : '',
+          boysColorPicture: req.files ? (req.files['boysColorPicture'] ? 'https://emo.su/uploads/' + req.files['boysColorPicture'][0].filename : '') : '',
+          girlsColorPicture: req.files ? (req.files['girlsColorPicture'] ? 'https://emo.su/uploads/' + req.files['girlsColorPicture'][0].filename : '') : '',
           invisible: req.body.invisible,
           system: req.body.system,
           user: req.user.id,
@@ -53,19 +53,19 @@ module.exports.update = async function(req, res) {
     const pictureOld = await Picture.findOne({_id: req.params.pictureID})
     if (req.files) {
       if (req.files['boysGreyPicture']) {
-        updated.boysGreyPicture = 'https://emo.su/' + req.files['boysGreyPicture'][0].path
+        updated.boysGreyPicture = 'https://emo.su/uploads/' + req.files['boysGreyPicture'][0].filename
         if (pictureOld.boysGreyPicture) archive.push(pictureOld.boysGreyPicture)
       }
       if (req.files['girlsGreyPicture']) {
-        updated.girlsGreyPicture = 'https://emo.su/' + req.files['girlsGreyPicture'][0].path
+        updated.girlsGreyPicture = 'https://emo.su/uploads/' + req.files['girlsGreyPicture'][0].filename
         if (pictureOld.girlsGreyPicture) archive.push(pictureOld.girlsGreyPicture)
       }
       if (req.files['boysColorPicture']) {
-        updated.boysColorPicture = 'https://emo.su/' + req.files['boysColorPicture'][0].path
+        updated.boysColorPicture = 'https://emo.su/uploads/' + req.files['boysColorPicture'][0].filename
         if (pictureOld.boysColorPicture) archive.push(pictureOld.boysColorPicture)
       }
       if (req.files['girlsColorPicture']) {
-        updated.girlsColorPicture = 'https://emo.su/' + req.files['girlsColorPicture'][0].path
+        updated.girlsColorPicture = 'https://emo.su/uploads/' + req.files['girlsColorPicture'][0].filename
         if (pictureOld.girlsColorPicture) archive.push(pictureOld.girlsColorPicture)
       }
     }

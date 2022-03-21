@@ -22,7 +22,7 @@ module.exports.create = async function(req, res) {
     } else {
       // Нужно создать 
       const institution = await new Institution({
-        img: req.file ? 'https://emo.su/' + req.file.path : 'https://emo.su/images/institution.png',
+        img: req.file ? 'https://emo.su/uploads/' + req.file.filename : 'https://emo.su/images/institution.png',
         name: req.body.name,
         region: req.body.region
       }).save()
@@ -44,7 +44,7 @@ module.exports.update = async function(req, res) {
 
       const updated = req.body
 
-      if (req.file) updated.img = 'https://emo.su/' + req.file.path
+      if (req.file) updated.img = 'https://emo.su/uploads/' + req.file.filename
 
       const institution = await Institution.findOneAndUpdate(
         {_id: req.params.institutionID},

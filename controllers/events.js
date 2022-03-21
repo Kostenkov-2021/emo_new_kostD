@@ -116,7 +116,7 @@ module.exports.update = async function(req, res) {
         if (req.body.status == 2) updated.closingTime = now
         if (req.files['image']) updated.chatImage = req.files['image'][0].path
         if (req.files['photolikes']) {
-            let paths = req.files['photolikes'].map(file => 'https://emo.su/' + file.path)
+            let paths = req.files['photolikes'].map(file => 'https://emo.su/uploads/' + req.file.filename)
             await Event.updateOne(
                 {_id: req.params.eventID},
                 {$addToSet: {photolikes: { $each: paths}}},

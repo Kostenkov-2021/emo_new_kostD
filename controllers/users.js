@@ -22,7 +22,7 @@ module.exports.create = async function(req, res) {
       // Нужно создать пользователя
       
       const create = req.body
-      create.photo = req.file ? 'https://emo.su/' + req.file.path : (req.body.sex == '2' ? 'https://emo.su/images/girl.png' : 'https://emo.su/images/boy.png')
+      create.photo = req.file ? 'https://emo.su/uploads/' + req.file.filename : (req.body.sex == '2' ? 'https://emo.su/images/girl.png' : 'https://emo.su/images/boy.png')
       const salt = bcrypt.genSaltSync(10)
       const password = req.body.password
       create.password = bcrypt.hashSync(password, salt)
@@ -55,7 +55,7 @@ module.exports.update = async function(req, res) {
         }
 
         if (req.file) {
-          updated.photo = 'https://emo.su/' + req.file.path
+          updated.photo = 'https://emo.su/uploads/' + req.file.filename
         }
         
         const thisuser = await User.findOneAndUpdate(
@@ -84,7 +84,7 @@ module.exports.update = async function(req, res) {
           }
 
           if (req.file) {
-            updated.photo = 'https://emo.su/' + req.file.path
+            updated.photo = 'https://emo.su/uploads/' + req.file.filename
           }
           
           const thisuser = await User.findOneAndUpdate(
@@ -399,7 +399,7 @@ module.exports.createRequest = async function(req, res) {
       sex: req.body.sex,
       institution: req.body.institution,
       levelStatus: 6,
-      photo: req.file ? 'https://emo.su/' + req.file.path : (req.body.sex == '2' ? 'https://emo.su/images/girl.png' : 'https://emo.su/images/boy.png'),
+      photo: req.file ? 'https://emo.su/uploads/' + req.file.filename : (req.body.sex == '2' ? 'https://emo.su/images/girl.png' : 'https://emo.su/images/boy.png'),
       info: req.body.info
     })
 
