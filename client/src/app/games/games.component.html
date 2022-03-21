@@ -13,7 +13,7 @@
    </div>
 
    <div class="box-friend">
-        <div class="dark-{{session.firstColor}}-border friendAvatar-container">
+        <div class="dark-{{session.firstColor}}-border friendAvatar-container white">
             <img 
             class="friendAvatar dark-{{session.firstColor}}-border green-cursor invert-{{session.invert}}" 
             src="/images/writing.png"
@@ -25,7 +25,7 @@
     </div>
 
     <div class="box-friend">
-        <div class="dark-{{session.firstColor}}-border friendAvatar-container">
+        <div class="dark-{{session.firstColor}}-border friendAvatar-container white">
             <img 
             class="friendAvatar dark-{{session.firstColor}}-border green-cursor invert-{{session.invert}}" 
             src="/images/tir.png"
@@ -37,7 +37,7 @@
     </div>
 
     <div class="box-friend">
-        <div class="dark-{{session.firstColor}}-border friendAvatar-container">
+        <div class="dark-{{session.firstColor}}-border friendAvatar-container white">
             <img 
             class="friendAvatar dark-{{session.firstColor}}-border green-cursor invert-{{session.invert}}" 
             src="/images/examples.png"
@@ -45,6 +45,18 @@
         </div>
         <div class="friendName tc dark-{{session.firstColor}}-border green-cursor" (click)="goToGame(3)">
             <span [appEasyLang]="session">Примеры</span><br>
+        </div>                                             	 
+    </div>
+
+    <div class="box-friend">
+        <div class="dark-{{session.firstColor}}-border friendAvatar-container white">
+            <img 
+            class="friendAvatar dark-{{session.firstColor}}-border green-cursor invert-{{session.invert}}" 
+            src="/images/ball.png"
+            (click)="goToGame(4)">
+        </div>
+        <div class="friendName tc dark-{{session.firstColor}}-border green-cursor" (click)="goToGame(4)">
+            <span [appEasyLang]="session">Мячик</span><br>
         </div>                                             	 
     </div>
                                          	 

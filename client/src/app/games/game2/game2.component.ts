@@ -70,8 +70,8 @@ export class Game2Component implements AfterViewInit, OnDestroy, OnInit {
 
     const size = this.getRandomNumber(50, 150)
     const {width, height} = this.board.nativeElement.getBoundingClientRect()
-    const x = this.getRandomNumber(size, width - size)
-    const y = this.getRandomNumber(size, height - size)
+    const x = this.getRandomNumber(size, (width - size))
+    const y = this.getRandomNumber(size, (height - size))
     const color = this.getRandomColor()
 
     this.renderer.setStyle(circle, 'width', `${size}px`)

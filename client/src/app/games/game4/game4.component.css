@@ -1,0 +1,55 @@
+.time-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+  }
+  
+  .time-list li {
+    margin: 10px;
+  }
+  
+  .time-btn {
+    background-color: transparent;
+    border: 2px solid #000;
+    color: black;
+    font-family: inherit;
+    padding: .5rem 1rem;
+    font-size: 1.5rem;
+  }
+  
+.time-btn:hover {
+    border: 2px solid red;
+    color: red;
+}
+
+.circle-1 {
+  position: absolute;
+  border-radius: 50%;
+  box-shadow: inset -5px -5px 5px rgba(0, 0, 0, .5), 15px 15px 2px rgba(0, 0, 0, .05);
+  animation: moveX1 3.5s linear 0s infinite alternate, moveY1 4.5s linear 0s infinite alternate;
+}
+
+@keyframes moveX1 {from {left: 0;} to {left: calc(80vw - 150px);}}
+@keyframes moveY1 {from {top: 0;} to {top:calc(90vh - 150px);}}
+
+.circle-2 {
+  position: absolute;
+  border-radius: 50%;
+  box-shadow: inset -5px -5px 5px rgba(0, 0, 0, .5), 15px 15px 2px rgba(0, 0, 0, .05);
+  animation: moveX2 6s linear 0s infinite alternate, moveY2 5s linear 0s infinite alternate;
+}
+
+@keyframes moveX2 {from {left: 0;} to {left: calc(80vw - 100px);}}
+@keyframes moveY2 {from {top: 0;} to {top:calc(90vh - 100px);}}
+
+.circle-3 {
+  position: absolute;
+  border-radius: 50%;
+  box-shadow: inset -5px -5px 5px rgba(0, 0, 0, .5), 15px 15px 2px rgba(0, 0, 0, .05);
+  animation: moveX3 6.5s linear 0s infinite alternate, moveY3 7.5s linear 0s infinite alternate;
+}
+
+@keyframes moveX3 {from {left: 0;} to {left: calc(80vw - 50px);}}
+@keyframes moveY3 {from {top: 0;} to {top:calc(90vh - 50px);}}

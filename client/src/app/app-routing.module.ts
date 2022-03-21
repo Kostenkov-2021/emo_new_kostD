@@ -93,7 +93,7 @@ const routes: Routes = [
       {path: 'game/1', component: Game1Component},
       {path: 'game/2', component: Game2Component},
       {path: 'game/3', component: Game3Component},
-      //{path: 'game/4', component: Game4Component},
+      {path: 'game/4', component: Game4Component},
       //{path: 'game/5', component: Game5Component},
     ]
   },

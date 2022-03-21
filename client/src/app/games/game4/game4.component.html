@@ -1,1 +1,47 @@
-<p>game4 works!</p>
+
+    <div *ngIf="gameProgress == 0" class="gameBox">
+
+        <div class="pNotAdmin" [appEasyLang]="session">Вам надо кликать по мячику. Он будет убегать! Выберите уровень:</div>
+        <ul class="time-list" id="time-list">
+            <li>
+            <button class="time-btn green-cursor" (click)="start(30, 'Большой и быстрый', 1)">
+                Большой и быстрый
+            </button>
+            </li>
+            <li>
+            <button class="time-btn green-cursor" (click)="start(30, 'Средненький', 2)">
+                Средненький
+            </button>
+            </li>
+            <li>
+            <button class="time-btn green-cursor" (click)="start(30, 'Маленький и медленный', 3)">
+                Маленький и медленный
+            </button>
+            </li>
+            <li>
+        </ul>
+    </div>
+
+    <div [hidden]="gameProgress != 1" class="gameBox" #board>
+        
+    </div>
+
+    <div *ngIf="gameProgress == 2" class="gameBox">
+
+        <div class="pNotAdmin" [appEasyLang]="session">Вы кликнули раз: {{balls}}.</div>
+        <div class="pNotAdmin" [appEasyLang]="session">Набрано очков: {{score}}.</div>
+        <div class="pNotAdmin" [appEasyLang]="session">Хотите сыграть ещё?</div>
+        <ul class="time-list" id="time-list">
+            <li>
+            <button class="time-btn green-cursor" (click)="newStart()">
+                Да
+            </button>
+            </li>
+            <li>
+            <button class="time-btn green-cursor" (click)="exit()">
+                Нет
+            </button>
+            </li>
+
+        </ul>
+    </div>
