@@ -56,7 +56,7 @@ app.use('/images', express.static('images'))
 
 if (process.env.NODE_ENV === 'production') {
     // app.use(express.static(__dirname))
-    app.use(express.static('client/dist'))
+    app.use(express.static('client/dist/client'))
 
     // const client = [
     //   '.js',
@@ -74,9 +74,9 @@ if (process.env.NODE_ENV === 'production') {
    
     app.get('*', (req, res) => {
 
-      // if (!(req.path).includes('uploads/') && !(req.path).includes('images/')) {
-        res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'))
-      // }
+      if (!(req.path).includes('uploads/') && !(req.path).includes('images/')) {
+        res.sendFile(path.resolve(__dirname, 'client', 'dist', 'client', 'index.html'))
+      }
     })
   }
 
