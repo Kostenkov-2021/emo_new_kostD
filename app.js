@@ -59,22 +59,14 @@ if (process.env.NODE_ENV === 'production') {
       '.css',
       '.ico'
     ];
-
-    const files = [
-      '.png',
-      '.jpg',
-      '.jpeg',
-      '.cur',
-      '.svg'
-    ];
    
     app.get('*', (req, res) => {
-      if (files.includes(path.extname(req.path))) {
-        res.sendFile(path.join(__dirname, `${req.path}`));
-      } else if (client.includes(path.extname(req.path))) {
+      if (client.includes(path.extname(req.path))) {
         res.sendFile(path.join(__dirname, `client/dist/client/${req.path}`));
-      } else {
+      } else if ('.html' == path.extname(req.path)) {
         res.sendFile(path.join(__dirname, 'client/dist/client/index.html'));
+      } else {
+        res.sendFile(path.join(__dirname, `${req.path}`));
       }
     })
   } else {
