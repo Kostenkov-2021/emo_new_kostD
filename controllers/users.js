@@ -9,34 +9,30 @@ const Picture = require('../models/Picture')
 const GameSession = require('../models/GameSessions')
 
 module.exports.create = async function(req, res) {
-
+    try {
     // login password
-    const candidate = await User.findOne({login: req.body.login})
+      const candidate = await User.findOne({login: req.body.login})
   
-    if (candidate) {
-      // Пользователь существует, нужно отправить ошибку
-      res.status(409).json({
-        message: 'Такой логин уже занят. Попробуйте другой.'
-      })
-    } else {
-      // Нужно создать пользователя
-      
-      const create = req.body
-      create.photo = req.file ? 'https://emo.su/uploads/' + req.file.filename : (req.body.sex == '2' ? 'https://emo.su/images/girl.png' : 'https://emo.su/images/boy.png')
-      const salt = bcrypt.genSaltSync(10)
-      const password = req.body.password
-      create.password = bcrypt.hashSync(password, salt)
-      if (req.user.levelStatus == 2) create.institution = req.user.institution
+      if (candidate) {
+        // Пользователь существует, нужно отправить ошибку
+        res.status(409).json({
+          message: 'Такой логин уже занят. Попробуйте другой.'
+        })
+      } else {
+        // Нужно создать пользователя
+        
+        const create = req.body
+        create.photo = req.file ? 'https://emo.su/uploads/' + req.file.filename : (req.body.sex == '2' ? 'https://emo.su/images/girl.png' : 'https://emo.su/images/boy.png')
+        const salt = bcrypt.genSaltSync(10)
+        const password = req.body.password
+        create.password = bcrypt.hashSync(password, salt)
+        if (req.user.levelStatus == 2) create.institution = req.user.institution
 
-      const user = new User(create)
-  
-      try {
-        await user.save()
+        const user = await new User(create).save()
         res.status(201).json(user)
-      } catch(e) {
-        errorHandler(res, e)
       }
-  
+    } catch(e) {
+      errorHandler(res, e)
     }
   }
 
