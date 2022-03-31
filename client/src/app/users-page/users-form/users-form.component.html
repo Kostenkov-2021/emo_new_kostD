@@ -21,7 +21,7 @@
     
     <div *ngIf="session.levelStatus == 1">
         <p class="in_new_user dark-{{session.firstColor}}-color">Организация:</p>
-        <select *ngIf="institutions$ | async as institutions" formControlName="institution">
+        <select *ngIf="institutions$ | async as institutions" formControlName="institution" style="max-width: 200px;">
             <option [disabled]="userInstitution || whatDo == 'new'" [selected]="!userInstitution" value="">Не выбрано</option>
             <option 
             *ngFor="let institution of institutions" 
