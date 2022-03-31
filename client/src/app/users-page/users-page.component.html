@@ -48,22 +48,26 @@
                 <div class="div_user_info">
                     <p class="user_info">
                         <span class="dark-{{session.firstColor}}-color">Логин:</span> {{user.login}}
-                    </p><br>
+                    </p>
                     <p class="user_info">
                         <span class="dark-{{session.firstColor}}-color">Пол: </span> <span>{{user.sex === 1 ? 'Мужской' : 'Женский'}}</span>
-                    </p><br>
+                    </p>
                     <p class="user_info">
                         <span class="dark-{{session.firstColor}}-color">Организация:</span> {{user.institutionName}}
-                    </p><br>
+                    </p>
                     <p class="user_info">
                         <span class="dark-{{session.firstColor}}-color">Роль:</span> {{status[user.levelStatus]}}
-                    </p><br>
-                    <p class="user_info" *ngIf="user.birthDate">
-                        <span class="dark-{{session.firstColor}}-color">Дата рождения:</span> {{user.birthDate | date:"dd.MM.yyyy"}}
                     </p>
-                    <p class="user_info" *ngIf="!user.birthDate">
-                        <span class="dark-{{session.firstColor}}-color">Дата рождения:</span> не указана
-                    </p><br><br>
+                    <p class="user_info" >
+                        <span *ngIf="user.birthDate"><span class="dark-{{session.firstColor}}-color">Дата рождения:</span> {{user.birthDate | date:"dd.MM.yyyy"}}</span>
+                        <span *ngIf="!user.birthDate"><span class="dark-{{session.firstColor}}-color">Дата рождения:</span> не указана</span>
+                    </p>
+                    <p class="user_info" >
+                        <span *ngIf="user.last_active_at"><span class="dark-{{session.firstColor}}-color">Последняя активность:</span> {{user.last_active_at | date:"dd.MM.yyyy HH:mm"}}</span>
+                        <span *ngIf="!user.last_active_at"><span class="dark-{{session.firstColor}}-color">Последняя активность:</span> ни разу не входил{{user.sex === 1 ? '' : 'а'}}</span>
+                    </p>
+                    
+                    <br>
 
                     <div *ngIf="session.levelStatus == 1 || user.levelStatus != 1">
                         <a 
@@ -81,6 +85,9 @@
                         </label>
                     </div>
                 </div>
+                <p *ngIf="user.info">
+                    <span class="dark-{{session.firstColor}}-color">Доп. информация:</span> {{user.info}}
+                </p>
             </div>
         </div>
         <br>

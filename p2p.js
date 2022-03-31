@@ -1,9 +1,6 @@
 
 const express = require("express");
-const app = express();
 
-const http = require("http").createServer(app);
-const io = require('socket.io')(http)
 
 // const io = require("socket.io")(http, {
 //     cors: {    
@@ -15,6 +12,10 @@ const io = require('socket.io')(http)
 //     // pingTimeout: 10000,
 //     // maxHttpBufferSize: 1e8
 // });
+const app = express();
+
+const http = require("http").createServer(app);
+const io = require('socket.io')(http)
 
 const { ExpressPeerServer } = require("peer");
 const peerServer = ExpressPeerServer(http, {

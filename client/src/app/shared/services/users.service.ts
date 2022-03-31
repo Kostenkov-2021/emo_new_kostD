@@ -161,7 +161,7 @@ export class UsersService {
       if (photo) fd.append('image', photo, photo.name)
       if (imageText) fd.append('photo', imageText)
       if (birthDate) fd.append('birthDate', birthDate.toString())
-      if (info) fd.append('info', info)
+      fd.append('info', info)
       if (changeL) fd.append('login', login)
       if (password) fd.append('password', password)
       if (videorooms) fd.append('videorooms', videorooms)
