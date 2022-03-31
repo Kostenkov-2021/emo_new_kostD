@@ -2,11 +2,14 @@ const bcrypt = require('bcryptjs')
 const User = require('../models/User')
 const errorHandler = require('../utils/errorHandler')
 const Institution = require('../models/Institution')
+const Region = require('../models/Region')
 const Message = require('../models/Message')
 const GroupMessage = require('../models/GroupMessage')
 const Event = require('../models/Event')
 const Picture = require('../models/Picture')
 const GameSession = require('../models/GameSessions')
+const VideoRoom = require('../models/VideoRoom')
+const VideoRoomMessage = require('../models/VideoRoomMessage')
 
 module.exports.create = async function(req, res) {
     try {
@@ -234,7 +237,7 @@ module.exports.getRatingPosition = async function(req, res) {
 
 module.exports.getAnalytics = async function (req, res) {
   try {
-    const users = await User.find({institution: req.params.instID, levelStatus: {$nin: [4, 6]}}, {name: 1, surname: 1, score: 1, loginDates: 1, expoPushToken: 1, last_active_at: 1, birthDate: 1, levelStatus: 1}).sort({name: 1, surname: 1}).skip(+req.query.offset).limit(+req.query.limit).lean()
+    const users = await User.find({institution: req.params.instID, levelStatus: {$nin: [4]}}, {name: 1, surname: 1, score: 1, loginDates: 1, expoPushToken: 1, last_active_at: 1, birthDate: 1, levelStatus: 1}).sort({name: 1, surname: 1}).skip(+req.query.offset).limit(+req.query.limit).lean()
     for (let user of users) {
       user.send_messages = await Message.count({sender: user._id})
       user.send_messages_read = await Message.count({sender: user._id, read: true})
@@ -284,6 +287,7 @@ module.exports.getAnalytics = async function (req, res) {
       user.music = await Picture.count({parent: {$in: ['5f130a00962c2f062467f856','603e1b430c54fc9b6e417953']}, user: user._id})
       user.documents = await Picture.count({parent: {$in: ['5f130a0d962c2f062467f857','603e1b630c54fc9b6e417954']}, user: user._id})
       user.vote = await Picture.count({parent: {$in: ['5f5486f982194ca1fb21ff6d', '603e1ba10c54fc9b6e417955']}, user: user._id})
+      user.games = await GameSession.count({user: user._id})
 
       user.send_pictures = await Message.count({sender: user._id, type: 1}) + await GroupMessage.count({sender: user._id, type: 1})
       user.send_text = await Message.count({sender: user._id, type: 2}) + await GroupMessage.count({sender: user._id, type: 2})
@@ -299,6 +303,68 @@ module.exports.getAnalytics = async function (req, res) {
     }
 
     res.status(200).json(users)
+  } catch (e) {
+    errorHandler(res, e)
+  }
+}
+
+module.exports.getAnalyticsAllCount = async function (req, res) {
+  try {
+    const response = {}
+
+    response.regions = await Region.countDocuments()
+    response.institutions = await Institution.countDocuments()
+    response.users = await User.countDocuments()
+    response.messages = await Message.countDocuments()
+
+    response.group_messages = await GroupMessage.countDocuments()
+    response.videoroom_messages = await VideoRoomMessage.countDocuments()
+    response.games = await GameSession.countDocuments()
+    response.events = await Event.countDocuments()
+
+    response.videorooms = await VideoRoom.countDocuments()
+    response.pictures = await Picture.countDocuments({parent: {$nin: [
+      '5f1309e3962c2f062467f854', '603e1ae80c54fc9b6e417951', 
+      '5f1309f1962c2f062467f855','603e1b0c0c54fc9b6e417952',
+      '5f130a00962c2f062467f856','603e1b430c54fc9b6e417953',
+      '5f130a0d962c2f062467f857','603e1b630c54fc9b6e417954',
+      '5f5486f982194ca1fb21ff6d', '603e1ba10c54fc9b6e417955']
+    }})
+    response.files = await Picture.countDocuments({parent: {$in: [
+      '5f1309e3962c2f062467f854', '603e1ae80c54fc9b6e417951', 
+      '5f1309f1962c2f062467f855','603e1b0c0c54fc9b6e417952',
+      '5f130a00962c2f062467f856','603e1b430c54fc9b6e417953',
+      '5f130a0d962c2f062467f857','603e1b630c54fc9b6e417954']
+    }})
+    response.vote = await Picture.countDocuments({parent: {$in: ['5f5486f982194ca1fb21ff6d', '603e1ba10c54fc9b6e417955']}})
+
+/*
+['5f1309e3962c2f062467f854', '603e1ae80c54fc9b6e417951', 
+'5f1309f1962c2f062467f855','603e1b0c0c54fc9b6e417952',
+'5f130a00962c2f062467f856','603e1b430c54fc9b6e417953',
+'5f130a0d962c2f062467f857','603e1b630c54fc9b6e417954',
+'5f5486f982194ca1fb21ff6d', '603e1ba10c54fc9b6e417955']
+*/
+      
+
+    res.status(200).json(response)
+  } catch (e) {
+    errorHandler(res, e)
+  }
+}
+
+module.exports.getGamesAnalytics = async function (req, res) {
+  try {
+    const games = await GameSession.find().sort({time: -1}).skip(+req.query.offset).limit(+req.query.limit).lean()
+
+    for (let game of games) {
+      const user = await User.findOne({_id: game.user}, {name: 1, surname: 1, levelStatus: 1}).lean()
+      game.user_ref = user ? user : {name: "удалённый", surname: "аккаунт"}
+    }
+    // const user = await User.findOne({institution: req.params.instID, levelStatus: {$nin: [4]}}, {name: 1, surname: 1, levelStatus: 1}).lean()
+
+
+    res.status(200).json(games)
   } catch (e) {
     errorHandler(res, e)
   }

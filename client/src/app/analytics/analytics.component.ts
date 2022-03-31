@@ -22,13 +22,20 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
   reloading = false
   noMore = false
   oSub: Subscription
+  allSub: Subscription
+  gSub: Subscription
   session$: Subscription
   session: User
   institutions$: Observable<Institution[]>
   institution: string
   users: User[] = []
+  games: any[] = []
+  all: any
   info: string = ''
   show_info = false
+
+  usersAnalytics = false
+  gamesAnalytics = false
 
   constructor(private loginService: LoginService,
               private peopleService: PeopleService,
@@ -41,20 +48,33 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
     this.session$ = this.loginService.getUser().subscribe(user => {
       this.session = user
       this.institution = this.session.institution 
-      this.fetch(true)
+      this.allSub = this.usersService.getAnalyticsCounters().subscribe(all => {
+        this.all = all
+        this.reloading = false
+      })
     })
-
     this.institutions$ = this.peopleService.getInstitutions()
   }
 
-  newInstitution() {
-    this.offset = 0
+  startUsers() {
+    if (this.gSub) this.gSub.unsubscribe()
+    this.gamesAnalytics = false
+    this.usersAnalytics = true
     this.users = []
-    this.loading = true
-    this.fetch(true)
+    this.offset = 0
+    this.fetchUsers(true)
   }
 
-  fetch(isNew = false) {
+  startGames() {
+    if (this.oSub) this.oSub.unsubscribe()
+    this.gamesAnalytics = true
+    this.usersAnalytics = false
+    this.games = []
+    this.offset = 0
+    this.fetchGames(true)
+  }
+
+  fetchUsers(isNew = false) {
     const params = Object.assign({}, {
       offset: this.offset,
       limit: this.limit
@@ -66,14 +86,36 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
       this.noMore = users.length < this.limit
       this.loading = false
       this.reloading = false
-      if (!this.noMore) this.loadMore()
+      if (!this.noMore) this.loadMoreUsers()
     })
   }
 
-  loadMore() {
+  loadMoreUsers() {
     this.offset += STEP
     this.loading = true
-    this.fetch(false)
+    this.fetchUsers(false)
+  }
+
+  fetchGames(isNew = false) {
+    const params = Object.assign({}, {
+      offset: this.offset,
+      limit: this.limit
+    })
+
+    this.gSub = this.usersService.getGamesAnalytics(params).subscribe(games => {
+      if (isNew) this.games = games
+      else this.games = this.games.concat(games)
+      this.noMore = games.length < this.limit
+      this.loading = false
+      this.reloading = false
+      if (!this.noMore) this.loadMoreGames()
+    })
+  }
+
+  loadMoreGames() {
+    this.offset += STEP
+    this.loading = true
+    this.fetchGames(false)
   }
 
   toggleInfo(event, arr) {
@@ -117,11 +159,32 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
         return 'Гость'
       case 5:
         return 'Взрослый'
+      case 6:
+        return 'Запрос'
+      default:
+        return 'Неизвестно'
+    }
+  }
+
+  getGameName(code) {
+    switch (code) {
+      case 1:
+        return 'Письмо'
+      case 2:
+        return 'Тир'
+      case 3:
+        return 'Примеры'
+      case 4:
+        return 'Мячик'
+      default:
+        return 'Неизвестно'
     }
   }
 
   ngOnDestroy(): void {
-    this.oSub.unsubscribe()
+    this.allSub.unsubscribe()
+    if (this.gSub) this.gSub.unsubscribe()
+    if (this.oSub) this.oSub.unsubscribe()
     this.session$.unsubscribe()
   }
 }

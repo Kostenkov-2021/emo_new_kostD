@@ -46,6 +46,18 @@ export class UsersService {
       })
     }
 
+    getAnalyticsCounters(): Observable<any[]> {
+      return this.http.get<any[]>(`/api/manage/users/analytics/all`)
+    }
+
+    getGamesAnalytics(params: any): Observable<any[]> {
+      return this.http.get<any[]>(`/api/manage/users/analytics/games`, {
+        params: new HttpParams({
+          fromObject: params
+        })
+      })
+    }
+
     create(
       login: string,
       name: string,

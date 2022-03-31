@@ -19,6 +19,8 @@ router.get('/', passport.authenticate('jwt', {session: false}), stop, controller
 router.get('/count-requests', passport.authenticate('jwt', {session: false}), stop, controller.countRequests)
 router.get('/rating/all', controller.getRating)
 router.get('/rating/position', passport.authenticate('jwt', {session: false}), controller.getRatingPosition)
+router.get('/analytics/games', passport.authenticate('jwt', {session: false}), stop, controller.getGamesAnalytics)
+router.get('/analytics/all', passport.authenticate('jwt', {session: false}), stop, controller.getAnalyticsAllCount)
 router.get('/analytics/:instID', passport.authenticate('jwt', {session: false}), stop, controller.getAnalytics)
 router.get('/:userID', passport.authenticate('jwt', {session: false}), stop, controller.getByUserID)
 router.delete('/:userID', passport.authenticate('jwt', {session: false}), stop, controller.remove)

@@ -1,14 +1,38 @@
 <div *ngIf="!reloading; else reloader" class="container">
-    <div class="user_filtr">
+    <div style="padding: 20px;">
+        <p><span class="dark-{{session.firstColor}}-color"><b>Общие метрики:</b></span></p>
+        <p><span class="dark-{{session.firstColor}}-color">Всего регионов:</span> {{all.regions}}</p>
+        <p><span class="dark-{{session.firstColor}}-color">Всего организаций:</span> {{all.institutions}}</p>
+        <p><span class="dark-{{session.firstColor}}-color">Всего пользователей:</span> {{all.users}}</p>
+        <p><span class="dark-{{session.firstColor}}-color">Всего личных сообщений:</span> {{all.messages}}</p>
+        <p><span class="dark-{{session.firstColor}}-color">Всего мероприятий:</span> {{all.events}}</p>
+        <p><span class="dark-{{session.firstColor}}-color">Всего сообщений в чате мероприятия:</span> {{all.group_messages}}</p>
+        <p><span class="dark-{{session.firstColor}}-color">Всего видеокомнат:</span> {{all.videorooms}}</p>
+        <p><span class="dark-{{session.firstColor}}-color">Всего сообщений в чате видеокомнаты:</span> {{all.videoroom_messages}}</p>
+        <p><span class="dark-{{session.firstColor}}-color">Всего сессий тренажёров:</span> {{all.games}}</p>
+        <p><span class="dark-{{session.firstColor}}-color">Всего картинок в общих папках:</span> {{all.pictures}}</p>
+        <p><span class="dark-{{session.firstColor}}-color">Всего файлов в личных папках:</span> {{all.files}}</p>
+        <p><span class="dark-{{session.firstColor}}-color">Всего записано аудио:</span> {{all.vote}}</p>
         <div *ngIf="session.levelStatus == 1">
             <p class="in_user_filtr dark-{{session.firstColor}}-color">Организация:</p>
-            <select *ngIf="institutions$ | async as institutions" [(ngModel)]="institution" (change)="newInstitution()">
+            <select *ngIf="institutions$ | async as institutions" [(ngModel)]="institution" style="max-width: 200px;">
                 <option *ngFor="let institution of institutions" [value]="institution._id">{{institution.name}}</option>
             </select>
+            <br><br>
+            <span
+            class="new_user_button form_picture_button middle-{{session.firstColor}}-bg-hover"
+            (click)="startUsers()">
+                Общая статискика по пользователям
+            </span>
+            <span
+            class="new_user_button form_picture_button middle-{{session.firstColor}}-bg-hover"
+            (click)="startGames()">
+                Статистика по тренажёрам
+            </span>
         </div>
     </div>
     
-    <table class="table">
+    <table class="table" *ngIf="usersAnalytics">
         <thead class="light-{{session.firstColor}}-bg dark-{{session.firstColor}}-color">
             <tr>
                 <th class="dark-{{session.firstColor}}-border">№</th>
@@ -42,6 +66,7 @@
                 <th class="dark-{{session.firstColor}}-border">Участник мероприятий</th>
                 <th class="dark-{{session.firstColor}}-border">Отказался от мероприятий</th>
                 <th class="dark-{{session.firstColor}}-border">Поставлено лайков</th>
+                <th class="dark-{{session.firstColor}}-border">Партии в тренажёрах</th>
 
 
                 <th class="dark-{{session.firstColor}}-border">Загружено картинок</th>
@@ -94,6 +119,7 @@
                 <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Участник мероприятий'])">{{user.event_participant}}</td>
                 <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Отказался от мероприятий'])">{{user.event_hide}}</td>
                 <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Количество лайков'])">{{user.likes}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Сыграно в тренажёрах (считаются только завершённые игры)'])">{{user.games}}</td>
 
                 <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Загружено картинок в личные папки'])">{{user.pictures}}</td>
                 <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Загружено видео в личные папки'])">{{user.videos}}</td>
@@ -110,9 +136,33 @@
                 <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Получено текстовых сообщений'])">{{user.get_text}}</td>
                 <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Получено документов'])">{{user.get_documents}}</td>
                 <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [user.name, user.surname, 'Получено аудиофайлов (музыка и голосовые сообщения)'])">{{user.get_audios}}</td>
-                
             </tr>
-            
+        </tbody>
+    </table>
+    <table class="table" *ngIf="gamesAnalytics">
+        <thead class="light-{{session.firstColor}}-bg dark-{{session.firstColor}}-color">
+            <tr>
+                <th class="dark-{{session.firstColor}}-border">№</th>
+                <th class="dark-{{session.firstColor}}-border">Имя</th>
+                <th class="dark-{{session.firstColor}}-border">Фамилия</th>
+                <th class="dark-{{session.firstColor}}-border">Роль</th>
+                <th class="dark-{{session.firstColor}}-border">Дата игры</th>
+                <th class="dark-{{session.firstColor}}-border">Игра</th>
+                <th class="dark-{{session.firstColor}}-border">Уровень</th>
+                <th class="dark-{{session.firstColor}}-border">Балл</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let game of games; let i = index">
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [game.user_ref.name, game.user_ref.surname, 'Номер'])">{{i + 1}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [game.user_ref.name, game.user_ref.surname, 'Имя'])">{{game.user_ref.name}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [game.user_ref.name, game.user_ref.surname, 'Фамилия'])">{{game.user_ref.surname}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [game.user_ref.name, game.user_ref.surname, 'Роль'])">{{getRole(game.user_ref.levelStatus)}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [game.user_ref.name, game.user_ref.surname, 'Дата игры'])">{{game.time | date:"dd.MM.yyyy HH:mm"}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [game.user_ref.name, game.user_ref.surname, 'Игра'])">{{getGameName(game.game)}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [game.user_ref.name, game.user_ref.surname, 'Уровень'])">{{game.level}}</td>
+                <td class="dark-{{session.firstColor}}-border" (click)="toggleInfo($event, [game.user_ref.name, game.user_ref.surname, 'Балл'])">{{game.score}}</td>
+            </tr>
         </tbody>
     </table>
 
