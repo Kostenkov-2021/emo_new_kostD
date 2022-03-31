@@ -192,15 +192,6 @@ class="dark-{{session.firstColor}}-border"
             Сделать рассылку
         </label>
 
-        <button id="submit_button" type="button" hidden></button>
-        <label 
-        for="submit_button" 
-        class="new_user_button form_picture_button middle-{{session.firstColor}}-bg-hover"
-        (click)="onSubmit(-1)"
-        *ngIf="event.status == 0">
-            Отклонить
-        </label>
-
         <button id="submit_button" type="button" hidden [disabled]="form.disabled || form.invalid"></button>
         <label 
         for="submit_button" 
@@ -208,6 +199,15 @@ class="dark-{{session.firstColor}}-border"
         (click)="onSubmit(2)"
         *ngIf="event.status == 1">
             Отправить в фотолайки
+        </label>
+
+        <button id="submit_button" type="button" hidden></button>
+        <label 
+        for="submit_button" 
+        class="new_user_button form_picture_button middle-{{session.firstColor}}-bg-hover"
+        (click)="onSubmit(-1)"
+        *ngIf="event.status == 0 || event.status == 1">
+            Отклонить
         </label>
     </div>
 </form>
