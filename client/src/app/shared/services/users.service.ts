@@ -39,7 +39,7 @@ export class UsersService {
     }
 
     getAnalytics(institution: string, params: any): Observable<User[]> {
-      return this.http.get<User[]>(`/api/manage/users/analytics/${institution}`, {
+      return this.http.get<User[]>(`/api/manage/users/analytics/users/${institution}`, {
         params: new HttpParams({
           fromObject: params
         })
