@@ -575,6 +575,7 @@ module.exports.remove = async function (req, res) {
         (event.autor == req.user.id || req.user.levelStatus == 1 || 
         (req.user.levelStatus == 2 && event.institution === req.user.institution))) {
             await Event.deleteOne({_id: req.params.id})
+            await GroupMessage.deleteMany({group: req.params.id})
             res.status(200).json({
                 message: 'Мероприятие удалено.'
               })
