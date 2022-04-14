@@ -114,7 +114,7 @@ module.exports.update = async function(req, res) {
             updated.wait = []
         }
         if (req.body.status == 2) updated.closingTime = now
-        if (req.files['image']) updated.chatImage = req.files['image'][0].path
+        if (req.files['image']) updated.chatImage = 'https://emo.su/uploads/' + req.files['image'][0].filename
         if (req.files['photolikes']) {
             let paths = req.files['photolikes'].map(file => 'https://emo.su/uploads/' + file.filename)
             await Event.updateOne(
