@@ -24,7 +24,7 @@ router.get('/analytics/all', passport.authenticate('jwt', {session: false}), sto
 router.get('/analytics/users/:instID', passport.authenticate('jwt', {session: false}), stop, controller.getAnalytics)
 router.get('/:userID', passport.authenticate('jwt', {session: false}), stop, controller.getByUserID)
 router.delete('/:userID', passport.authenticate('jwt', {session: false}), stop, controller.remove)
-//router.post('/createmany', controller.createManyUsers)
+// router.post('/createmany', controller.createManyUsers)
 // router.post('/onfunction', controller.onfunction)
 
 module.exports = router

@@ -10,6 +10,8 @@ const Picture = require('../models/Picture')
 const GameSession = require('../models/GameSessions')
 const VideoRoom = require('../models/VideoRoom')
 const VideoRoomMessage = require('../models/VideoRoomMessage')
+const moment = require('moment')
+const mongoose = require('mongoose')
 
 module.exports.create = async function(req, res) {
     try {
@@ -411,19 +413,28 @@ module.exports.createManyUsers = async function (req, res) {
 
 // module.exports.onfunction = async function(req, res) {
 //   try {
-//     let grMes = await GroupMessage.find({}).lean()
-//     for (let gm of grMes) {
-//       let newMes = []
-//       for (let str of gm.message) {
-//         let a = str.replace("https://emooo.s3.amazonaws.com", "https://emo.su/uploads/from-aws").replace("https://emooo.s3.eu-north-1.amazonaws.com", "https://emo.su/uploads/from-aws")
-//         if (str.substring(0, 7) == 'uploads') {
-//           a = str.replace("uploads/", "https://emo.su/uploads/")
-//         }
-//         newMes.push(a)
-//       }
-//       await GroupMessage.updateOne({_id: gm._id}, {$set: {message: newMes}}, {new: true})
+
+//     let count = 0
+//     let dates = []
+//     let resultData = {}
+//     for (let i = 1; i < 152; i++) {
+//       const date = moment(new Date(2021, 10, i)).format("DD.MM.yyyy")
+//       dates.push(date)
 //     }
-//     res.status(200).json({message: "Обновлено"})
+
+//     for (let date of dates) {
+//       const result = await User.count({institution: mongoose.Types.ObjectId('5f95d96d09c2e525f0149eaf'), loginDates: date})
+//       resultData[date] = result
+//       count += result
+//     }
+
+//     const users = await User.count({institution: mongoose.Types.ObjectId('5f95d96d09c2e525f0149eaf'), loginDates: {$in: dates}})
+
+//     resultData["Всего входов c 01.11.2021 по 31.03.2022"] = count
+//     resultData["Уникальных пользователей"] = users
+    
+
+//     res.status(200).json(resultData)
 //   } catch (e) {
 //     errorHandler(res, e)
 //   }
@@ -462,7 +473,8 @@ module.exports.createRequest = async function(req, res) {
       institution: req.body.institution,
       levelStatus: 6,
       photo: req.file ? 'https://emo.su/uploads/' + req.file.filename : (req.body.sex == '2' ? 'https://emo.su/images/girl.png' : 'https://emo.su/images/boy.png'),
-      info: req.body.info
+      info: req.body.info,
+      policy: req.body.policy,
     })
 
     try {

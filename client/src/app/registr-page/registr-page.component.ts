@@ -44,7 +44,8 @@ export class RegistrPageComponent implements OnInit {
       photo: new FormControl(null),
       institution: new FormControl(''),
       info: new FormControl(''),
-      birthDate: new FormControl(null)
+      birthDate: new FormControl(null),
+      policy: new FormControl(false, Validators.requiredTrue)
     })
 
     this.imagePreview = '/images/boy.png'
@@ -107,7 +108,8 @@ export class RegistrPageComponent implements OnInit {
         this.form.value.institution,
         this.form.value.birthDate ? (new Date(this.form.value.birthDate)).toISOString() : null,
         this.image,
-        this.form.value.info
+        this.form.value.info,
+        this.form.value.policy
       )
 
     obs$.subscribe(

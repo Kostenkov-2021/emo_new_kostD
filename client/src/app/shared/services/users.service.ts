@@ -219,7 +219,8 @@ export class UsersService {
       institution?: string,
       birthDate?: string,
       photo?: File,
-      info?: string
+      info?: string,
+      policy?: string,
     ): Observable<User> {
 
       const fd = new FormData()
@@ -233,6 +234,7 @@ export class UsersService {
       fd.append('surname', surname)
       fd.append('name', name)
       fd.append('sex', sex)
+      fd.append('policy', policy)
 
       if (institution) fd.append('institution', institution)
       return this.http.post<User>(`/api/manage/users/request`, fd)

@@ -134,6 +134,7 @@ const userSchema = new Schema({
     default: 0
   },
   expoPushToken: String,
+  policy: Boolean
   // access: {
   //   privacy: [String], //политика конфиденциальности
   //   agreement: [String] //пользовательское соглашение

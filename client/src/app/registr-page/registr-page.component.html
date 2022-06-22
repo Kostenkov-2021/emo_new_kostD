@@ -36,12 +36,12 @@
         <p class="entrance tc notadmin" [appEasyLang]="{easyLang: true}">Пол:</p>
         <label class="radio" [ngClass]="{checked: form.value.sex == '1'}">
             <input name="sex" type="radio" value="1" formControlName="sex" hidden (change)='changeSex()'> 
-            <div class="yes green-cursor"></div> 
+            <div class="boy green-cursor"></div> 
         </label>
         <div class="radio_yes"></div>
         <label class="radio" [ngClass]="{checked: form.value.sex == '2'}">
             <input name="sex" type="radio" value="2" formControlName="sex" hidden (change)='changeSex()'>
-            <div class="no green-cursor"></div> 
+            <div class="girl green-cursor"></div> 
         </label><br>
 
         <p class="entrance tc notadmin" [appEasyLang]="{easyLang: true}">Дата рождения:</p>
@@ -60,6 +60,18 @@
             <option value="">Не выбрано</option>
             <option *ngFor="let institution of institutions" value="{{institution._id}}">{{institution.name}}</option>
         </select>
+
+        <p class="entrance tc notadmin" [appEasyLang]="{easyLang: true}">Согласие на обработку персональных данных:</p>
+        <label class="radio" [ngClass]="{checked: form.value.policy == false}">
+            <input name="policy" type="radio" [value]="false" formControlName="policy" hidden> 
+            <div class="no green-cursor"></div> 
+        </label>
+        <div class="radio_yes"></div>
+        <label class="radio" [ngClass]="{checked: form.value.policy == true}">
+            <input name="policy" type="radio" [value]="true" formControlName="policy" hidden>
+            <div class="yes green-cursor"></div> 
+        </label><br>
+
         <p class="entrance tc notadmin" [appEasyLang]="{easyLang: true}" style="width: 80vw;">Любая дополнительная информация:</p>
         <textarea formControlName="info" class="textarea text-cursor-fasle" placeholder="{{form.value.institution ? 'дополнительная информация' : 'укажите организацию'}}"></textarea> 
         <br>
