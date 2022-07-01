@@ -91,7 +91,7 @@ module.exports.update = async function(req, res) {
             updated.institutions = []
             updated.roles = []
         }
-        else if (req.body.wait) {
+        else if (req.body.wait && req.body.wait.length) {
             const array = req.body.wait.split(',')
             const set = new Set(array)
             const uniqeArray = [...set]
