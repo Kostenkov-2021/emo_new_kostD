@@ -102,14 +102,16 @@ module.exports.update = async function(req, res) {
             updated.sex = 0
         }
         else {
-            const array = req.body.institutions ? req.body.institutions.split(',') : []
-            const set = new Set(array)
-            const uniqeArray = [...set]
-            const arrayR = req.body.roles ? req.body.roles.split(',') : []
-            const setR = new Set(arrayR)
-            const uniqeArrayR = [...setR]
-            updated.institutions = uniqeArray
-            updated.roles = uniqeArrayR
+            if (req.body.institutions && req.body.institutions.length) {
+                const array =  req.body.institutions.split(',')
+                const set = new Set(array)
+                updated.institutions = [...set]
+            }
+            if (req.body.roles && req.body.roles.length) {
+                const array = req.body.roles.split(',')
+                const set = new Set(array)
+                updated.roles = [...set]
+            }
             updated.p_status = false
             updated.wait = []
         }
