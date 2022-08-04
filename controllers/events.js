@@ -140,12 +140,12 @@ module.exports.update = async function(req, res) {
         for (let participant of event.participants) {
             const user = await User.findOne({_id: participant._id}, {name: 1, surname: 1, login: 1, institution: 1}).lean()
             const institution = await Institution.findOne({_id: user.institution}, {name: 1}).lean()
-            participantsNames.push({...user, institutionName: institution.name ? institution.name : "Без организации"})
+            participantsNames.push({...user, institutionName: institution ? institution.name : "Без организации"})
         }
         for (let hide of event.hide) {
             const user = await User.findOne({_id: hide._id}, {name: 1, surname: 1, login: 1, institution: 1}).lean()
             const institution = await Institution.findOne({_id: user.institution}, {name: 1}).lean()
-            hideNames.push({...user, institutionName: institution.name ? institution.name : "Без организации"})
+            hideNames.push({...user, institutionName: institution ? institution.name : "Без организации"})
         }
 
         event.participantsNames = participantsNames
@@ -187,12 +187,12 @@ module.exports.getByID = async function(req, res) {
         for (let participant of event.participants) {
             const user = await User.findOne({_id: participant._id}, {name: 1, surname: 1, login: 1, institution: 1}).lean()
             const institution = await Institution.findOne({_id: user.institution}, {name: 1}).lean()
-            participantsNames.push({...user, institutionName: institution.name ? institution.name : "Без организации"})
+            participantsNames.push({...user, institutionName: institution ? institution.name : "Без организации"})
         }
         for (let hide of event.hide) {
             const user = await User.findOne({_id: hide._id}, {name: 1, surname: 1, login: 1, institution: 1}).lean()
             const institution = await Institution.findOne({_id: user.institution}, {name: 1}).lean()
-            hideNames.push({...user, institutionName: institution.name ? institution.name : "Без организации"})
+            hideNames.push({...user, institutionName: institution ? institution.name : "Без организации"})
         }
 
         event.participantsNames = participantsNames
