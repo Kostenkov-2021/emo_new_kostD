@@ -153,7 +153,7 @@ module.exports.getAll = async function(req, res) {
       .limit(+req.query.limit)
       .lean()
 
-    for (let user of users) {
+    for (const user of users) {
       let institutionName = await Institution.findOne({_id: user.institution}, {_id: 0}) // {name: 'Name'}
       user.institutionName = institutionName ? institutionName.name : 'не указано'
     }
