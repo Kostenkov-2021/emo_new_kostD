@@ -127,7 +127,7 @@ const userSchema = new Schema({
   },
   videorooms: {
     type: Boolean,
-    default: true
+    default: false
   },
   invert: {
     type: Number,
