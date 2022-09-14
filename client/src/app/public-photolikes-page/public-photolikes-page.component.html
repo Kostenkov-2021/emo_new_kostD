@@ -32,7 +32,7 @@
             <img  
             class="like green-cursor" src="/images/notlike.png" (click)="openLikes(event._id)">
 
-            <div class="pNotAdmin countlike green-cursor" (click)="openLikes(event._id)" *ngIf="event.likes.length">{{event.likes.length}}</div>
+            <div class="pNotAdmin countlike green-cursor" (click)="openLikes(event._id)" *ngIf="event.likes && sevent.likes.length">{{event.likes.length}}</div>
             
         </div>
     </div>
