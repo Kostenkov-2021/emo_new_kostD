@@ -165,7 +165,8 @@ export class UsersFormComponent implements OnInit, OnDestroy {
               events: user.events?.toString(),
               screenreader: user.screenreader?.toString(),
               games: user.games?.toString(),  
-              // time: user.time?.toString(),
+              // videorooms: user.videorooms?.toString(),  
+              time: user.time?.toString(),
               easyLang: user.easyLang?.toString(),
               invert: typeof user.invert == 'number' ? user.invert.toString() : '0'
             })
