@@ -108,7 +108,7 @@ export class UsersFormComponent implements OnInit, OnDestroy {
         games: new FormControl('true'),
         screenreader: new FormControl('true'),
         time: new FormControl('true'),
-        videorooms: new FormControl('true'),
+        videorooms: new FormControl('false'),
         easyLang: new FormControl('true'),
         invert: new FormControl('0'),
   
@@ -165,8 +165,7 @@ export class UsersFormComponent implements OnInit, OnDestroy {
               events: user.events?.toString(),
               screenreader: user.screenreader?.toString(),
               games: user.games?.toString(),  
-              videorooms: user.videorooms?.toString(),  
-              time: user.time?.toString(),
+              // time: user.time?.toString(),
               easyLang: user.easyLang?.toString(),
               invert: typeof user.invert == 'number' ? user.invert.toString() : '0'
             })
